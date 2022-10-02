@@ -62,7 +62,7 @@ const Home: NextPage = () => {
         <Container>
           <div className="card glass">
             <div className="card-body">
-              <h2>Stats</h2>
+              <h2 className="card-title">Dashboard</h2>
               <ul>
                 <li>
                   Global Rank: {globalRankData && globalRankData.toString()}

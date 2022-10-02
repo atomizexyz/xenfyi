@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroicons/react": "^2.0.11",
+    "@heroicons/react": "v1",
     "boring-avatars": "^1.7.0",
     "clsx": "^1.2.1",
     "connectkit": "^0.0.2",

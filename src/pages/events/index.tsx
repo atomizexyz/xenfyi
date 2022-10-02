@@ -3,7 +3,11 @@ import Container from "~/components/Container";
 const Events = () => {
   return (
     <Container>
-      <div>Events</div>
+      <div className="card glass">
+        <div className="card-body">
+          <h2 className="card-title">Events</h2>
+        </div>
+      </div>
     </Container>
   );
 };

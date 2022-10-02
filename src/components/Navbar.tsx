@@ -2,27 +2,35 @@ import { ConnectKitButton } from "connectkit";
 import Link from "next/link";
 import {
   MoonIcon,
-  BeakerIcon,
   BookOpenIcon,
-} from "@heroicons/react/24/outline";
-import { TwitterIcon, TelegramIcon, GitHubIcon } from "./Icons";
+  QuestionMarkCircleIcon,
+  MenuIcon,
+  DotsVerticalIcon,
+  ViewGridIcon,
+  LockClosedIcon,
+} from "@heroicons/react/outline";
+import { TwitterIcon, TelegramIcon, GitHubIcon, Diamond, Event } from "./Icons";
 import Avatar from "boring-avatars";
 
 const navigationItems = [
   {
     name: "Dashboard",
+    icon: <ViewGridIcon className="h-5 w-5" />,
     href: "/",
   },
   {
     name: "Mint",
+    icon: <Diamond />,
     href: "/mint",
   },
   {
     name: "Stake",
+    icon: <LockClosedIcon className="h-5 w-5" />,
     href: "/stake",
   },
   {
     name: "Events",
+    icon: <Event />,
     href: "/events",
   },
 ];
@@ -48,6 +56,10 @@ const linkItems = [
     icon: <GitHubIcon />,
     href: "https://github.com/FairCrypto",
   },
+  {
+    name: "About",
+    icon: <QuestionMarkCircleIcon className="h-5 w-5" />,
+  },
 ];
 
 const Navbar = () => {
@@ -57,7 +69,10 @@ const Navbar = () => {
         {navigationItems.map((item, index) => (
           <li key={index}>
             <Link href={item.href}>
-              <a className="text-neutral">{item.name}</a>
+              <a className="text-neutral">
+                {item.icon}
+                {item.name}
+              </a>
             </Link>
           </li>
         ))}
@@ -67,23 +82,10 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <div className="navbar-start">
+      <div className="navbar-start space-x-2">
         <div className="dropdown">
           <label tabIndex={0} className="btn glass lg:hidden text-neutral">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+            <MenuIcon className="h-5 w-5" />
           </label>
           <ul
             tabIndex={0}
@@ -92,7 +94,7 @@ const Navbar = () => {
             <NavigationItems />
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-3xl font-light">XEN</a>
+        <a className="normal-case text-3xl font-light">XEN.fyi</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal glass rounded-box p-2">
@@ -128,19 +130,7 @@ const Navbar = () => {
         </ConnectKitButton.Custom>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn glass btn-square text-neutral">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="inline-block w-5 h-5 stroke-current"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-              ></path>
-            </svg>
+            <DotsVerticalIcon className="h-5 w-5" />
           </label>
           <ul
             tabIndex={0}
