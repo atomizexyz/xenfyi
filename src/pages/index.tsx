@@ -6,6 +6,8 @@ import XenCrypto from "~/abi/XENCrypto.json";
 import { useState } from "react";
 import { pulseChain } from "~/lib/pulsechain";
 import CountUp from "react-countup";
+import { clsx } from "clsx";
+import { useTheme } from "next-themes";
 
 const xenContract = {
   addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -21,7 +23,10 @@ interface DashboardData {
 }
 
 const Home: NextPage = () => {
-  const BURN_ADDRESS = "0x0000000000000000000000000000000000000000";
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  const BURN_ADDRESS = "";
 
   const [dashboardData, setDashboardData] = useState<DashboardData>();
   const { data } = useContractReads({
@@ -110,9 +115,19 @@ const Home: NextPage = () => {
         <Container>
           <div className="flex flex-col space-y-8">
             <div className="card glass text-neutral">
-              <div className="card-body">
+              <div
+                className={clsx("card-body", {
+                  "text-neutral": !isDark,
+                  "text-primary-content": isDark,
+                })}
+              >
                 <h2 className="card-title">General Stats</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
+                <div
+                  className={clsx("stats stats-vertical bg-transparent", {
+                    "text-neutral": !isDark,
+                    "text-primary-content": isDark,
+                  })}
+                >
                   {generalStats.map((item, index) => (
                     <div className="stat" key={index}>
                       <div className="stat-title">{item.title}</div>
@@ -131,11 +146,21 @@ const Home: NextPage = () => {
             </div>
 
             <div className="card glass">
-              <div className="card-body">
+              <div
+                className={clsx("card-body", {
+                  "text-neutral": !isDark,
+                  "text-primary-content": isDark,
+                })}
+              >
                 <h2 className="card-title">Supply</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
+                <div
+                  className={clsx("stats stats-vertical bg-transparent", {
+                    "text-neutral": !isDark,
+                    "text-primary-content": isDark,
+                  })}
+                >
                   {stakeItems.map((item, index) => (
-                    <div className="stat" key={index}>
+                    <div className="stat " key={index}>
                       <div className="stat-title">{item.title}</div>
                       <code className="stat-value text-right">
                         <CountUp

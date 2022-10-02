@@ -70,15 +70,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         options={{
           disclaimer: (
             <>
-              By connecting your wallet you agree to the{" "}
+              By connecting your wallet you agree to the
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://en.wikipedia.org/wiki/Terms_of_service"
               >
                 Terms of Service
-              </a>{" "}
-              and{" "}
+              </a>
+              and
               <a
                 target="_blank"
                 rel="noopener noreferrer"
