@@ -1,7 +1,7 @@
 import { WagmiConfig, createClient, configureChains, chain } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import type { AppProps } from "next/app";
-import { pulseChain } from "./lib/pulsechain";
+import { pulseChain } from "../lib/pulsechain";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 const alchemyId = process.env.ALCHEMY_ID;
