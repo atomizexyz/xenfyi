@@ -131,7 +131,7 @@ const Home: NextPage = () => {
                   {generalStats.map((item, index) => (
                     <div className="stat" key={index}>
                       <div className="stat-title">{item.title}</div>
-                      <code className="stat-value text-right">
+                      <code className="stat-value text-3xl text-right">
                         <CountUp
                           end={item.value}
                           preserveValue={true}
@@ -162,7 +162,7 @@ const Home: NextPage = () => {
                   {stakeItems.map((item, index) => (
                     <div className="stat " key={index}>
                       <div className="stat-title">{item.title}</div>
-                      <code className="stat-value text-right">
+                      <code className="stat-value text-3xl text-right">
                         <CountUp
                           end={item.value}
                           preserveValue={true}

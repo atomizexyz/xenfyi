@@ -10,7 +10,14 @@ import {
   ViewGridIcon,
   LockClosedIcon,
 } from "@heroicons/react/outline";
-import { TwitterIcon, TelegramIcon, GitHubIcon, Diamond, Event } from "./Icons";
+import {
+  TwitterIcon,
+  TelegramIcon,
+  GitHubIcon,
+  Diamond,
+  Event,
+  SmartContraact,
+} from "./Icons";
 import Avatar from "boring-avatars";
 import { useTheme } from "next-themes";
 
@@ -46,7 +53,7 @@ const linkItems = [
   {
     name: "Twitter",
     icon: <TwitterIcon />,
-    href: "https://twitter.com/xen_fyi",
+    href: "https://twitter.com/XEN_Crypto​",
   },
   {
     name: "Telegram",
@@ -59,8 +66,9 @@ const linkItems = [
     href: "https://github.com/FairCrypto",
   },
   {
-    name: "About",
-    icon: <QuestionMarkCircleIcon className="h-5 w-5" />,
+    name: "Contract",
+    icon: <SmartContraact />,
+    href: "https://scan.v2b.testnet.pulsechain.com/address/0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   },
 ];
 
