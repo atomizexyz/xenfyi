@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Head from "next/head";
-import XenCrypto from "@faircrypto/xen-crypto/build/contracts/XenCrypto.json";
+import XenCrypto from "../abi/XENCrypto.json";
 import { useContractRead } from "wagmi";
 
 const Home: NextPage = () => {
