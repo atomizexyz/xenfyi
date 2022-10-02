@@ -1,11 +1,10 @@
-import Navbar from "~/components/Navbar";
+import Container from "~/components/Container";
 
 const Mint = () => {
   return (
-    <div>
-      <Navbar />
-      Mint
-    </div>
+    <Container>
+      <div>Mint</div>
+    </Container>
   );
 };
 

@@ -1,11 +1,10 @@
-import Navbar from "~/components/Navbar";
+import Container from "~/components/Container";
 
 const Stake = () => {
   return (
-    <div>
-      <Navbar />
-      Stake
-    </div>
+    <Container>
+      <div>Stake</div>
+    </Container>
   );
 };
 

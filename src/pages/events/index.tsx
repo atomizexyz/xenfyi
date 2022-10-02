@@ -1,11 +1,10 @@
-import Navbar from "~/components/Navbar";
+import Container from "~/components/Container";
 
 const Events = () => {
   return (
-    <div>
-      <Navbar />
-      Events
-    </div>
+    <Container>
+      <div>Events</div>
+    </Container>
   );
 };
 

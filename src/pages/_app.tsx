@@ -9,6 +9,7 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import Layout from "~/components/Layout";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -86,7 +87,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           ),
         }}
       >
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ConnectKitProvider>
     </WagmiConfig>
   );
