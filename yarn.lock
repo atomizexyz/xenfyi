@@ -472,6 +472,14 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
+"@faircrypto/xen-crypto@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@faircrypto/xen-crypto/-/xen-crypto-0.3.0.tgz#7623bdc19448877a9039265425de16c85dff043a"
+  integrity sha512-TIwbSthgMf5zRCpSlLq5sLROg9OpoHLnzLllQA/NK+r6SWYM+rWTJLwYfw4/i+agvpvGRrVXnooo1cNxhoU82w==
+  dependencies:
+    "@openzeppelin/contracts" "^4.7.3"
+    abdk-libraries-solidity "^3.0.0"
+
 "@humanwhocodes/config-array@^0.10.5":
   version "0.10.7"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.10.7.tgz#6d53769fd0c222767e6452e8ebda825c22e9f0dc"
@@ -623,6 +631,11 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@openzeppelin/contracts@^4.7.3":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.7.3.tgz#939534757a81f8d69cc854c7692805684ff3111e"
+  integrity sha512-dGRS0agJzu8ybo44pCIf3xBaPQN/65AIXNgK8+4gzKd5kbvlqyxryUYVLJv7fK98Seyd2hDZzVEHSWAh0Bt1Yw==
 
 "@pedrouid/environment@^1.0.1":
   version "1.0.1"
@@ -1029,6 +1042,11 @@ JSONStream@^1.3.5:
   dependencies:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
+
+abdk-libraries-solidity@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/abdk-libraries-solidity/-/abdk-libraries-solidity-3.0.0.tgz#9085437262110f3f81abc067b3d24a6727cf7984"
+  integrity sha512-oKBj/1wK6hIXxYjX7b2vCzJPHs9GDu49EBpNfUOw2FpA/nu1oV7V598MgAbB1+R1u7vuUhL6DYqolV+GMWaLvA==
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
