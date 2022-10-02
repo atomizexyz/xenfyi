@@ -11,6 +11,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Layout from "~/components/Layout";
 import { ThemeProvider } from "next-themes";
+import { publicProvider } from "wagmi/providers/public";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -24,6 +25,7 @@ const { chains, provider, webSocketProvider } = configureChains(
         return { http: chain.rpcUrls.default };
       },
     }),
+    publicProvider(),
   ]
 );
 

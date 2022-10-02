@@ -1,54 +1,118 @@
 import type { NextPage } from "next";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
 import Head from "next/head";
-import XenCrypto from "../abi/XENCrypto.json";
-import { useContractRead } from "wagmi";
 import Container from "~/components/Container";
+import { useContractReads } from "wagmi";
+import XenCrypto from "~/abi/XENCrypto.json";
+import { useState } from "react";
+import { pulseChain } from "~/lib/pulsechain";
+
+const xenContract = {
+  addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+  contractInterface: XenCrypto.abi,
+};
+
+interface DashboardData {
+  globalRank: Number;
+  activeMinters: Number;
+  activeStakes: Number;
+  totalXenStaked: Number;
+  totalXenLiquid: Number;
+}
 
 const Home: NextPage = () => {
-  const { address } = useAccount();
+  const BURN_ADDRESS = "0x0000000000000000000000000000000000000000";
 
-  const { data: userMintData } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    functionName: "getUserMint",
-    overrides: { from: address },
+  const [dashboardData, setDashboardData] = useState<DashboardData>();
+  const { data } = useContractReads({
+    contracts: [
+      {
+        ...xenContract,
+        functionName: "globalRank",
+        chainId: pulseChain.id,
+      },
+      {
+        ...xenContract,
+        functionName: "activeMinters",
+        chainId: pulseChain.id,
+      },
+      {
+        ...xenContract,
+        functionName: "activeStakes",
+        chainId: pulseChain.id,
+      },
+      {
+        ...xenContract,
+        functionName: "totalXenStaked",
+        chainId: pulseChain.id,
+      },
+      {
+        ...xenContract,
+        functionName: "totalSupply",
+        chainId: pulseChain.id,
+      },
+    ],
+
+    onSuccess(data) {
+      setDashboardData({
+        globalRank: Number(data[0]),
+        activeMinters: Number(data[1]),
+        activeStakes: Number(data[2]),
+        totalXenStaked: Number(data[3]),
+        totalXenLiquid: Number(data[4]),
+      });
+    },
+    watch: true,
   });
 
-  const { data: userStakeData } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    functionName: "getUserStake",
-    overrides: { from: address },
-  });
+  const totalSupply = () => {
+    return formatNumber(
+      (Number(dashboardData?.totalXenLiquid) +
+        Number(dashboardData?.totalXenStaked)) /
+        1e18
+    );
+  };
 
-  const { data: globalRankData } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    functionName: "globalRank",
-    overrides: { from: address },
-  });
+  const totalStaked = () => {
+    return formatNumber(Number(dashboardData?.totalXenStaked) / 1e18);
+  };
 
-  const { data: activeMintersData } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    functionName: "activeMinters",
-    overrides: { from: address },
-  });
+  const totalLiquid = () => {
+    return formatNumber(Number(dashboardData?.totalXenLiquid) / 1e18);
+  };
 
-  const { data: activeStakesData } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    functionName: "activeStakes",
-    overrides: { from: address },
-  });
+  const formatNumber = (num: number) => {
+    return new Intl.NumberFormat("en-US", {}).format(num);
+  };
 
-  const { data: totalXenStakedData } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    functionName: "totalXenStaked",
-    overrides: { from: address },
-  });
+  const generalStats = [
+    {
+      title: "Global Rank",
+      value: formatNumber(Number(dashboardData?.globalRank)),
+    },
+    {
+      title: "Active Minters",
+      value: formatNumber(Number(dashboardData?.activeMinters)),
+    },
+    {
+      title: "Active Stakes",
+      value: formatNumber(Number(dashboardData?.activeStakes)),
+    },
+  ];
+
+  const stakeItems = [
+    {
+      title: "Liquid",
+      value: totalLiquid(),
+    },
+    {
+      title: "Stake",
+      value: totalStaked(),
+    },
+    {
+      title: "Total Supply",
+      value: totalSupply(),
+    },
+  ];
 
   return (
     <div>
@@ -60,49 +124,35 @@ const Home: NextPage = () => {
 
       <main>
         <Container>
-          <div className="card glass">
-            <div className="card-body">
-              <h2 className="card-title">Dashboard</h2>
-              <ul>
-                <li>
-                  Global Rank: {globalRankData && globalRankData.toString()}
-                </li>
-                <li>
-                  Active Minters:{" "}
-                  {activeMintersData && activeMintersData.toString()}
-                </li>
-                <li>
-                  Active Stakes:{" "}
-                  {activeStakesData && activeStakesData.toString()}
-                </li>
-                <li>
-                  Total XEN Staked:{" "}
-                  {totalXenStakedData && Number(totalXenStakedData) / 1e18}
-                </li>
-              </ul>
-              <h2>Mint</h2>
-              <ul>
-                {userMintData && (
-                  <>
-                    <li>amplifier {userMintData.amplifier.toString()}</li>
-                    <li>eaaRate {userMintData.eaaRate.toString()}</li>
-                    <li>maturityTs {userMintData.maturityTs.toString()}</li>
-                    <li>rank {userMintData.rank.toString()}</li>
-                    <li>term {userMintData.term.toString()}</li>
-                  </>
-                )}
-              </ul>
-              <h2>Stake</h2>
-              <ul>
-                {userStakeData && (
-                  <>
-                    <li>amount {userStakeData.amount.toString()}</li>
-                    <li>apy {userStakeData.apy.toString()}</li>
-                    <li>maturityTs {userStakeData.maturityTs.toString()}</li>
-                    <li>term {userStakeData.term.toString()}</li>
-                  </>
-                )}
-              </ul>
+          <div className="flex flex-col space-y-8">
+            <div className="card glass text-neutral">
+              <div className="card-body">
+                <h2 className="card-title">General Stats</h2>
+                <div className="stats stats-vertical bg-transparent text-neutral">
+                  {generalStats.map((item, index) => (
+                    <div className="stat" key={index}>
+                      <div className="stat-title">{item.title}</div>
+                      <div className="stat-value">{item.value}</div>
+                      {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="card glass">
+              <div className="card-body">
+                <h2 className="card-title">Supply</h2>
+                <div className="stats stats-vertical bg-transparent text-neutral">
+                  {stakeItems.map((item, index) => (
+                    <div className="stat" key={index}>
+                      <div className="stat-title">{item.title}</div>
+                      <div className="stat-value">{item.value}</div>
+                      {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </Container>

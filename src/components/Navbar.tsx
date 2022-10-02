@@ -89,7 +89,10 @@ const Navbar = () => {
     <div className="navbar">
       <div className="navbar-start space-x-2">
         <div className="dropdown">
-          <label tabIndex={0} className="btn glass lg:hidden text-neutral">
+          <label
+            tabIndex={0}
+            className="btn btn-square glass lg:hidden text-neutral"
+          >
             <MenuIcon className="h-5 w-5" />
           </label>
           <ul
