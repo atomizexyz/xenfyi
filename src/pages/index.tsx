@@ -4,13 +4,10 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import Head from "next/head";
 import XenCrypto from "../abi/XENCrypto.json";
 import { useContractRead } from "wagmi";
+import { ConnectKitButton } from "connectkit";
 
 const Home: NextPage = () => {
-  const { address, isConnected } = useAccount();
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
-  const { disconnect } = useDisconnect();
+  const { address } = useAccount();
 
   const { data: userMintData } = useContractRead({
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -54,12 +51,6 @@ const Home: NextPage = () => {
     overrides: { from: address },
   });
 
-  console.log(activeMintersData);
-
-  const shortenAddress = (address: string) => {
-    return address.slice(0, 6) + "..." + address.slice(-4);
-  };
-
   return (
     <div>
       <Head>
@@ -70,14 +61,7 @@ const Home: NextPage = () => {
 
       <main>
         <h1>XEN</h1>
-        {isConnected ? (
-          <div>
-            Connected to {address && shortenAddress(address)}
-            <button onClick={() => disconnect()}>Disconnect</button>
-          </div>
-        ) : (
-          <button onClick={() => connect()}>Connect Wallet</button>
-        )}
+        <ConnectKitButton />
         <h2>Stats</h2>
         <ul>
           <li>Global Rank: {globalRankData && globalRankData.toString()}</li>
