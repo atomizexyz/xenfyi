@@ -5,6 +5,7 @@ import { useContractReads } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { useState } from "react";
 import { pulseChain } from "~/lib/pulsechain";
+import CountUp from "react-countup";
 
 const xenContract = {
   addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -64,53 +65,36 @@ const Home: NextPage = () => {
     watch: true,
   });
 
-  const totalSupply = () => {
-    return formatNumber(
-      (Number(dashboardData?.totalXenLiquid) +
-        Number(dashboardData?.totalXenStaked)) /
-        1e18
-    );
-  };
-
-  const totalStaked = () => {
-    return formatNumber(Number(dashboardData?.totalXenStaked) / 1e18);
-  };
-
-  const totalLiquid = () => {
-    return formatNumber(Number(dashboardData?.totalXenLiquid) / 1e18);
-  };
-
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat("en-US", {}).format(num);
-  };
-
   const generalStats = [
     {
       title: "Global Rank",
-      value: formatNumber(Number(dashboardData?.globalRank)),
+      value: Number(dashboardData?.globalRank),
     },
     {
       title: "Active Minters",
-      value: formatNumber(Number(dashboardData?.activeMinters)),
+      value: Number(dashboardData?.activeMinters),
     },
     {
       title: "Active Stakes",
-      value: formatNumber(Number(dashboardData?.activeStakes)),
+      value: Number(dashboardData?.activeStakes),
     },
   ];
 
   const stakeItems = [
     {
       title: "Liquid",
-      value: totalLiquid(),
+      value: Number(dashboardData?.totalXenLiquid) / 1e18,
     },
     {
       title: "Stake",
-      value: totalStaked(),
+      value: Number(dashboardData?.totalXenStaked) / 1e18,
     },
     {
-      title: "Total Supply",
-      value: totalSupply(),
+      title: "Total",
+      value:
+        (Number(dashboardData?.totalXenLiquid) +
+          Number(dashboardData?.totalXenStaked)) /
+        1e18,
     },
   ];
 
@@ -132,8 +116,14 @@ const Home: NextPage = () => {
                   {generalStats.map((item, index) => (
                     <div className="stat" key={index}>
                       <div className="stat-title">{item.title}</div>
-                      <div className="stat-value">{item.value}</div>
-                      {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+                      <code className="stat-value text-right">
+                        <CountUp
+                          end={item.value}
+                          preserveValue={true}
+                          separator=","
+                        />
+                      </code>
+                      <div className="stat-desc"></div>
                     </div>
                   ))}
                 </div>
@@ -147,7 +137,14 @@ const Home: NextPage = () => {
                   {stakeItems.map((item, index) => (
                     <div className="stat" key={index}>
                       <div className="stat-title">{item.title}</div>
-                      <div className="stat-value">{item.value}</div>
+                      <code className="stat-value text-right">
+                        <CountUp
+                          end={item.value}
+                          preserveValue={true}
+                          separator=","
+                          decimals={2}
+                        />
+                      </code>
                       {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
                     </div>
                   ))}
