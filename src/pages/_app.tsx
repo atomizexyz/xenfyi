@@ -1,9 +1,10 @@
+import "~/styles/main.css";
 import { WagmiConfig, createClient, configureChains, chain } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import type { AppProps } from "next/app";
 import { pulseChain } from "../lib/pulsechain";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { ConnectKitProvider, getDefaultClient } from "connectkit";
+import { ConnectKitProvider } from "connectkit";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";

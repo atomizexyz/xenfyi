@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import Head from "next/head";
 import XenCrypto from "../abi/XENCrypto.json";
 import { useContractRead } from "wagmi";
-import { ConnectKitButton } from "connectkit";
+import Navbar from "~/components/Navbar";
 
 const Home: NextPage = () => {
   const { address } = useAccount();
@@ -60,8 +59,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
+        <Navbar />
         <h1>XEN</h1>
-        <ConnectKitButton />
         <h2>Stats</h2>
         <ul>
           <li>Global Rank: {globalRankData && globalRankData.toString()}</li>
