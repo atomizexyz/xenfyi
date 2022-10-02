@@ -2,6 +2,7 @@ import { ConnectKitButton } from "connectkit";
 import Link from "next/link";
 import {
   MoonIcon,
+  SunIcon,
   BookOpenIcon,
   QuestionMarkCircleIcon,
   MenuIcon,
@@ -11,6 +12,7 @@ import {
 } from "@heroicons/react/outline";
 import { TwitterIcon, TelegramIcon, GitHubIcon, Diamond, Event } from "./Icons";
 import Avatar from "boring-avatars";
+import { useTheme } from "next-themes";
 
 const navigationItems = [
   {
@@ -63,6 +65,9 @@ const linkItems = [
 ];
 
 const Navbar = () => {
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   const NavigationItems = () => {
     return (
       <>
@@ -137,14 +142,24 @@ const Navbar = () => {
             className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
-                Theme <MoonIcon className="h-5 w-5" />
-              </a>
+              <label className="flex swap swap-rotate justify-between text-neutral">
+                Theme
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    const t = isDark ? "light" : "dark";
+                    setTheme(t);
+                  }}
+                />
+                <MoonIcon className="swap-on fill-current w-5 h-5 absolute right-4" />
+                <SunIcon className="swap-off fill-current w-5 h-5 absolute right-4" />
+              </label>
+              {/* </a> */}
             </li>
             {linkItems.map((item, index) => (
               <li key={index}>
-                <Link href={item.href ?? ""}>
-                  <a className="justify-between">
+                <Link href={item.href ?? "/"}>
+                  <a className="justify-between text-neutral">
                     {item.name}
                     {item.icon}
                   </a>

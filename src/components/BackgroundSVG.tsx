@@ -12,8 +12,8 @@ const BackgroungSVG = (props: any) => {
     >
       <g transform="translate(691,529.5) scale(1,1) translate(-691,-529.5)">
         <linearGradient id="lg-0.2223331024439732" x1="0" x2="1" y1="0" y2="0">
-          <stop stop-color="#ff00ff" offset="0"></stop>
-          <stop stop-color="#00ffff" offset="1"></stop>
+          <stop stopColor="#ff00ff" offset="0"></stop>
+          <stop stopColor="#00ffff" offset="1"></stop>
         </linearGradient>
         <path d="" fill="url(#lg-0.2223331024439732)" opacity="0.2">
           <animate
