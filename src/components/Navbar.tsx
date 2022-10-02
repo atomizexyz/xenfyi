@@ -94,7 +94,7 @@ const Navbar = () => {
             <NavigationItems />
           </ul>
         </div>
-        <a className="normal-case text-3xl font-light">XEN.fyi</a>
+        <a className="text-neutral normal-case text-3xl font-light">XEN.fyi</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal glass rounded-box p-2">
