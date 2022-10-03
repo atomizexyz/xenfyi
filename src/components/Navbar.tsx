@@ -81,17 +81,14 @@ const Navbar = () => {
       <>
         {navigationItems.map((item, index) => (
           <li key={index}>
-            <Link
-              href={item.href}
-              onClick={() => {
-                (document.activeElement as HTMLElement).blur();
-              }}
-            >
+            <Link href={item.href}>
               <a
                 className={clsx("text-neutral", {
                   "btn-disabled": router.pathname == item.href,
                 })}
-                // onclick blur to remove focus
+                onClick={() => {
+                  (document.activeElement as HTMLElement).blur();
+                }}
               >
                 {item.icon}
                 {item.name}
@@ -188,13 +185,13 @@ const Navbar = () => {
             </li>
             {linkItems.map((item, index) => (
               <li key={index}>
-                <Link
-                  href={item.href ?? "/"}
-                  onClick={() => {
-                    (document.activeElement as HTMLElement).blur();
-                  }}
-                >
-                  <a className="justify-between text-neutral">
+                <Link href={item.href ?? "/"}>
+                  <a
+                    className="justify-between text-neutral"
+                    onClick={() => {
+                      (document.activeElement as HTMLElement).blur();
+                    }}
+                  >
                     {item.name}
                     {item.icon}
                   </a>
