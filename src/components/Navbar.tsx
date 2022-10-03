@@ -158,8 +158,8 @@ const Navbar = () => {
                     setTheme(t);
                   }}
                 />
-                <MoonIcon className="swap-on fill-current w-5 h-5 absolute right-4" />
-                <SunIcon className="swap-off fill-current w-5 h-5 absolute right-4" />
+                <MoonIcon className="swap-on w-5 h-5 absolute right-4" />
+                <SunIcon className="swap-off w-5 h-5 absolute right-4" />
               </label>
             </li>
             <li>
