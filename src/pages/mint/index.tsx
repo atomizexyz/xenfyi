@@ -5,9 +5,10 @@ import XenCrypto from "~/abi/XENCrypto.json";
 import { useState } from "react";
 import { clsx } from "clsx";
 import { useTheme } from "next-themes";
+import { InjectedConnector } from "wagmi/connectors/injected";
 
 const Mint = () => {
-  const { address } = useAccount();
+  const { connector, address } = useAccount();
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
   const [isMinted, setIsMinted] = useState(false);
@@ -70,6 +71,14 @@ const Mint = () => {
                   "text-neutral": !isDark,
                   "text-primary-content": isDark,
                 })}
+                onClick={() => {
+                  (connector as InjectedConnector)?.watchAsset?.({
+                    address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+                    decimals: 18,
+                    image: "https://xen.fyi/images/xen.png",
+                    symbol: "XEN",
+                  });
+                }}
               >
                 Add XEN to Wallet
               </button>
