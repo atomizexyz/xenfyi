@@ -6,6 +6,7 @@ import CountUp from "react-countup";
 import { useStep } from "usehooks-ts";
 import { clsx } from "clsx";
 import { PercentageField, DaysField } from "~/components/FormFields";
+import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
 
 const steps: any[] = [
   {
@@ -39,21 +40,25 @@ const Mint = () => {
       title: "Amplifier",
       value: userMintData?.amplifier,
       suffix: "",
+      decimals: 0,
     },
     {
       title: "EAA Rate",
       value: userMintData?.eaaRate / 10,
       suffix: "%",
+      decimals: 2,
     },
     {
       title: "Rank",
       value: userMintData?.rank,
       suffix: "",
+      decimals: 0,
     },
     {
       title: "Term",
       value: userMintData?.term,
       suffix: "",
+      decimals: 0,
     },
   ];
 
@@ -70,39 +75,6 @@ const Mint = () => {
     } else {
       return 0;
     }
-  };
-
-  const MintProgress = () => {
-    return (
-      <div className="stat">
-        <div className="stat-title">Progress</div>
-        <div className="stat-value text-lg md:text-3xl text-right">
-          <CountUp
-            end={percentComplete()}
-            preserveValue={true}
-            separator=","
-            suffix="%"
-            decimals={2}
-          />
-        </div>
-        <div>
-          <progress
-            className="progress progress-secondary"
-            value={percentComplete()}
-            max={userMintData?.term ?? 0.0}
-          ></progress>
-        </div>
-        <code className="stat-desc text-right">
-          <CountUp
-            end={daysRemaining()}
-            preserveValue={true}
-            separator=","
-            prefix="Days Remaining: "
-            decimals={0}
-          />
-        </code>
-      </div>
-    );
   };
 
   const Claim = () => {
@@ -171,21 +143,20 @@ const Mint = () => {
       <>
         <h2 className="card-title">Minting</h2>
         <div className="stats stats-vertical bg-transparent text-neutral">
-          <MintProgress />
+          <ProgressStatCard
+            title="Progress"
+            percentComplete={percentComplete()}
+            max={userMintData?.term ?? 0.0}
+            daysRemaining={daysRemaining()}
+          />
           {mintItems.map((item, index) => (
-            <div className="stat" key={index}>
-              <div className="stat-title">{item.title}</div>
-              <code className="stat-value text-lg md:text-3xl text-right">
-                <CountUp
-                  end={item.value}
-                  preserveValue={true}
-                  separator=","
-                  suffix={item.suffix}
-                  // decimals={2}
-                />
-              </code>
-              <div className="stat-desc text-right"></div>
-            </div>
+            <NumberStatCard
+              key={index}
+              title={item.title}
+              number={item.value}
+              suffix={item.suffix}
+              decimals={item.decimals}
+            />
           ))}
         </div>
       </>

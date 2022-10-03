@@ -4,9 +4,13 @@ import Container from "~/components/Container";
 import { useContractReads, useNetwork, Chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { useEffect, useState } from "react";
-import CountUp from "react-countup";
 import { useTheme } from "next-themes";
 import { pulseChain } from "~/lib/pulsechain";
+import {
+  NumberStatCard,
+  ChainStatCard,
+  DateStatCard,
+} from "~/components/StatCards";
 
 interface DashboardData {
   globalRank: Number;
@@ -14,6 +18,7 @@ interface DashboardData {
   activeStakes: Number;
   totalXenStaked: Number;
   totalXenLiquid: Number;
+  genesisTs: Number;
 }
 
 const Home: NextPage = () => {
@@ -52,6 +57,10 @@ const Home: NextPage = () => {
         ...xenContract,
         functionName: "totalSupply",
       },
+      {
+        ...xenContract,
+        functionName: "genesisTs",
+      },
     ],
 
     onSuccess(data) {
@@ -61,6 +70,7 @@ const Home: NextPage = () => {
         activeStakes: Number(data[2]),
         totalXenStaked: Number(data[3]),
         totalXenLiquid: Number(data[4]),
+        genesisTs: Number(data[5]),
       });
     },
     watch: true,
@@ -87,19 +97,19 @@ const Home: NextPage = () => {
 
   const stakeItems = [
     {
+      title: "Total",
+      value:
+        (Number(dashboardData?.totalXenLiquid) +
+          Number(dashboardData?.totalXenStaked)) /
+        1e18,
+    },
+    {
       title: "Liquid",
       value: Number(dashboardData?.totalXenLiquid) / 1e18,
     },
     {
       title: "Stake",
       value: Number(dashboardData?.totalXenStaked) / 1e18,
-    },
-    {
-      title: "Total",
-      value:
-        (Number(dashboardData?.totalXenLiquid) +
-          Number(dashboardData?.totalXenStaked)) /
-        1e18,
     },
   ];
 
@@ -118,27 +128,21 @@ const Home: NextPage = () => {
               <div className="card-body text-neutral">
                 <h2 className="card-title">General Stats</h2>
                 <div className="stats stats-vertical bg-transparent text-neutral">
-                  <div className="stat">
-                    <div className="stat-title">Chain</div>
-                    <code className="stat-value text-lg md:text-3xl text-right">
-                      {currentChain.name}
-                    </code>
-                    <div className="stat-desc text-right">
-                      {`Chain ID: ${currentChain.id}`}
-                    </div>
-                  </div>
+                  <ChainStatCard
+                    name={currentChain.name}
+                    id={currentChain.id}
+                  />
+                  <DateStatCard
+                    title="Days Since Launch"
+                    dateTs={Number(dashboardData?.genesisTs) * 1000 ?? 0}
+                  />
                   {generalStats.map((item, index) => (
-                    <div className="stat" key={index}>
-                      <div className="stat-title">{item.title}</div>
-                      <code className="stat-value text-lg md:text-3xl text-right">
-                        <CountUp
-                          end={item.value}
-                          preserveValue={true}
-                          separator=","
-                        />
-                      </code>
-                      <div className="stat-desc text-right"></div>
-                    </div>
+                    <NumberStatCard
+                      key={index}
+                      title={item.title}
+                      number={item.value}
+                      decimals={0}
+                    />
                   ))}
                 </div>
               </div>
@@ -149,18 +153,11 @@ const Home: NextPage = () => {
                 <h2 className="card-title">Supply</h2>
                 <div className="stats stats-vertical bg-transparent text-neutral">
                   {stakeItems.map((item, index) => (
-                    <div className="stat " key={index}>
-                      <div className="stat-title">{item.title}</div>
-                      <code className="stat-value text-lg md:text-3xl text-right">
-                        <CountUp
-                          end={item.value}
-                          preserveValue={true}
-                          separator=","
-                          decimals={2}
-                        />
-                      </code>
-                      <div className="stat-desc text-right"></div>
-                    </div>
+                    <NumberStatCard
+                      key={index}
+                      title={item.title}
+                      number={item.value}
+                    />
                   ))}
                 </div>
               </div>
