@@ -120,7 +120,7 @@ const Home: NextPage = () => {
                 <div className="stats stats-vertical bg-transparent text-neutral">
                   <div className="stat">
                     <div className="stat-title">Chain</div>
-                    <code className="stat-value text-lg text-3xl text-right">
+                    <code className="stat-value text-lg md:text-3xl text-right">
                       {currentChain.name}
                     </code>
                     <div className="stat-desc text-right">
