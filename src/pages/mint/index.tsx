@@ -7,7 +7,7 @@ import { PercentageField, DaysField } from "~/components/FormFields";
 import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
 import { daysRemaining, percentComplete } from "~/lib/helpers";
 import { useState, useEffect } from "react";
-
+import { useRouter } from "next/router";
 const steps: any[] = [
   {
     id: 1,
@@ -25,6 +25,8 @@ const steps: any[] = [
 
 const Mint = () => {
   const { address } = useAccount();
+  const router = useRouter();
+
   const [currentStep, helpers] = useStep(steps.length);
   const { setStep } = helpers;
   const [currentStateStep, setCurrentStateStep] = useState(0);
@@ -179,6 +181,13 @@ const Mint = () => {
     );
   };
 
+  useEffect(() => {
+    const queryStep = parseInt(router.query.step as string);
+    if (queryStep && queryStep > 0 && queryStep < 4) {
+      setStep(queryStep);
+    }
+  }, [router.query.step, setStep]);
+
   return (
     <Container>
       <div className="flew flex-row space-y-8 ">
@@ -186,7 +195,11 @@ const Mint = () => {
           {steps.map((step, index) => {
             return (
               <button
-                onClick={() => setStep(step.id)}
+                onClick={() => {
+                  setStep(step.id);
+                  router.query.step = step.id;
+                  router.push(router);
+                }}
                 key={index}
                 className={clsx("step", {
                   "step-neutral": currentStep >= step.id,

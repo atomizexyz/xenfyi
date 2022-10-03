@@ -7,6 +7,8 @@ import { DaysField, AmountField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import { daysRemaining, percentComplete } from "~/lib/helpers";
+import { useRouter } from "next/router";
+
 import {
   ProgressStatCard,
   NumberStatCard,
@@ -31,8 +33,10 @@ const steps: any[] = [
 
 const Stake = () => {
   const { address } = useAccount();
+  const router = useRouter();
+
   const [currentStep, helpers] = useStep(steps.length);
-  const { goToNextStep, setStep } = helpers;
+  const { setStep } = helpers;
   const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
   const [currentStateStep, setCurrentStateStep] = useState(0);
@@ -152,10 +156,13 @@ const Stake = () => {
     );
   };
 
-  // Use effect
   useEffect(() => {
+    const queryStep = parseInt(router.query.step as string);
+    if (queryStep && queryStep > 0 && queryStep < 4) {
+      setStep(queryStep);
+    }
     setYeild(10);
-  }, [userStakeData]);
+  }, [router.query.step, setStep, userStakeData]);
 
   return (
     <Container>
@@ -164,7 +171,11 @@ const Stake = () => {
           {steps.map((step, index) => {
             return (
               <button
-                onClick={() => setStep(step.id)}
+                onClick={() => {
+                  setStep(step.id);
+                  router.query.step = step.id;
+                  router.push(router);
+                }}
                 key={index}
                 className={clsx("step", {
                   "step-neutral": currentStep >= step.id,
