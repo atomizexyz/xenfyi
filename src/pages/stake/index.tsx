@@ -6,6 +6,7 @@ import { clsx } from "clsx";
 import { DaysField, AmountField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
+import { daysRemaining, percentComplete } from "~/lib/helpers";
 import {
   ProgressStatCard,
   NumberStatCard,
@@ -70,28 +71,11 @@ const Stake = () => {
     },
   ];
 
-  const daysRemaining = () => {
-    if (userStakeData?.maturityTs && userStakeData.maturityTs > 0) {
-      return (Number(userStakeData.maturityTs) - Date.now() / 1000) / 86400;
-    } else {
-      return 0;
-    }
-  };
-  const percentComplete = () => {
-    if (userStakeData?.term && userStakeData.term > 0) {
-      return userStakeData.term - daysRemaining();
-    } else {
-      return 0;
-    }
-  };
-
-  const formatDate = (date: number) => {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = `0${d.getMonth() + 1}`.slice(-2);
-    const _date = `0${d.getDate()}`.slice(-2);
-    return `${year}/${month}/${_date}`;
-  };
+  const progressDaysRemaining = daysRemaining(userStakeData?.maturityTs);
+  const progressPercentComplete = percentComplete(
+    progressDaysRemaining,
+    userStakeData?.term
+  );
 
   const EndStakeStep = () => {
     return (
@@ -140,9 +124,9 @@ const Stake = () => {
         <div className="stats stats-vertical bg-transparent text-neutral">
           <ProgressStatCard
             title="Progress"
-            percentComplete={percentComplete()}
+            percentComplete={progressPercentComplete}
             max={userStakeData?.term ?? 0.0}
-            daysRemaining={daysRemaining()}
+            daysRemaining={progressDaysRemaining}
           />
           {mintItems.map((item, index) => (
             <NumberStatCard

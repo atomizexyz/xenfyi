@@ -2,11 +2,11 @@ import { useAccount } from "wagmi";
 import Container from "~/components/Container";
 import { useContractRead } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
-import CountUp from "react-countup";
 import { useStep } from "usehooks-ts";
 import { clsx } from "clsx";
 import { PercentageField, DaysField } from "~/components/FormFields";
 import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
+import { daysRemaining, percentComplete } from "~/lib/helpers";
 
 const steps: any[] = [
   {
@@ -62,20 +62,11 @@ const Mint = () => {
     },
   ];
 
-  const daysRemaining = () => {
-    if (userMintData?.maturityTs && userMintData.maturityTs > 0) {
-      return (Number(userMintData.maturityTs) - Date.now() / 1000) / 86400;
-    } else {
-      return 0;
-    }
-  };
-  const percentComplete = () => {
-    if (userMintData?.term && userMintData.term > 0) {
-      return userMintData.term - daysRemaining();
-    } else {
-      return 0;
-    }
-  };
+  const progressDaysRemaining = daysRemaining(userMintData?.maturityTs);
+  const progressPercentComplete = percentComplete(
+    progressDaysRemaining,
+    userMintData?.term
+  );
 
   const Claim = () => {
     return (
@@ -145,9 +136,9 @@ const Mint = () => {
         <div className="stats stats-vertical bg-transparent text-neutral">
           <ProgressStatCard
             title="Progress"
-            percentComplete={percentComplete()}
+            percentComplete={progressPercentComplete}
             max={userMintData?.term ?? 0.0}
-            daysRemaining={daysRemaining()}
+            daysRemaining={progressDaysRemaining}
           />
           {mintItems.map((item, index) => (
             <NumberStatCard
