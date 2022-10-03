@@ -1,18 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Container from "~/components/Container";
-import { useContractReads } from "wagmi";
+import { useContractReads, useNetwork, Chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
-import { useState } from "react";
-import { pulseChain } from "~/lib/pulsechain";
+import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { clsx } from "clsx";
 import { useTheme } from "next-themes";
-
-const xenContract = {
-  addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-  contractInterface: XenCrypto.abi,
-};
+import { pulseChain } from "~/lib/pulsechain";
 
 interface DashboardData {
   globalRank: Number;
@@ -23,38 +18,40 @@ interface DashboardData {
 }
 
 const Home: NextPage = () => {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const { chain } = useNetwork();
 
-  const BURN_ADDRESS = "";
-
+  const [currentChain, setCurrentChain] = useState<Chain>(chain ?? pulseChain);
   const [dashboardData, setDashboardData] = useState<DashboardData>();
-  const { data } = useContractReads({
+
+  const xenContract = {
+    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    contractInterface: XenCrypto.abi,
+    chainId: currentChain.id,
+  };
+
+  const {} = useContractReads({
     contracts: [
       {
         ...xenContract,
         functionName: "globalRank",
-        chainId: pulseChain.id,
       },
       {
         ...xenContract,
         functionName: "activeMinters",
-        chainId: pulseChain.id,
       },
       {
         ...xenContract,
         functionName: "activeStakes",
-        chainId: pulseChain.id,
       },
       {
         ...xenContract,
         functionName: "totalXenStaked",
-        chainId: pulseChain.id,
       },
       {
         ...xenContract,
         functionName: "totalSupply",
-        chainId: pulseChain.id,
       },
     ],
 
@@ -69,6 +66,10 @@ const Home: NextPage = () => {
     },
     watch: true,
   });
+
+  useEffect(() => {
+    setCurrentChain(chain ?? pulseChain);
+  }, [chain]);
 
   const generalStats = [
     {
@@ -128,6 +129,15 @@ const Home: NextPage = () => {
                     "text-primary-content": isDark,
                   })}
                 >
+                  <div className="stat">
+                    <div className="stat-title">Chain</div>
+                    <code className="stat-value text-3xl text-right">
+                      {currentChain.name}
+                    </code>
+                    <div className="stat-desc text-right">
+                      {`Chain ID: ${currentChain.id}`}
+                    </div>
+                  </div>
                   {generalStats.map((item, index) => (
                     <div className="stat" key={index}>
                       <div className="stat-title">{item.title}</div>
@@ -138,7 +148,7 @@ const Home: NextPage = () => {
                           separator=","
                         />
                       </code>
-                      <div className="stat-desc"></div>
+                      <div className="stat-desc text-right"></div>
                     </div>
                   ))}
                 </div>
@@ -170,7 +180,7 @@ const Home: NextPage = () => {
                           decimals={2}
                         />
                       </code>
-                      {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+                      <div className="stat-desc text-right"></div>
                     </div>
                   ))}
                 </div>

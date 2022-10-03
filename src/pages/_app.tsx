@@ -16,7 +16,7 @@ import { publicProvider } from "wagmi/providers/public";
 const alchemyId = process.env.ALCHEMY_ID;
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, pulseChain],
+  [chain.mainnet, chain.goerli, pulseChain],
   [
     alchemyProvider({ apiKey: alchemyId }),
     jsonRpcProvider({

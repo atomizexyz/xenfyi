@@ -2,7 +2,7 @@ import { Chain } from "wagmi";
 
 export const pulseChain: Chain = {
   id: 941,
-  name: "PulseChain Testnet 2b",
+  name: "PulseChain Testnet",
   network: "pulse",
   nativeCurrency: {
     decimals: 18,

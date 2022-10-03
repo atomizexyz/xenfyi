@@ -15,11 +15,12 @@ import {
   TelegramIcon,
   GitHubIcon,
   Diamond,
-  Event,
   SmartContraact,
 } from "./Icons";
 import Avatar from "boring-avatars";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
+import { clsx } from "clsx";
 
 const navigationItems = [
   {
@@ -36,11 +37,6 @@ const navigationItems = [
     name: "Stake",
     icon: <LockClosedIcon className="h-5 w-5" />,
     href: "/stake",
-  },
-  {
-    name: "Events",
-    icon: <Event />,
-    href: "/events",
   },
 ];
 
@@ -73,6 +69,7 @@ const linkItems = [
 ];
 
 const Navbar = () => {
+  const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -82,7 +79,11 @@ const Navbar = () => {
         {navigationItems.map((item, index) => (
           <li key={index}>
             <Link href={item.href}>
-              <a className="text-neutral">
+              <a
+                className={clsx("text-neutral", {
+                  "btn-disabled": router.pathname == item.href,
+                })}
+              >
                 {item.icon}
                 {item.name}
               </a>
@@ -105,29 +106,21 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 "
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 space-y-1"
           >
             <NavigationItems />
           </ul>
         </div>
-        <a className="text-neutral normal-case text-3xl font-light">XEN.fyi</a>
+        <a className="text-neutral normal-case text-3xl font-light">XEN</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal glass rounded-box p-2">
+        <ul className="menu menu-horizontal glass rounded-box p-2 space-x-2">
           <NavigationItems />
         </ul>
       </div>
       <div className="navbar-end space-x-2">
         <ConnectKitButton.Custom>
-          {({
-            isConnected,
-            isConnecting,
-            show,
-            hide,
-            address,
-            truncatedAddress,
-            ensName,
-          }) => {
+          {({ isConnected, show, address, truncatedAddress }) => {
             return (
               <button onClick={show} className="btn glass text-neutral">
                 {isConnected ? (
@@ -150,7 +143,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-52"
+            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-52 space-y-1"
           >
             <li>
               <label className="flex swap swap-rotate justify-between text-neutral">
