@@ -1,10 +1,10 @@
 import { ConnectKitButton } from "connectkit";
+import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
 import {
   MoonIcon,
   SunIcon,
   BookOpenIcon,
-  QuestionMarkCircleIcon,
   MenuIcon,
   DotsVerticalIcon,
   ViewGridIcon,
@@ -16,11 +16,13 @@ import {
   GitHubIcon,
   Diamond,
   SmartContraact,
+  Wallet,
 } from "./Icons";
 import Avatar from "boring-avatars";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
+import { useAccount } from "wagmi";
 
 const navigationItems = [
   {
@@ -70,6 +72,7 @@ const linkItems = [
 
 const Navbar = () => {
   const router = useRouter();
+  const { connector, address } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -159,6 +162,22 @@ const Navbar = () => {
                 <SunIcon className="swap-off fill-current w-5 h-5 absolute right-4" />
               </label>
               {/* </a> */}
+            </li>
+            <li>
+              <button
+                className="justify-between text-neutral"
+                onClick={() => {
+                  (connector as InjectedConnector)?.watchAsset?.({
+                    address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+                    decimals: 18,
+                    image: "https://xen.fyi/images/xen.png",
+                    symbol: "XEN",
+                  });
+                }}
+              >
+                Add XEN to Wallet
+                <Wallet />
+              </button>
             </li>
             {linkItems.map((item, index) => (
               <li key={index}>
