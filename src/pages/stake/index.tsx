@@ -35,6 +35,7 @@ const Stake = () => {
   const { goToNextStep, setStep } = helpers;
   const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
+  const [currentStateStep, setCurrentStateStep] = useState(0);
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
@@ -78,20 +79,28 @@ const Stake = () => {
   );
 
   const EndStakeStep = () => {
+    const disabled = currentStateStep == 2;
+
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">End Stake</h2>
-        <button className="btn glass text-neutral">End Stake</button>
+        <button className="btn glass text-neutral" disabled={disabled}>
+          End Stake
+        </button>
       </div>
     );
   };
 
   const StartStakeStep = () => {
+    const disabled = currentStateStep == 2;
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Start Stake</h2>
-        <AmountField balance={balanceData?.formatted ?? "0.0"} />
-        <DaysField />
+        <AmountField
+          balance={balanceData?.formatted ?? "0.0"}
+          disabled={disabled}
+        />
+        <DaysField disabled={disabled} />
 
         <div className="stats glass text-neutral">
           <DataCard title="Yield" value={"10"} description={"10%"} />
@@ -112,7 +121,9 @@ const Stake = () => {
             </div>
           </div>
         </div>
-        <button className="btn glass text-neutral">Start Stake</button>
+        <button className="btn glass text-neutral" disabled={disabled}>
+          Start Stake
+        </button>
       </div>
     );
   };

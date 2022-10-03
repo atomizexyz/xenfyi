@@ -9,6 +9,7 @@ export const AmountField = (props: any) => {
         type="text"
         placeholder="0.0"
         className="input input-bordered w-full text-neutral"
+        disabled={props.disabled}
       />
       <label className="label">
         <span className="label-text-alt text-neutral">
@@ -23,7 +24,7 @@ export const AmountField = (props: any) => {
   );
 };
 
-export const DaysField = () => {
+export const DaysField = (props: any) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
@@ -34,6 +35,7 @@ export const DaysField = () => {
         type="text"
         placeholder="0"
         className="input input-bordered w-full text-neutral"
+        disabled={props.disabled}
       />
       <label className="label">
         <span className="label-text-alt text-neutral">
@@ -44,7 +46,7 @@ export const DaysField = () => {
   );
 };
 
-export const PercentageField = () => {
+export const PercentageField = (props: any) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
@@ -55,6 +57,7 @@ export const PercentageField = () => {
         type="text"
         placeholder="1% — 100%"
         className="input input-bordered w-full text-neutral"
+        disabled={props.disabled}
       />
       <label className="label">
         <span className="label-text-alt text-neutral">

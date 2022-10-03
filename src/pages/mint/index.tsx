@@ -1,12 +1,12 @@
-import { useAccount } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import Container from "~/components/Container";
-import { useContractRead } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { useStep } from "usehooks-ts";
 import { clsx } from "clsx";
 import { PercentageField, DaysField } from "~/components/FormFields";
 import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
 import { daysRemaining, percentComplete } from "~/lib/helpers";
+import { useState, useEffect } from "react";
 
 const steps: any[] = [
   {
@@ -26,7 +26,8 @@ const steps: any[] = [
 const Mint = () => {
   const { address } = useAccount();
   const [currentStep, helpers] = useStep(steps.length);
-  const { goToNextStep, setStep } = helpers;
+  const { setStep } = helpers;
+  const [currentStateStep, setCurrentStateStep] = useState(0);
 
   const { data: userMintData } = useContractRead({
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -68,17 +69,19 @@ const Mint = () => {
     userMintData?.term
   );
 
-  const Claim = () => {
+  const Claim = (props: any) => {
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Claim</h2>
-        <DaysField />
-        <button className="btn glass text-neutral">Start Mint</button>
+        <DaysField disabled={props.disabled} />
+        <button className="btn glass text-neutral" disabled={props.disabled}>
+          Start Mint
+        </button>
       </div>
     );
   };
 
-  const ClaimShare = () => {
+  const ClaimShare = (props: any) => {
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Claim + Share</h2>
@@ -91,6 +94,7 @@ const Mint = () => {
             type="text"
             placeholder="0x"
             className="input input-bordered w-full text-neutral"
+            disabled={props.disabled}
           />
           <label className="label">
             <span className="label-text-alt text-neutral">
@@ -99,32 +103,39 @@ const Mint = () => {
           </label>
         </div>
 
-        <PercentageField />
+        <PercentageField disabled={props.disabled} />
 
-        <button className="btn glass text-neutral">Claim + Share</button>
+        <button className="btn glass text-neutral" disabled={props.disabled}>
+          Claim + Share
+        </button>
       </div>
     );
   };
 
-  const ClaimStake = () => {
+  const ClaimStake = (props: any) => {
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Claim + Stake</h2>
 
-        <PercentageField />
-        <DaysField />
+        <PercentageField disabled={props.disabled} />
+        <DaysField disabled={props.disabled} />
 
-        <button className="btn glass text-neutral">Claim + Stake</button>
+        <button className="btn glass text-neutral" disabled={props.disabled}>
+          Claim + Stake
+        </button>
       </div>
     );
   };
 
   const StartMintStep = () => {
+    const disabled = currentStateStep == 2;
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Start Mint</h2>
-        <DaysField />
-        <button className="btn glass text-neutral">Start Mint</button>
+        <DaysField disabled={disabled} />
+        <button className="btn glass text-neutral" disabled={disabled}>
+          Start Mint
+        </button>
       </div>
     );
   };
@@ -155,13 +166,15 @@ const Mint = () => {
   };
 
   const ClaimStep = () => {
+    const disable = currentStateStep == 2;
+
     return (
       <div className="flex flex-col w-full border-opacity-50">
-        <Claim />
+        <Claim disabled={disable} />
         <div className="divider">OR</div>
-        <ClaimShare />
+        <ClaimShare disabled={disable} />
         <div className="divider">OR</div>
-        <ClaimStake />
+        <ClaimStake disabled={disable} />
       </div>
     );
   };
