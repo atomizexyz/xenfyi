@@ -109,7 +109,7 @@ const Stake = () => {
         <AmountField balance={balanceData?.formatted ?? "0.0"} />
         <DaysField />
 
-        <div className="stats glass">
+        <div className="stats glass text-neutral">
           <DataCard title="Yield" value={"10"} description={"10%"} />
           <DateStatCard title="Maturity" dateTs={maturity} />
         </div>

@@ -81,11 +81,17 @@ const Navbar = () => {
       <>
         {navigationItems.map((item, index) => (
           <li key={index}>
-            <Link href={item.href}>
+            <Link
+              href={item.href}
+              onClick={() => {
+                (document.activeElement as HTMLElement).blur();
+              }}
+            >
               <a
                 className={clsx("text-neutral", {
                   "btn-disabled": router.pathname == item.href,
                 })}
+                // onclick blur to remove focus
               >
                 {item.icon}
                 {item.name}
@@ -156,6 +162,7 @@ const Navbar = () => {
                   onChange={() => {
                     const t = isDark ? "light" : "dark";
                     setTheme(t);
+                    (document.activeElement as HTMLElement).blur();
                   }}
                 />
                 <MoonIcon className="swap-on w-5 h-5 absolute right-4" />
@@ -172,6 +179,7 @@ const Navbar = () => {
                     image: "https://xen.fyi/images/xen.png",
                     symbol: "XEN",
                   });
+                  (document.activeElement as HTMLElement).blur();
                 }}
               >
                 Add XEN to Wallet
@@ -180,7 +188,12 @@ const Navbar = () => {
             </li>
             {linkItems.map((item, index) => (
               <li key={index}>
-                <Link href={item.href ?? "/"}>
+                <Link
+                  href={item.href ?? "/"}
+                  onClick={() => {
+                    (document.activeElement as HTMLElement).blur();
+                  }}
+                >
                   <a className="justify-between text-neutral">
                     {item.name}
                     {item.icon}
