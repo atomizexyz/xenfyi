@@ -1,9 +1,12 @@
-import { useAccount } from "wagmi";
 import Container from "~/components/Container";
-import { useContractRead, useBalance } from "wagmi";
+import { useContractRead, useBalance, useAccount } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { useStep } from "usehooks-ts";
 import { clsx } from "clsx";
+import { DaysField, AmountField } from "~/components/FormFields";
+import CountUp from "react-countup";
+import { InformationCircleIcon } from "@heroicons/react/outline";
+import { useState, useEffect } from "react";
 
 const steps: any[] = [
   {
@@ -24,6 +27,8 @@ const Stake = () => {
   const { address } = useAccount();
   const [currentStep, helpers] = useStep(steps.length);
   const { goToNextStep, setStep } = helpers;
+  const [yeild, setYeild] = useState(0);
+  const [maturity, setMaturity] = useState<number>(Date.now());
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
@@ -36,6 +41,164 @@ const Stake = () => {
     functionName: "getUserStake",
     overrides: { from: address },
   });
+
+  const mintItems = [
+    {
+      title: "Balance",
+      value: balanceData?.formatted,
+      suffix: "",
+    },
+    {
+      title: "Amount",
+      value: userStakeData?.amount,
+      suffix: "",
+    },
+    {
+      title: "APY",
+      value: userStakeData?.apy,
+      suffix: "%",
+    },
+    {
+      title: "Term",
+      value: userStakeData?.term,
+      suffix: "",
+    },
+  ];
+
+  const daysRemaining = () => {
+    if (userStakeData?.maturityTs && userStakeData.maturityTs > 0) {
+      return (Number(userStakeData.maturityTs) - Date.now() / 1000) / 86400;
+    } else {
+      return 0;
+    }
+  };
+  const percentComplete = () => {
+    if (userStakeData?.term && userStakeData.term > 0) {
+      return userStakeData.term - daysRemaining();
+    } else {
+      return 0;
+    }
+  };
+
+  const formatDate = (date: number) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = `0${d.getMonth() + 1}`.slice(-2);
+    const _date = `0${d.getDate()}`.slice(-2);
+    return `${year}/${month}/${_date}`;
+  };
+
+  const StakeProgress = () => {
+    return (
+      <div className="stat">
+        <div className="stat-title">Progress</div>
+        <div className="stat-value text-lg md:text-3xl text-right">
+          <CountUp
+            end={percentComplete()}
+            preserveValue={true}
+            separator=","
+            suffix="%"
+            decimals={2}
+          />
+        </div>
+        <div>
+          <progress
+            className="progress progress-secondary"
+            value={percentComplete()}
+            max={userStakeData?.term ?? 0.0}
+          ></progress>
+        </div>
+        <code className="stat-desc text-right">
+          <CountUp
+            end={daysRemaining()}
+            preserveValue={true}
+            separator=","
+            prefix="Days Remaining: "
+            decimals={0}
+          />
+        </code>
+      </div>
+    );
+  };
+
+  const EndStakeStep = () => {
+    return (
+      <div className="flex flex-col space-y-4">
+        <h2 className="card-title text-neutral">End Stake</h2>
+        <button className="btn glass text-neutral">End Stake</button>
+      </div>
+    );
+  };
+
+  const StartStakeStep = () => {
+    return (
+      <div className="flex flex-col space-y-4">
+        <h2 className="card-title text-neutral">Start Stake</h2>
+        <AmountField balance={balanceData?.formatted ?? "0.0"} />
+        <DaysField />
+
+        <div className="stats glass">
+          <div className="stat">
+            <div className="stat-title">Maturity</div>
+            <div className="stat-value text-lg md:text-3xl ">
+              {formatDate(maturity)}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">Yield</div>
+            <div className="stat-value text-lg md:text-3xl">{yeild}</div>
+          </div>
+        </div>
+
+        <div className="alert shadow-lg glass">
+          <div>
+            <InformationCircleIcon className="w-16 h-16" />
+            <div>
+              <h3 className="font-bold">Staking Terms</h3>
+              <div className="text-xs">
+                Withdraw original Stake amount plus Yield at any time after
+                Maturity Date, or original Stake amount with 0 (zero) Yield at
+                anu time before Maturity Date. One stake at a time per one
+                address.
+              </div>
+            </div>
+          </div>
+        </div>
+        <button className="btn glass text-neutral">Start Stake</button>
+      </div>
+    );
+  };
+
+  const StakingStep = () => {
+    return (
+      <>
+        <h2 className="card-title">Staking</h2>
+        <div className="stats stats-vertical bg-transparent text-neutral">
+          <StakeProgress />
+          {mintItems.map((item, index) => (
+            <div className="stat" key={index}>
+              <div className="stat-title">{item.title}</div>
+              <code className="stat-value text-lg md:text-3xl text-right">
+                <CountUp
+                  end={item.value}
+                  preserveValue={true}
+                  separator=","
+                  suffix={item.suffix}
+                  // decimals={2}
+                />
+              </code>
+              <div className="stat-desc text-right"></div>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  // Use effect
+  useEffect(() => {
+    setYeild(10);
+  }, [userStakeData]);
 
   return (
     <Container>
@@ -57,17 +220,16 @@ const Stake = () => {
         </ul>
         <div className="card glass">
           <div className="card-body">
-            {/* <ul>
-              {userStakeData && (
-                <>
-                  <li>balance {balanceData?.formatted}</li>
-                  <li>amount {userStakeData.amount.toString()}</li>
-                  <li>apy {userStakeData.apy.toString()}</li>
-                  <li>maturityTs {userStakeData.maturityTs.toString()}</li>
-                  <li>term {userStakeData.term.toString()}</li>
-                </>
-              )}
-            </ul> */}
+            {(() => {
+              switch (currentStep) {
+                case 2:
+                  return <StakingStep />;
+                case 3:
+                  return <EndStakeStep />;
+                default:
+                  return <StartStakeStep />;
+              }
+            })()}
           </div>
         </div>
       </div>

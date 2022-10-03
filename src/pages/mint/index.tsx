@@ -5,6 +5,7 @@ import XenCrypto from "~/abi/XENCrypto.json";
 import CountUp from "react-countup";
 import { useStep } from "usehooks-ts";
 import { clsx } from "clsx";
+import { PercentageField, DaysField } from "~/components/FormFields";
 
 const steps: any[] = [
   {
@@ -57,10 +58,18 @@ const Mint = () => {
   ];
 
   const daysRemaining = () => {
-    return (Number(userMintData?.maturityTs) - Date.now() / 1000) / 86400;
+    if (userMintData?.maturityTs && userMintData.maturityTs > 0) {
+      return (Number(userMintData.maturityTs) - Date.now() / 1000) / 86400;
+    } else {
+      return 0;
+    }
   };
   const percentComplete = () => {
-    return userMintData?.term - daysRemaining();
+    if (userMintData?.term && userMintData.term > 0) {
+      return userMintData.term - daysRemaining();
+    } else {
+      return 0;
+    }
   };
 
   const MintProgress = () => {
@@ -96,48 +105,6 @@ const Mint = () => {
     );
   };
 
-  const PercnetageField = () => {
-    return (
-      <div className="form-control w-full">
-        <label className="label text-neutral">
-          <span className="label-text text-neutral">SHARE PERCENTAGE</span>
-          <span className="label-text-alt text-error">Required</span>
-        </label>
-        <input
-          type="text"
-          placeholder="1% — 100%"
-          className="input input-bordered w-full text-neutral"
-        />
-        <label className="label">
-          <span className="label-text-alt text-neutral">
-            The percentage of XEN between 1% and 100%
-          </span>
-        </label>
-      </div>
-    );
-  };
-
-  const DaysField = () => {
-    return (
-      <div className="form-control w-full">
-        <label className="label text-neutral">
-          <span className="label-text text-neutral">MINT DAYS</span>
-          <span className="label-text-alt text-error">Required</span>
-        </label>
-        <input
-          type="text"
-          placeholder="Number of days"
-          className="input input-bordered w-full text-neutral"
-        />
-        <label className="label">
-          <span className="label-text-alt text-neutral">
-            Select the number of days you want to mint between 0 and 100
-          </span>
-        </label>
-      </div>
-    );
-  };
-
   const Claim = () => {
     return (
       <div className="flex flex-col space-y-4">
@@ -159,7 +126,7 @@ const Mint = () => {
           </label>
           <input
             type="text"
-            placeholder="0x...."
+            placeholder="0x"
             className="input input-bordered w-full text-neutral"
           />
           <label className="label">
@@ -169,7 +136,7 @@ const Mint = () => {
           </label>
         </div>
 
-        <PercnetageField />
+        <PercentageField />
 
         <button className="btn glass text-neutral">Claim + Share</button>
       </div>
@@ -181,7 +148,7 @@ const Mint = () => {
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Claim + Stake</h2>
 
-        <PercnetageField />
+        <PercentageField />
         <DaysField />
 
         <button className="btn glass text-neutral">Claim + Stake</button>
@@ -189,26 +156,11 @@ const Mint = () => {
     );
   };
 
-  const StartMint = () => {
+  const StartMintStep = () => {
     return (
       <div className="flex flex-col space-y-4">
         <h2 className="card-title text-neutral">Start Mint</h2>
-        <div className="form-control w-full">
-          <label className="label text-neutral">
-            <span className="label-text text-neutral">MINT DAYS</span>
-            <span className="label-text-alt text-error">Required</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Type days"
-            className="input input-bordered w-full text-neutral"
-          />
-          <label className="label">
-            <span className="label-text-alt text-neutral">
-              Select the number of days you want to mint between 0 and 100
-            </span>
-          </label>
-        </div>
+        <DaysField />
         <button className="btn glass text-neutral">Start Mint</button>
       </div>
     );
@@ -280,7 +232,7 @@ const Mint = () => {
                 case 3:
                   return <ClaimStep />;
                 default:
-                  return <StartMint />;
+                  return <StartMintStep />;
               }
             })()}
           </div>
