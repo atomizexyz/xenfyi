@@ -102,7 +102,7 @@ export const NumberStatCard = (props: NumberStat) => {
 };
 
 interface ChainStat {
-  name: string;
+  value: string;
   id: number;
 }
 
@@ -111,9 +111,27 @@ export const ChainStatCard = (props: ChainStat) => {
     <div className="stat">
       <div className="stat-title">Chain</div>
       <code className="stat-value text-lg md:text-3xl text-right">
-        {props.name}
+        {props.value}
       </code>
       <div className="stat-desc text-right">{`Chain ID: ${props.id}`}</div>
+    </div>
+  );
+};
+
+interface DataStat {
+  title: string;
+  value: string;
+  description?: string;
+}
+
+export const DataCard = (props: DataStat) => {
+  return (
+    <div className="stat">
+      <div className="stat-title">{props.title}</div>
+      <code className="stat-value text-lg md:text-3xl text-right">
+        {props.value}
+      </code>
+      <div className="stat-desc text-right">{props?.description}</div>
     </div>
   );
 };

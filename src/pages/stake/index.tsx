@@ -6,7 +6,12 @@ import { clsx } from "clsx";
 import { DaysField, AmountField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
-import { ProgressStatCard, NumberStatCard } from "~/components/StatCards";
+import {
+  ProgressStatCard,
+  NumberStatCard,
+  DateStatCard,
+  DataCard,
+} from "~/components/StatCards";
 
 const steps: any[] = [
   {
@@ -105,16 +110,8 @@ const Stake = () => {
         <DaysField />
 
         <div className="stats glass">
-          <div className="stat">
-            <div className="stat-title">Maturity</div>
-            <div className="stat-value text-lg md:text-3xl ">
-              {formatDate(maturity)}
-            </div>
-          </div>
-          <div className="stat">
-            <div className="stat-title">Yield</div>
-            <div className="stat-value text-lg md:text-3xl">{yeild}</div>
-          </div>
+          <DataCard title="Yield" value={"10"} description={"10%"} />
+          <DateStatCard title="Maturity" dateTs={maturity} />
         </div>
 
         <div className="alert shadow-lg glass">

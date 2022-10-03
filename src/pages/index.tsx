@@ -129,7 +129,7 @@ const Home: NextPage = () => {
                 <h2 className="card-title">General Stats</h2>
                 <div className="stats stats-vertical bg-transparent text-neutral">
                   <ChainStatCard
-                    name={currentChain.name}
+                    value={currentChain.name}
                     id={currentChain.id}
                   />
                   <DateStatCard
