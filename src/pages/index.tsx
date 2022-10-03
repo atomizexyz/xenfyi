@@ -5,7 +5,6 @@ import { useContractReads, useNetwork, Chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import { clsx } from "clsx";
 import { useTheme } from "next-themes";
 import { pulseChain } from "~/lib/pulsechain";
 
@@ -116,22 +115,12 @@ const Home: NextPage = () => {
         <Container>
           <div className="flex flex-col space-y-8">
             <div className="card glass text-neutral">
-              <div
-                className={clsx("card-body", {
-                  "text-neutral": !isDark,
-                  "text-primary-content": isDark,
-                })}
-              >
+              <div className="card-body text-neutral">
                 <h2 className="card-title">General Stats</h2>
-                <div
-                  className={clsx("stats stats-vertical bg-transparent", {
-                    "text-neutral": !isDark,
-                    "text-primary-content": isDark,
-                  })}
-                >
+                <div className="stats stats-vertical bg-transparent text-neutral">
                   <div className="stat">
                     <div className="stat-title">Chain</div>
-                    <code className="stat-value text-3xl text-right">
+                    <code className="stat-value text-lg text-3xl text-right">
                       {currentChain.name}
                     </code>
                     <div className="stat-desc text-right">
@@ -141,7 +130,7 @@ const Home: NextPage = () => {
                   {generalStats.map((item, index) => (
                     <div className="stat" key={index}>
                       <div className="stat-title">{item.title}</div>
-                      <code className="stat-value text-3xl text-right">
+                      <code className="stat-value text-lg md:text-3xl text-right">
                         <CountUp
                           end={item.value}
                           preserveValue={true}
@@ -156,23 +145,13 @@ const Home: NextPage = () => {
             </div>
 
             <div className="card glass">
-              <div
-                className={clsx("card-body", {
-                  "text-neutral": !isDark,
-                  "text-primary-content": isDark,
-                })}
-              >
+              <div className="card-body text-neutral">
                 <h2 className="card-title">Supply</h2>
-                <div
-                  className={clsx("stats stats-vertical bg-transparent", {
-                    "text-neutral": !isDark,
-                    "text-primary-content": isDark,
-                  })}
-                >
+                <div className="stats stats-vertical bg-transparent text-neutral">
                   {stakeItems.map((item, index) => (
                     <div className="stat " key={index}>
                       <div className="stat-title">{item.title}</div>
-                      <code className="stat-value text-3xl text-right">
+                      <code className="stat-value text-lg md:text-3xl text-right">
                         <CountUp
                           end={item.value}
                           preserveValue={true}
