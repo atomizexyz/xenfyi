@@ -42,7 +42,7 @@ export const estimatedXEN = (data?: MintData) => {
   }
 };
 
-export interface StakeData {
+interface StakeData {
   xenBalance: number;
   genesisTs: number;
   term: number;

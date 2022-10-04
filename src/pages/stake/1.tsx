@@ -13,24 +13,31 @@ import Link from "next/link";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
-import { StakeData, stakeYield, stakeAPY } from "~/lib/helpers";
+import { stakeYield, stakeAPY } from "~/lib/helpers";
+
+interface StartStake {
+  genesisTs: number;
+  amount: number;
+  apy: number;
+  maturityTs: number;
+  term: number;
+}
 
 const Stake = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(true);
-
   const { register, handleSubmit, watch, setValue } = useForm();
   const watchAllFields = watch();
 
   const [maturity, setMaturity] = useState<number>(new Date().getTime());
-  const [stakeData, setStakeData] = useState<StakeData>();
+  const [startStakeData, setStartStakeData] = useState<StartStake>();
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   });
 
-  const { data: readData } = useContractReads({
+  const {} = useContractReads({
     contracts: [
       {
         ...xenContract,
@@ -41,18 +48,24 @@ const Stake = () => {
         functionName: "getUserStake",
       },
     ],
+    onSuccess(data) {
+      const userStake = data[1];
+      setStartStakeData({
+        genesisTs: Number(data[0] ?? 0),
+        amount: Number(userStake.amount),
+        apy: Number(userStake.apy),
+        maturityTs: Number(userStake.maturityTs),
+        term: Number(userStake.term),
+      });
+    },
     overrides: { from: address },
-
     watch: true,
   });
 
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "stake",
-    args: [
-      Number(watchAllFields.startStakeAmount),
-      Number(watchAllFields.startStakeDays),
-    ],
+    args: [watchAllFields.startStakeAmount, watchAllFields.startStakeDays],
   });
   const { write: writeStake } = useContractWrite(config);
   const handleStakeSubmit = (data: any) => {
@@ -60,21 +73,14 @@ const Stake = () => {
   };
 
   useEffect(() => {
-    if (balanceData && readData && watchAllFields) {
-      setStakeData({
-        xenBalance: watchAllFields.startStakeAmount ?? 0,
-        genesisTs: Number(readData?.[0]),
-        term: watchAllFields.startStakeDays ?? 0,
-      });
-    }
-
     const utcTime = new Date().getTime();
     setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
 
-    if (address && readData && readData[1]?.term.isZero()) {
+    console.log(startStakeData);
+    if (address && startStakeData && startStakeData.term == 0) {
       setDisabled(false);
     }
-  }, [address, balanceData, readData, stakeData, watchAllFields]);
+  }, [address, startStakeData, watchAllFields.startStakeDays]);
 
   return (
     <Container>
@@ -112,9 +118,17 @@ const Stake = () => {
                 <div className="stats glass w-full text-neutral">
                   <NumberStatCard
                     title="Yield"
-                    value={stakeYield(stakeData)}
+                    value={stakeYield({
+                      xenBalance: watchAllFields.startStakeAmount,
+                      genesisTs: startStakeData?.genesisTs ?? 0,
+                      term: watchAllFields.startStakeDays,
+                    })}
                     decimals={0}
-                    description={`${stakeAPY(stakeData).toFixed(2)}%`}
+                    description={`${stakeAPY({
+                      xenBalance: watchAllFields.startStakeAmount,
+                      genesisTs: startStakeData?.genesisTs ?? 0,
+                      term: watchAllFields.startStakeDays,
+                    }).toFixed(2)}%`}
                   />
                   <DateStatCard
                     title="Maturity"
