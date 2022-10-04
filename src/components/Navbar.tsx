@@ -18,11 +18,13 @@ import {
   SmartContraact,
   Wallet,
 } from "./Icons";
+import XenCrypto from "~/abi/XENCrypto.json";
 import Avatar from "boring-avatars";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import { useAccount } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
+import { useState, useEffect } from "react";
 
 const navigationItems = [
   {
@@ -72,16 +74,41 @@ const linkItems = [
 
 const Navbar = () => {
   const router = useRouter();
+  const [mintPageOverride, setMintPageOverride] = useState(1);
+  const [stakePageOverride, setStakePageOverride] = useState(1);
   const { connector, address } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+
+  const xenContract = {
+    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    contractInterface: XenCrypto.abi,
+  };
+
+  const { data } = useContractRead({
+    ...xenContract,
+    functionName: "getUserMint",
+    overrides: { from: address },
+    watch: true,
+  });
 
   const NavigationItems = () => {
     return (
       <>
         {navigationItems.map((item, index) => (
           <li key={index}>
-            <Link href={item.href}>
+            <Link
+              href={(() => {
+                switch (index) {
+                  case 1:
+                    return `/mint/${mintPageOverride}`;
+                  case 2:
+                    return `/stake/${stakePageOverride}`;
+                  default:
+                    return item.href;
+                }
+              })()}
+            >
               <a
                 className={clsx("text-neutral", {
                   "btn-disabled": router.pathname.startsWith(item.href),
@@ -99,6 +126,15 @@ const Navbar = () => {
       </>
     );
   };
+
+  useEffect(() => {
+    if (data) {
+      setMintPageOverride(2);
+      if (data.maturityTs < Date.now() / 1000) {
+        setMintPageOverride(3);
+      }
+    }
+  }, [data]);
 
   return (
     <div className="navbar">

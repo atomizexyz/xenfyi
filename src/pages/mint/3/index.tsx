@@ -22,7 +22,6 @@ const Mint = () => {
   });
 
   useEffect(() => {
-    const userMint = data?.maturityTs;
     if (data) {
       setDisabled(true);
       if (data.maturityTs < Date.now() / 1000) {
