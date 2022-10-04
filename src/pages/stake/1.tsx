@@ -50,8 +50,8 @@ const Stake = () => {
     ...xenContract,
     functionName: "stake",
     args: [
-      Number(watchAllFields.startStakeAmount ?? 0),
-      Number(watchAllFields.startStakeDays ?? 0),
+      Number(watchAllFields.startStakeAmount),
+      Number(watchAllFields.startStakeDays),
     ],
   });
   const { write: writeStake } = useContractWrite(config);

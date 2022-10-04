@@ -49,6 +49,8 @@ const Stake = () => {
     progressDaysRemaining,
     userStakeData?.term
   );
+  const max = Number(userStakeData?.term);
+  const value = max - progressDaysRemaining;
 
   return (
     <Container>
@@ -73,7 +75,8 @@ const Stake = () => {
               <ProgressStatCard
                 title="Progress"
                 percentComplete={progressPercentComplete}
-                max={userStakeData?.term ?? 0.0}
+                value={value}
+                max={max}
                 daysRemaining={progressDaysRemaining}
               />
               {mintItems.map((item, index) => (

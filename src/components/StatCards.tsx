@@ -3,6 +3,7 @@ import CountUp from "react-countup";
 interface ProgressStat {
   title: string;
   percentComplete: number;
+  value: number;
   max: number;
   daysRemaining: number;
 }
@@ -23,7 +24,7 @@ export const ProgressStatCard = (props: ProgressStat) => {
       <div>
         <progress
           className="progress progress-secondary"
-          value={props.percentComplete}
+          value={props.value}
           max={props.max}
         ></progress>
       </div>

@@ -35,12 +35,12 @@ const Mint = () => {
     onSuccess(data) {
       const userMint = data[0];
       setMintingData({
-        user: String(userMint?.[0]),
-        eaaRate: Number(userMint?.[1]),
-        maturityTs: Number(userMint?.[2]),
-        rank: Number(userMint?.[3]),
-        amplifier: Number(userMint?.[4]),
-        term: Number(userMint?.[5]),
+        user: String(userMint?.user),
+        eaaRate: Number(userMint?.eaaRate),
+        maturityTs: Number(userMint?.maturityTs),
+        rank: Number(userMint?.rank),
+        amplifier: Number(userMint?.amplifier),
+        term: Number(userMint?.term),
         genesisTs: Number(data[1]),
         globalRank: Number(data[2]),
       });
@@ -87,6 +87,8 @@ const Mint = () => {
     progressDaysRemaining,
     mintingData?.term
   );
+  const max = Number(mintingData?.term);
+  const value = max - progressDaysRemaining;
 
   return (
     <Container>
@@ -112,7 +114,8 @@ const Mint = () => {
               <ProgressStatCard
                 title="Progress"
                 percentComplete={progressPercentComplete}
-                max={mintingData?.term ?? 0}
+                value={value}
+                max={max}
                 daysRemaining={progressDaysRemaining}
               />
               {mintItems.map((item, index) => (
