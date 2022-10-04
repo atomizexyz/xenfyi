@@ -18,14 +18,6 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { stakeYield, stakeAPY } from "~/lib/helpers";
 
-interface StartStake {
-  genesisTs: number;
-  amount: number;
-  apy: number;
-  maturityTs: number;
-  term: number;
-}
-
 const Stake = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(true);
@@ -33,7 +25,6 @@ const Stake = () => {
   const watchAllFields = watch();
 
   const [maturity, setMaturity] = useState<number>(new Date().getTime());
-  const [startStakeData, setStartStakeData] = useState<StartStake>();
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
@@ -73,23 +64,15 @@ const Stake = () => {
   };
 
   useEffect(() => {
-    if (userStake && contractReads) {
-      setStartStakeData({
-        genesisTs: Number(contractReads[0]),
-        amount: Number(userStake.amount),
-        apy: Number(userStake.apy),
-        maturityTs: Number(userStake.maturityTs),
-        term: Number(userStake.term),
-      });
+    if (watchAllFields.startStakeDays) {
+      const utcTime = new Date().getTime();
+      setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
     }
 
-    const utcTime = new Date().getTime();
-    setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
-
-    if (address && startStakeData && startStakeData.term == 0) {
+    if (address && userStake && userStake.term == 0) {
       setDisabled(false);
     }
-  }, [address, startStakeData, watchAllFields.startStakeDays]);
+  }, [address, contractReads, userStake, watchAllFields.startStakeDays]);
 
   return (
     <Container>
@@ -129,13 +112,13 @@ const Stake = () => {
                     title="Yield"
                     value={stakeYield({
                       xenBalance: watchAllFields.startStakeAmount,
-                      genesisTs: startStakeData?.genesisTs ?? 0,
+                      genesisTs: Number(contractReads?.[0]),
                       term: watchAllFields.startStakeDays,
                     })}
                     decimals={0}
                     description={`${stakeAPY({
                       xenBalance: watchAllFields.startStakeAmount,
-                      genesisTs: startStakeData?.genesisTs ?? 0,
+                      genesisTs: Number(contractReads?.[0]),
                       term: watchAllFields.startStakeDays,
                     }).toFixed(2)}%`}
                   />
