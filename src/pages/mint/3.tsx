@@ -60,11 +60,17 @@ const Mint = () => {
     writeClaimStake?.();
   };
 
+  const utcTime = new Date().getTime() / 1000;
   useEffect(() => {
-    if (address && data && data.maturityTs >= Date.now() / 1000) {
+    if (
+      address &&
+      data &&
+      !data.maturityTs.isZero() &&
+      data.maturityTs < utcTime
+    ) {
       setDisabled(false);
     }
-  }, [address, data]);
+  }, [address, data, utcTime]);
 
   return (
     <Container>

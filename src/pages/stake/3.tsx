@@ -1,6 +1,11 @@
 import Link from "next/link";
 import Container from "~/components/Container";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
@@ -11,6 +16,13 @@ const Stake = () => {
 
   const { handleSubmit } = useForm();
 
+  const { data } = useContractRead({
+    ...xenContract,
+    functionName: "getUserStake",
+    overrides: { from: address },
+    watch: true,
+  });
+
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "withdraw",
@@ -20,11 +32,18 @@ const Stake = () => {
     writeStake?.();
   };
 
+  const utcTime = new Date().getTime() / 1000;
+
   useEffect(() => {
-    if (address) {
+    if (
+      address &&
+      data &&
+      !data.maturityTs.isZero() &&
+      data.maturityTs < utcTime
+    ) {
       setDisabled(false);
     }
-  }, [address]);
+  }, [address, utcTime, data]);
 
   return (
     <Container>
