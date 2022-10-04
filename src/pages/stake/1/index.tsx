@@ -17,9 +17,6 @@ const Stake = () => {
   const { address } = useAccount();
   const { register, handleSubmit, watch } = useForm();
   const watchAllFields = watch();
-  const onSubmit = () => {
-    write?.();
-  };
 
   const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
@@ -33,10 +30,13 @@ const Stake = () => {
 
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
-    functionName: "claimRank",
-    args: [watchAllFields.days],
+    functionName: "stake",
+    args: [watchAllFields.startStakeAmount, watchAllFields.startStakeDays],
   });
-  const { write } = useContractWrite(config);
+  const { write: writeStake } = useContractWrite(config);
+  const handleStakeSubmit = () => {
+    writeStake?.();
+  };
 
   return (
     <Container>
@@ -57,44 +57,46 @@ const Stake = () => {
 
         <div className="card glass">
           <div className="card-body">
-            <div className="flex flex-col space-y-4">
-              <h2 className="card-title text-neutral">Start Stake</h2>
-              <AmountField
-                balance={balanceData?.formatted ?? "0.0"}
-                disabled={disabled}
-                register={register("startStakeAmount")}
-              />
-              <DaysField
-                disabled={disabled}
-                register={register("startStakeDays")}
-              />
+            <form onSubmit={handleSubmit(handleStakeSubmit)}>
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Start Stake</h2>
+                <AmountField
+                  balance={balanceData?.formatted ?? "0.0"}
+                  disabled={disabled}
+                  register={register("startStakeAmount")}
+                />
+                <DaysField
+                  disabled={disabled}
+                  register={register("startStakeDays")}
+                />
 
-              <div className="stats glass text-neutral">
-                <DataCard title="Yield" value={"10"} description={"10%"} />
-                <DateStatCard title="Maturity" dateTs={maturity} />
-              </div>
+                <div className="stats glass w-full text-neutral">
+                  <DataCard title="Yield" value={"10"} description={"10%"} />
+                  <DateStatCard title="Maturity" dateTs={maturity} />
+                </div>
 
-              <div className="alert shadow-lg glass">
-                <div>
-                  <InformationCircleIcon className="w-16 h-16" />
+                <div className="alert shadow-lg glass">
                   <div>
-                    <h3 className="font-bold">Staking Terms</h3>
-                    <div className="text-xs">
-                      Withdraw original Stake amount plus Yield at any time
-                      after Maturity Date, or original Stake amount with 0
-                      (zero) Yield at anu time before Maturity Date. One stake
-                      at a time per one address.
+                    <InformationCircleIcon className="w-16 h-16" />
+                    <div>
+                      <h3 className="font-bold">Staking Terms</h3>
+                      <div className="text-xs">
+                        Withdraw original Stake amount plus Yield at any time
+                        after Maturity Date, or original Stake amount with 0
+                        (zero) Yield at anu time before Maturity Date. One stake
+                        at a time per one address.
+                      </div>
                     </div>
                   </div>
                 </div>
+                <button
+                  className="btn glass w-full text-neutral"
+                  disabled={disabled}
+                >
+                  Start Stake
+                </button>
               </div>
-              <button
-                className="btn glass w-full text-neutral"
-                disabled={disabled}
-              >
-                Start Stake
-              </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

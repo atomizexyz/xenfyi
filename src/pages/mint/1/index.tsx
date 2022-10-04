@@ -63,9 +63,9 @@ const Mint = () => {
 
         <div className="card glass">
           <div className="card-body">
-            <div className="flex flex-col space-y-4">
-              <h2 className="card-title text-neutral">Start Mint</h2>
-              <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Start Mint</h2>
                 <DaysField
                   disabled={disabled}
                   register={register("startMintDays")}
@@ -77,8 +77,8 @@ const Mint = () => {
                 >
                   Start Mint
                 </button>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

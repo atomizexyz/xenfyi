@@ -90,25 +90,25 @@ const Mint = () => {
         <div className="card glass">
           <div className="card-body">
             <div className="flex flex-col w-full border-opacity-50">
-              <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Claim</h2>
-                <form onSubmit={handleSubmit(handleClaimSubmit)}>
+              <form onSubmit={handleSubmit(handleClaimSubmit)}>
+                <div className="flex flex-col space-y-4">
+                  <h2 className="card-title text-neutral">Claim</h2>
                   <button
                     className="btn glass w-full text-neutral"
                     disabled={disabled}
                   >
                     Claim
                   </button>
-                </form>
-              </div>
+                </div>
+              </form>
+
               {/* OR */}
 
               <div className="divider">OR</div>
               {/* OR */}
-
-              <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Claim + Share</h2>
-                <form onSubmit={handleSubmit(handleClaimShareSubmit)}>
+              <form onSubmit={handleSubmit(handleClaimShareSubmit)}>
+                <div className="flex flex-col space-y-4">
+                  <h2 className="card-title text-neutral">Claim + Share</h2>
                   <div className="form-control w-full">
                     <label className="label text-neutral">
                       <span className="label-text text-neutral">
@@ -143,15 +143,15 @@ const Mint = () => {
                   >
                     Claim + Share
                   </button>
-                </form>
-              </div>
+                </div>
+              </form>
+
               {/* OR */}
               <div className="divider">OR</div>
               {/* OR */}
-
-              <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Claim + Stake</h2>
-                <form onSubmit={handleSubmit(handleClaimStakeSubmit)}>
+              <form onSubmit={handleSubmit(handleClaimStakeSubmit)}>
+                <div className="flex flex-col space-y-4">
+                  <h2 className="card-title text-neutral">Claim + Stake</h2>
                   <PercentageField
                     disabled={disabled}
                     register={register("claimStakePercentage")}
@@ -167,8 +167,8 @@ const Mint = () => {
                   >
                     Claim + Stake
                   </button>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
