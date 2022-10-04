@@ -43,6 +43,7 @@ export const ProgressStatCard = (props: ProgressStat) => {
 interface DateStat {
   title: string;
   dateTs: number;
+  isPast: boolean;
 }
 
 const formatDate = (date: number) => {
@@ -54,8 +55,12 @@ const formatDate = (date: number) => {
 };
 
 // days since date
-const daysSince = (date: number) => {
+export const daysSince = (date: number) => {
   return (Date.now() - date) / 1000 / 86400;
+};
+
+export const daysUntil = (date: number) => {
+  return (date - Date.now()) / 1000 / 86400;
 };
 
 export const DateStatCard = (props: DateStat) => {
@@ -64,7 +69,7 @@ export const DateStatCard = (props: DateStat) => {
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-3xl text-right">
         <CountUp
-          end={daysSince(props.dateTs)}
+          end={props.isPast ? daysSince(props.dateTs) : daysUntil(props.dateTs)}
           preserveValue={true}
           separator={","}
           suffix={" Days"}
@@ -81,6 +86,7 @@ interface NumberStat {
   separator?: string;
   decimals?: number;
   suffix?: string;
+  description?: string;
 }
 
 export const NumberStatCard = (props: NumberStat) => {
@@ -96,7 +102,7 @@ export const NumberStatCard = (props: NumberStat) => {
           suffix={props.suffix ?? ""}
         />
       </code>
-      <div className="stat-desc text-right"></div>
+      <div className="stat-desc text-right">{props.description}</div>
     </div>
   );
 };

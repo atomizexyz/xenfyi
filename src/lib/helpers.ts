@@ -1,3 +1,5 @@
+import { daysSince } from "~/components/StatCards";
+
 export const daysRemaining = (timestamp?: number) => {
   if (timestamp && timestamp > 0) {
     return (Number(timestamp) - Date.now() / 1000) / 86400;
@@ -35,6 +37,34 @@ export const estimatedXEN = (data?: MintData) => {
       data.amplifier *
       (1 + EEA);
     return XEN;
+  } else {
+    return 0;
+  }
+};
+
+export interface StakeData {
+  xenBalance: number;
+  genesisTs: number;
+  term: number;
+}
+
+export const stakeYield = (data?: StakeData) => {
+  if (data) {
+    const ds = daysSince(data.genesisTs * 1000);
+    const APY = Math.max(20 - ds / 90, 2);
+
+    const y = (data.xenBalance * APY * data.term) / (100 * 365);
+    return y;
+  } else {
+    return 0;
+  }
+};
+
+export const stakeAPY = (data?: StakeData) => {
+  if (data) {
+    const ds = daysSince(data.genesisTs * 1000);
+    const APY = Math.max(20 - ds / 90, 2);
+    return APY;
   } else {
     return 0;
   }

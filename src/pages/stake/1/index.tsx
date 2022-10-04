@@ -1,17 +1,19 @@
 import {
   useBalance,
   useAccount,
+  useContractReads,
   useContractWrite,
   usePrepareContractWrite,
 } from "wagmi";
 import Container from "~/components/Container";
 import { DaysField, AmountField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { DateStatCard, DataCard } from "~/components/StatCards";
+import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
+import { StakeData, stakeYield, stakeAPY } from "~/lib/helpers";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -20,6 +22,7 @@ const Stake = () => {
 
   const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
+  const [stakeData, setStakeData] = useState<StakeData>();
   const [currentStateStep, setCurrentStateStep] = useState(0);
   const disabled = currentStateStep == 2;
 
@@ -28,15 +31,48 @@ const Stake = () => {
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   });
 
+  const { data: readData } = useContractReads({
+    contracts: [
+      {
+        ...xenContract,
+        functionName: "genesisTs",
+      },
+    ],
+    watch: true,
+  });
+
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "stake",
-    args: [watchAllFields.startStakeAmount, watchAllFields.startStakeDays],
+    args: [
+      Number(watchAllFields.startStakeAmount ?? 0),
+      Number(watchAllFields.startStakeDays ?? 0),
+    ],
   });
   const { write: writeStake } = useContractWrite(config);
   const handleStakeSubmit = () => {
-    writeStake?.();
+    // writeStake?.();
   };
+
+  useEffect(() => {
+    // console.log(readData);
+    if (
+      (balanceData && readData && watchAllFields.startStakeDays,
+      watchAllFields.startStakeAmount)
+    ) {
+      setStakeData({
+        xenBalance: watchAllFields.startStakeAmount,
+        genesisTs: Number(readData?.[0]),
+        term: watchAllFields.startStakeDays,
+      });
+    }
+    setMaturity(Date.now() + watchAllFields.startStakeDays * 86400000);
+  }, [
+    balanceData,
+    readData,
+    watchAllFields.startStakeAmount,
+    watchAllFields.startStakeDays,
+  ]);
 
   return (
     <Container>
@@ -71,8 +107,17 @@ const Stake = () => {
                 />
 
                 <div className="stats glass w-full text-neutral">
-                  <DataCard title="Yield" value={"10"} description={"10%"} />
-                  <DateStatCard title="Maturity" dateTs={maturity} />
+                  <NumberStatCard
+                    title="Yield"
+                    value={stakeYield(stakeData)}
+                    decimals={0}
+                    description={`${stakeAPY(stakeData).toFixed(2)}%`}
+                  />
+                  <DateStatCard
+                    title="Maturity"
+                    dateTs={maturity}
+                    isPast={false}
+                  />
                 </div>
 
                 <div className="alert shadow-lg glass">

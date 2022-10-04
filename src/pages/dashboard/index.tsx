@@ -135,6 +135,7 @@ const Home: NextPage = () => {
                   <DateStatCard
                     title="Days Since Launch"
                     dateTs={Number(dashboardData?.genesisTs) * 1000 ?? 0}
+                    isPast={true}
                   />
                   {generalStats.map((item, index) => (
                     <NumberStatCard
