@@ -94,7 +94,7 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim</h2>
                   <button
-                    className="btn glass w-full text-neutral"
+                    className="btn glass text-neutral"
                     disabled={disabled}
                   >
                     Claim
@@ -138,7 +138,7 @@ const Mint = () => {
                   />
 
                   <button
-                    className="btn glass w-full text-neutral"
+                    className="btn glass text-neutral"
                     disabled={disabled}
                   >
                     Claim + Share
@@ -162,7 +162,7 @@ const Mint = () => {
                   />
 
                   <button
-                    className="btn glass w-full text-neutral"
+                    className="btn glass text-neutral"
                     disabled={disabled}
                   >
                     Claim + Stake

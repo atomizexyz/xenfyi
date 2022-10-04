@@ -72,7 +72,7 @@ const Mint = () => {
                 />
                 <button
                   type="submit"
-                  className="btn glass w-full text-neutral"
+                  className="btn glass text-neutral"
                   disabled={disabled}
                 >
                   Start Mint

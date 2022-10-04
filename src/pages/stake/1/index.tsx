@@ -89,10 +89,7 @@ const Stake = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  className="btn glass w-full text-neutral"
-                  disabled={disabled}
-                >
+                <button className="btn glass text-neutral" disabled={disabled}>
                   Start Stake
                 </button>
               </div>
