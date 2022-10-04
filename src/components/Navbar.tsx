@@ -28,7 +28,7 @@ const navigationItems = [
   {
     name: "Dashboard",
     icon: <ViewGridIcon className="h-5 w-5" />,
-    href: "/",
+    href: "/dashboard",
   },
   {
     name: "Mint",
@@ -84,7 +84,7 @@ const Navbar = () => {
             <Link href={item.href}>
               <a
                 className={clsx("text-neutral", {
-                  "btn-disabled": router.pathname == item.href,
+                  "btn-disabled": router.pathname.startsWith(item.href),
                 })}
                 onClick={() => {
                   (document.activeElement as HTMLElement).blur();

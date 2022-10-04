@@ -13,3 +13,29 @@ export const percentComplete = (daysRemaining: number, term?: number) => {
     return 0;
   }
 };
+
+export interface MintData {
+  amplifier: number;
+  eaaRate: number;
+  maturityTs: number;
+  rank: number;
+  term: number;
+  user: string;
+  globalRank: number;
+  genesisTs: number;
+}
+
+export const estimatedXEN = (data?: MintData) => {
+  if (data) {
+    const EEA = 0.1 - 0.001 * (data.rank / 1e5);
+
+    const XEN =
+      Math.log2(data.globalRank - data.rank) *
+      data.term *
+      data.amplifier *
+      (1 + EEA);
+    return XEN;
+  } else {
+    return 0;
+  }
+};
