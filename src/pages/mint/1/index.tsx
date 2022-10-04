@@ -39,7 +39,7 @@ const Mint = () => {
   const { write } = useContractWrite(config);
 
   useEffect(() => {
-    if (!data?.[0].term.isZero()) {
+    if (!data?.[0]?.term.isZero()) {
       setDisabled(true);
     }
   }, [data]);

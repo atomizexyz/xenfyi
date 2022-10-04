@@ -35,12 +35,12 @@ const Mint = () => {
     onSuccess(data) {
       const userMint = data[0];
       setMintingData({
-        user: String(userMint[0]),
-        eaaRate: Number(userMint[1]),
-        maturityTs: Number(userMint[2]),
-        rank: Number(userMint[3]),
-        amplifier: Number(userMint[4]),
-        term: Number(userMint[5]),
+        user: String(userMint?.[0]),
+        eaaRate: Number(userMint?.[1]),
+        maturityTs: Number(userMint?.[2]),
+        rank: Number(userMint?.[3]),
+        amplifier: Number(userMint?.[4]),
+        term: Number(userMint?.[5]),
         genesisTs: Number(data[1]),
         globalRank: Number(data[2]),
       });

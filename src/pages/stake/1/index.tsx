@@ -56,8 +56,7 @@ const Stake = () => {
   });
   const { write: writeStake } = useContractWrite(config);
   const handleStakeSubmit = (data: any) => {
-    console.log(data);
-    // writeStake?.();
+    writeStake?.();
   };
 
   useEffect(() => {
@@ -72,7 +71,7 @@ const Stake = () => {
       });
     }
     setMaturity(Date.now() + watchAllFields.startStakeDays * 86400000);
-    if (!readData?.[1].term.isZero()) {
+    if (!readData?.[1]?.term.isZero()) {
       setDisabled(true);
     }
   }, [
