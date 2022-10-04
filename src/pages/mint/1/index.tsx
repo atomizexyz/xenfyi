@@ -1,21 +1,31 @@
-import { useAccount } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import Container from "~/components/Container";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { DaysField } from "~/components/FormFields";
-import { MintData } from "~/lib/helpers";
-import { useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Mint = () => {
   const { address } = useAccount();
-  const [mintData, setMintData] = useState<MintData>();
-  const [currentStateStep, setCurrentStateStep] = useState(0);
-  const disabled = currentStateStep == 2;
+  const [disabled, setDisabled] = useState(false);
 
   const xenContract = {
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
     contractInterface: XenCrypto.abi,
   };
+
+  const { data } = useContractRead({
+    ...xenContract,
+    functionName: "getUserMint",
+    overrides: { from: address },
+    watch: true,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setDisabled(true);
+    }
+  }, [data]);
 
   return (
     <Container>
