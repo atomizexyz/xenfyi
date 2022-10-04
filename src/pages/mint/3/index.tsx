@@ -1,18 +1,21 @@
-import { useAccount, useContractRead } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import Container from "~/components/Container";
-import XenCrypto from "~/abi/XENCrypto.json";
 import { PercentageField, DaysField } from "~/components/FormFields";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(false);
-
-  const xenContract = {
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-  };
+  const { register, handleSubmit, watch } = useForm();
+  const watchAllFields = watch();
 
   const { data } = useContractRead({
     ...xenContract,
@@ -21,72 +24,51 @@ const Mint = () => {
     watch: true,
   });
 
+  /*** Claim  ***/
+
+  const { config: configClaim } = usePrepareContractWrite({
+    ...xenContract,
+    functionName: "claimMintReward",
+  });
+  const { write: writeClaim } = useContractWrite(configClaim);
+  const handleClaimSubmit = () => {
+    writeClaim?.();
+  };
+  /*** Claim + Share ***/
+
+  const { config: configClaimShare } = usePrepareContractWrite({
+    ...xenContract,
+    functionName: "claimMintRewardAndShare",
+    args: [
+      watchAllFields.claimShareAddress,
+      watchAllFields.claimSharePercentage,
+    ],
+  });
+  const { write: writeClaimShare } = useContractWrite(configClaimShare);
+  const handleClaimShareSubmit = () => {
+    writeClaimShare?.();
+  };
+  /*** Claim + Stake ***/
+
+  const { config: configClaimStake } = usePrepareContractWrite({
+    ...xenContract,
+    functionName: "claimMintRewardAndStake",
+    args: [watchAllFields.claimStakePercentage, watchAllFields.claimStakeDays],
+  });
+  const { write: writeClaimStake } = useContractWrite(configClaimStake);
+  const handleClaimStakeSubmit = () => {
+    writeClaimStake?.();
+  };
+
+  console.log(watchAllFields);
   useEffect(() => {
-    if (data) {
+    if (data && !data.term.isZero()) {
       setDisabled(true);
       if (data.maturityTs < Date.now() / 1000) {
         setDisabled(false);
       }
     }
   }, [data]);
-
-  const Claim = () => {
-    return (
-      <div className="flex flex-col space-y-4">
-        <h2 className="card-title text-neutral">Claim</h2>
-        <DaysField disabled={disabled} />
-        <button className="btn glass text-neutral" disabled={disabled}>
-          Start Mint
-        </button>
-      </div>
-    );
-  };
-
-  const ClaimShare = () => {
-    return (
-      <div className="flex flex-col space-y-4">
-        <h2 className="card-title text-neutral">Claim + Share</h2>
-        <div className="form-control w-full">
-          <label className="label text-neutral">
-            <span className="label-text text-neutral">WALLET ADDRESS</span>
-            <span className="label-text-alt text-error">Required</span>
-          </label>
-          <input
-            type="text"
-            placeholder="0x"
-            className="input input-bordered w-full text-neutral"
-            disabled={disabled}
-          />
-          <label className="label">
-            <span className="label-text-alt text-neutral">
-              Wallet address where you want to share your XEN
-            </span>
-          </label>
-        </div>
-
-        <PercentageField disabled={disabled} />
-
-        <button className="btn glass text-neutral" disabled={disabled}>
-          Claim + Share
-        </button>
-      </div>
-    );
-  };
-
-  const ClaimStake = () => {
-    return (
-      <div className="flex flex-col space-y-4">
-        <h2 className="card-title text-neutral">Claim + Stake</h2>
-
-        <PercentageField disabled={disabled} />
-        <DaysField disabled={disabled} />
-
-        <button className="btn glass text-neutral" disabled={disabled}>
-          Claim + Stake
-        </button>
-      </div>
-    );
-  };
 
   return (
     <Container>
@@ -108,11 +90,85 @@ const Mint = () => {
         <div className="card glass">
           <div className="card-body">
             <div className="flex flex-col w-full border-opacity-50">
-              <Claim />
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Claim</h2>
+                <form onSubmit={handleSubmit(handleClaimSubmit)}>
+                  <button
+                    className="btn glass w-full text-neutral"
+                    disabled={disabled}
+                  >
+                    Claim
+                  </button>
+                </form>
+              </div>
+              {/* OR */}
+
               <div className="divider">OR</div>
-              <ClaimShare />
+              {/* OR */}
+
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Claim + Share</h2>
+                <form onSubmit={handleSubmit(handleClaimShareSubmit)}>
+                  <div className="form-control w-full">
+                    <label className="label text-neutral">
+                      <span className="label-text text-neutral">
+                        WALLET ADDRESS
+                      </span>
+                      <span className="label-text-alt text-error">
+                        Required
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="0x"
+                      className="input input-bordered w-full text-neutral"
+                      disabled={disabled}
+                      {...register("claimShareAddress")}
+                    />
+                    <label className="label">
+                      <span className="label-text-alt text-neutral">
+                        Wallet address where you want to share your XEN
+                      </span>
+                    </label>
+                  </div>
+
+                  <PercentageField
+                    disabled={disabled}
+                    register={register("claimSharePercentage")}
+                  />
+
+                  <button
+                    className="btn glass w-full text-neutral"
+                    disabled={disabled}
+                  >
+                    Claim + Share
+                  </button>
+                </form>
+              </div>
+              {/* OR */}
               <div className="divider">OR</div>
-              <ClaimStake />
+              {/* OR */}
+
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Claim + Stake</h2>
+                <form onSubmit={handleSubmit(handleClaimStakeSubmit)}>
+                  <PercentageField
+                    disabled={disabled}
+                    register={register("claimStakePercentage")}
+                  />
+                  <DaysField
+                    disabled={disabled}
+                    register={register("claimStakeDays")}
+                  />
+
+                  <button
+                    className="btn glass w-full text-neutral"
+                    disabled={disabled}
+                  >
+                    Claim + Stake
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>

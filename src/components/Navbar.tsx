@@ -128,7 +128,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (data) {
+    if (data && !data.term.isZero()) {
       setMintPageOverride(2);
       if (data.maturityTs < Date.now() / 1000) {
         setMintPageOverride(3);

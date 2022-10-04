@@ -1,28 +1,45 @@
-import { useAccount, useContractRead } from "wagmi";
+import {
+  useAccount,
+  useContractReads,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import Container from "~/components/Container";
-import XenCrypto from "~/abi/XENCrypto.json";
 import { DaysField } from "~/components/FormFields";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(false);
-
-  const xenContract = {
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
+  const { register, handleSubmit, watch } = useForm();
+  const watchAllFields = watch();
+  const onSubmit = () => {
+    write?.();
   };
 
-  const { data } = useContractRead({
-    ...xenContract,
-    functionName: "getUserMint",
+  const { data } = useContractReads({
+    contracts: [
+      {
+        ...xenContract,
+        functionName: "getUserMint",
+      },
+    ],
     overrides: { from: address },
     watch: true,
   });
 
+  const { config, error } = usePrepareContractWrite({
+    ...xenContract,
+    functionName: "claimRank",
+    args: [watchAllFields.startMintDays],
+  });
+  const { write } = useContractWrite(config);
+
   useEffect(() => {
-    if (data) {
+    if (!data?.[0].term.isZero()) {
       setDisabled(true);
     }
   }, [data]);
@@ -48,10 +65,19 @@ const Mint = () => {
           <div className="card-body">
             <div className="flex flex-col space-y-4">
               <h2 className="card-title text-neutral">Start Mint</h2>
-              <DaysField disabled={disabled} />
-              <button className="btn glass text-neutral" disabled={disabled}>
-                Start Mint
-              </button>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <DaysField
+                  disabled={disabled}
+                  register={register("startMintDays")}
+                />
+                <button
+                  type="submit"
+                  className="btn glass w-full text-neutral"
+                  disabled={disabled}
+                >
+                  Start Mint
+                </button>
+              </form>
             </div>
           </div>
         </div>

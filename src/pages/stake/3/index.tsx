@@ -39,7 +39,10 @@ const Stake = () => {
           <div className="card-body">
             <div className="flex flex-col space-y-4">
               <h2 className="card-title text-neutral">End Stake</h2>
-              <button className="btn glass text-neutral" disabled={disabled}>
+              <button
+                className="btn glass w-full text-neutral"
+                disabled={disabled}
+              >
                 End Stake
               </button>
             </div>

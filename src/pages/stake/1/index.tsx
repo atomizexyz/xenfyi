@@ -1,15 +1,25 @@
+import {
+  useBalance,
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+} from "wagmi";
 import Container from "~/components/Container";
-import { useBalance, useAccount } from "wagmi";
-
 import { DaysField, AmountField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-
 import { DateStatCard, DataCard } from "~/components/StatCards";
+import { useForm } from "react-hook-form";
+import { xenContract } from "~/lib/xen-contract";
 
 const Stake = () => {
   const { address } = useAccount();
+  const { register, handleSubmit, watch } = useForm();
+  const watchAllFields = watch();
+  const onSubmit = () => {
+    write?.();
+  };
 
   const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
@@ -20,6 +30,13 @@ const Stake = () => {
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   });
+
+  const { config, error } = usePrepareContractWrite({
+    ...xenContract,
+    functionName: "claimRank",
+    args: [watchAllFields.days],
+  });
+  const { write } = useContractWrite(config);
 
   return (
     <Container>
@@ -45,8 +62,12 @@ const Stake = () => {
               <AmountField
                 balance={balanceData?.formatted ?? "0.0"}
                 disabled={disabled}
+                register={register("startStakeAmount")}
               />
-              <DaysField disabled={disabled} />
+              <DaysField
+                disabled={disabled}
+                register={register("startStakeDays")}
+              />
 
               <div className="stats glass text-neutral">
                 <DataCard title="Yield" value={"10"} description={"10%"} />
@@ -67,7 +88,10 @@ const Stake = () => {
                   </div>
                 </div>
               </div>
-              <button className="btn glass text-neutral" disabled={disabled}>
+              <button
+                className="btn glass w-full text-neutral"
+                disabled={disabled}
+              >
                 Start Stake
               </button>
             </div>

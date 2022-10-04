@@ -10,15 +10,11 @@ import {
 } from "~/lib/helpers";
 import { useState } from "react";
 import Link from "next/link";
+import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { address } = useAccount();
   const [mintingData, setMintingData] = useState<MintData>();
-
-  const xenContract = {
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-  };
 
   const {} = useContractReads({
     contracts: [
