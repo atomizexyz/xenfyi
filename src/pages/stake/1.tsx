@@ -148,7 +148,9 @@ const Stake = () => {
 
                 <div className="alert shadow-lg glass">
                   <div>
-                    <InformationCircleIcon className="w-16 h-16" />
+                    <div>
+                      <InformationCircleIcon className="w-8 h-8" />
+                    </div>
                     <div>
                       <h3 className="font-bold">Staking Terms</h3>
                       <div className="text-xs">

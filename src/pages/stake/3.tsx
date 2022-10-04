@@ -9,10 +9,12 @@ import {
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
+import { ExclamationCircleIcon } from "@heroicons/react/outline";
 
 const Stake = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(true);
+  const [earlyEndStake, setEarlyEndStake] = useState(false);
 
   const { handleSubmit } = useForm();
 
@@ -36,13 +38,11 @@ const Stake = () => {
   const utcTime = new Date().getTime() / 1000;
 
   useEffect(() => {
-    if (
-      address &&
-      userStake &&
-      !userStake.maturityTs.isZero() &&
-      userStake.maturityTs < utcTime
-    ) {
+    if (address && userStake && !userStake.maturityTs.isZero()) {
       setDisabled(false);
+      if (utcTime < userStake.maturityTs) {
+        setEarlyEndStake(true);
+      }
     }
   }, [address, utcTime, userStake]);
 
@@ -67,12 +67,29 @@ const Stake = () => {
             <form onSubmit={handleSubmit(handleStakeSubmit)}>
               <div className="flex flex-col space-y-4">
                 <h2 className="card-title text-neutral">End Stake</h2>
+
+                {earlyEndStake && (
+                  <div className="alert shadow-lg glass">
+                    <div>
+                      <div>
+                        <ExclamationCircleIcon className="w-8 h-8" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold">Penalty</h3>
+                        <div className="text-xs">
+                          Your stake term is not over yet. You can end your
+                          stake early but ending early will result in a penalty.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <button
                   type="submit"
                   className="btn glass text-neutral"
                   disabled={disabled}
                 >
-                  End Stake
+                  {earlyEndStake ? "Early End Stake" : "End Stake"}
                 </button>
               </div>
             </form>
