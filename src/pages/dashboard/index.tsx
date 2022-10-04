@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Container from "~/components/Container";
 import { useContractReads, useNetwork, Chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
@@ -115,12 +114,6 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Head>
-        <title>XEN.fyi</title>
-        <meta name="description" content="XEN token" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <Container>
           <div className="flex flex-col space-y-8">
