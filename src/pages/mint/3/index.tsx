@@ -94,6 +94,7 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim</h2>
                   <button
+                    type="submit"
                     className="btn glass text-neutral"
                     disabled={disabled}
                   >
@@ -138,6 +139,7 @@ const Mint = () => {
                   />
 
                   <button
+                    type="submit"
                     className="btn glass text-neutral"
                     disabled={disabled}
                   >
@@ -162,6 +164,7 @@ const Mint = () => {
                   />
 
                   <button
+                    type="submit"
                     className="btn glass text-neutral"
                     disabled={disabled}
                   >

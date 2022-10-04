@@ -17,14 +17,13 @@ import { StakeData, stakeYield, stakeAPY } from "~/lib/helpers";
 
 const Stake = () => {
   const { address } = useAccount();
-  const { register, handleSubmit, watch } = useForm();
+  const [disabled, setDisabled] = useState(false);
+
+  const { register, handleSubmit, watch, setValue } = useForm();
   const watchAllFields = watch();
 
-  const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
   const [stakeData, setStakeData] = useState<StakeData>();
-  const [currentStateStep, setCurrentStateStep] = useState(0);
-  const disabled = currentStateStep == 2;
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
@@ -37,7 +36,13 @@ const Stake = () => {
         ...xenContract,
         functionName: "genesisTs",
       },
+      {
+        ...xenContract,
+        functionName: "getUserStake",
+      },
     ],
+    overrides: { from: address },
+
     watch: true,
   });
 
@@ -50,12 +55,12 @@ const Stake = () => {
     ],
   });
   const { write: writeStake } = useContractWrite(config);
-  const handleStakeSubmit = () => {
+  const handleStakeSubmit = (data: any) => {
+    console.log(data);
     // writeStake?.();
   };
 
   useEffect(() => {
-    // console.log(readData);
     if (
       (balanceData && readData && watchAllFields.startStakeDays,
       watchAllFields.startStakeAmount)
@@ -67,6 +72,9 @@ const Stake = () => {
       });
     }
     setMaturity(Date.now() + watchAllFields.startStakeDays * 86400000);
+    if (!readData?.[1].term.isZero()) {
+      setDisabled(true);
+    }
   }, [
     balanceData,
     readData,
@@ -100,6 +108,7 @@ const Stake = () => {
                   balance={balanceData?.formatted ?? "0.0"}
                   disabled={disabled}
                   register={register("startStakeAmount")}
+                  setValue={setValue}
                 />
                 <DaysField
                   disabled={disabled}
@@ -134,7 +143,11 @@ const Stake = () => {
                     </div>
                   </div>
                 </div>
-                <button className="btn glass text-neutral" disabled={disabled}>
+                <button
+                  type="submit"
+                  className="btn glass text-neutral"
+                  disabled={disabled}
+                >
                   Start Stake
                 </button>
               </div>

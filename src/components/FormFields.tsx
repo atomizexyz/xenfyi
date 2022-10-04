@@ -18,7 +18,12 @@ export const AmountField = (props: any) => {
         </span>
         <span className="label-text-alt text-neutral">
           Balance: {props.balance}
-          <button className="btn btn-xs glass text-neutral ml-2">MAX</button>
+          <a
+            onClick={() => props.setValue("startStakeAmount", props.balance)}
+            className="btn btn-xs glass text-neutral ml-2"
+          >
+            MAX
+          </a>
         </span>
       </label>
     </div>
