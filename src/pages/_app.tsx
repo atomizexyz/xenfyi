@@ -12,6 +12,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import Layout from "~/components/Layout";
 import { ThemeProvider } from "next-themes";
 import { publicProvider } from "wagmi/providers/public";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 const alchemyId = process.env.ALCHEMY_ID;
 
@@ -92,6 +93,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <ThemeProvider>
           <Layout>
+            <GoogleAnalytics trackPageViews />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
