@@ -1,4 +1,5 @@
 import { ConnectKitButton } from "connectkit";
+
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
 import {
@@ -19,7 +20,6 @@ import {
   Wallet,
 } from "./Icons";
 import XenCrypto from "~/abi/XENCrypto.json";
-import Avatar from "boring-avatars";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
@@ -167,7 +167,6 @@ const Navbar = () => {
               <button onClick={show} className="btn glass text-neutral">
                 {isConnected ? (
                   <div className="flex space-x-2 items-center">
-                    <Avatar size={24} name={address} variant="marble" />
                     <pre className="text-base font-light">
                       {truncatedAddress}
                     </pre>

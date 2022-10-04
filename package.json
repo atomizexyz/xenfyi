@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@heroicons/react": "v1",
-    "boring-avatars": "^1.7.0",
     "clsx": "^1.2.1",
     "connectkit": "^0.0.2",
     "daisyui": "^2.31.0",

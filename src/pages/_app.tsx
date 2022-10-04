@@ -9,39 +9,39 @@ import Layout from "~/components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={client}>
-      <ConnectKitProvider
-        options={{
-          disclaimer: (
-            <>
-              By connecting your wallet you agree to the
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Terms_of_service"
-              >
-                Terms of Service
-              </a>
-              and
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Privacy_policy"
-              >
-                Privacy Policy
-              </a>
-            </>
-          ),
-        }}
-      >
-        <ThemeProvider>
+    <ThemeProvider>
+      <WagmiConfig client={client}>
+        <ConnectKitProvider
+          options={{
+            disclaimer: (
+              <>
+                By connecting your wallet you agree to the
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://en.wikipedia.org/wiki/Terms_of_service"
+                >
+                  Terms of Service
+                </a>
+                and
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://en.wikipedia.org/wiki/Privacy_policy"
+                >
+                  Privacy Policy
+                </a>
+              </>
+            ),
+          }}
+        >
           <Layout>
             <GoogleAnalytics trackPageViews />
             <Component {...pageProps} />
           </Layout>
-        </ThemeProvider>
-      </ConnectKitProvider>
-    </WagmiConfig>
+        </ConnectKitProvider>
+      </WagmiConfig>
+    </ThemeProvider>
   );
 }
 
