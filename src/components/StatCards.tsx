@@ -77,7 +77,7 @@ export const DateStatCard = (props: DateStat) => {
 
 interface NumberStat {
   title: string;
-  number: number;
+  value: number;
   separator?: string;
   decimals?: number;
   suffix?: string;
@@ -89,7 +89,7 @@ export const NumberStatCard = (props: NumberStat) => {
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-3xl text-right">
         <CountUp
-          end={props.number}
+          end={props.value}
           preserveValue={true}
           separator={props?.separator ?? ","}
           decimals={props?.decimals ?? 2}

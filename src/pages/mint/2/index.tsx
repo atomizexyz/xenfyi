@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const Mint = () => {
   const { address } = useAccount();
-  const [mintData, setMintData] = useState<MintData>();
+  const [mintingData, setMintingData] = useState<MintData>();
 
   const xenContract = {
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -37,11 +37,8 @@ const Mint = () => {
     ],
 
     onSuccess(data) {
-      console.log(data);
       const userMint = data[0];
-      // only update if data has changed
-
-      setMintData({
+      setMintingData({
         user: String(userMint[0]),
         eaaRate: Number(userMint[1]),
         maturityTs: Number(userMint[2]),
@@ -59,66 +56,41 @@ const Mint = () => {
   const mintItems = [
     {
       title: "Estimated XEN",
-      value: Number(estimatedXEN(mintData)),
+      value: Number(estimatedXEN(mintingData)),
       suffix: "",
       decimals: 0,
     },
     {
       title: "Amplifier",
-      value: Number(mintData?.amplifier),
+      value: Number(mintingData?.amplifier),
       suffix: "",
       decimals: 0,
     },
     {
       title: "EAA Rate",
-      value: Number(mintData?.eaaRate) / 10,
+      value: Number(mintingData?.eaaRate) / 10,
       suffix: "%",
       decimals: 2,
     },
     {
       title: "Rank",
-      value: Number(mintData?.rank),
+      value: Number(mintingData?.rank),
       suffix: "",
       decimals: 0,
     },
     {
       title: "Term",
-      value: Number(mintData?.term),
+      value: Number(mintingData?.term),
       suffix: "",
       decimals: 0,
     },
   ];
 
-  const progressDaysRemaining = daysRemaining(mintData?.maturityTs);
+  const progressDaysRemaining = daysRemaining(mintingData?.maturityTs);
   const progressPercentComplete = percentComplete(
     progressDaysRemaining,
-    mintData?.term
+    mintingData?.term
   );
-
-  const MintingStep = () => {
-    return (
-      <>
-        <h2 className="card-title">Minting</h2>
-        <div className="stats stats-vertical bg-transparent text-neutral">
-          <ProgressStatCard
-            title="Progress"
-            percentComplete={progressPercentComplete}
-            max={mintData?.term ?? 0}
-            daysRemaining={progressDaysRemaining}
-          />
-          {mintItems.map((item, index) => (
-            <NumberStatCard
-              key={index}
-              title={item.title}
-              number={item.value}
-              suffix={item.suffix}
-              decimals={item.decimals}
-            />
-          ))}
-        </div>
-      </>
-    );
-  };
 
   return (
     <Container>
@@ -139,7 +111,24 @@ const Mint = () => {
 
         <div className="card glass">
           <div className="card-body">
-            <MintingStep />
+            <h2 className="card-title">Minting</h2>
+            <div className="stats stats-vertical bg-transparent text-neutral">
+              <ProgressStatCard
+                title="Progress"
+                percentComplete={progressPercentComplete}
+                max={mintingData?.term ?? 0}
+                daysRemaining={progressDaysRemaining}
+              />
+              {mintItems.map((item, index) => (
+                <NumberStatCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  suffix={item.suffix}
+                  decimals={item.decimals}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

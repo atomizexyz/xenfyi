@@ -12,24 +12,12 @@ const Stake = () => {
   const [yeild, setYeild] = useState(0);
   const [maturity, setMaturity] = useState<number>(Date.now());
   const [currentStateStep, setCurrentStateStep] = useState(0);
+  const disabled = currentStateStep == 2;
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   });
-
-  const EndStakeStep = () => {
-    const disabled = currentStateStep == 2;
-
-    return (
-      <div className="flex flex-col space-y-4">
-        <h2 className="card-title text-neutral">End Stake</h2>
-        <button className="btn glass text-neutral" disabled={disabled}>
-          End Stake
-        </button>
-      </div>
-    );
-  };
 
   return (
     <Container>
@@ -49,7 +37,12 @@ const Stake = () => {
         </ul>
         <div className="card glass">
           <div className="card-body">
-            <EndStakeStep />
+            <div className="flex flex-col space-y-4">
+              <h2 className="card-title text-neutral">End Stake</h2>
+              <button className="btn glass text-neutral" disabled={disabled}>
+                End Stake
+              </button>
+            </div>
           </div>
         </div>
       </div>

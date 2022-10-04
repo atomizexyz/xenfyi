@@ -8,6 +8,7 @@ import Link from "next/link";
 const Mint = () => {
   const { address } = useAccount();
   const [currentStateStep, setCurrentStateStep] = useState(0);
+  const disable = currentStateStep == 2;
 
   const xenContract = {
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -72,20 +73,6 @@ const Mint = () => {
     );
   };
 
-  const ClaimStep = () => {
-    const disable = currentStateStep == 2;
-
-    return (
-      <div className="flex flex-col w-full border-opacity-50">
-        <Claim disabled={disable} />
-        <div className="divider">OR</div>
-        <ClaimShare disabled={disable} />
-        <div className="divider">OR</div>
-        <ClaimStake disabled={disable} />
-      </div>
-    );
-  };
-
   return (
     <Container>
       <div className="flew flex-row space-y-8 ">
@@ -105,7 +92,13 @@ const Mint = () => {
 
         <div className="card glass">
           <div className="card-body">
-            <ClaimStep />
+            <div className="flex flex-col w-full border-opacity-50">
+              <Claim disabled={disable} />
+              <div className="divider">OR</div>
+              <ClaimShare disabled={disable} />
+              <div className="divider">OR</div>
+              <ClaimStake disabled={disable} />
+            </div>
           </div>
         </div>
       </div>

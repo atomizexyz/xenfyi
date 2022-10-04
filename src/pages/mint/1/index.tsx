@@ -10,24 +10,11 @@ const Mint = () => {
   const { address } = useAccount();
   const [mintData, setMintData] = useState<MintData>();
   const [currentStateStep, setCurrentStateStep] = useState(0);
+  const disabled = currentStateStep == 2;
 
   const xenContract = {
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
     contractInterface: XenCrypto.abi,
-  };
-
-  const StartMintStep = () => {
-    const disabled = currentStateStep == 2;
-
-    return (
-      <div className="flex flex-col space-y-4">
-        <h2 className="card-title text-neutral">Start Mint</h2>
-        <DaysField disabled={disabled} />
-        <button className="btn glass text-neutral" disabled={disabled}>
-          Start Mint
-        </button>
-      </div>
-    );
   };
 
   return (
@@ -49,7 +36,13 @@ const Mint = () => {
 
         <div className="card glass">
           <div className="card-body">
-            <StartMintStep />
+            <div className="flex flex-col space-y-4">
+              <h2 className="card-title text-neutral">Start Mint</h2>
+              <DaysField disabled={disabled} />
+              <button className="btn glass text-neutral" disabled={disabled}>
+                Start Mint
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -50,30 +50,6 @@ const Stake = () => {
     userStakeData?.term
   );
 
-  const StakingStep = () => {
-    return (
-      <>
-        <h2 className="card-title">Staking</h2>
-        <div className="stats stats-vertical bg-transparent text-neutral">
-          <ProgressStatCard
-            title="Progress"
-            percentComplete={progressPercentComplete}
-            max={userStakeData?.term ?? 0.0}
-            daysRemaining={progressDaysRemaining}
-          />
-          {mintItems.map((item, index) => (
-            <NumberStatCard
-              key={index}
-              title={item.title}
-              number={item.value}
-              suffix={item.suffix}
-            />
-          ))}
-        </div>
-      </>
-    );
-  };
-
   return (
     <Container>
       <div className="flew flex-row space-y-8 ">
@@ -92,7 +68,23 @@ const Stake = () => {
         </ul>
         <div className="card glass">
           <div className="card-body">
-            <StakingStep />
+            <h2 className="card-title">Staking</h2>
+            <div className="stats stats-vertical bg-transparent text-neutral">
+              <ProgressStatCard
+                title="Progress"
+                percentComplete={progressPercentComplete}
+                max={userStakeData?.term ?? 0.0}
+                daysRemaining={progressDaysRemaining}
+              />
+              {mintItems.map((item, index) => (
+                <NumberStatCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  suffix={item.suffix}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

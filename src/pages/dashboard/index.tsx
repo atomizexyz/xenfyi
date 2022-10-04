@@ -140,7 +140,7 @@ const Home: NextPage = () => {
                     <NumberStatCard
                       key={index}
                       title={item.title}
-                      number={item.value}
+                      value={item.value}
                       decimals={0}
                     />
                   ))}
@@ -156,7 +156,7 @@ const Home: NextPage = () => {
                     <NumberStatCard
                       key={index}
                       title={item.title}
-                      number={item.value}
+                      value={item.value}
                     />
                   ))}
                 </div>
