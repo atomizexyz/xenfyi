@@ -21,9 +21,8 @@ const Stake = () => {
 
   const { register, handleSubmit, watch, setValue } = useForm();
   const watchAllFields = watch();
-  const utcDate = new Date().getTime();
 
-  const [maturity, setMaturity] = useState<number>(utcDate);
+  const [maturity, setMaturity] = useState<number>(new Date().getTime());
   const [stakeData, setStakeData] = useState<StakeData>();
 
   const { data: balanceData } = useBalance({
@@ -61,29 +60,21 @@ const Stake = () => {
   };
 
   useEffect(() => {
-    if (
-      (balanceData && readData && watchAllFields.startStakeDays,
-      watchAllFields.startStakeAmount)
-    ) {
+    if (balanceData && readData && watchAllFields) {
       setStakeData({
-        xenBalance: watchAllFields.startStakeAmount,
+        xenBalance: watchAllFields.startStakeAmount ?? 0,
         genesisTs: Number(readData?.[0]),
-        term: watchAllFields.startStakeDays,
+        term: watchAllFields.startStakeDays ?? 0,
       });
     }
 
-    setMaturity(utcDate + (watchAllFields.startStakeDays ?? 0) * 86400000);
+    const utcTime = new Date().getTime();
+    setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
 
     if (address && readData && readData[1]?.term.isZero()) {
       setDisabled(false);
     }
-  }, [
-    address,
-    balanceData,
-    readData,
-    watchAllFields.startStakeAmount,
-    watchAllFields.startStakeDays,
-  ]);
+  }, [address, balanceData, readData, stakeData, watchAllFields]);
 
   return (
     <Container>

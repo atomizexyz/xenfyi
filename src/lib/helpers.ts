@@ -52,7 +52,6 @@ export const stakeYield = (data?: StakeData) => {
   if (data) {
     const ds = daysSince(data.genesisTs * 1000);
     const APY = Math.max(20 - ds / 90, 2);
-
     const y = (data.xenBalance * APY * data.term) / (100 * 365);
     return y;
   } else {

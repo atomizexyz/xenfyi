@@ -87,7 +87,7 @@ const Mint = () => {
     progressDaysRemaining,
     mintingData?.term
   );
-  const max = Number(mintingData?.term);
+  const max = Number(mintingData?.term ?? 0);
   const value = max - progressDaysRemaining;
 
   return (

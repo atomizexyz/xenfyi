@@ -65,7 +65,6 @@ export const daysUntil = (date: number) => {
 };
 
 export const DateStatCard = (props: DateStat) => {
-  console.log("DateStatCard", props);
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>

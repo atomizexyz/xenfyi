@@ -14,7 +14,7 @@ export const AmountField = (props: any) => {
       />
       <label className="label">
         <span className="label-text-alt text-neutral">
-          The amount of XEN up to balance
+          XEN amount up to balance
         </span>
         <span className="label-text-alt text-neutral">
           Balance: {props.balance}
@@ -45,9 +45,7 @@ export const DaysField = (props: any) => {
         {...props.register}
       />
       <label className="label">
-        <span className="label-text-alt text-neutral">
-          Select the number of days between 1 and 1000
-        </span>
+        <span className="label-text-alt text-neutral">Number of days</span>
       </label>
     </div>
   );
@@ -68,9 +66,7 @@ export const PercentageField = (props: any) => {
         {...props.register}
       />
       <label className="label">
-        <span className="label-text-alt text-neutral">
-          The percentage of XEN between 1% and 100%
-        </span>
+        <span className="label-text-alt text-neutral">XEN percentage</span>
       </label>
     </div>
   );

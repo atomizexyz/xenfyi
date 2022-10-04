@@ -49,7 +49,7 @@ const Stake = () => {
     progressDaysRemaining,
     userStakeData?.term
   );
-  const max = Number(userStakeData?.term);
+  const max = Number(userStakeData?.term ?? 0);
   const value = max - progressDaysRemaining;
 
   return (

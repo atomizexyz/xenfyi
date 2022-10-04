@@ -30,7 +30,7 @@ const Mint = () => {
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "claimRank",
-    args: [watchAllFields.startMintDays],
+    args: [watchAllFields.startMintDays ?? 0],
   });
   const { write } = useContractWrite(config);
 
