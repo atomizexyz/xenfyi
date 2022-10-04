@@ -13,7 +13,7 @@ import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { address } = useAccount();
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const { register, handleSubmit, watch } = useForm();
   const watchAllFields = watch();
 
@@ -60,15 +60,11 @@ const Mint = () => {
     writeClaimStake?.();
   };
 
-  console.log(watchAllFields);
   useEffect(() => {
-    if (data && !data.term.isZero()) {
-      setDisabled(true);
-      if (data.maturityTs < Date.now() / 1000) {
-        setDisabled(false);
-      }
+    if (address && data && data.maturityTs >= Date.now() / 1000) {
+      setDisabled(false);
     }
-  }, [data]);
+  }, [address, data]);
 
   return (
     <Container>

@@ -1,6 +1,6 @@
 import {
   useAccount,
-  useContractReads,
+  useContractRead,
   useContractWrite,
   usePrepareContractWrite,
 } from "wagmi";
@@ -13,20 +13,16 @@ import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { address } = useAccount();
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const { register, handleSubmit, watch } = useForm();
   const watchAllFields = watch();
   const onSubmit = () => {
     write?.();
   };
 
-  const { data } = useContractReads({
-    contracts: [
-      {
-        ...xenContract,
-        functionName: "getUserMint",
-      },
-    ],
+  const { data } = useContractRead({
+    ...xenContract,
+    functionName: "getUserMint",
     overrides: { from: address },
     watch: true,
   });
@@ -39,10 +35,10 @@ const Mint = () => {
   const { write } = useContractWrite(config);
 
   useEffect(() => {
-    if (!data?.[0]?.term.isZero()) {
-      setDisabled(true);
+    if (address && data && data.term.isZero()) {
+      setDisabled(false);
     }
-  }, [data]);
+  }, [address, data]);
 
   return (
     <Container>

@@ -17,7 +17,7 @@ import { StakeData, stakeYield, stakeAPY } from "~/lib/helpers";
 
 const Stake = () => {
   const { address } = useAccount();
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
   const { register, handleSubmit, watch, setValue } = useForm();
   const watchAllFields = watch();
@@ -71,10 +71,12 @@ const Stake = () => {
       });
     }
     setMaturity(Date.now() + watchAllFields.startStakeDays * 86400000);
-    if (!readData?.[1]?.term.isZero()) {
-      setDisabled(true);
+
+    if (address && readData && readData[1]?.term.isZero()) {
+      setDisabled(false);
     }
   }, [
+    address,
     balanceData,
     readData,
     watchAllFields.startStakeAmount,

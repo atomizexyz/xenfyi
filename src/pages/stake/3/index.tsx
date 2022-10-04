@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Container from "~/components/Container";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
 
 const Stake = () => {
-  const [disabled, setDisabled] = useState(false);
+  const { address } = useAccount();
+  const [disabled, setDisabled] = useState(true);
 
   const { handleSubmit } = useForm();
 
@@ -18,6 +19,12 @@ const Stake = () => {
   const handleStakeSubmit = () => {
     writeStake?.();
   };
+
+  useEffect(() => {
+    if (address) {
+      setDisabled(false);
+    }
+  }, [address]);
 
   return (
     <Container>
