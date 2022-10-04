@@ -3,7 +3,6 @@ import Container from "~/components/Container";
 import { useContractReads, useNetwork, Chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
 import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { pulseChain } from "~/lib/pulsechain";
 import {
   NumberStatCard,
@@ -21,8 +20,6 @@ interface DashboardData {
 }
 
 const Home: NextPage = () => {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
   const { chain } = useNetwork();
 
   const [currentChain, setCurrentChain] = useState<Chain>(chain ?? pulseChain);
@@ -72,6 +69,7 @@ const Home: NextPage = () => {
         genesisTs: Number(data[5]),
       });
     },
+    cacheOnBlock: true,
     watch: true,
   });
 

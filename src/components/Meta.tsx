@@ -6,7 +6,7 @@ const Meta: NextPage = () => {
   const description =
     "XEN.fyi is a community-driven project to help users understand the XEN protocol and its ecosystem.";
   const url = "https://xen.fyi";
-  const image = "https://xen.fyi/images/prview.png";
+  const image = "https://xen.fyi/images/preview.png";
   return (
     <Head>
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

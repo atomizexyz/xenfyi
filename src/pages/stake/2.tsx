@@ -14,11 +14,12 @@ const Stake = () => {
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   });
 
-  const { data: userStakeData } = useContractRead({
+  const { data: userStake } = useContractRead({
     addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
     contractInterface: XenCrypto.abi,
     functionName: "getUserStake",
     overrides: { from: address },
+    watch: true,
   });
 
   const mintItems = [
@@ -29,27 +30,27 @@ const Stake = () => {
     },
     {
       title: "Amount",
-      value: userStakeData?.amount,
+      value: userStake?.amount,
       suffix: "",
     },
     {
       title: "APY",
-      value: userStakeData?.apy,
+      value: userStake?.apy,
       suffix: "%",
     },
     {
       title: "Term",
-      value: userStakeData?.term,
+      value: userStake?.term,
       suffix: "",
     },
   ];
 
-  const progressDaysRemaining = daysRemaining(userStakeData?.maturityTs);
+  const progressDaysRemaining = daysRemaining(userStake?.maturityTs);
   const progressPercentComplete = percentComplete(
     progressDaysRemaining,
-    userStakeData?.term
+    userStake?.term
   );
-  const max = Number(userStakeData?.term ?? 0);
+  const max = Number(userStake?.term ?? 0);
   const value = max - progressDaysRemaining;
 
   return (

@@ -1,15 +1,18 @@
+import Link from "next/link";
+import Container from "~/components/Container";
+import XenCrypto from "~/abi/XENCrypto.json";
+
 import {
   useBalance,
   useAccount,
+  useContractRead,
   useContractReads,
   useContractWrite,
   usePrepareContractWrite,
 } from "wagmi";
-import Container from "~/components/Container";
 import { DaysField, AmountField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
@@ -37,35 +40,32 @@ const Stake = () => {
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   });
 
-  const {} = useContractReads({
+  const { data: userStake } = useContractRead({
+    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    contractInterface: XenCrypto.abi,
+    functionName: "getUserStake",
+    overrides: { from: address },
+    watch: true,
+  });
+
+  const { data: contractReads } = useContractReads({
     contracts: [
       {
         ...xenContract,
         functionName: "genesisTs",
       },
-      {
-        ...xenContract,
-        functionName: "getUserStake",
-      },
     ],
-    onSuccess(data) {
-      const userStake = data[1];
-      setStartStakeData({
-        genesisTs: Number(data[0] ?? 0),
-        amount: Number(userStake.amount),
-        apy: Number(userStake.apy),
-        maturityTs: Number(userStake.maturityTs),
-        term: Number(userStake.term),
-      });
-    },
     overrides: { from: address },
-    watch: true,
+    cacheOnBlock: true,
   });
 
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "stake",
-    args: [watchAllFields.startStakeAmount, watchAllFields.startStakeDays],
+    args: [
+      watchAllFields.startStakeAmount * 1e18,
+      watchAllFields.startStakeDays,
+    ],
   });
   const { write: writeStake } = useContractWrite(config);
   const handleStakeSubmit = (data: any) => {
@@ -73,10 +73,19 @@ const Stake = () => {
   };
 
   useEffect(() => {
+    if (userStake && contractReads) {
+      setStartStakeData({
+        genesisTs: Number(contractReads[0]),
+        amount: Number(userStake.amount),
+        apy: Number(userStake.apy),
+        maturityTs: Number(userStake.maturityTs),
+        term: Number(userStake.term),
+      });
+    }
+
     const utcTime = new Date().getTime();
     setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
 
-    console.log(startStakeData);
     if (address && startStakeData && startStakeData.term == 0) {
       setDisabled(false);
     }

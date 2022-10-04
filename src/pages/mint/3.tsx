@@ -21,6 +21,7 @@ const Mint = () => {
     ...xenContract,
     functionName: "getUserMint",
     overrides: { from: address },
+    cacheOnBlock: true,
     watch: true,
   });
 

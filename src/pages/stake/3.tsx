@@ -16,10 +16,11 @@ const Stake = () => {
 
   const { handleSubmit } = useForm();
 
-  const { data } = useContractRead({
+  const { data: userStake } = useContractRead({
     ...xenContract,
     functionName: "getUserStake",
     overrides: { from: address },
+    cacheOnBlock: true,
     watch: true,
   });
 
@@ -37,13 +38,13 @@ const Stake = () => {
   useEffect(() => {
     if (
       address &&
-      data &&
-      !data.maturityTs.isZero() &&
-      data.maturityTs < utcTime
+      userStake &&
+      !userStake.maturityTs.isZero() &&
+      userStake.maturityTs < utcTime
     ) {
       setDisabled(false);
     }
-  }, [address, utcTime, data]);
+  }, [address, utcTime, userStake]);
 
   return (
     <Container>

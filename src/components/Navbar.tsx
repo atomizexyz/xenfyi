@@ -85,11 +85,16 @@ const Navbar = () => {
     contractInterface: XenCrypto.abi,
   };
 
-  const { data } = useContractRead({
+  const { data: userMint } = useContractRead({
     ...xenContract,
     functionName: "getUserMint",
     overrides: { from: address },
-    watch: true,
+  });
+
+  const { data: userStake } = useContractRead({
+    ...xenContract,
+    functionName: "getUserStake",
+    overrides: { from: address },
   });
 
   const NavigationItems = () => {
@@ -128,13 +133,19 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (data && !data.term.isZero()) {
+    if (userMint && !userMint.term.isZero()) {
       setMintPageOverride(2);
-      if (data.maturityTs < Date.now() / 1000) {
+      if (userMint.maturityTs < Date.now() / 1000) {
         setMintPageOverride(3);
       }
     }
-  }, [data]);
+    if (userStake && !userStake.term.isZero()) {
+      setStakePageOverride(2);
+      if (userStake.maturityTs < Date.now() / 1000) {
+        setStakePageOverride(3);
+      }
+    }
+  }, [userMint]);
 
   return (
     <div className="navbar">

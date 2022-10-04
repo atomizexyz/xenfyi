@@ -1,6 +1,5 @@
-import { useAccount, useContractReads } from "wagmi";
+import { useContractRead, useAccount, useContractReads } from "wagmi";
 import Container from "~/components/Container";
-import XenCrypto from "~/abi/XENCrypto.json";
 import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
 import {
   daysRemaining,
@@ -8,7 +7,7 @@ import {
   estimatedXEN,
   MintData,
 } from "~/lib/helpers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
 
@@ -16,12 +15,16 @@ const Mint = () => {
   const { address } = useAccount();
   const [mintingData, setMintingData] = useState<MintData>();
 
-  const {} = useContractReads({
+  const { data: userMint } = useContractRead({
+    ...xenContract,
+    functionName: "getUserMint",
+    overrides: { from: address },
+    cacheOnBlock: true,
+    watch: true,
+  });
+
+  const { data: contractReads } = useContractReads({
     contracts: [
-      {
-        ...xenContract,
-        functionName: "getUserMint",
-      },
       {
         ...xenContract,
         functionName: "genesisTs",
@@ -31,21 +34,7 @@ const Mint = () => {
         functionName: "globalRank",
       },
     ],
-
-    onSuccess(data) {
-      const userMint = data[0];
-      setMintingData({
-        user: String(userMint?.user),
-        eaaRate: Number(userMint?.eaaRate),
-        maturityTs: Number(userMint?.maturityTs),
-        rank: Number(userMint?.rank),
-        amplifier: Number(userMint?.amplifier),
-        term: Number(userMint?.term),
-        genesisTs: Number(data[1]),
-        globalRank: Number(data[2]),
-      });
-    },
-    overrides: { from: address },
+    cacheOnBlock: true,
     watch: true,
   });
 
@@ -89,6 +78,21 @@ const Mint = () => {
   );
   const max = Number(mintingData?.term ?? 0);
   const value = max - progressDaysRemaining;
+
+  useEffect(() => {
+    if (userMint && contractReads) {
+      setMintingData({
+        user: String(userMint?.user),
+        eaaRate: Number(userMint?.eaaRate),
+        maturityTs: Number(userMint?.maturityTs),
+        rank: Number(userMint?.rank),
+        amplifier: Number(userMint?.amplifier),
+        term: Number(userMint?.term),
+        genesisTs: Number(contractReads[0]),
+        globalRank: Number(contractReads[1]),
+      });
+    }
+  }, [userMint, contractReads]);
 
   return (
     <Container>
