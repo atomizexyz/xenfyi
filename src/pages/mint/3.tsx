@@ -12,6 +12,7 @@ import {
 } from "~/components/FormFields";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
@@ -20,7 +21,8 @@ import * as yup from "yup";
 
 const Mint = () => {
   const { address } = useAccount();
-  const [disabled, setDisabled] = useState(false);
+  const router = useRouter();
+  const [disabled, setDisabled] = useState(true);
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -43,7 +45,12 @@ const Mint = () => {
     ...xenContract,
     functionName: "claimMintReward",
   });
-  const { write: writeClaim } = useContractWrite(configClaim);
+  const { write: writeClaim } = useContractWrite({
+    ...configClaim,
+    onSuccess() {
+      router.push("/stake/1");
+    },
+  });
   const handleClaimSubmit = () => {
     writeClaim?.();
   };
@@ -90,7 +97,12 @@ const Mint = () => {
       cShareWatchAllFields.claimSharePercentage,
     ],
   });
-  const { write: writeClaimShare } = useContractWrite(configClaimShare);
+  const { write: writeClaimShare } = useContractWrite({
+    ...configClaimShare,
+    onSuccess() {
+      router.push("/stake/1");
+    },
+  });
   const handleClaimShareSubmit = () => {
     writeClaimShare?.();
   };
@@ -132,7 +144,12 @@ const Mint = () => {
       cStakeWatchAllFields.claimStakeDays,
     ],
   });
-  const { write: writeClaimStake } = useContractWrite(configClaimStake);
+  const { write: writeClaimStake } = useContractWrite({
+    ...configClaimStake,
+    onSuccess() {
+      router.push("/stake/2");
+    },
+  });
   const handleClaimStakeSubmit = () => {
     writeClaimStake?.();
   };
@@ -190,17 +207,6 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Share</h2>
 
-                  <WalletAddressField
-                    disabled={disabled}
-                    errorMessage={
-                      <ErrorMessage
-                        errors={cShareErrors}
-                        name="claimShareAddress"
-                      />
-                    }
-                    register={cShareRegister("claimShareAddress")}
-                  />
-
                   <PercentageField
                     disabled={disabled}
                     errorMessage={
@@ -210,6 +216,17 @@ const Mint = () => {
                       />
                     }
                     register={cShareRegister("claimSharePercentage")}
+                  />
+
+                  <WalletAddressField
+                    disabled={disabled}
+                    errorMessage={
+                      <ErrorMessage
+                        errors={cShareErrors}
+                        name="claimShareAddress"
+                      />
+                    }
+                    register={cShareRegister("claimShareAddress")}
                   />
 
                   <button

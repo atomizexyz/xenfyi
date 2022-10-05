@@ -6,6 +6,7 @@ import {
   useContractWrite,
   usePrepareContractWrite,
 } from "wagmi";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
@@ -13,6 +14,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 
 const Stake = () => {
   const { address } = useAccount();
+  const router = useRouter();
   const [disabled, setDisabled] = useState(true);
   const [earlyEndStake, setEarlyEndStake] = useState(false);
 
@@ -30,7 +32,12 @@ const Stake = () => {
     ...xenContract,
     functionName: "withdraw",
   });
-  const { write: writeStake, isSuccess } = useContractWrite(config);
+  const { write: writeStake } = useContractWrite({
+    ...config,
+    onSuccess() {
+      router.push("/stake/1");
+    },
+  });
   const handleStakeSubmit = () => {
     writeStake?.();
   };
@@ -44,7 +51,10 @@ const Stake = () => {
         setEarlyEndStake(true);
       }
     }
-  }, [address, utcTime, userStake]);
+    if (withdrawResponse) {
+      router.push("/stake/1");
+    }
+  }, [address, utcTime, userStake, withdrawResponse, router]);
 
   return (
     <Container>

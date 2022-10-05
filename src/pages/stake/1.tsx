@@ -15,6 +15,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
 import { stakeYield, stakeAPY } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
@@ -24,6 +25,7 @@ import * as yup from "yup";
 
 const Stake = () => {
   const { address } = useAccount();
+  const router = useRouter();
   const [disabled, setDisabled] = useState(true);
   const [maturity, setMaturity] = useState<number>(new Date().getTime());
 
@@ -101,7 +103,12 @@ const Stake = () => {
       watchAllFields.startStakeDays ?? 0,
     ],
   });
-  const { write: writeStake } = useContractWrite(config);
+  const { write: writeStake } = useContractWrite({
+    ...config,
+    onSuccess() {
+      router.push("/stake/2");
+    },
+  });
   const handleStakeSubmit = (data: any) => {
     writeStake?.();
   };

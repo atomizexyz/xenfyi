@@ -7,6 +7,7 @@ import {
 import Container from "~/components/Container";
 import { DaysField } from "~/components/FormFields";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
@@ -16,6 +17,7 @@ import * as yup from "yup";
 
 const Mint = () => {
   const { address } = useAccount();
+  const router = useRouter();
   const [disabled, setDisabled] = useState(true);
 
   /*** CONTRACT READ SETUP  ***/
@@ -58,7 +60,12 @@ const Mint = () => {
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
   });
-  const { write } = useContractWrite(config);
+  const { write } = useContractWrite({
+    ...config,
+    onSuccess() {
+      router.push("/mint/2");
+    },
+  });
   const onSubmit = () => {
     write?.();
   };
