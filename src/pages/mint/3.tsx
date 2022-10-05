@@ -2,14 +2,16 @@ import {
   useNetwork,
   useAccount,
   useContractRead,
+  useContractReads,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
+import Link from "next/link";
+import CountUp from "react-countup";
 import Container from "~/components/Container";
 import { MaxValueField, WalletAddressField } from "~/components/FormFields";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
@@ -18,6 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
+import { GiftIcon } from "@heroicons/react/outline";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -28,13 +31,34 @@ const Mint = () => {
 
   /*** CONTRACT READ SETUP  ***/
 
-  const { data } = useContractRead({
+  const { data: userMintData } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
     watch: true,
   });
 
+  const { data: contractReads } = useContractReads({
+    contracts: [
+      {
+        ...xenContract(chain),
+        functionName: "globalRank",
+      },
+    ],
+    watch: true,
+  });
+
+  const { data: grossRewardData } = useContractRead({
+    ...xenContract(chain),
+    functionName: "getGrossReward",
+    args: [
+      Number(contractReads?.[0] ?? 0) - (userMintData?.rank ?? 0),
+      userMintData?.amplifier ?? 0,
+      userMintData?.term ?? 0,
+      userMintData?.eaaRate ?? 0,
+    ],
+    watch: true,
+  });
   /*** FORM SETUP ***/
 
   // Claim
@@ -188,15 +212,15 @@ const Mint = () => {
   useEffect(() => {
     if (
       address &&
-      data &&
-      !data.maturityTs.isZero() &&
-      data.maturityTs < utcTime
+      userMintData &&
+      !userMintData.maturityTs.isZero() &&
+      userMintData.maturityTs < utcTime
     ) {
       if (!processing) {
         setDisabled(false);
       }
     }
-  }, [address, data, processing, utcTime]);
+  }, [address, userMintData, processing, utcTime]);
 
   return (
     <Container>
@@ -221,6 +245,16 @@ const Mint = () => {
               <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim</h2>
+
+                  <div className="stat-value text-lg md:text-3xl text-right">
+                    <CountUp
+                      end={Number(grossRewardData ?? 0)}
+                      preserveValue={true}
+                      separator=","
+                      suffix=" XEN"
+                    />
+                  </div>
+
                   <button
                     type="submit"
                     className={clsx("btn glass text-neutral", {
@@ -232,12 +266,27 @@ const Mint = () => {
                   </button>
                 </div>
               </form>
-              {/* OR */}
-              <div className="divider">OR</div>
-              {/* OR */}
+            </div>
+          </div>
+        </div>
+        {/* OR */}
+        <div className="divider">OR</div>
+        {/* OR */}
+        <div className="card glass">
+          <div className="card-body">
+            <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Share</h2>
+
+                  <div className="stat-value text-lg md:text-3xl text-right">
+                    <CountUp
+                      end={Number(grossRewardData ?? 0)}
+                      preserveValue={true}
+                      separator=","
+                      suffix=" XEN"
+                    />
+                  </div>
 
                   <MaxValueField
                     title="PERCENTAGE"
@@ -277,12 +326,27 @@ const Mint = () => {
                   </button>
                 </div>
               </form>
-              {/* OR */}
-              <div className="divider">OR</div>
-              {/* OR */}
+            </div>
+          </div>
+        </div>
+        {/* OR */}
+        <div className="divider">OR</div>
+        {/* OR */}
+        <div className="card glass">
+          <div className="card-body">
+            <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Stake</h2>
+
+                  <div className="stat-value text-lg md:text-3xl text-right">
+                    <CountUp
+                      end={Number(grossRewardData ?? 0)}
+                      preserveValue={true}
+                      separator=","
+                      suffix=" XEN"
+                    />
+                  </div>
 
                   <MaxValueField
                     title="PERCENTAGE"

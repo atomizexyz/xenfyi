@@ -42,10 +42,28 @@ const Mint = () => {
     watch: true,
   });
 
+  const { data: grossRewardData } = useContractRead({
+    ...xenContract(chain),
+    functionName: "getGrossReward",
+    args: [
+      (mintingData?.globalRank ?? 0) - (mintingData?.rank ?? 0),
+      mintingData?.amplifier ?? 0,
+      mintingData?.term ?? 0,
+      mintingData?.eaaRate ?? 0,
+    ],
+    watch: true,
+  });
+
   const mintItems = [
     {
       title: "Estimated XEN",
       value: Number(estimatedXEN(mintingData)),
+      suffix: "",
+      decimals: 0,
+    },
+    {
+      title: "Gross Reward",
+      value: Number(grossRewardData),
       suffix: "",
       decimals: 0,
     },
