@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
 import Container from "~/components/Container";
-import { useContractReads, useNetwork, Chain } from "wagmi";
-import XenCrypto from "~/abi/XENCrypto.json";
-import { useEffect, useState } from "react";
-import { pulseChain } from "~/lib/pulsechain";
+import { useContractReads, useNetwork } from "wagmi";
+import { useState } from "react";
+import { pulseChain } from "~/lib/pulseChain";
 import {
   NumberStatCard,
   ChainStatCard,
   DateStatCard,
 } from "~/components/StatCards";
+import { xenContract } from "~/lib/xen-contract";
 
 interface DashboardData {
   globalRank: Number;
@@ -21,40 +21,32 @@ interface DashboardData {
 
 const Home: NextPage = () => {
   const { chain } = useNetwork();
-
-  const [currentChain, setCurrentChain] = useState<Chain>(chain ?? pulseChain);
   const [dashboardData, setDashboardData] = useState<DashboardData>();
-
-  const xenContract = {
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-    chainId: currentChain.id,
-  };
 
   const {} = useContractReads({
     contracts: [
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "globalRank",
       },
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "activeMinters",
       },
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "activeStakes",
       },
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "totalXenStaked",
       },
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "totalSupply",
       },
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "genesisTs",
       },
     ],
@@ -72,10 +64,6 @@ const Home: NextPage = () => {
     cacheOnBlock: true,
     watch: true,
   });
-
-  useEffect(() => {
-    setCurrentChain(chain ?? pulseChain);
-  }, [chain]);
 
   const generalStats = [
     {
@@ -120,8 +108,8 @@ const Home: NextPage = () => {
                 <h2 className="card-title">General Stats</h2>
                 <div className="stats stats-vertical bg-transparent text-neutral">
                   <ChainStatCard
-                    value={currentChain.name}
-                    id={currentChain.id}
+                    value={chain?.name ?? pulseChain.name}
+                    id={chain?.id ?? pulseChain.id}
                   />
                   <DateStatCard
                     title="Days Since Launch"

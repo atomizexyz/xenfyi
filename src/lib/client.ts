@@ -1,5 +1,4 @@
 import { createClient, configureChains, chain } from "wagmi";
-import { pulseChain } from "../lib/pulsechain";
 
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -10,12 +9,14 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import { pulseChain } from "~/lib/pulseChain";
+import { bscTestnet } from "./bscTestnet";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, chain.goerli, pulseChain],
+  [chain.mainnet, chain.goerli, chain.polygonMumbai, pulseChain, bscTestnet],
   [
     alchemyProvider({ apiKey: alchemyId, priority: 0 }),
     infuraProvider({ apiKey: infuraId, priority: 0 }),

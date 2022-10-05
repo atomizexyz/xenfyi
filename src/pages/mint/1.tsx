@@ -1,4 +1,5 @@
 import {
+  useNetwork,
   useAccount,
   useContractRead,
   useContractWrite,
@@ -17,13 +18,14 @@ import * as yup from "yup";
 
 const Mint = () => {
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
 
   /*** CONTRACT READ SETUP  ***/
 
   const { data } = useContractRead({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
     cacheOnBlock: true,
@@ -56,7 +58,7 @@ const Mint = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config, error } = usePrepareContractWrite({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
   });

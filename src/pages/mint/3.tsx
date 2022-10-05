@@ -1,4 +1,5 @@
 import {
+  useNetwork,
   useAccount,
   useContractRead,
   useContractWrite,
@@ -21,13 +22,14 @@ import * as yup from "yup";
 
 const Mint = () => {
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
 
   /*** CONTRACT READ SETUP  ***/
 
   const { data } = useContractRead({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
     cacheOnBlock: true,
@@ -41,7 +43,7 @@ const Mint = () => {
   const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "claimMintReward",
   });
   const { write: writeClaim } = useContractWrite({
@@ -89,7 +91,7 @@ const Mint = () => {
   const cShareWatchAllFields = cShareWatch();
 
   const { config: configClaimShare } = usePrepareContractWrite({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "claimMintRewardAndShare",
     args: [
       cShareWatchAllFields.claimShareAddress,
@@ -136,7 +138,7 @@ const Mint = () => {
   const cStakeWatchAllFields = cStakeWatch();
 
   const { config: configClaimStake } = usePrepareContractWrite({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "claimMintRewardAndStake",
     args: [
       cStakeWatchAllFields.claimStakePercentage,

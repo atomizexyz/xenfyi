@@ -3,6 +3,7 @@ import Container from "~/components/Container";
 import XenCrypto from "~/abi/XENCrypto.json";
 
 import {
+  useNetwork,
   useBalance,
   useAccount,
   useContractRead,
@@ -25,6 +26,7 @@ import * as yup from "yup";
 
 const Stake = () => {
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
   const [maturity, setMaturity] = useState<number>(new Date().getTime());
@@ -48,7 +50,7 @@ const Stake = () => {
   const { data: contractReads } = useContractReads({
     contracts: [
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "genesisTs",
       },
     ],
@@ -93,7 +95,7 @@ const Stake = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(

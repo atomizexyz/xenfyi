@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "~/components/Container";
 import {
+  useNetwork,
   useAccount,
   useContractRead,
   useContractWrite,
@@ -14,6 +15,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 
 const Stake = () => {
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
   const [earlyEndStake, setEarlyEndStake] = useState(false);
@@ -21,7 +23,7 @@ const Stake = () => {
   const { handleSubmit } = useForm();
 
   const { data: userStake } = useContractRead({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
     cacheOnBlock: true,
@@ -29,7 +31,7 @@ const Stake = () => {
   });
 
   const { config } = usePrepareContractWrite({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "withdraw",
   });
   const { write: writeStake } = useContractWrite({

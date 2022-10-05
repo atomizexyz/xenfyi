@@ -1,14 +1,13 @@
-import Container from "~/components/Container";
-import { useContractRead, useBalance, useAccount } from "wagmi";
-import XenCrypto from "~/abi/XENCrypto.json";
-import { daysRemaining, percentComplete } from "~/lib/helpers";
 import Link from "next/link";
-
+import Container from "~/components/Container";
+import { useNetwork, useContractRead, useBalance, useAccount } from "wagmi";
+import { daysRemaining, percentComplete } from "~/lib/helpers";
 import { ProgressStatCard, NumberStatCard } from "~/components/StatCards";
+import { xenContract } from "~/lib/xen-contract";
 
 const Stake = () => {
   const { address } = useAccount();
-
+  const { chain } = useNetwork();
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -16,8 +15,7 @@ const Stake = () => {
   });
 
   const { data: userStake } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
+    ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
     watch: true,

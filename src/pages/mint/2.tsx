@@ -1,4 +1,9 @@
-import { useContractRead, useAccount, useContractReads } from "wagmi";
+import {
+  useNetwork,
+  useContractRead,
+  useAccount,
+  useContractReads,
+} from "wagmi";
 import Container from "~/components/Container";
 import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
 import {
@@ -13,10 +18,11 @@ import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const [mintingData, setMintingData] = useState<MintData>();
 
   const { data: userMint } = useContractRead({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
     cacheOnBlock: true,
@@ -26,11 +32,11 @@ const Mint = () => {
   const { data: contractReads } = useContractReads({
     contracts: [
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "genesisTs",
       },
       {
-        ...xenContract,
+        ...xenContract(chain),
         functionName: "globalRank",
       },
     ],

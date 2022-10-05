@@ -2,11 +2,11 @@ import { Chain } from "wagmi";
 
 export const pulseChain: Chain = {
   id: 941,
-  name: "PulseChain Testnet",
+  name: "PLS Testnet",
   network: "pulse",
   nativeCurrency: {
     decimals: 18,
-    name: "Test Pulse",
+    name: "PLS Testnet",
     symbol: "tPLS",
   },
   rpcUrls: {

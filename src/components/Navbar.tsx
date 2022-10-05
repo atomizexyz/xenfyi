@@ -19,11 +19,11 @@ import {
   SmartContraact,
   Wallet,
 } from "./Icons";
-import XenCrypto from "~/abi/XENCrypto.json";
+import { xenContract } from "~/lib/xen-contract";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import { useAccount, useContractRead } from "wagmi";
+import { useAccount, useContractRead, useNetwork } from "wagmi";
 import { useState, useEffect } from "react";
 
 const navigationItems = [
@@ -74,25 +74,21 @@ const linkItems = [
 
 const Navbar = () => {
   const router = useRouter();
+  const { chain } = useNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
   const { connector, address } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const xenContract = {
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
-  };
-
   const { data: userMint } = useContractRead({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
   });
 
   const { data: userStake } = useContractRead({
-    ...xenContract,
+    ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
   });
