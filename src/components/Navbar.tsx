@@ -30,16 +30,19 @@ import { useState, useEffect } from "react";
 
 const navigationItems = [
   {
+    id: 0,
     name: "Dashboard",
     icon: <ViewGridIcon className="h-5 w-5" />,
     href: "/dashboard",
   },
   {
+    id: 1,
     name: "Mint",
     icon: <DiamondIcon />,
     href: "/mint",
   },
   {
+    id: 2,
     name: "Stake",
     icon: <LockClosedIcon className="h-5 w-5" />,
     href: "/stake",
@@ -73,11 +76,6 @@ const linkItems = [
     href: "https://github.com/FairCrypto",
   },
   {
-    name: "Contract",
-    icon: <SmartContractIcon />,
-    href: "https://scan.v2b.testnet.pulsechain.com/address/0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-  },
-  {
     name: "Gift XEN",
     icon: <GiftIcon className="h-5 w-5" />,
     href: "https://etherscan.io/address/0x806f5d470ee7dd7b7a8ceb092d3fa7ef00a70576",
@@ -107,7 +105,7 @@ const Navbar = () => {
     watch: true,
   });
 
-  const NavigationItems = () => {
+  const NavigationItems = (props: any) => {
     return (
       <>
         {navigationItems.map((item, index) => (
@@ -127,6 +125,7 @@ const Navbar = () => {
               <a
                 className={clsx("text-neutral", {
                   "btn-disabled": router.pathname.startsWith(item.href),
+                  glass: !router.pathname.startsWith(item.href),
                 })}
                 onClick={() => {
                   (document.activeElement as HTMLElement).blur();
@@ -134,6 +133,12 @@ const Navbar = () => {
               >
                 {item.icon}
                 {item.name}
+                {((item.id == 1 && mintPageOverride == 2) ||
+                  (item.id == 2 && stakePageOverride == 2)) && (
+                  <div className="absolute badge badge-lg right-2 lg:-top-2 lg:-right-3 shadow-md glass">
+                    {item.id == 1 ? "💎" : "🔒"}
+                  </div>
+                )}
               </a>
             </Link>
           </li>
@@ -169,7 +174,7 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 space-y-1"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 space-y-2"
           >
             <NavigationItems />
           </ul>
@@ -177,7 +182,7 @@ const Navbar = () => {
         <a className="text-neutral normal-case text-3xl font-light">XEN</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal glass rounded-box p-2 space-x-2">
+        <ul className="menu menu-horizontal glass rounded-box p-2 space-x-4">
           <NavigationItems />
         </ul>
       </div>
@@ -205,10 +210,10 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-52 space-y-1"
+            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-52 space-y-2"
           >
             <li>
-              <label className="flex swap swap-rotate justify-between text-neutral">
+              <label className="flex swap swap-rotate justify-between text-neutral glass">
                 Theme
                 <input
                   type="checkbox"
@@ -224,7 +229,7 @@ const Navbar = () => {
             </li>
             <li>
               <button
-                className="justify-between text-neutral"
+                className="justify-between text-neutral glass"
                 onClick={() => {
                   (connector as InjectedConnector)?.watchAsset?.({
                     address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -243,7 +248,7 @@ const Navbar = () => {
               <li key={index}>
                 <Link href={item.href ?? "/"}>
                   <a
-                    className="justify-between text-neutral"
+                    className="justify-between text-neutral glass"
                     onClick={() => {
                       (document.activeElement as HTMLElement).blur();
                     }}
