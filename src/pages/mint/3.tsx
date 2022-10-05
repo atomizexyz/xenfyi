@@ -20,7 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
-import { GiftIcon } from "@heroicons/react/outline";
+import { GrossRewardCard } from "~/components/StatCards";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -246,14 +246,10 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim</h2>
 
-                  <div className="stat-value text-lg md:text-3xl text-right">
-                    <CountUp
-                      end={Number(grossRewardData ?? 0)}
-                      preserveValue={true}
-                      separator=","
-                      suffix=" XEN"
-                    />
-                  </div>
+                  <GrossRewardCard
+                    title="Gross Reward"
+                    value={Number(grossRewardData ?? 0)}
+                  />
 
                   <button
                     type="submit"
@@ -279,14 +275,10 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Share</h2>
 
-                  <div className="stat-value text-lg md:text-3xl text-right">
-                    <CountUp
-                      end={Number(grossRewardData ?? 0)}
-                      preserveValue={true}
-                      separator=","
-                      suffix=" XEN"
-                    />
-                  </div>
+                  <GrossRewardCard
+                    title="Gross Reward"
+                    value={Number(grossRewardData ?? 0)}
+                  />
 
                   <MaxValueField
                     title="PERCENTAGE"
@@ -339,14 +331,10 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Stake</h2>
 
-                  <div className="stat-value text-lg md:text-3xl text-right">
-                    <CountUp
-                      end={Number(grossRewardData ?? 0)}
-                      preserveValue={true}
-                      separator=","
-                      suffix=" XEN"
-                    />
-                  </div>
+                  <GrossRewardCard
+                    title="Gross Reward"
+                    value={Number(grossRewardData ?? 0)}
+                  />
 
                   <MaxValueField
                     title="PERCENTAGE"
