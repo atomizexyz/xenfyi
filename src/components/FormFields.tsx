@@ -20,7 +20,7 @@ export const AmountField = (props: any) => {
         </span>
         <span className="label-text-alt text-neutral">
           {`Balance: ${ethers.utils.formatUnits(props.value, props.decimals)}`}
-          <a
+          <button
             onClick={() =>
               props.setValue(
                 "startStakeAmount",
@@ -28,9 +28,10 @@ export const AmountField = (props: any) => {
               )
             }
             className="btn btn-xs glass text-neutral ml-2"
+            disabled={props.disabled}
           >
             MAX
-          </a>
+          </button>
         </span>
       </label>
     </div>

@@ -12,6 +12,7 @@ const Stake = () => {
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    watch: true,
   });
 
   const { data: userStake } = useContractRead({

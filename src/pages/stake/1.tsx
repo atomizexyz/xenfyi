@@ -30,6 +30,7 @@ const Stake = () => {
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    watch: true,
   });
 
   const { data: userStake } = useContractRead({
@@ -56,10 +57,10 @@ const Stake = () => {
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(
-        watchAllFields?.startStakeAmount?.toString() ?? "0",
-        balanceData?.decimals
+        Number(watchAllFields?.startStakeAmount ?? 0).toString(),
+        balanceData?.decimals ?? 1
       ),
-      watchAllFields.startStakeDays,
+      watchAllFields.startStakeDays ?? 0,
     ],
   });
   const { write: writeStake } = useContractWrite(config);
