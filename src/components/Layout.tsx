@@ -1,4 +1,3 @@
-import BackgroundSVG from "~/components/BackgroundSVG";
 import Navbar from "~/components/Navbar";
 import Meta from "~/components/Meta";
 import { Toaster, resolveValue } from "react-hot-toast";
@@ -8,9 +7,6 @@ const Layout = ({ children }: any) => {
   return (
     <div>
       <Meta />
-      <div className="absolute top-0 left-0 -z-10 overflow-visible">
-        <BackgroundSVG />
-      </div>
       <Navbar />
       {children}
       <Toaster position="top-right">
