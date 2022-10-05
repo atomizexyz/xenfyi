@@ -17,6 +17,7 @@ import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { stakeYield, stakeAPY } from "~/lib/helpers";
+import { BigNumber, ethers } from "ethers";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -54,7 +55,10 @@ const Stake = () => {
     ...xenContract,
     functionName: "stake",
     args: [
-      watchAllFields.startStakeAmount * 1e18,
+      ethers.utils.parseUnits(
+        watchAllFields?.startStakeAmount?.toString() ?? "0",
+        balanceData?.decimals
+      ),
       watchAllFields.startStakeDays,
     ],
   });
@@ -97,7 +101,7 @@ const Stake = () => {
               <div className="flex flex-col space-y-4">
                 <h2 className="card-title text-neutral">Start Stake</h2>
                 <AmountField
-                  balance={balanceData?.formatted ?? "0.0"}
+                  value={BigNumber.from(balanceData?.value ?? 0).toString()}
                   disabled={disabled}
                   register={register("startStakeAmount")}
                   setValue={setValue}

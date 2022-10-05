@@ -1,4 +1,5 @@
 import CountUp from "react-countup";
+import { ethers } from "ethers";
 
 interface ProgressStat {
   title: string;
@@ -88,15 +89,20 @@ interface NumberStat {
   decimals?: number;
   suffix?: string;
   description?: string;
+  tokenDecimals?: number;
 }
 
 export const NumberStatCard = (props: NumberStat) => {
+  let value = props.value;
+  if (props.tokenDecimals != null) {
+    value = Number(ethers.utils.formatUnits(props.value.toString(), 18));
+  }
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-3xl text-right">
         <CountUp
-          end={props.value}
+          end={value}
           preserveValue={true}
           separator={props?.separator ?? ","}
           decimals={props?.decimals ?? 2}

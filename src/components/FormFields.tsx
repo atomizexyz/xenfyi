@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 export const AmountField = (props: any) => {
   return (
     <div className="form-control w-full">
@@ -17,9 +19,14 @@ export const AmountField = (props: any) => {
           XEN amount up to balance
         </span>
         <span className="label-text-alt text-neutral">
-          Balance: {props.balance}
+          {`Balance: ${ethers.utils.formatUnits(props.value, props.decimals)}`}
           <a
-            onClick={() => props.setValue("startStakeAmount", props.balance)}
+            onClick={() =>
+              props.setValue(
+                "startStakeAmount",
+                ethers.utils.formatUnits(props.value, props.decimals)
+              )
+            }
             className="btn btn-xs glass text-neutral ml-2"
           >
             MAX

@@ -30,7 +30,7 @@ const Stake = () => {
     ...xenContract,
     functionName: "withdraw",
   });
-  const { write: writeStake } = useContractWrite(config);
+  const { write: writeStake, isSuccess } = useContractWrite(config);
   const handleStakeSubmit = () => {
     writeStake?.();
   };

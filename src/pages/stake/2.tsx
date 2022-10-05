@@ -24,14 +24,15 @@ const Stake = () => {
 
   const mintItems = [
     {
-      title: "Balance",
+      title: "Liquid XEN",
       value: balanceData?.formatted,
       suffix: "",
     },
     {
-      title: "Amount",
+      title: "Staked XEN",
       value: userStake?.amount,
       suffix: "",
+      tokenDecimals: balanceData?.decimals,
     },
     {
       title: "APY",
@@ -86,6 +87,7 @@ const Stake = () => {
                   title={item.title}
                   value={item.value}
                   suffix={item.suffix}
+                  tokenDecimals={item.tokenDecimals}
                 />
               ))}
             </div>
