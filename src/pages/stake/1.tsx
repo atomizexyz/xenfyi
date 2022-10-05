@@ -9,6 +9,7 @@ import {
   useContractRead,
   useContractReads,
   useContractWrite,
+  useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
 import { DaysField, AmountField } from "~/components/FormFields";
@@ -22,6 +23,9 @@ import { stakeYield, stakeAPY } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+// import toast from "react-hot-toast";
+
+import { clsx } from "clsx";
 import * as yup from "yup";
 
 const Stake = () => {
@@ -29,6 +33,7 @@ const Stake = () => {
   const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
+  const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(new Date().getTime());
 
   /*** CONTRACT READ SETUP  ***/
@@ -105,9 +110,17 @@ const Stake = () => {
       watchAllFields.startStakeDays ?? 0,
     ],
   });
-  const { write: writeStake } = useContractWrite({
+  const { data: stakeData, write: writeStake } = useContractWrite({
     ...config,
-    onSuccess() {
+    onSuccess(data) {
+      setProcessing(true);
+      setDisabled(true);
+    },
+  });
+  const {} = useWaitForTransaction({
+    hash: stakeData?.hash,
+    onSuccess(data) {
+      // toast("Stake successful");
       router.push("/stake/2");
     },
   });
@@ -123,10 +136,16 @@ const Stake = () => {
       setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
     }
 
-    if (address && userStake && userStake.term == 0) {
+    if (!processing && address && userStake && userStake.term == 0) {
       setDisabled(false);
     }
-  }, [address, contractReads, userStake, watchAllFields.startStakeDays]);
+  }, [
+    address,
+    contractReads,
+    processing,
+    userStake,
+    watchAllFields.startStakeDays,
+  ]);
 
   return (
     <Container>
@@ -207,7 +226,9 @@ const Stake = () => {
                 </div>
                 <button
                   type="submit"
-                  className="btn glass text-neutral"
+                  className={clsx("btn glass text-neutral", {
+                    loading: processing,
+                  })}
                   disabled={disabled}
                 >
                   Start Stake

@@ -21,6 +21,7 @@ export const AmountField = (props: any) => {
         <span className="label-text-alt text-neutral">
           {`Balance: ${ethers.utils.formatUnits(props.value, props.decimals)}`}
           <button
+            type="button"
             onClick={() =>
               props.setValue(
                 "startStakeAmount",

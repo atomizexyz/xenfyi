@@ -3,6 +3,7 @@ import {
   useAccount,
   useContractRead,
   useContractWrite,
+  useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
 import Container from "~/components/Container";
@@ -18,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { clsx } from "clsx";
 import * as yup from "yup";
 
 const Mint = () => {
@@ -25,6 +27,7 @@ const Mint = () => {
   const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
+  const [processing, setProcessing] = useState(false);
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -46,9 +49,16 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "claimMintReward",
   });
-  const { write: writeClaim } = useContractWrite({
+  const { data: claimData, write: writeClaim } = useContractWrite({
     ...configClaim,
-    onSuccess() {
+    onSuccess(data) {
+      setProcessing(true);
+      setDisabled(true);
+    },
+  });
+  const {} = useWaitForTransaction({
+    hash: claimData?.hash,
+    onSuccess(data) {
       router.push("/stake/1");
     },
   });
@@ -98,9 +108,16 @@ const Mint = () => {
       cShareWatchAllFields.claimSharePercentage,
     ],
   });
-  const { write: writeClaimShare } = useContractWrite({
+  const { data: claimShareData, write: writeClaimShare } = useContractWrite({
     ...configClaimShare,
-    onSuccess() {
+    onSuccess(data) {
+      setProcessing(true);
+      setDisabled(true);
+    },
+  });
+  const {} = useWaitForTransaction({
+    hash: claimShareData?.hash,
+    onSuccess(data) {
       router.push("/stake/1");
     },
   });
@@ -145,12 +162,20 @@ const Mint = () => {
       cStakeWatchAllFields.claimStakeDays,
     ],
   });
-  const { write: writeClaimStake } = useContractWrite({
+  const { data: claimStakeData, write: writeClaimStake } = useContractWrite({
     ...configClaimStake,
-    onSuccess() {
+    onSuccess(data) {
+      setProcessing(true);
+      setDisabled(true);
+    },
+  });
+  const {} = useWaitForTransaction({
+    hash: claimStakeData?.hash,
+    onSuccess(data) {
       router.push("/stake/2");
     },
   });
+
   const handleClaimStakeSubmit = () => {
     writeClaimStake?.();
   };
@@ -165,9 +190,11 @@ const Mint = () => {
       !data.maturityTs.isZero() &&
       data.maturityTs < utcTime
     ) {
-      setDisabled(false);
+      if (!processing) {
+        setDisabled(false);
+      }
     }
-  }, [address, data, utcTime]);
+  }, [address, data, processing, utcTime]);
 
   return (
     <Container>
@@ -194,7 +221,9 @@ const Mint = () => {
                   <h2 className="card-title text-neutral">Claim</h2>
                   <button
                     type="submit"
-                    className="btn glass text-neutral"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
                     disabled={disabled}
                   >
                     Claim
@@ -232,7 +261,9 @@ const Mint = () => {
 
                   <button
                     type="submit"
-                    className="btn glass text-neutral"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
                     disabled={disabled}
                   >
                     Claim + Share
@@ -269,7 +300,9 @@ const Mint = () => {
 
                   <button
                     type="submit"
-                    className="btn glass text-neutral"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
                     disabled={disabled}
                   >
                     Claim + Stake

@@ -5,6 +5,7 @@ import {
   useAccount,
   useContractRead,
   useContractWrite,
+  useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
 import { useRouter } from "next/router";
@@ -12,12 +13,15 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
+// import toast from "react-hot-toast";
+import { clsx } from "clsx";
 
 const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
+  const [processing, setProcessing] = useState(false);
   const [earlyEndStake, setEarlyEndStake] = useState(false);
 
   const { handleSubmit } = useForm();
@@ -34,9 +38,17 @@ const Stake = () => {
     ...xenContract(chain),
     functionName: "withdraw",
   });
-  const { write: writeStake } = useContractWrite({
+  const { data: withdrawData, write: writeStake } = useContractWrite({
     ...config,
-    onSuccess() {
+    onSuccess(data) {
+      setProcessing(true);
+      setDisabled(true);
+    },
+  });
+  const {} = useWaitForTransaction({
+    hash: withdrawData?.hash,
+    onSuccess(data) {
+      // toast("End stake successful");
       router.push("/stake/1");
     },
   });
@@ -47,13 +59,13 @@ const Stake = () => {
   const utcTime = new Date().getTime() / 1000;
 
   useEffect(() => {
-    if (address && userStake && !userStake.maturityTs.isZero()) {
+    if (!processing && address && userStake && !userStake.maturityTs.isZero()) {
       setDisabled(false);
       if (utcTime < userStake.maturityTs) {
         setEarlyEndStake(true);
       }
     }
-  }, [address, utcTime, userStake, router]);
+  }, [address, utcTime, userStake, router, processing]);
 
   return (
     <Container>
@@ -97,7 +109,9 @@ const Stake = () => {
                 )}
                 <button
                   type="submit"
-                  className="btn glass text-neutral"
+                  className={clsx("btn glass text-neutral", {
+                    loading: processing,
+                  })}
                   disabled={disabled}
                 >
                   {earlyEndStake ? "Early End Stake" : "End Stake"}

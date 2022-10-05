@@ -3,6 +3,7 @@ import {
   useAccount,
   useContractRead,
   useContractWrite,
+  useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
 import Container from "~/components/Container";
@@ -14,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { clsx } from "clsx";
 import * as yup from "yup";
 
 const Mint = () => {
@@ -21,6 +23,7 @@ const Mint = () => {
   const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
+  const [processing, setProcessing] = useState(false);
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -62,9 +65,16 @@ const Mint = () => {
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
   });
-  const { write } = useContractWrite({
+  const { data: claimRankData, write } = useContractWrite({
     ...config,
-    onSuccess() {
+    onSuccess(data) {
+      setProcessing(true);
+      setDisabled(true);
+    },
+  });
+  const {} = useWaitForTransaction({
+    hash: claimRankData?.hash,
+    onSuccess(data) {
       router.push("/mint/2");
     },
   });
@@ -75,10 +85,10 @@ const Mint = () => {
   /*** USE EFFECT ****/
 
   useEffect(() => {
-    if (address && data && data.term.isZero()) {
+    if (!processing && address && data && data.term.isZero()) {
       setDisabled(false);
     }
-  }, [address, data]);
+  }, [address, data, processing]);
 
   return (
     <Container>
@@ -111,7 +121,9 @@ const Mint = () => {
                 />
                 <button
                   type="submit"
-                  className="btn glass text-neutral"
+                  className={clsx("btn glass text-neutral", {
+                    loading: processing,
+                  })}
                   disabled={disabled}
                 >
                   Start Mint
