@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
 
@@ -75,6 +76,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimRankData?.hash,
     onSuccess(data) {
+      toast("Mint successful");
       router.push("/mint/2");
     },
   });

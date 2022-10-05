@@ -25,7 +25,6 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
-// import { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
 
 const navigationItems = [

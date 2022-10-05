@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
 
@@ -59,6 +60,8 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimData?.hash,
     onSuccess(data) {
+      toast("Claim successful");
+
       router.push("/stake/1");
     },
   });
@@ -118,6 +121,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimShareData?.hash,
     onSuccess(data) {
+      toast("Claim and share successful");
       router.push("/stake/1");
     },
   });
@@ -172,6 +176,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimStakeData?.hash,
     onSuccess(data) {
+      toast("Claim and stake successful");
       router.push("/stake/2");
     },
   });

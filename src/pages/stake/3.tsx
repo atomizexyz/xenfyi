@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import { clsx } from "clsx";
 
 const Stake = () => {
@@ -48,7 +48,7 @@ const Stake = () => {
   const {} = useWaitForTransaction({
     hash: withdrawData?.hash,
     onSuccess(data) {
-      // toast("End stake successful");
+      toast("End stake successful");
       router.push("/stake/1");
     },
   });

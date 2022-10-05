@@ -23,7 +23,7 @@ import { stakeYield, stakeAPY } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import { clsx } from "clsx";
 import * as yup from "yup";
@@ -120,7 +120,7 @@ const Stake = () => {
   const {} = useWaitForTransaction({
     hash: stakeData?.hash,
     onSuccess(data) {
-      // toast("Stake successful");
+      toast("Stake successful");
       router.push("/stake/2");
     },
   });
