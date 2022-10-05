@@ -60,7 +60,6 @@ const Stake = () => {
       },
     ],
     overrides: { from: address },
-    cacheOnBlock: true,
   });
 
   /*** FORM SETUP ***/
@@ -127,8 +126,6 @@ const Stake = () => {
   const handleStakeSubmit = (data: any) => {
     writeStake?.();
   };
-
-  console.log(config);
 
   /*** USE EFFECT ****/
 
