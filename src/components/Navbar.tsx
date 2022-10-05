@@ -10,14 +10,15 @@ import {
   DotsVerticalIcon,
   ViewGridIcon,
   LockClosedIcon,
+  GiftIcon,
 } from "@heroicons/react/outline";
 import {
   TwitterIcon,
   TelegramIcon,
   GitHubIcon,
-  Diamond,
-  SmartContract,
-  Wallet,
+  DiamondIcon,
+  SmartContractIcon,
+  WalletIcon,
   DiscordIcon,
 } from "./Icons";
 import { xenContract } from "~/lib/xen-contract";
@@ -35,7 +36,7 @@ const navigationItems = [
   },
   {
     name: "Mint",
-    icon: <Diamond />,
+    icon: <DiamondIcon />,
     href: "/mint",
   },
   {
@@ -73,8 +74,13 @@ const linkItems = [
   },
   {
     name: "Contract",
-    icon: <SmartContract />,
+    icon: <SmartContractIcon />,
     href: "https://scan.v2b.testnet.pulsechain.com/address/0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+  },
+  {
+    name: "Gift XEN",
+    icon: <GiftIcon className="h-5 w-5" />,
+    href: "https://etherscan.io/address/0x806f5d470ee7dd7b7a8ceb092d3fa7ef00a70576",
   },
 ];
 
@@ -228,7 +234,7 @@ const Navbar = () => {
                 }}
               >
                 Add XEN to Wallet
-                <Wallet />
+                <WalletIcon />
               </button>
             </li>
             {linkItems.map((item, index) => (

@@ -47,7 +47,7 @@ export const TwitterIcon = () => (
   </svg>
 );
 
-export const Diamond = () => (
+export const DiamondIcon = () => (
   <svg
     width="24"
     height="24"
@@ -64,7 +64,7 @@ export const Diamond = () => (
   </svg>
 );
 
-export const Event = () => (
+export const EventIcon = () => (
   <svg
     width="24"
     height="24"
@@ -81,7 +81,7 @@ export const Event = () => (
   </svg>
 );
 
-export const SmartContract = () => (
+export const SmartContractIcon = () => (
   <svg
     width="24"
     height="24"
@@ -99,7 +99,7 @@ export const SmartContract = () => (
   </svg>
 );
 
-export const Wallet = () => (
+export const WalletIcon = () => (
   <svg
     width="24"
     height="24"
