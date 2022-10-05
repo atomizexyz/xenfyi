@@ -28,7 +28,7 @@ const Stake = () => {
     watch: true,
   });
 
-  const { config, error } = usePrepareContractWrite({
+  const { config } = usePrepareContractWrite({
     ...xenContract,
     functionName: "withdraw",
   });
@@ -51,10 +51,7 @@ const Stake = () => {
         setEarlyEndStake(true);
       }
     }
-    if (withdrawResponse) {
-      router.push("/stake/1");
-    }
-  }, [address, utcTime, userStake, withdrawResponse, router]);
+  }, [address, utcTime, userStake, router]);
 
   return (
     <Container>

@@ -38,8 +38,7 @@ const Mint = () => {
 
   // Claim
 
-  const { handleSubmit: cHandleSubmit, watch: cWatch } = useForm();
-  const cWatchAllFields = cWatch();
+  const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
     ...xenContract,

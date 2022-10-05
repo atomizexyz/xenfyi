@@ -92,7 +92,7 @@ const Stake = () => {
 
   /*** CONTRACT WRITE SETUP ***/
 
-  const { config, error } = usePrepareContractWrite({
+  const { config } = usePrepareContractWrite({
     ...xenContract,
     functionName: "stake",
     args: [
