@@ -17,7 +17,6 @@ import {
   TelegramIcon,
   GitHubIcon,
   DiamondIcon,
-  SmartContractIcon,
   WalletIcon,
   DiscordIcon,
 } from "./Icons";
@@ -27,6 +26,7 @@ import { useRouter } from "next/router";
 import { clsx } from "clsx";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 import { useState, useEffect } from "react";
+import { isMobile } from "react-device-detect";
 
 const navigationItems = [
   {
@@ -196,9 +196,6 @@ const Navbar = () => {
                     <pre className="text-base font-light">
                       {truncatedAddress}
                     </pre>
-                    <div className="ml-2 lg:absolute badge badge-lg right-2 lg:-top-2 lg:-right-3 shadow-md glass">
-                      🟢
-                    </div>
                   </div>
                 ) : (
                   "Connect Wallet"
@@ -230,23 +227,25 @@ const Navbar = () => {
                 <SunIcon className="swap-off w-5 h-5 absolute right-4" />
               </label>
             </li>
-            <li>
-              <button
-                className="justify-between text-neutral glass"
-                onClick={() => {
-                  (connector as InjectedConnector)?.watchAsset?.({
-                    address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-                    decimals: 18,
-                    image: "https://xen.fyi/images/xen.png",
-                    symbol: "XEN",
-                  });
-                  (document.activeElement as HTMLElement).blur();
-                }}
-              >
-                Add XEN to Wallet
-                <WalletIcon />
-              </button>
-            </li>
+            {!isMobile && (
+              <li>
+                <button
+                  className="justify-between text-neutral glass"
+                  onClick={() => {
+                    (connector as InjectedConnector)?.watchAsset?.({
+                      address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+                      decimals: 18,
+                      image: "https://xen.fyi/images/xen.png",
+                      symbol: "XEN",
+                    });
+                    (document.activeElement as HTMLElement).blur();
+                  }}
+                >
+                  Add XEN to Wallet
+                  <WalletIcon />
+                </button>
+              </li>
+            )}
             {linkItems.map((item, index) => (
               <li key={index}>
                 <Link href={item.href ?? "/"}>
