@@ -5,17 +5,24 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Container from "~/components/Container";
-import { PercentageField, DaysField } from "~/components/FormFields";
+import {
+  PercentageField,
+  DaysField,
+  WalletAddressField,
+} from "~/components/FormFields";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
+import { ErrorMessage } from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const Mint = () => {
   const { address } = useAccount();
-  const [disabled, setDisabled] = useState(true);
-  const { register, handleSubmit, watch } = useForm();
-  const watchAllFields = watch();
+  const [disabled, setDisabled] = useState(false);
+
+  /*** CONTRACT READ SETUP  ***/
 
   const { data } = useContractRead({
     ...xenContract,
@@ -25,7 +32,12 @@ const Mint = () => {
     watch: true,
   });
 
-  /*** Claim  ***/
+  /*** FORM SETUP ***/
+
+  // Claim
+
+  const { handleSubmit: cHandleSubmit, watch: cWatch } = useForm();
+  const cWatchAllFields = cWatch();
 
   const { config: configClaim } = usePrepareContractWrite({
     ...xenContract,
@@ -35,33 +47,99 @@ const Mint = () => {
   const handleClaimSubmit = () => {
     writeClaim?.();
   };
-  /*** Claim + Share ***/
+
+  // Claim + Share
+  const walletAddressesRegex = new RegExp(
+    `^(0x[0-9a-fA-F]{40})(,0x[0-9a-fA-F]{40})*$`
+  );
+
+  const schemaClaimShare = yup
+    .object()
+    .shape({
+      claimShareAddress: yup
+        .string()
+        .required("Crypto address required")
+        .matches(walletAddressesRegex, {
+          message: "Invalid address",
+          excludeEmptyString: true,
+        }),
+      claimSharePercentage: yup
+        .number()
+        .required("Percentage required")
+        .positive("Percentage must be greater than 0")
+        .max(100, "Maximum claim + share percentage: 100")
+        .typeError("Percentage required"),
+    })
+    .required();
+
+  const {
+    register: cShareRegister,
+    handleSubmit: cShareHandleSubmit,
+    watch: cShareWatch,
+    formState: { errors: cShareErrors },
+  } = useForm({
+    resolver: yupResolver(schemaClaimShare),
+  });
+  const cShareWatchAllFields = cShareWatch();
 
   const { config: configClaimShare } = usePrepareContractWrite({
     ...xenContract,
     functionName: "claimMintRewardAndShare",
     args: [
-      watchAllFields.claimShareAddress,
-      watchAllFields.claimSharePercentage,
+      cShareWatchAllFields.claimShareAddress,
+      cShareWatchAllFields.claimSharePercentage,
     ],
   });
   const { write: writeClaimShare } = useContractWrite(configClaimShare);
   const handleClaimShareSubmit = () => {
     writeClaimShare?.();
   };
-  /*** Claim + Stake ***/
+
+  // Claim + Stake
+
+  const schemaClaimStake = yup
+    .object()
+    .shape({
+      claimStakePercentage: yup
+        .number()
+        .required("Percentage required")
+        .positive("Percentage must be greater than 0")
+        .max(100, "Maximum claim + stake percentage: 100")
+        .typeError("Percentage required"),
+      claimStakeDays: yup
+        .number()
+        .required("Days required")
+        .positive("Days must be greater than 0")
+        .typeError("Days required"),
+    })
+    .required();
+
+  const {
+    register: cStakeRegister,
+    handleSubmit: cStakeHandleSubmit,
+    watch: cStakeWatch,
+    formState: { errors: cStakeErrors },
+  } = useForm({
+    resolver: yupResolver(schemaClaimStake),
+  });
+  const cStakeWatchAllFields = cStakeWatch();
 
   const { config: configClaimStake } = usePrepareContractWrite({
     ...xenContract,
     functionName: "claimMintRewardAndStake",
-    args: [watchAllFields.claimStakePercentage, watchAllFields.claimStakeDays],
+    args: [
+      cStakeWatchAllFields.claimStakePercentage,
+      cStakeWatchAllFields.claimStakeDays,
+    ],
   });
   const { write: writeClaimStake } = useContractWrite(configClaimStake);
   const handleClaimStakeSubmit = () => {
     writeClaimStake?.();
   };
 
+  /*** USE EFFECT ****/
   const utcTime = new Date().getTime() / 1000;
+
   useEffect(() => {
     if (
       address &&
@@ -93,7 +171,7 @@ const Mint = () => {
         <div className="card glass">
           <div className="card-body">
             <div className="flex flex-col w-full border-opacity-50">
-              <form onSubmit={handleSubmit(handleClaimSubmit)}>
+              <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim</h2>
                   <button
@@ -105,40 +183,33 @@ const Mint = () => {
                   </button>
                 </div>
               </form>
-
               {/* OR */}
-
               <div className="divider">OR</div>
               {/* OR */}
-              <form onSubmit={handleSubmit(handleClaimShareSubmit)}>
+              <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Share</h2>
-                  <div className="form-control w-full">
-                    <label className="label text-neutral">
-                      <span className="label-text text-neutral">
-                        WALLET ADDRESS
-                      </span>
-                      <span className="label-text-alt text-error">
-                        Required
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="0x"
-                      className="input input-bordered w-full text-neutral"
-                      disabled={disabled}
-                      {...register("claimShareAddress")}
-                    />
-                    <label className="label">
-                      <span className="label-text-alt text-neutral">
-                        Wallet address where you want to share your XEN
-                      </span>
-                    </label>
-                  </div>
+
+                  <WalletAddressField
+                    disabled={disabled}
+                    errorMessage={
+                      <ErrorMessage
+                        errors={cShareErrors}
+                        name="claimShareAddress"
+                      />
+                    }
+                    register={cShareRegister("claimShareAddress")}
+                  />
 
                   <PercentageField
                     disabled={disabled}
-                    register={register("claimSharePercentage")}
+                    errorMessage={
+                      <ErrorMessage
+                        errors={cShareErrors}
+                        name="claimSharePercentage"
+                      />
+                    }
+                    register={cShareRegister("claimSharePercentage")}
                   />
 
                   <button
@@ -150,20 +221,32 @@ const Mint = () => {
                   </button>
                 </div>
               </form>
-
               {/* OR */}
               <div className="divider">OR</div>
               {/* OR */}
-              <form onSubmit={handleSubmit(handleClaimStakeSubmit)}>
+              <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Stake</h2>
                   <PercentageField
                     disabled={disabled}
-                    register={register("claimStakePercentage")}
+                    errorMessage={
+                      <ErrorMessage
+                        errors={cStakeErrors}
+                        name="claimStakePercentage"
+                      />
+                    }
+                    register={cStakeRegister("claimStakePercentage")}
                   />
+
                   <DaysField
                     disabled={disabled}
-                    register={register("claimStakeDays")}
+                    errorMessage={
+                      <ErrorMessage
+                        errors={cStakeErrors}
+                        name="claimStakeDays"
+                      />
+                    }
+                    register={cStakeRegister("claimStakeDays")}
                   />
 
                   <button

@@ -145,7 +145,7 @@ const Navbar = () => {
         setStakePageOverride(3);
       }
     }
-  }, [userMint]);
+  }, [userMint, userStake]);
 
   return (
     <div className="navbar">

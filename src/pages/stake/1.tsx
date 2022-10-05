@@ -18,14 +18,16 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { stakeYield, stakeAPY } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
+import { ErrorMessage } from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const Stake = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(true);
-  const { register, handleSubmit, watch, setValue } = useForm();
-  const watchAllFields = watch();
-
   const [maturity, setMaturity] = useState<number>(new Date().getTime());
+
+  /*** CONTRACT READ SETUP  ***/
 
   const { data: balanceData } = useBalance({
     addressOrName: address,
@@ -52,12 +54,48 @@ const Stake = () => {
     cacheOnBlock: true,
   });
 
+  /*** FORM SETUP ***/
+
+  const schema = yup
+    .object()
+    .shape({
+      startStakeAmount: yup
+        .number()
+        .required("Stake amount required")
+        .max(
+          Number(balanceData?.formatted ?? 0),
+          `Maximum stake amount: ${balanceData?.formatted}`
+        )
+        .positive()
+        .typeError("Stake amount required"),
+      startStakeDays: yup
+        .number()
+        .required("Days required")
+        .max(1000, "Maximum stake days: 1000")
+        .positive("Days must be greater than 0")
+        .typeError("Days required"),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const watchAllFields = watch();
+
+  /*** CONTRACT WRITE SETUP ***/
+
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(
-        Number(watchAllFields?.startStakeAmount ?? 0).toString(),
+        (Number(watchAllFields?.startStakeAmount) || 0).toString(),
         balanceData?.decimals ?? 1
       ),
       watchAllFields.startStakeDays ?? 0,
@@ -67,6 +105,8 @@ const Stake = () => {
   const handleStakeSubmit = (data: any) => {
     writeStake?.();
   };
+
+  /*** USE EFFECT ****/
 
   useEffect(() => {
     if (watchAllFields.startStakeDays) {
@@ -104,11 +144,17 @@ const Stake = () => {
                 <AmountField
                   value={BigNumber.from(balanceData?.value ?? 0).toString()}
                   disabled={disabled}
+                  errorMessage={
+                    <ErrorMessage errors={errors} name="startStakeAmount" />
+                  }
                   register={register("startStakeAmount")}
                   setValue={setValue}
                 />
                 <DaysField
                   disabled={disabled}
+                  errorMessage={
+                    <ErrorMessage errors={errors} name="startStakeDays" />
+                  }
                   register={register("startStakeDays")}
                 />
 

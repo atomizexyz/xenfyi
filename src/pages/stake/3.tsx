@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { useState, useEffect } from "react";
-import { ExclamationCircleIcon } from "@heroicons/react/outline";
+import { InformationCircleIcon } from "@heroicons/react/outline";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -72,13 +72,15 @@ const Stake = () => {
                   <div className="alert shadow-lg glass">
                     <div>
                       <div>
-                        <ExclamationCircleIcon className="w-8 h-8" />
+                        <InformationCircleIcon className="w-8 h-8" />
                       </div>
                       <div>
-                        <h3 className="font-bold">Penalty</h3>
+                        <h3 className="font-bold">Note</h3>
                         <div className="text-xs">
                           Your stake term is not over yet. You can end your
-                          stake early but ending early will result in a penalty.
+                          stake early without a penalty without you yield or you
+                          can wait until your stake matures to get the full
+                          yield.
                         </div>
                       </div>
                     </div>

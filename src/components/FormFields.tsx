@@ -5,7 +5,7 @@ export const AmountField = (props: any) => {
     <div className="form-control w-full">
       <label className="label text-neutral">
         <span className="label-text text-neutral">AMOUNT</span>
-        <span className="label-text-alt text-error">Required</span>
+        <span className="label-text-alt text-error">{props.errorMessage}</span>
       </label>
       <input
         type="text"
@@ -43,7 +43,7 @@ export const DaysField = (props: any) => {
     <div className="form-control w-full">
       <label className="label text-neutral">
         <span className="label-text text-neutral">DAYS</span>
-        <span className="label-text-alt text-error">Required</span>
+        <span className="label-text-alt text-error">{props.errorMessage}</span>
       </label>
       <input
         type="text"
@@ -64,7 +64,7 @@ export const PercentageField = (props: any) => {
     <div className="form-control w-full">
       <label className="label text-neutral">
         <span className="label-text text-neutral">SHARE PERCENTAGE</span>
-        <span className="label-text-alt text-error">Required</span>
+        <span className="label-text-alt text-error">{props.errorMessage}</span>
       </label>
       <input
         type="text"
@@ -75,6 +75,29 @@ export const PercentageField = (props: any) => {
       />
       <label className="label">
         <span className="label-text-alt text-neutral">XEN percentage</span>
+      </label>
+    </div>
+  );
+};
+
+export const WalletAddressField = (props: any) => {
+  return (
+    <div className="form-control w-full">
+      <label className="label text-neutral">
+        <span className="label-text text-neutral">WALLET ADDRESS</span>
+        <span className="label-text-alt text-error">{props.errorMessage}</span>
+      </label>
+      <input
+        type="text"
+        placeholder="0x"
+        className="input input-bordered w-full text-neutral"
+        disabled={props.disabled}
+        {...props.register}
+      />
+      <label className="label">
+        <span className="label-text-alt text-neutral">
+          Wallet address where you want to share your XEN
+        </span>
       </label>
     </div>
   );

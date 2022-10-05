@@ -10,15 +10,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
+import { ErrorMessage } from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const Mint = () => {
   const { address } = useAccount();
   const [disabled, setDisabled] = useState(true);
-  const { register, handleSubmit, watch } = useForm();
-  const watchAllFields = watch();
-  const onSubmit = () => {
-    write?.();
-  };
+
+  /*** CONTRACT READ SETUP  ***/
 
   const { data } = useContractRead({
     ...xenContract,
@@ -28,12 +28,42 @@ const Mint = () => {
     watch: true,
   });
 
+  /*** FORM SETUP ***/
+
+  const schema = yup
+    .object()
+    .shape({
+      startMintDays: yup
+        .number()
+        .required("Days required")
+        .positive("Days must be greater than 0")
+        .typeError("Days required"),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const watchAllFields = watch();
+
+  /*** CONTRACT WRITE SETUP ***/
+
   const { config, error } = usePrepareContractWrite({
     ...xenContract,
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
   });
   const { write } = useContractWrite(config);
+  const onSubmit = () => {
+    write?.();
+  };
+
+  /*** USE EFFECT ****/
 
   useEffect(() => {
     if (address && data && data.term.isZero()) {
@@ -65,6 +95,9 @@ const Mint = () => {
                 <h2 className="card-title text-neutral">Start Mint</h2>
                 <DaysField
                   disabled={disabled}
+                  errorMessage={
+                    <ErrorMessage errors={errors} name="startMintDays" />
+                  }
                   register={register("startMintDays")}
                 />
                 <button
