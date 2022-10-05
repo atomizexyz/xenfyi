@@ -16,8 +16,9 @@ import {
   TelegramIcon,
   GitHubIcon,
   Diamond,
-  SmartContraact,
+  SmartContract,
   Wallet,
+  DiscordIcon,
 } from "./Icons";
 import { xenContract } from "~/lib/xen-contract";
 import { useTheme } from "next-themes";
@@ -61,13 +62,18 @@ const linkItems = [
     href: "https://t.me/XENCryptoTalk",
   },
   {
+    name: "Discord",
+    icon: <DiscordIcon />,
+    href: "https://discord.gg/rcAhrKWJb6",
+  },
+  {
     name: "GitHub",
     icon: <GitHubIcon />,
     href: "https://github.com/FairCrypto",
   },
   {
     name: "Contract",
-    icon: <SmartContraact />,
+    icon: <SmartContract />,
     href: "https://scan.v2b.testnet.pulsechain.com/address/0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
   },
 ];
