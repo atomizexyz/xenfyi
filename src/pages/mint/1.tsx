@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { gasCalculator } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
@@ -136,15 +137,25 @@ const Mint = () => {
                   setValue={setValue}
                 />
 
-                <button
-                  type="submit"
-                  className={clsx("btn glass text-neutral", {
-                    loading: processing,
-                  })}
-                  disabled={disabled}
-                >
-                  Start Mint
-                </button>
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
+                    disabled={disabled}
+                  >
+                    Start Mint
+                  </button>
+                  <label className="label">
+                    <span className="label-text-alt text-neutral">
+                      GAS ESTIMATE:
+                    </span>
+                    <code className="label-text-alt text-neutral">
+                      {gasCalculator(Number(config?.request?.gasLimit ?? 0))}
+                    </code>
+                  </label>
+                </div>
               </div>
             </form>
           </div>

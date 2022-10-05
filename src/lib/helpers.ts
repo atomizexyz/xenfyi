@@ -1,5 +1,5 @@
 import { daysSince } from "~/components/StatCards";
-
+import { ethers } from "ethers";
 export const daysRemaining = (timestamp?: number) => {
   if (timestamp && timestamp > 0) {
     return (Number(timestamp) - Date.now() / 1000) / 86400;
@@ -67,4 +67,8 @@ export const stakeAPY = (data?: StakeData) => {
   } else {
     return 0;
   }
+};
+
+export const gasCalculator = (gwei: number) => {
+  return ethers.utils.formatUnits(gwei, "gwei");
 };

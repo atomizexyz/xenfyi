@@ -8,7 +8,6 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Link from "next/link";
-import CountUp from "react-countup";
 import Container from "~/components/Container";
 import { MaxValueField, WalletAddressField } from "~/components/FormFields";
 import { useState, useEffect } from "react";
@@ -17,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { gasCalculator } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
@@ -251,15 +251,27 @@ const Mint = () => {
                     value={Number(grossRewardData ?? 0)}
                   />
 
-                  <button
-                    type="submit"
-                    className={clsx("btn glass text-neutral", {
-                      loading: processing,
-                    })}
-                    disabled={disabled}
-                  >
-                    Claim
-                  </button>
+                  <div className="form-control w-full">
+                    <button
+                      type="submit"
+                      className={clsx("btn glass text-neutral", {
+                        loading: processing,
+                      })}
+                      disabled={disabled}
+                    >
+                      Claim
+                    </button>
+                    <label className="label">
+                      <span className="label-text-alt text-neutral">
+                        GAS ESTIMATE:
+                      </span>
+                      <code className="label-text-alt text-neutral">
+                        {gasCalculator(
+                          Number(configClaim?.request?.gasLimit ?? 0)
+                        )}
+                      </code>
+                    </label>
+                  </div>
                 </div>
               </form>
             </div>
@@ -307,15 +319,27 @@ const Mint = () => {
                     register={cShareRegister("claimShareAddress")}
                   />
 
-                  <button
-                    type="submit"
-                    className={clsx("btn glass text-neutral", {
-                      loading: processing,
-                    })}
-                    disabled={disabled}
-                  >
-                    Claim + Share
-                  </button>
+                  <div className="form-control w-full">
+                    <button
+                      type="submit"
+                      className={clsx("btn glass text-neutral", {
+                        loading: processing,
+                      })}
+                      disabled={disabled}
+                    >
+                      Claim + Share
+                    </button>
+                    <label className="label">
+                      <span className="label-text-alt text-neutral">
+                        GAS ESTIMATE:
+                      </span>
+                      <code className="label-text-alt text-neutral">
+                        {gasCalculator(
+                          Number(configClaimShare?.request?.gasLimit ?? 0)
+                        )}
+                      </code>
+                    </label>
+                  </div>
                 </div>
               </form>
             </div>
@@ -368,15 +392,27 @@ const Mint = () => {
                     setValue={cStakeSetValue}
                   />
 
-                  <button
-                    type="submit"
-                    className={clsx("btn glass text-neutral", {
-                      loading: processing,
-                    })}
-                    disabled={disabled}
-                  >
-                    Claim + Stake
-                  </button>
+                  <div className="form-control w-full">
+                    <button
+                      type="submit"
+                      className={clsx("btn glass text-neutral", {
+                        loading: processing,
+                      })}
+                      disabled={disabled}
+                    >
+                      Claim + Stake
+                    </button>
+                    <label className="label">
+                      <span className="label-text-alt text-neutral">
+                        GAS ESTIMATE:
+                      </span>
+                      <code className="label-text-alt text-neutral">
+                        {gasCalculator(
+                          Number(configClaimStake?.request?.gasLimit ?? 0)
+                        )}
+                      </code>
+                    </label>
+                  </div>
                 </div>
               </form>
             </div>

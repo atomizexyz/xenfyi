@@ -19,7 +19,7 @@ import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
-import { stakeYield, stakeAPY } from "~/lib/helpers";
+import { stakeYield, stakeAPY, gasCalculator } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -128,6 +128,8 @@ const Stake = () => {
     writeStake?.();
   };
 
+  console.log(config);
+
   /*** USE EFFECT ****/
 
   useEffect(() => {
@@ -232,15 +234,25 @@ const Stake = () => {
                     </div>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className={clsx("btn glass text-neutral", {
-                    loading: processing,
-                  })}
-                  disabled={disabled}
-                >
-                  Start Stake
-                </button>
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
+                    disabled={disabled}
+                  >
+                    Start Stake
+                  </button>
+                  <label className="label">
+                    <span className="label-text-alt text-neutral">
+                      GAS ESTIMATE:
+                    </span>
+                    <code className="label-text-alt text-neutral">
+                      {gasCalculator(Number(config?.request?.gasLimit ?? 0))}
+                    </code>
+                  </label>
+                </div>
               </div>
             </form>
           </div>

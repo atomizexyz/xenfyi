@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
+import { gasCalculator } from "~/lib/helpers";
 import { useState, useEffect } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
@@ -106,15 +107,26 @@ const Stake = () => {
                     </div>
                   </div>
                 )}
-                <button
-                  type="submit"
-                  className={clsx("btn glass text-neutral", {
-                    loading: processing,
-                  })}
-                  disabled={disabled}
-                >
-                  {earlyEndStake ? "Early End Stake" : "End Stake"}
-                </button>
+
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
+                    disabled={disabled}
+                  >
+                    {earlyEndStake ? "Early End Stake" : "End Stake"}
+                  </button>
+                  <label className="label">
+                    <span className="label-text-alt text-neutral">
+                      GAS ESTIMATE:
+                    </span>
+                    <code className="label-text-alt text-neutral">
+                      {gasCalculator(Number(config?.request?.gasLimit ?? 0))}
+                    </code>
+                  </label>
+                </div>
               </div>
             </form>
           </div>
