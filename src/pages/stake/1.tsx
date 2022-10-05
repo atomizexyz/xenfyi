@@ -12,7 +12,7 @@ import {
   useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
-import { DaysField, AmountField } from "~/components/FormFields";
+import { MaxValueField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
@@ -169,7 +169,9 @@ const Stake = () => {
             <form onSubmit={handleSubmit(handleStakeSubmit)}>
               <div className="flex flex-col space-y-4">
                 <h2 className="card-title text-neutral">Start Stake</h2>
-                <AmountField
+                <MaxValueField
+                  title="AMOUNT"
+                  description="Maximum stake amount"
                   value={BigNumber.from(balanceData?.value ?? 0).toString()}
                   disabled={disabled}
                   errorMessage={
@@ -178,12 +180,18 @@ const Stake = () => {
                   register={register("startStakeAmount")}
                   setValue={setValue}
                 />
-                <DaysField
+
+                <MaxValueField
+                  title="DAYS"
+                  description="Maximum stake days"
+                  decimals={0}
+                  value={1000}
                   disabled={disabled}
                   errorMessage={
                     <ErrorMessage errors={errors} name="startStakeDays" />
                   }
                   register={register("startStakeDays")}
+                  setValue={setValue}
                 />
 
                 <div className="stats glass w-full text-neutral">

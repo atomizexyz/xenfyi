@@ -25,7 +25,6 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    cacheOnBlock: true,
     watch: true,
   });
 
@@ -40,7 +39,6 @@ const Mint = () => {
         functionName: "globalRank",
       },
     ],
-    cacheOnBlock: true,
     watch: true,
   });
 

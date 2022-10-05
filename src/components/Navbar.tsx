@@ -97,12 +97,14 @@ const Navbar = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
+    watch: true,
   });
 
   const { data: userStake } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
+    watch: true,
   });
 
   const NavigationItems = () => {

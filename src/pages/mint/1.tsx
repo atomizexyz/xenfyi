@@ -7,7 +7,7 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Container from "~/components/Container";
-import { DaysField } from "~/components/FormFields";
+import { MaxValueField } from "~/components/FormFields";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -24,6 +24,7 @@ const Mint = () => {
   const { chain } = useNetwork();
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
+  const [maxFreeMint, setMaxFreeMint] = useState(100);
   const [processing, setProcessing] = useState(false);
 
   /*** CONTRACT READ SETUP  ***/
@@ -32,7 +33,12 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    cacheOnBlock: true,
+    watch: true,
+  });
+
+  const { data: maxTermData } = useContractRead({
+    ...xenContract(chain),
+    functionName: "getCurrentMaxTerm",
     watch: true,
   });
 
@@ -44,6 +50,7 @@ const Mint = () => {
       startMintDays: yup
         .number()
         .required("Days required")
+        .max(maxFreeMint, `Maximum mint days: ${maxFreeMint}`)
         .positive("Days must be greater than 0")
         .typeError("Days required"),
     })
@@ -54,6 +61,7 @@ const Mint = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -90,7 +98,8 @@ const Mint = () => {
     if (!processing && address && data && data.term.isZero()) {
       setDisabled(false);
     }
-  }, [address, data, processing]);
+    setMaxFreeMint(Number(maxTermData ?? 100));
+  }, [address, data, processing, maxTermData]);
 
   return (
     <Container>
@@ -114,13 +123,19 @@ const Mint = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col space-y-4">
                 <h2 className="card-title text-neutral">Start Mint</h2>
-                <DaysField
+                <MaxValueField
+                  title="DAYS"
+                  description="Number of days"
+                  decimals={0}
+                  value={maxFreeMint}
                   disabled={disabled}
                   errorMessage={
                     <ErrorMessage errors={errors} name="startMintDays" />
                   }
                   register={register("startMintDays")}
+                  setValue={setValue}
                 />
+
                 <button
                   type="submit"
                   className={clsx("btn glass text-neutral", {

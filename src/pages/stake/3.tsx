@@ -30,7 +30,6 @@ const Stake = () => {
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
-    cacheOnBlock: true,
     watch: true,
   });
 

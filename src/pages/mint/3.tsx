@@ -7,11 +7,7 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Container from "~/components/Container";
-import {
-  PercentageField,
-  DaysField,
-  WalletAddressField,
-} from "~/components/FormFields";
+import { MaxValueField, WalletAddressField } from "~/components/FormFields";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -36,7 +32,6 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    cacheOnBlock: true,
     watch: true,
   });
 
@@ -98,6 +93,7 @@ const Mint = () => {
     handleSubmit: cShareHandleSubmit,
     watch: cShareWatch,
     formState: { errors: cShareErrors },
+    setValue: cShareSetValue,
   } = useForm({
     resolver: yupResolver(schemaClaimShare),
   });
@@ -153,6 +149,7 @@ const Mint = () => {
     handleSubmit: cStakeHandleSubmit,
     watch: cStakeWatch,
     formState: { errors: cStakeErrors },
+    setValue: cStakeSetValue,
   } = useForm({
     resolver: yupResolver(schemaClaimStake),
   });
@@ -242,15 +239,20 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Share</h2>
 
-                  <PercentageField
+                  <MaxValueField
+                    title="PERCENTAGE"
+                    description="Stake percentage"
+                    decimals={0}
+                    value={100}
                     disabled={disabled}
                     errorMessage={
                       <ErrorMessage
-                        errors={cShareErrors}
+                        errors={cStakeErrors}
                         name="claimSharePercentage"
                       />
                     }
                     register={cShareRegister("claimSharePercentage")}
+                    setValue={cShareSetValue}
                   />
 
                   <WalletAddressField
@@ -281,7 +283,12 @@ const Mint = () => {
               <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Stake</h2>
-                  <PercentageField
+
+                  <MaxValueField
+                    title="PERCENTAGE"
+                    description="Stake percentage"
+                    decimals={0}
+                    value={100}
                     disabled={disabled}
                     errorMessage={
                       <ErrorMessage
@@ -290,9 +297,14 @@ const Mint = () => {
                       />
                     }
                     register={cStakeRegister("claimStakePercentage")}
+                    setValue={cStakeSetValue}
                   />
 
-                  <DaysField
+                  <MaxValueField
+                    title="DAYS"
+                    description="Stake days"
+                    decimals={0}
+                    value={1000}
                     disabled={disabled}
                     errorMessage={
                       <ErrorMessage
@@ -301,6 +313,7 @@ const Mint = () => {
                       />
                     }
                     register={cStakeRegister("claimStakeDays")}
+                    setValue={cStakeSetValue}
                   />
 
                   <button

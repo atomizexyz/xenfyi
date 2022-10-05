@@ -61,7 +61,6 @@ const Home: NextPage = () => {
         genesisTs: Number(data[5]),
       });
     },
-    cacheOnBlock: true,
     watch: true,
   });
 
