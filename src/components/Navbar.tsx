@@ -87,7 +87,7 @@ const Navbar = () => {
   const { chain } = useNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
-  const { connector, address } = useAccount();
+  const { connector, address, isConnected } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -186,9 +186,9 @@ const Navbar = () => {
           <NavigationItems />
         </ul>
       </div>
-      <div className="navbar-end space-x-2">
+      <div className="navbar-end space-x-4">
         <ConnectKitButton.Custom>
-          {({ isConnected, show, address, truncatedAddress }) => {
+          {({ show, address, truncatedAddress }) => {
             return (
               <button onClick={show} className="btn glass text-neutral">
                 {isConnected ? (
@@ -196,6 +196,9 @@ const Navbar = () => {
                     <pre className="text-base font-light">
                       {truncatedAddress}
                     </pre>
+                    <div className="ml-2 lg:absolute badge badge-lg right-2 lg:-top-2 lg:-right-3 shadow-md glass">
+                      🟢
+                    </div>
                   </div>
                 ) : (
                   "Connect Wallet"
