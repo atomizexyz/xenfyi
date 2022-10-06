@@ -25,27 +25,8 @@ import { clsx } from "clsx";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
-
-const navigationItems = [
-  {
-    id: 0,
-    name: "Dashboard",
-    icon: <ViewGridIcon className="h-5 w-5" />,
-    href: "/dashboard",
-  },
-  {
-    id: 1,
-    name: "Mint",
-    icon: <DiamondIcon />,
-    href: "/mint",
-  },
-  {
-    id: 2,
-    name: "Stake",
-    icon: <LockClosedIcon className="h-5 w-5" />,
-    href: "/stake",
-  },
-];
+import { StatusBadge } from "./StatusBadge";
+import { navigationItems } from "~/components/Constants";
 
 const linkItems = [
   {
@@ -132,12 +113,14 @@ const Navbar = () => {
               >
                 {item.icon}
                 {item.name}
-                {((item.id == 1 && mintPageOverride == 2) ||
-                  (item.id == 2 && stakePageOverride == 2)) && (
-                  <div className="absolute badge badge-lg right-2 lg:-top-2 lg:-right-3 shadow-md glass">
-                    {item.id == 1 ? "💎" : "🔒"}
-                  </div>
-                )}
+                <StatusBadge
+                  status={{
+                    id: item.id,
+                    mintPageOverride: mintPageOverride,
+                    stakePageOverride: stakePageOverride,
+                    offset: "right-2 lg:-top-2 lg:-right-3",
+                  }}
+                />
               </a>
             </Link>
           </li>

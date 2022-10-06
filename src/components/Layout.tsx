@@ -12,14 +12,16 @@ const Layout = ({ children }: any) => {
       {children}
       <Toaster position="top-right">
         {(t) => (
-          <div className="alert shadow-lg glass max-w-fit">
+          <div className="alert shadow-lg glass max-w-fit text-neutral">
             <div>
               <div>
                 <CheckIcon className="w-8 h-8" />
               </div>
               <div>
-                <h3 className="font-bold">🎉 Success</h3>
-                <div className="text-xs">{resolveValue(t.message, t)}</div>
+                <h3 className="font-bold text-neutral">🎉 Success</h3>
+                <div className="text-xs text-neutral">
+                  {resolveValue(t.message, t)}
+                </div>
               </div>
             </div>
           </div>
