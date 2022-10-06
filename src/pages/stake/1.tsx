@@ -19,7 +19,7 @@ import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
-import { stakeYield, stakeAPY, gasCalculator } from "~/lib/helpers";
+import { stakeYield, gasCalculator } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -57,6 +57,10 @@ const Stake = () => {
       {
         ...xenContract(chain),
         functionName: "genesisTs",
+      },
+      {
+        ...xenContract(chain),
+        functionName: "getCurrentAPY",
       },
     ],
     overrides: { from: address },
@@ -200,13 +204,10 @@ const Stake = () => {
                       xenBalance: watchAllFields.startStakeAmount,
                       genesisTs: Number(contractReads?.[0]),
                       term: watchAllFields.startStakeDays,
+                      apy: Number(contractReads?.[1]),
                     })}
                     decimals={0}
-                    description={`${stakeAPY({
-                      xenBalance: watchAllFields.startStakeAmount,
-                      genesisTs: Number(contractReads?.[0]),
-                      term: watchAllFields.startStakeDays,
-                    }).toFixed(2)}%`}
+                    description={`${Number(contractReads?.[1]).toFixed(2)}%`}
                   />
                   <DateStatCard
                     title="Maturity"

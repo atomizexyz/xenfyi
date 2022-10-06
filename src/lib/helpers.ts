@@ -46,24 +46,14 @@ interface StakeData {
   xenBalance: number;
   genesisTs: number;
   term: number;
+  apy: number;
 }
 
 export const stakeYield = (data?: StakeData) => {
   if (data) {
     const ds = daysSince(data.genesisTs * 1000);
-    const APY = Math.max(20 - ds / 90, 2);
-    const y = (data.xenBalance * APY * data.term) / (100 * 365);
+    const y = (data.xenBalance * data.apy * data.term) / (100 * 365);
     return y;
-  } else {
-    return 0;
-  }
-};
-
-export const stakeAPY = (data?: StakeData) => {
-  if (data) {
-    const ds = daysSince(data.genesisTs * 1000);
-    const APY = Math.max(20 - ds / 90, 2);
-    return APY;
   } else {
     return 0;
   }
