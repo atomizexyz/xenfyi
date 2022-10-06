@@ -77,7 +77,7 @@ interface MintRewardData {
 export const mintPenalty = (maturityTs: number) => {
   const daysLate = (UTC_TIME - maturityTs) / 86400;
   if (daysLate > WITHDRAWAL_WINDOW_DAYS - 1) return MAX_PENALTY_PCT;
-  const penalty = 1 << ((daysLate + 3) / WITHDRAWAL_WINDOW_DAYS - 1);
+  const penalty = (1 << (daysLate + 3)) / WITHDRAWAL_WINDOW_DAYS - 1;
   return Math.min(penalty, MAX_PENALTY_PCT);
 };
 
