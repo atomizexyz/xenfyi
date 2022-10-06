@@ -22,6 +22,7 @@ module.exports = {
           primary: "#e879f9",
           neutral: "black",
           "base-100": "white",
+          "neutral-content": "#6b7280",
         },
       },
       {
@@ -30,6 +31,7 @@ module.exports = {
           primary: "#a21caf",
           neutral: "white",
           "base-100": "black",
+          "neutral-content": "#d1d5db",
         },
       },
     ],

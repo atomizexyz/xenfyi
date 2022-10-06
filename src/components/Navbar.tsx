@@ -1,12 +1,10 @@
 import { ConnectKitButton } from "connectkit";
-
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
 import {
   MoonIcon,
   SunIcon,
   BookOpenIcon,
-  MenuIcon,
   DotsVerticalIcon,
   ViewGridIcon,
   LockClosedIcon,
@@ -123,9 +121,10 @@ const Navbar = () => {
               })()}
             >
               <a
-                className={clsx("text-neutral", {
-                  "btn-disabled": router.pathname.startsWith(item.href),
-                  glass: !router.pathname.startsWith(item.href),
+                className={clsx({
+                  "btn-disabled text-neutral-content":
+                    router.pathname.startsWith(item.href),
+                  "glass text-neutral": !router.pathname.startsWith(item.href),
                 })}
                 onClick={() => {
                   (document.activeElement as HTMLElement).blur();
@@ -165,20 +164,6 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="navbar-start space-x-2">
-        <div className="dropdown">
-          <label
-            tabIndex={0}
-            className="btn btn-square glass lg:hidden text-neutral"
-          >
-            <MenuIcon className="h-5 w-5" />
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 space-y-2"
-          >
-            <NavigationItems />
-          </ul>
-        </div>
         <a className="text-neutral normal-case text-3xl font-light">XEN</a>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -188,7 +173,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-end space-x-4">
         <ConnectKitButton.Custom>
-          {({ show, address, truncatedAddress }) => {
+          {({ show, truncatedAddress }) => {
             return (
               <button onClick={show} className="btn glass text-neutral">
                 {isConnected ? (
