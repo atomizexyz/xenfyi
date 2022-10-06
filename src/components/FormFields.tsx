@@ -17,7 +17,7 @@ export const MaxValueField = (props: any) => {
       <label className="label">
         <span className="label-text-alt text-neutral">{props.description}</span>
         <span className="label-text-alt text-neutral">
-          {`Max ${props.title.toLowerCase()}: ${Number(
+          {`${Number(
             ethers.utils.formatUnits(props.value, props.decimals)
           ).toLocaleString("en-US")}`}
           <button
