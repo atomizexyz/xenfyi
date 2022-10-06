@@ -42,6 +42,7 @@ const Stake = () => {
       title: "Term",
       value: userStake?.term,
       suffix: "",
+      decimals: 0,
     },
   ];
 
@@ -86,6 +87,7 @@ const Stake = () => {
                   title={item.title}
                   value={item.value}
                   suffix={item.suffix}
+                  decimals={item.decimals}
                   tokenDecimals={item.tokenDecimals}
                 />
               ))}
