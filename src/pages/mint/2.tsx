@@ -47,9 +47,9 @@ const Mint = () => {
     functionName: "getGrossReward",
     args: [
       (mintingData?.globalRank ?? 0) - (mintingData?.rank ?? 0),
-      mintingData?.amplifier ?? 0,
-      mintingData?.term ?? 0,
-      mintingData?.eaaRate ?? 0,
+      Number(mintingData?.amplifier ?? 0),
+      Number(mintingData?.term ?? 0),
+      1000 + Number(mintingData?.eaaRate ?? 0),
     ],
     watch: true,
   });

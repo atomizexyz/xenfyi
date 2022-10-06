@@ -11,8 +11,9 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
-import { gasCalculator } from "~/lib/helpers";
+import { gasCalculator, calculateStakeReward } from "~/lib/helpers";
 import { useState, useEffect } from "react";
+import { CountDataCard } from "~/components/StatCards";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
@@ -67,6 +68,8 @@ const Stake = () => {
     }
   }, [address, utcTime, userStake, router, processing]);
 
+  console.log(userStake);
+
   return (
     <Container>
       <div className="flew flex-row space-y-8 ">
@@ -88,6 +91,19 @@ const Stake = () => {
             <form onSubmit={handleSubmit(handleStakeSubmit)}>
               <div className="flex flex-col space-y-4">
                 <h2 className="card-title text-neutral">End Stake</h2>
+
+                <div className="stats glass w-full text-neutral">
+                  <CountDataCard
+                    title="Reward"
+                    value={calculateStakeReward({
+                      maturityTs: Number(userStake?.maturityTs ?? 0),
+                      term: Number(userStake?.term ?? 0),
+                      amount: Number(userStake?.amount ?? 0),
+                      apy: Number(userStake?.apy ?? 0),
+                    })}
+                    description="XEN"
+                  />
+                </div>
 
                 {earlyEndStake && (
                   <div className="alert shadow-lg glass">

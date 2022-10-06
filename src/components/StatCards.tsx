@@ -152,18 +152,17 @@ export const DataCard = (props: DataStat) => {
 interface GrossRewardStat {
   title: string;
   value: number;
+  description?: string;
 }
 
-export const GrossRewardCard = (props: GrossRewardStat) => {
+export const CountDataCard = (props: GrossRewardStat) => {
   return (
-    <div className="stats glass w-full text-neutral">
-      <div className="stat">
-        <div className="stat-title">{props.title}</div>
-        <code className="stat-value text-lg md:text-3xl text-right">
-          <CountUp end={props.value} preserveValue={true} separator="," />
-        </code>
-        <div className="stat-desc text-right">XEN</div>
-      </div>
+    <div className="stat">
+      <div className="stat-title">{props.title}</div>
+      <code className="stat-value text-lg md:text-3xl text-right">
+        <CountUp end={props.value} preserveValue={true} separator="," />
+      </code>
+      <div className="stat-desc text-right">{props?.description}</div>
     </div>
   );
 };

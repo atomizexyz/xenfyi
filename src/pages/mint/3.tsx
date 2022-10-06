@@ -16,11 +16,11 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { gasCalculator } from "~/lib/helpers";
+import { CountDataCard } from "~/components/StatCards";
+import { gasCalculator, calculateMintReward, mintPenalty } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
-import { GrossRewardCard } from "~/components/StatCards";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -53,9 +53,9 @@ const Mint = () => {
     functionName: "getGrossReward",
     args: [
       Number(contractReads?.[0] ?? 0) - (userMintData?.rank ?? 0),
-      userMintData?.amplifier ?? 0,
-      userMintData?.term ?? 0,
-      userMintData?.eaaRate ?? 0,
+      Number(userMintData?.amplifier ?? 0),
+      Number(userMintData?.term ?? 0),
+      1000 + Number(userMintData?.eaaRate ?? 0),
     ],
     watch: true,
   });
@@ -246,10 +246,21 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim</h2>
 
-                  <GrossRewardCard
-                    title="Gross Reward"
-                    value={Number(grossRewardData ?? 0)}
-                  />
+                  <div className="stats glass w-full text-neutral">
+                    <CountDataCard
+                      title="Reward"
+                      value={calculateMintReward({
+                        maturityTs: userMintData?.maturityTs,
+                        grossReward: Number(grossRewardData ?? 0),
+                      })}
+                      description="XEN"
+                    />
+                    <CountDataCard
+                      title="Penalty"
+                      value={mintPenalty(Number(userMintData?.maturityTs ?? 0))}
+                      description="XEN"
+                    />
+                  </div>
 
                   <div className="form-control w-full">
                     <button
@@ -287,10 +298,21 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Share</h2>
 
-                  <GrossRewardCard
-                    title="Gross Reward"
-                    value={Number(grossRewardData ?? 0)}
-                  />
+                  <div className="stats glass w-full text-neutral">
+                    <CountDataCard
+                      title="Reward"
+                      value={calculateMintReward({
+                        maturityTs: userMintData?.maturityTs,
+                        grossReward: Number(grossRewardData ?? 0),
+                      })}
+                      description="XEN"
+                    />
+                    <CountDataCard
+                      title="Penalty"
+                      value={mintPenalty(Number(userMintData?.maturityTs ?? 0))}
+                      description="XEN"
+                    />
+                  </div>
 
                   <MaxValueField
                     title="PERCENTAGE"
@@ -355,10 +377,21 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Claim + Stake</h2>
 
-                  <GrossRewardCard
-                    title="Gross Reward"
-                    value={Number(grossRewardData ?? 0)}
-                  />
+                  <div className="stats glass w-full text-neutral">
+                    <CountDataCard
+                      title="Reward"
+                      value={calculateMintReward({
+                        maturityTs: userMintData?.maturityTs,
+                        grossReward: Number(grossRewardData ?? 0),
+                      })}
+                      description="XEN"
+                    />
+                    <CountDataCard
+                      title="Penalty"
+                      value={mintPenalty(Number(userMintData?.maturityTs ?? 0))}
+                      description="XEN"
+                    />
+                  </div>
 
                   <MaxValueField
                     title="PERCENTAGE"
