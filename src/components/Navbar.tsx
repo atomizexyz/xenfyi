@@ -152,12 +152,16 @@ const Navbar = () => {
       if (userMint.maturityTs < Date.now() / 1000) {
         setMintPageOverride(3);
       }
+    } else {
+      setMintPageOverride(1);
     }
     if (userStake && !userStake.term.isZero()) {
       setStakePageOverride(2);
       if (userStake.maturityTs < Date.now() / 1000) {
         setStakePageOverride(3);
       }
+    } else {
+      setStakePageOverride(1);
     }
   }, [userMint, userStake]);
 
