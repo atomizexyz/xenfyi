@@ -30,11 +30,11 @@ export const ProgressStatCard = (props: ProgressStat) => {
         ></progress>
       </div>
       <code className="stat-desc text-right">
+        {"Days Remaining: "}
         <CountUp
           end={props.daysRemaining}
           preserveValue={true}
           separator=","
-          prefix="Days Remaining: "
           decimals={0}
         />
       </code>
