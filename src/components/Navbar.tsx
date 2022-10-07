@@ -17,12 +17,22 @@ import {
   DiamondIcon,
   WalletIcon,
   DiscordIcon,
+  EthereumIcon,
+  PulseChainIcon,
+  PolygonIcon,
+  BinanceSmartChainIcon,
 } from "./Icons";
 import { xenContract } from "~/lib/xen-contract";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import { useAccount, useContractRead, useNetwork } from "wagmi";
+import {
+  Chain,
+  useAccount,
+  useContractRead,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
 import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "./StatusBadge";
@@ -61,9 +71,17 @@ const linkItems = [
   // },
 ];
 
+const chainIcons = new Map<number, JSX.Element>();
+chainIcons.set(1, <EthereumIcon />);
+chainIcons.set(5, <EthereumIcon />);
+chainIcons.set(97, <BinanceSmartChainIcon />);
+chainIcons.set(941, <PulseChainIcon />);
+chainIcons.set(80001, <PolygonIcon />);
+
 const Navbar = () => {
   const router = useRouter();
   const { chain } = useNetwork();
+  const { chains, switchNetwork } = useSwitchNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
   const { connector, address, isConnected } = useAccount();
@@ -148,6 +166,31 @@ const Navbar = () => {
     }
   }, [userMint, userStake]);
 
+  const ChainList: React.FC<{ chains: Chain[] }> = ({ chains }) => {
+    return (
+      <>
+        {chains.map((item, index) => (
+          <li key={index}>
+            <button
+              className={clsx("justify-between", {
+                "btn-disabled text-neutral-content": chain?.id == item.id,
+                "glass text-neutral": !(chain?.id == item.id),
+              })}
+              disabled={chain?.id == item.id}
+              onClick={() => {
+                switchNetwork?.(item.id);
+                (document.activeElement as HTMLElement).blur();
+              }}
+            >
+              <a>{item.name}</a>
+              {chainIcons.get(item.id)}
+            </button>
+          </li>
+        ))}
+      </>
+    );
+  };
+
   return (
     <div className="navbar">
       <div className="navbar-start space-x-2">
@@ -162,17 +205,46 @@ const Navbar = () => {
         <ConnectKitButton.Custom>
           {({ show, truncatedAddress }) => {
             return (
-              <button onClick={show} className="btn glass text-neutral">
+              <>
                 {isConnected ? (
-                  <div className="flex space-x-2 items-center">
-                    <pre className="text-base font-light">
-                      {truncatedAddress}
-                    </pre>
-                  </div>
+                  <>
+                    <div className="dropdown">
+                      <label
+                        tabIndex={0}
+                        className="btn glass btn-square text-neutral"
+                      >
+                        {chainIcons.get(chain?.id ?? 1)}
+                      </label>
+                      <ul
+                        tabIndex={0}
+                        className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 space-y-2"
+                      >
+                        <ChainList
+                          chains={chains.filter((chain) => !chain.testnet)}
+                        />
+                        <li className="menu-title">
+                          <span>Testnet</span>
+                        </li>
+                        <ChainList
+                          chains={chains.filter((chain) => chain.testnet)}
+                        />
+                      </ul>
+                    </div>
+
+                    <button onClick={show} className="btn glass text-neutral">
+                      <div className="flex space-x-2 items-center">
+                        <pre className="text-base font-light">
+                          {truncatedAddress}
+                        </pre>
+                      </div>
+                    </button>
+                  </>
                 ) : (
-                  "Connect Wallet"
+                  <button onClick={show} className="btn glass text-neutral">
+                    Connect Wallet
+                  </button>
                 )}
-              </button>
+              </>
             );
           }}
         </ConnectKitButton.Custom>

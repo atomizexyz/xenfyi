@@ -16,7 +16,7 @@ const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, chain.goerli, chain.polygonMumbai, pulseChain, bscTestnet],
+  [chain.mainnet, bscTestnet, chain.goerli, pulseChain, chain.polygonMumbai],
   [
     alchemyProvider({ apiKey: alchemyId, priority: 0 }),
     infuraProvider({ apiKey: infuraId, priority: 0 }),
