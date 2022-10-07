@@ -103,7 +103,7 @@ const Mint = () => {
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/mint/1">
-            <a className="step step-neutral">Start Mint</a>
+            <a className="step step-neutral">Claim Rank</a>
           </Link>
 
           <Link href="/mint/2">
@@ -111,7 +111,7 @@ const Mint = () => {
           </Link>
 
           <Link href="/mint/3">
-            <a className="step">Claim</a>
+            <a className="step">Mint</a>
           </Link>
         </ul>
 

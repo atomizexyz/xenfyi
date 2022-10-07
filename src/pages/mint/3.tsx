@@ -79,7 +79,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimData?.hash,
     onSuccess(data) {
-      toast("Claim successful");
+      toast("Mint successful");
 
       router.push("/stake/1");
     },
@@ -141,7 +141,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimShareData?.hash,
     onSuccess(data) {
-      toast("Claim and share successful");
+      toast("Mint and share successful");
       router.push("/stake/1");
     },
   });
@@ -197,7 +197,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimStakeData?.hash,
     onSuccess(data) {
-      toast("Claim and stake successful");
+      toast("Mint and stake successful");
       router.push("/stake/2");
     },
   });
@@ -235,7 +235,7 @@ const Mint = () => {
           </Link>
 
           <Link href="/mint/3">
-            <a className="step step-neutral">Claim</a>
+            <a className="step step-neutral">Mint</a>
           </Link>
         </ul>
 
@@ -244,7 +244,7 @@ const Mint = () => {
             <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
                 <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Claim</h2>
+                  <h2 className="card-title text-neutral">Mint</h2>
 
                   <div className="stats glass w-full text-neutral">
                     <CountDataCard
@@ -270,7 +270,7 @@ const Mint = () => {
                       })}
                       disabled={disabled}
                     >
-                      Claim
+                      Mint
                     </button>
                     <label className="label">
                       <span className="label-text-alt text-neutral">
@@ -296,7 +296,7 @@ const Mint = () => {
             <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
                 <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Claim + Share</h2>
+                  <h2 className="card-title text-neutral">Mint + Share</h2>
 
                   <div className="stats glass w-full text-neutral">
                     <CountDataCard
@@ -349,7 +349,7 @@ const Mint = () => {
                       })}
                       disabled={disabled}
                     >
-                      Claim + Share
+                      Mint + Share
                     </button>
                     <label className="label">
                       <span className="label-text-alt text-neutral">
@@ -375,7 +375,7 @@ const Mint = () => {
             <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
                 <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Claim + Stake</h2>
+                  <h2 className="card-title text-neutral">Mint + Stake</h2>
 
                   <div className="stats glass w-full text-neutral">
                     <CountDataCard
@@ -433,7 +433,7 @@ const Mint = () => {
                       })}
                       disabled={disabled}
                     >
-                      Claim + Stake
+                      Mint + Stake
                     </button>
                     <label className="label">
                       <span className="label-text-alt text-neutral">
