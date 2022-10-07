@@ -224,10 +224,10 @@ const Stake = () => {
                     <div>
                       <h3 className="font-bold">Staking Terms</h3>
                       <div className="text-xs">
-                        Withdraw original Stake amount plus Yield at any time
-                        after Maturity Date, or original Stake amount with 0
-                        (zero) Yield at anu time before Maturity Date. One stake
-                        at a time per one address.
+                        Withdraw original stake amount plus yield at any time
+                        after the maturity date, or at any time the original
+                        stake amount with 0 (zero) yield before the maturity
+                        date. One stake at a time per one address
                       </div>
                     </div>
                   </div>
