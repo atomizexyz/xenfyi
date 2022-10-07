@@ -54,11 +54,11 @@ const linkItems = [
     icon: <GitHubIcon />,
     href: "https://github.com/FairCrypto",
   },
-  {
-    name: "Gift XEN",
-    icon: <GiftIcon className="h-5 w-5" />,
-    href: "https://etherscan.io/address/0x806f5d470ee7dd7b7a8ceb092d3fa7ef00a70576",
-  },
+  // {
+  //   name: "Gift XEN",
+  //   icon: <GiftIcon className="h-5 w-5" />,
+  //   href: "https://etherscan.io/address/0x806f5d470ee7dd7b7a8ceb092d3fa7ef00a70576",
+  // },
 ];
 
 const Navbar = () => {
