@@ -1,5 +1,6 @@
 import CountUp from "react-countup";
 import { ethers } from "ethers";
+import { UTC_TIME } from "~/lib/helpers";
 
 interface ProgressStat {
   title: string;
@@ -58,11 +59,11 @@ const formatDate = (date: number) => {
 
 // days since date
 export const daysSince = (date: number) => {
-  return (Date.now() - date) / 1000 / 86400;
+  return (UTC_TIME - date) / 1000 / 86400;
 };
 
 export const daysUntil = (date: number) => {
-  return (date - Date.now()) / 1000 / 86400;
+  return (date - UTC_TIME) / 1000 / 86400;
 };
 
 export const DateStatCard = (props: DateStat) => {
@@ -152,6 +153,7 @@ export const DataCard = (props: DataStat) => {
 interface GrossRewardStat {
   title: string;
   value: number;
+  suffix?: string;
   description?: string;
 }
 
@@ -160,7 +162,12 @@ export const CountDataCard = (props: GrossRewardStat) => {
     <div className="stat">
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-3xl text-right">
-        <CountUp end={props.value} preserveValue={true} separator="," />
+        <CountUp
+          end={props.value}
+          preserveValue={true}
+          separator=","
+          suffix={props.suffix ?? ""}
+        />
       </code>
       <div className="stat-desc text-right">{props?.description}</div>
     </div>

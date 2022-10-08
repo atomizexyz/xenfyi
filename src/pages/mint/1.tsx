@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { gasCalculator } from "~/lib/helpers";
+import { gasCalculator, UTC_TIME } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
@@ -30,7 +30,7 @@ const Mint = () => {
   const [disabled, setDisabled] = useState(true);
   const [maxFreeMint, setMaxFreeMint] = useState(100);
   const [processing, setProcessing] = useState(false);
-  const [maturity, setMaturity] = useState<number>(new Date().getTime());
+  const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -109,8 +109,7 @@ const Mint = () => {
 
   useEffect(() => {
     if (watchAllFields.startMintDays) {
-      const utcTime = new Date().getTime();
-      setMaturity(utcTime + watchAllFields.startMintDays * 86400000);
+      setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400000);
     }
 
     if (!processing && address && data && data.term.isZero()) {

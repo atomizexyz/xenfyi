@@ -1,14 +1,14 @@
 import { daysSince } from "~/components/StatCards";
 import { ethers } from "ethers";
 
-const UTC_TIME = new Date().getTime() / 1000;
+export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;
 const MAX_PENALTY_PCT = 99;
 const DAYS_IN_YEAR = 365;
 
 export const daysRemaining = (timestamp?: number) => {
   if (timestamp && timestamp > 0) {
-    return (Number(timestamp) - Date.now() / 1000) / 86400;
+    return (Number(timestamp) - UTC_TIME) / 86400;
   } else {
     return 0;
   }
@@ -16,7 +16,7 @@ export const daysRemaining = (timestamp?: number) => {
 
 export const percentComplete = (daysRemaining: number, term?: number) => {
   if (term && term > 0) {
-    return term - daysRemaining;
+    return Math.abs(daysRemaining) / term;
   } else {
     return 0;
   }
@@ -76,9 +76,12 @@ interface MintRewardData {
 
 export const mintPenalty = (maturityTs: number) => {
   const daysLate = (UTC_TIME - maturityTs) / 86400;
-  if (daysLate > WITHDRAWAL_WINDOW_DAYS - 1) return MAX_PENALTY_PCT;
-  const penalty = (1 << (daysLate + 3)) / WITHDRAWAL_WINDOW_DAYS - 1;
-  return Math.min(penalty, MAX_PENALTY_PCT);
+  if (maturityTs > 0 && daysLate > 0) {
+    if (daysLate > WITHDRAWAL_WINDOW_DAYS - 1) return MAX_PENALTY_PCT;
+    const penalty = (1 << (daysLate + 3)) / WITHDRAWAL_WINDOW_DAYS - 1;
+    return Math.min(penalty, MAX_PENALTY_PCT);
+  }
+  return 0;
 };
 
 export const calculateMintReward = (data: MintRewardData) => {

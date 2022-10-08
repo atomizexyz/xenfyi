@@ -81,6 +81,7 @@ const Mint = () => {
     mintingData?.term
   );
   const max = Number(mintingData?.term ?? 0);
+  console.log(progressPercentComplete);
   const value = max - progressDaysRemaining;
 
   useEffect(() => {

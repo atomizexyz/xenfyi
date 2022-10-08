@@ -28,6 +28,9 @@ const Mint = () => {
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
+  const [penaltyPercent, setPenaltyPercent] = useState(0);
+  const [penaltyXEN, setPenaltyXEN] = useState(0);
+  const [reward, setReward] = useState(0);
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -220,7 +223,15 @@ const Mint = () => {
         setDisabled(false);
       }
     }
-  }, [address, userMintData, processing, utcTime]);
+
+    const penalty = mintPenalty(Number(userMintData?.maturityTs ?? 0));
+    const reward = calculateMintReward({
+      maturityTs: userMintData?.maturityTs,
+      grossReward: Number(grossRewardData ?? 0),
+    });
+    setPenaltyPercent(penalty);
+    setReward(reward);
+  }, [address, userMintData, processing, utcTime, grossRewardData]);
 
   return (
     <Container>
@@ -249,16 +260,14 @@ const Mint = () => {
                   <div className="stats glass w-full text-neutral">
                     <CountDataCard
                       title="Reward"
-                      value={calculateMintReward({
-                        maturityTs: userMintData?.maturityTs,
-                        grossReward: Number(grossRewardData ?? 0),
-                      })}
+                      value={reward}
                       description="XEN"
                     />
                     <CountDataCard
                       title="Penalty"
-                      value={mintPenalty(Number(userMintData?.maturityTs ?? 0))}
-                      description="XEN"
+                      value={penaltyPercent}
+                      suffix="%"
+                      description={`${penaltyXEN} XEN`}
                     />
                   </div>
 
@@ -301,16 +310,14 @@ const Mint = () => {
                   <div className="stats glass w-full text-neutral">
                     <CountDataCard
                       title="Reward"
-                      value={calculateMintReward({
-                        maturityTs: userMintData?.maturityTs,
-                        grossReward: Number(grossRewardData ?? 0),
-                      })}
+                      value={reward}
                       description="XEN"
                     />
                     <CountDataCard
                       title="Penalty"
-                      value={mintPenalty(Number(userMintData?.maturityTs ?? 0))}
-                      description="XEN"
+                      value={penaltyPercent}
+                      suffix="%"
+                      description={`${penaltyXEN} XEN`}
                     />
                   </div>
 
@@ -380,16 +387,14 @@ const Mint = () => {
                   <div className="stats glass w-full text-neutral">
                     <CountDataCard
                       title="Reward"
-                      value={calculateMintReward({
-                        maturityTs: userMintData?.maturityTs,
-                        grossReward: Number(grossRewardData ?? 0),
-                      })}
+                      value={reward}
                       description="XEN"
                     />
                     <CountDataCard
                       title="Penalty"
-                      value={mintPenalty(Number(userMintData?.maturityTs ?? 0))}
-                      description="XEN"
+                      value={penaltyPercent}
+                      suffix="%"
+                      description={`${penaltyXEN} XEN`}
                     />
                   </div>
 

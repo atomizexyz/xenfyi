@@ -37,6 +37,7 @@ import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "./StatusBadge";
 import { navigationItems } from "~/components/Constants";
+import { UTC_TIME } from "~/lib/helpers";
 
 const linkItems = [
   {
@@ -149,16 +150,18 @@ const Navbar = () => {
 
   useEffect(() => {
     if (userMint && !userMint.term.isZero()) {
-      setMintPageOverride(2);
-      if (userMint.maturityTs < Date.now() / 1000) {
+      if (userMint.maturityTs > UTC_TIME) {
+        setMintPageOverride(2);
+      } else {
         setMintPageOverride(3);
       }
     } else {
       setMintPageOverride(1);
     }
     if (userStake && !userStake.term.isZero()) {
-      setStakePageOverride(2);
-      if (userStake.maturityTs < Date.now() / 1000) {
+      if (userStake.maturityTs > UTC_TIME) {
+        setStakePageOverride(2);
+      } else {
         setStakePageOverride(3);
       }
     } else {

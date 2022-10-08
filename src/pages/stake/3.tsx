@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
-import { gasCalculator, calculateStakeReward } from "~/lib/helpers";
+import { gasCalculator, calculateStakeReward, UTC_TIME } from "~/lib/helpers";
 import { useState, useEffect } from "react";
 import { CountDataCard } from "~/components/StatCards";
 import { InformationCircleIcon } from "@heroicons/react/outline";
@@ -57,18 +57,14 @@ const Stake = () => {
     writeStake?.();
   };
 
-  const utcTime = new Date().getTime() / 1000;
-
   useEffect(() => {
     if (!processing && address && userStake && !userStake.maturityTs.isZero()) {
       setDisabled(false);
-      if (utcTime < userStake.maturityTs) {
+      if (UTC_TIME < userStake.maturityTs) {
         setEarlyEndStake(true);
       }
     }
-  }, [address, utcTime, userStake, router, processing]);
-
-  console.log(userStake);
+  }, [address, userStake, router, processing]);
 
   return (
     <Container>

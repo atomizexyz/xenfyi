@@ -19,7 +19,7 @@ import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
-import { stakeYield, gasCalculator } from "~/lib/helpers";
+import { stakeYield, gasCalculator, UTC_TIME } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -34,7 +34,7 @@ const Stake = () => {
   const router = useRouter();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const [maturity, setMaturity] = useState<number>(new Date().getTime());
+  const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -135,8 +135,7 @@ const Stake = () => {
 
   useEffect(() => {
     if (watchAllFields.startStakeDays) {
-      const utcTime = new Date().getTime();
-      setMaturity(utcTime + (watchAllFields.startStakeDays ?? 0) * 86400000);
+      setMaturity(UTC_TIME + (watchAllFields.startStakeDays ?? 0) * 86400000);
     }
 
     if (!processing && address && userStake && userStake.term == 0) {
