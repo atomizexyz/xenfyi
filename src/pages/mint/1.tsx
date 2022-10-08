@@ -157,7 +157,7 @@ const Mint = () => {
                 <div className="flex stats glass w-full text-neutral">
                   <NumberStatCard
                     title="Your Claim Rank"
-                    value={Number(contractReads?.[1] ?? 0) + 1}
+                    value={Number(contractReads?.[1] ?? 0)}
                     decimals={0}
                   />
                   <DateStatCard
