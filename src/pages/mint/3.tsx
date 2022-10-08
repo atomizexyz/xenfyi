@@ -228,14 +228,16 @@ const Mint = () => {
       }
     }
 
-    const penalty = mintPenalty(Number(userMintData?.maturityTs ?? 0));
-    const reward = calculateMintReward({
-      maturityTs: userMintData?.maturityTs,
-      grossReward: Number(grossRewardData ?? 0),
-    });
-    setPenaltyPercent(penalty);
-    setReward(reward);
-    setPenaltyXEN(reward * (penalty / 100));
+    if (userMintData && !userMintData.maturityTs.isZero()) {
+      const penalty = mintPenalty(Number(userMintData.maturityTs ?? 0));
+      const reward = calculateMintReward({
+        maturityTs: userMintData.maturityTs,
+        grossReward: Number(grossRewardData ?? 0),
+      });
+      setPenaltyPercent(penalty);
+      setReward(reward);
+      setPenaltyXEN(reward * (penalty / 100));
+    }
   }, [address, userMintData, processing, grossRewardData]);
 
   return (

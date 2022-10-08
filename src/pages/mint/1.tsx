@@ -109,7 +109,7 @@ const Mint = () => {
 
   useEffect(() => {
     if (watchAllFields.startMintDays) {
-      setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400000);
+      setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400);
     }
 
     if (!processing && address && data && data.term.isZero()) {

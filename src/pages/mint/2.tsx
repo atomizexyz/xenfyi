@@ -85,24 +85,21 @@ const Mint = () => {
         genesisTs: Number(contractReads[0]),
         globalRank: Number(contractReads[1]),
       });
+
+      if (userMint.maturityTs) {
+        const max = Number(userMint.term ?? 0);
+        const progress = progressDays(
+          Number(userMint.maturityTs ?? 0),
+          Number(userMint.term ?? 0)
+        );
+
+        console.log(max, progress);
+        setMax(max);
+        setProgress(progress);
+        setPercent(progress / max);
+      }
     }
-
-    const max = Number(mintingData?.term);
-    const progress = progressDays(
-      Number(mintingData?.maturityTs),
-      Number(mintingData?.term)
-    );
-
-    setMax(max);
-    setProgress(progress);
-    setPercent(progress / max);
-  }, [
-    contractReads,
-    mintingData?.maturityTs,
-    mintingData?.term,
-    progress,
-    userMint,
-  ]);
+  }, [contractReads, userMint?.maturityTs, userMint?.term, progress, userMint]);
 
   return (
     <Container>

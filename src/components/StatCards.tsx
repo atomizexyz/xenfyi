@@ -50,7 +50,7 @@ interface DateStat {
 }
 
 const formatDate = (date: number) => {
-  const d = new Date(date);
+  const d = new Date(date * 1000);
   const year = d.getFullYear();
   const month = `0${d.getMonth() + 1}`.slice(-2);
   const _date = `0${d.getDate()}`.slice(-2);
@@ -59,11 +59,11 @@ const formatDate = (date: number) => {
 
 // days since date
 export const daysSince = (date: number) => {
-  return (UTC_TIME - date) / 1000 / 86400;
+  return (UTC_TIME - date) / 86400;
 };
 
 export const daysUntil = (date: number) => {
-  return (date - UTC_TIME) / 1000 / 86400;
+  return (date - UTC_TIME) / 86400;
 };
 
 export const DateStatCard = (props: DateStat) => {

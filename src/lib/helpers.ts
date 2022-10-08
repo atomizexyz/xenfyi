@@ -15,9 +15,12 @@ export const daysRemaining = (timestamp?: number) => {
 };
 
 export const progressDays = (maturityTs: number, term: number) => {
-  const startTs = maturityTs - term * 86400;
-  const progress = (UTC_TIME - startTs) / 86400;
-  return progress;
+  if (maturityTs > 0 && term > 0) {
+    const startTs = maturityTs - term * 86400;
+    const progress = (UTC_TIME - startTs) / 86400;
+    return progress;
+  }
+  return 0;
 };
 
 export interface MintData {
@@ -74,7 +77,7 @@ interface MintRewardData {
 
 export const mintPenalty = (maturityTs: number) => {
   const daysLate = (UTC_TIME - maturityTs) / 86400;
-  if (maturityTs > 0 && daysLate > 0) {
+  if (daysLate > 1) {
     if (daysLate > WITHDRAWAL_WINDOW_DAYS - 1) return MAX_PENALTY_PCT;
     const penalty = (1 << (daysLate + 3)) / WITHDRAWAL_WINDOW_DAYS - 1;
     return Math.min(penalty, MAX_PENALTY_PCT);

@@ -135,7 +135,7 @@ const Stake = () => {
 
   useEffect(() => {
     if (watchAllFields.startStakeDays) {
-      setMaturity(UTC_TIME + (watchAllFields.startStakeDays ?? 0) * 86400000);
+      setMaturity(UTC_TIME + (watchAllFields.startStakeDays ?? 0) * 86400);
     }
 
     if (!processing && address && userStake && userStake.term == 0) {
