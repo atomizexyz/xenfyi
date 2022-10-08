@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-export const MaxValueField = (props: any) => {
+export const MaxValueField: React.FC<any> = (props) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
@@ -39,7 +39,7 @@ export const MaxValueField = (props: any) => {
   );
 };
 
-export const WalletAddressField = (props: any) => {
+export const WalletAddressField: React.FC<any> = (props) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">

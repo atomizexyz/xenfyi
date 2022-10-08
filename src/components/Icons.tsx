@@ -174,7 +174,7 @@ export const BinanceSmartChainIcon = () => (
 );
 
 export const PulseChainIcon = () => (
-  <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+  <svg width="24px" height="24px" viewBox="0 0 24 24">
     <g
       id="pulsechain"
       stroke="currentColor"

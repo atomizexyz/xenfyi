@@ -10,7 +10,7 @@ interface ProgressStat {
   daysRemaining: number;
 }
 
-export const ProgressStatCard = (props: ProgressStat) => {
+export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -66,7 +66,7 @@ export const daysUntil = (date: number) => {
   return (date - UTC_TIME) / 86400;
 };
 
-export const DateStatCard = (props: DateStat) => {
+export const DateStatCard: React.FC<DateStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -93,7 +93,7 @@ interface NumberStat {
   tokenDecimals?: number;
 }
 
-export const NumberStatCard = (props: NumberStat) => {
+export const NumberStatCard: React.FC<NumberStat> = (props) => {
   let value = props.value;
   if (props.tokenDecimals != null) {
     value = Number(ethers.utils.formatUnits(props.value.toString(), 18));
@@ -120,7 +120,7 @@ interface ChainStat {
   id: number;
 }
 
-export const ChainStatCard = (props: ChainStat) => {
+export const ChainStatCard: React.FC<ChainStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">Chain</div>
@@ -138,7 +138,7 @@ interface DataStat {
   description?: string;
 }
 
-export const DataCard = (props: DataStat) => {
+export const DataCard: React.FC<DataStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -159,7 +159,7 @@ interface GrossRewardStat {
   descriptionNumberSuffix?: string;
 }
 
-export const CountDataCard = (props: GrossRewardStat) => {
+export const CountDataCard: React.FC<GrossRewardStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>

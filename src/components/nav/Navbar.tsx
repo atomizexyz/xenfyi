@@ -8,7 +8,7 @@ import {
   PulseChainIcon,
   PolygonIcon,
   BinanceSmartChainIcon,
-} from "./Icons";
+} from "../Icons";
 import { xenContract } from "~/lib/xen-contract";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
@@ -22,7 +22,7 @@ import {
 } from "wagmi";
 import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
-import { StatusBadge } from "./StatusBadge";
+import { StatusBadge } from "../StatusBadge";
 import { navigationItems, linkItems } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 
@@ -33,7 +33,7 @@ chainIcons.set(97, <BinanceSmartChainIcon />);
 chainIcons.set(941, <PulseChainIcon />);
 chainIcons.set(80001, <PolygonIcon />);
 
-const Navbar = () => {
+export const Navbar: React.FC = () => {
   const router = useRouter();
   const { chain } = useNetwork();
   const { chains, switchNetwork } = useSwitchNetwork();
@@ -268,5 +268,3 @@ const Navbar = () => {
     </div>
   );
 };
-
-export default Navbar;

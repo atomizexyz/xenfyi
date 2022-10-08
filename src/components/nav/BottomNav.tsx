@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { clsx } from "clsx";
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 import { useState, useEffect } from "react";
-import { StatusBadge } from "./StatusBadge";
+import { StatusBadge } from "../StatusBadge";
 import { navigationItems } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 
-const BottomNav = () => {
+export const BottomNav: React.FC = () => {
   const router = useRouter();
   const { chain } = useNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
@@ -89,5 +89,3 @@ const BottomNav = () => {
     </div>
   );
 };
-
-export default BottomNav;

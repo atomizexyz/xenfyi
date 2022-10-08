@@ -1,6 +1,6 @@
-import Navbar from "~/components/Navbar";
+import { Navbar } from "~/components/nav/Navbar";
 import Meta from "~/components/Meta";
-import BottomNav from "~/components/BottomNav";
+import { BottomNav } from "~/components/nav/BottomNav";
 import { Toaster, resolveValue } from "react-hot-toast";
 import { CheckIcon } from "@heroicons/react/outline";
 
