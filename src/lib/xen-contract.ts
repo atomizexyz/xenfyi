@@ -6,6 +6,10 @@ import { bscTestnet } from "~/lib/bscTestnet";
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
     case chain.mainnet.id:
+      return {
+        addressOrName: "0x06450dee7fd2fb8e39061434babcfc05599a6fb8",
+        contractInterface: XenCrypto.abi,
+      };
     case pulseChain.id:
     case chain.goerli.id:
     case chain.polygonMumbai.id:
@@ -16,9 +20,9 @@ export const xenContract = (contractChain?: Chain) => {
       };
     default:
       return {
-        addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+        addressOrName: "0x06450dee7fd2fb8e39061434babcfc05599a6fb8",
         contractInterface: XenCrypto.abi,
-        chainId: pulseChain.id,
+        chainId: chain.mainnet.id,
       };
   }
 };
