@@ -196,7 +196,7 @@ const Stake = () => {
                   setValue={setValue}
                 />
 
-                <div className="stats glass w-full text-neutral">
+                <div className="flex stats glass w-full text-neutral">
                   <NumberStatCard
                     title="Yield"
                     value={stakeYield({

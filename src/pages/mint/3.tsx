@@ -264,7 +264,7 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Mint</h2>
 
-                  <div className="stats glass w-full text-neutral">
+                  <div className="flex stats glass w-full text-neutral">
                     <CountDataCard
                       title="Reward"
                       value={reward}
@@ -315,7 +315,7 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Mint + Share</h2>
 
-                  <div className="stats glass w-full text-neutral">
+                  <div className="flex stats glass w-full text-neutral">
                     <CountDataCard
                       title="Reward"
                       value={reward}
@@ -393,7 +393,7 @@ const Mint = () => {
                 <div className="flex flex-col space-y-4">
                   <h2 className="card-title text-neutral">Mint + Stake</h2>
 
-                  <div className="stats glass w-full text-neutral">
+                  <div className="flex stats glass w-full text-neutral">
                     <CountDataCard
                       title="Reward"
                       value={reward}

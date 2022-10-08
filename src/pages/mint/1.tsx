@@ -154,10 +154,10 @@ const Mint = () => {
                   setValue={setValue}
                 />
 
-                <div className="stats glass w-full text-neutral">
+                <div className="flex stats glass w-full text-neutral">
                   <NumberStatCard
-                    title="Claim Rank"
-                    value={Number(contractReads?.[1] ?? 0)}
+                    title="Your Claim Rank"
+                    value={Number(contractReads?.[1] ?? 0) + 1}
                     decimals={0}
                   />
                   <DateStatCard
