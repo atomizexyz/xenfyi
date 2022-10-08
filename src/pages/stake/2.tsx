@@ -1,13 +1,18 @@
 import Link from "next/link";
 import Container from "~/components/Container";
 import { useNetwork, useContractRead, useBalance, useAccount } from "wagmi";
-import { daysRemaining, percentComplete } from "~/lib/helpers";
+import { progressDays } from "~/lib/helpers";
 import { ProgressStatCard, NumberStatCard } from "~/components/StatCards";
 import { xenContract } from "~/lib/xen-contract";
+import { useEffect, useState } from "react";
 
 const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
+  const [max, setMax] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
@@ -46,13 +51,17 @@ const Stake = () => {
     },
   ];
 
-  const progressDaysRemaining = daysRemaining(userStake?.maturityTs);
-  const progressPercentComplete = percentComplete(
-    progressDaysRemaining,
-    userStake?.term
-  );
-  const max = Number(userStake?.term ?? 0);
-  const value = max - progressDaysRemaining;
+  useEffect(() => {
+    const max = Number(userStake?.term);
+    const progress = progressDays(
+      Number(userStake?.maturityTs),
+      Number(userStake?.term)
+    );
+
+    setMax(max);
+    setProgress(progress);
+    setPercent(progress / max);
+  }, [progress, userStake?.maturityTs, userStake?.term]);
 
   return (
     <Container>
@@ -76,10 +85,10 @@ const Stake = () => {
             <div className="stats stats-vertical bg-transparent text-neutral">
               <ProgressStatCard
                 title="Progress"
-                percentComplete={progressPercentComplete}
-                value={value}
+                percentComplete={percent}
+                value={progress}
                 max={max}
-                daysRemaining={progressDaysRemaining}
+                daysRemaining={max - progress}
               />
               {mintItems.map((item, index) => (
                 <NumberStatCard

@@ -155,6 +155,8 @@ interface GrossRewardStat {
   value: number;
   suffix?: string;
   description?: string;
+  descriptionNumber?: number;
+  descriptionNumberSuffix?: string;
 }
 
 export const CountDataCard = (props: GrossRewardStat) => {
@@ -169,7 +171,19 @@ export const CountDataCard = (props: GrossRewardStat) => {
           suffix={props.suffix ?? ""}
         />
       </code>
-      <div className="stat-desc text-right">{props?.description}</div>
+
+      <div className="stat-desc text-right">
+        {props?.descriptionNumber ? (
+          <CountUp
+            end={props.descriptionNumber}
+            preserveValue={true}
+            separator=","
+            suffix={props.descriptionNumberSuffix ?? ""}
+          />
+        ) : (
+          <>{props?.description}</>
+        )}
+      </div>
     </div>
   );
 };

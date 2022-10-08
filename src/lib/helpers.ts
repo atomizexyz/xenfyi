@@ -14,12 +14,10 @@ export const daysRemaining = (timestamp?: number) => {
   }
 };
 
-export const percentComplete = (daysRemaining: number, term?: number) => {
-  if (term && term > 0) {
-    return Math.abs(daysRemaining) / term;
-  } else {
-    return 0;
-  }
+export const progressDays = (maturityTs: number, term: number) => {
+  const startTs = maturityTs - term * 86400;
+  const progress = (UTC_TIME - startTs) / 86400;
+  return progress;
 };
 
 export interface MintData {

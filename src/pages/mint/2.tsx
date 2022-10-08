@@ -6,12 +6,7 @@ import {
 } from "wagmi";
 import Container from "~/components/Container";
 import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
-import {
-  daysRemaining,
-  percentComplete,
-  estimatedXEN,
-  MintData,
-} from "~/lib/helpers";
+import { progressDays, estimatedXEN, MintData } from "~/lib/helpers";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
@@ -20,6 +15,9 @@ const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const [mintingData, setMintingData] = useState<MintData>();
+  const [max, setMax] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
 
   const { data: userMint } = useContractRead({
     ...xenContract(chain),
@@ -75,15 +73,6 @@ const Mint = () => {
     },
   ];
 
-  const progressDaysRemaining = daysRemaining(mintingData?.maturityTs);
-  const progressPercentComplete = percentComplete(
-    progressDaysRemaining,
-    mintingData?.term
-  );
-  const max = Number(mintingData?.term ?? 0);
-  console.log(progressPercentComplete);
-  const value = max - progressDaysRemaining;
-
   useEffect(() => {
     if (userMint && contractReads) {
       setMintingData({
@@ -97,7 +86,23 @@ const Mint = () => {
         globalRank: Number(contractReads[1]),
       });
     }
-  }, [userMint, contractReads]);
+
+    const max = Number(mintingData?.term);
+    const progress = progressDays(
+      Number(mintingData?.maturityTs),
+      Number(mintingData?.term)
+    );
+
+    setMax(max);
+    setProgress(progress);
+    setPercent(progress / max);
+  }, [
+    contractReads,
+    mintingData?.maturityTs,
+    mintingData?.term,
+    progress,
+    userMint,
+  ]);
 
   return (
     <Container>
@@ -122,10 +127,10 @@ const Mint = () => {
             <div className="stats stats-vertical bg-transparent text-neutral">
               <ProgressStatCard
                 title="Progress"
-                percentComplete={progressPercentComplete}
-                value={value}
+                percentComplete={percent}
+                value={progress}
                 max={max}
-                daysRemaining={progressDaysRemaining}
+                daysRemaining={max - progress}
               />
               {mintItems.map((item, index) => (
                 <NumberStatCard

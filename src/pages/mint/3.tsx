@@ -17,7 +17,12 @@ import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CountDataCard } from "~/components/StatCards";
-import { gasCalculator, calculateMintReward, mintPenalty } from "~/lib/helpers";
+import {
+  gasCalculator,
+  calculateMintReward,
+  mintPenalty,
+  UTC_TIME,
+} from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
@@ -210,14 +215,13 @@ const Mint = () => {
   };
 
   /*** USE EFFECT ****/
-  const utcTime = new Date().getTime() / 1000;
 
   useEffect(() => {
     if (
       address &&
       userMintData &&
       !userMintData.maturityTs.isZero() &&
-      userMintData.maturityTs < utcTime
+      userMintData.maturityTs < UTC_TIME
     ) {
       if (!processing) {
         setDisabled(false);
@@ -231,7 +235,8 @@ const Mint = () => {
     });
     setPenaltyPercent(penalty);
     setReward(reward);
-  }, [address, userMintData, processing, utcTime, grossRewardData]);
+    setPenaltyXEN(reward * (penalty / 100));
+  }, [address, userMintData, processing, grossRewardData]);
 
   return (
     <Container>
@@ -267,7 +272,8 @@ const Mint = () => {
                       title="Penalty"
                       value={penaltyPercent}
                       suffix="%"
-                      description={`${penaltyXEN} XEN`}
+                      descriptionNumber={penaltyXEN}
+                      descriptionNumberSuffix=" XEN"
                     />
                   </div>
 
@@ -317,7 +323,8 @@ const Mint = () => {
                       title="Penalty"
                       value={penaltyPercent}
                       suffix="%"
-                      description={`${penaltyXEN} XEN`}
+                      descriptionNumber={penaltyXEN}
+                      descriptionNumberSuffix=" XEN"
                     />
                   </div>
 
@@ -394,7 +401,8 @@ const Mint = () => {
                       title="Penalty"
                       value={penaltyPercent}
                       suffix="%"
-                      description={`${penaltyXEN} XEN`}
+                      descriptionNumber={penaltyXEN}
+                      descriptionNumberSuffix=" XEN"
                     />
                   </div>
 
