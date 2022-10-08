@@ -116,7 +116,7 @@ const Mint = () => {
       setDisabled(false);
     }
 
-    setMaxFreeMint(Number(contractReads?.[0] ?? 100));
+    setMaxFreeMint(Number(contractReads?.[0] ?? 8640000) / 86400);
   }, [address, contractReads, data, processing, watchAllFields.startMintDays]);
 
   return (
