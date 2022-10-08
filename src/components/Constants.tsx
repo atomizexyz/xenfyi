@@ -1,18 +1,13 @@
 import {
-  MoonIcon,
-  SunIcon,
   BookOpenIcon,
-  DotsVerticalIcon,
   ViewGridIcon,
   LockClosedIcon,
-  GiftIcon,
 } from "@heroicons/react/outline";
 import {
   TwitterIcon,
   TelegramIcon,
   GitHubIcon,
   DiamondIcon,
-  WalletIcon,
   DiscordIcon,
 } from "~/components/Icons";
 
@@ -34,5 +29,33 @@ export const navigationItems = [
     name: "Stake",
     icon: <LockClosedIcon className="h-5 w-5" />,
     href: "/stake",
+  },
+];
+
+export const linkItems = [
+  {
+    name: "Docs",
+    icon: <BookOpenIcon className="h-5 w-5" />,
+    href: "https://xensource.gitbook.io/www.xenpedia.io/",
+  },
+  {
+    name: "Twitter",
+    icon: <TwitterIcon />,
+    href: "https://twitter.com/XEN_Crypto",
+  },
+  {
+    name: "Telegram",
+    icon: <TelegramIcon />,
+    href: "https://t.me/XENCryptoTalk",
+  },
+  {
+    name: "Discord",
+    icon: <DiscordIcon />,
+    href: "https://discord.gg/rcAhrKWJb6",
+  },
+  {
+    name: "GitHub",
+    icon: <GitHubIcon />,
+    href: "https://github.com/FairCrypto",
   },
 ];

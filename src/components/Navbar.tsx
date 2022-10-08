@@ -1,22 +1,9 @@
 import { ConnectKitButton } from "connectkit";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
+import { MoonIcon, SunIcon, DotsVerticalIcon } from "@heroicons/react/outline";
 import {
-  MoonIcon,
-  SunIcon,
-  BookOpenIcon,
-  DotsVerticalIcon,
-  ViewGridIcon,
-  LockClosedIcon,
-  GiftIcon,
-} from "@heroicons/react/outline";
-import {
-  TwitterIcon,
-  TelegramIcon,
-  GitHubIcon,
-  DiamondIcon,
   WalletIcon,
-  DiscordIcon,
   EthereumIcon,
   PulseChainIcon,
   PolygonIcon,
@@ -36,41 +23,8 @@ import {
 import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "./StatusBadge";
-import { navigationItems } from "~/components/Constants";
+import { navigationItems, linkItems } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
-
-const linkItems = [
-  {
-    name: "Docs",
-    icon: <BookOpenIcon className="h-5 w-5" />,
-    href: "https://xensource.gitbook.io/www.xenpedia.io/",
-  },
-  {
-    name: "Twitter",
-    icon: <TwitterIcon />,
-    href: "https://twitter.com/XEN_Crypto​",
-  },
-  {
-    name: "Telegram",
-    icon: <TelegramIcon />,
-    href: "https://t.me/XENCryptoTalk",
-  },
-  {
-    name: "Discord",
-    icon: <DiscordIcon />,
-    href: "https://discord.gg/rcAhrKWJb6",
-  },
-  {
-    name: "GitHub",
-    icon: <GitHubIcon />,
-    href: "https://github.com/FairCrypto",
-  },
-  // {
-  //   name: "Gift XEN",
-  //   icon: <GiftIcon className="h-5 w-5" />,
-  //   href: "https://etherscan.io/address/0x806f5d470ee7dd7b7a8ceb092d3fa7ef00a70576",
-  // },
-];
 
 const chainIcons = new Map<number, JSX.Element>();
 chainIcons.set(1, <EthereumIcon />);
