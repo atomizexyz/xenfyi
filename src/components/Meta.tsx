@@ -17,6 +17,14 @@ const Meta: NextPage = () => {
       <meta charSet="utf-8" />
       <meta name="description" content={description} />
 
+      {/* Apple */}
+      <link rel="apple-touch-icon" href="touch-icon.png" />
+      <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-152.png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="touch-icon-180.png" />
+      <link rel="apple-touch-icon" sizes="167x167" href="touch-icon-167.png" />
+      <meta name="apple-mobile-web-app-title" content="XEN" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@hexwalletapp" />
