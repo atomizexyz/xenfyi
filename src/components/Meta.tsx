@@ -13,7 +13,10 @@ const Meta: NextPage = () => {
       <link rel="icon" href="/favicon.png" type="image/png" />
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+      />
       <meta charSet="utf-8" />
       <meta name="description" content={description} />
 
@@ -24,6 +27,9 @@ const Meta: NextPage = () => {
       <link rel="apple-touch-icon" sizes="167x167" href="touch-icon-167.png" />
       <meta name="apple-mobile-web-app-title" content="XEN" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
+
+      {/* PWA */}
+      <link rel="manifest" href="/manifest.json" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
