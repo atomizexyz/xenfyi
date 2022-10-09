@@ -1,6 +1,6 @@
 import { Chain, chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
-import { pulseChain } from "~/lib/pulseChain";
+import { pulseChain } from "~/lib/pulseChainTestnet";
 import { bscTestnet } from "~/lib/bscTestnet";
 
 export const xenContract = (contractChain?: Chain) => {

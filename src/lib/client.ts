@@ -10,7 +10,7 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { bscTestnet } from "./bscTestnet";
-import { pulseChain } from "~/lib/pulseChain";
+import { pulseChain } from "~/lib/pulseChainTestnet";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;

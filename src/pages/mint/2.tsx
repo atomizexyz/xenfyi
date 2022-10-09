@@ -93,7 +93,6 @@ const Mint = () => {
           Number(userMint.term ?? 0)
         );
 
-        console.log(max, progress);
         setMax(max);
         setProgress(progress);
         setPercent(progress / max);
