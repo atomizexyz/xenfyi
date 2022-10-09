@@ -30,15 +30,6 @@ export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
           max={props.max}
         ></progress>
       </div>
-      <code className="stat-desc text-right">
-        {"Days Remaining: "}
-        <CountUp
-          end={props.daysRemaining}
-          preserveValue={true}
-          separator=","
-          decimals={0}
-        />
-      </code>
     </div>
   );
 };
