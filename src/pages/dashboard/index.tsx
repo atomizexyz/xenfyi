@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Container from "~/components/Container";
 import { useContractReads, useNetwork, chain } from "wagmi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   NumberStatCard,
   ChainStatCard,
@@ -18,34 +18,34 @@ interface DashboardData {
   genesisTs: Number;
 }
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
   const { chain: networkChain } = useNetwork();
   const [dashboardData, setDashboardData] = useState<DashboardData>();
 
   const {} = useContractReads({
     contracts: [
       {
-        ...xenContract(networkChain ?? chain.mainnet),
+        ...xenContract(networkChain),
         functionName: "globalRank",
       },
       {
-        ...xenContract(networkChain ?? chain.mainnet),
+        ...xenContract(networkChain),
         functionName: "activeMinters",
       },
       {
-        ...xenContract(networkChain ?? chain.mainnet),
+        ...xenContract(networkChain),
         functionName: "activeStakes",
       },
       {
-        ...xenContract(networkChain ?? chain.mainnet),
+        ...xenContract(networkChain),
         functionName: "totalXenStaked",
       },
       {
-        ...xenContract(networkChain ?? chain.mainnet),
+        ...xenContract(networkChain),
         functionName: "totalSupply",
       },
       {
-        ...xenContract(networkChain ?? chain.mainnet),
+        ...xenContract(networkChain),
         functionName: "genesisTs",
       },
     ],
@@ -96,57 +96,53 @@ const Home: NextPage = () => {
     },
   ];
 
-  useEffect(() => {}, []);
-
   return (
     <div>
-      <main>
-        <Container>
-          <div className="flex flex-col space-y-8">
-            <div className="card glass text-neutral">
-              <div className="card-body text-neutral">
-                <h2 className="card-title">General Stats</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
-                  <ChainStatCard
-                    value={networkChain?.name ?? chain.mainnet.name}
-                    id={networkChain?.id ?? chain.mainnet.id}
+      <Container>
+        <div className="flex flex-col space-y-8">
+          <div className="card glass text-neutral">
+            <div className="card-body text-neutral">
+              <h2 className="card-title">General Stats</h2>
+              <div className="stats stats-vertical bg-transparent text-neutral">
+                <ChainStatCard
+                  value={networkChain?.name ?? chain.mainnet.name}
+                  id={networkChain?.id ?? chain.mainnet.id}
+                />
+                <DateStatCard
+                  title="Days Since Launch"
+                  dateTs={Number(dashboardData?.genesisTs ?? 0)}
+                  isPast={true}
+                />
+                {generalStats.map((item, index) => (
+                  <NumberStatCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                    decimals={0}
                   />
-                  <DateStatCard
-                    title="Days Since Launch"
-                    dateTs={Number(dashboardData?.genesisTs ?? 0)}
-                    isPast={true}
-                  />
-                  {generalStats.map((item, index) => (
-                    <NumberStatCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                      decimals={0}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="card glass">
-              <div className="card-body text-neutral">
-                <h2 className="card-title">Supply</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
-                  {stakeItems.map((item, index) => (
-                    <NumberStatCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                    />
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        </Container>
-      </main>
+
+          <div className="card glass">
+            <div className="card-body text-neutral">
+              <h2 className="card-title">Supply</h2>
+              <div className="stats stats-vertical bg-transparent text-neutral">
+                {stakeItems.map((item, index) => (
+                  <NumberStatCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
     </div>
   );
 };
 
-export default Home;
+export default Dashboard;

@@ -59,11 +59,12 @@ const formatDate = (date: number) => {
 
 // days since date
 export const daysSince = (date: number) => {
-  return (UTC_TIME - date) / 86400;
+  console.log(UTC_TIME, date);
+  return Math.floor((UTC_TIME - date) / 86400);
 };
 
 export const daysUntil = (date: number) => {
-  return (date - UTC_TIME) / 86400;
+  return Math.floor((date - UTC_TIME) / 86400);
 };
 
 export const DateStatCard: React.FC<DateStat> = (props) => {
