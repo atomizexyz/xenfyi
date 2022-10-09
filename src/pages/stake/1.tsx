@@ -39,14 +39,12 @@ const Stake = () => {
   /*** CONTRACT READ SETUP  ***/
 
   const { data: balanceData } = useBalance({
-    addressOrName: address,
-    token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    ...xenContract(chain),
     watch: true,
   });
 
   const { data: userStake } = useContractRead({
-    addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-    contractInterface: XenCrypto.abi,
+    ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
     watch: true,

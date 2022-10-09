@@ -19,8 +19,7 @@ const Stake = () => {
   const [percent, setPercent] = useState(0);
 
   const { data: balanceData } = useBalance({
-    addressOrName: address,
-    token: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+    ...xenContract(chain),
     watch: true,
   });
 

@@ -234,7 +234,7 @@ export const Navbar: React.FC = () => {
                   className="justify-between text-neutral glass"
                   onClick={() => {
                     (connector as InjectedConnector)?.watchAsset?.({
-                      address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+                      address: xenContract(chain).addressOrName,
                       decimals: 18,
                       image: "https://xen.fyi/images/xen.png",
                       symbol: "XEN",
