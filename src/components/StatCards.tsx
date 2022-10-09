@@ -200,31 +200,28 @@ interface CountdownCardStat {
 
 export const CountdownCard: React.FC<CountdownCardStat> = (props) => {
   return (
-    <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
-      <div className="flex flex-col p-2 glass rounded-box text-neutral">
-        <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.days } as any}></span>
-        </span>
-        days
-      </div>
-      <div className="flex flex-col p-2 glass rounded-box text-neutral">
-        <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.hours } as any}></span>
-        </span>
-        hours
-      </div>
-      <div className="flex flex-col p-2 glass rounded-box text-neutral">
-        <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.minutes } as any}></span>
-        </span>
-        min
-      </div>
-      <div className="flex flex-col p-2 glass rounded-box text-neutral">
-        <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.seconds } as any}></span>
-        </span>
-        sec
-      </div>
+    <div className="stat">
+      <div className="stat-title">Matures in</div>
+      <code className="stat-value text-lg md:text-3xl text-right">
+        {props.days > 99 ? (
+          <div className="">
+            <div className="font-mono inline">{props.days}•</div>
+            <span className="countdown font-mono">
+              <span style={{ "--value": props.hours } as any}></span>:
+              <span style={{ "--value": props.minutes } as any}></span>:
+              <span style={{ "--value": props.seconds } as any}></span>
+            </span>
+          </div>
+        ) : (
+          <span className="countdown font-mono">
+            <span style={{ "--value": props.days } as any}></span>•
+            <span style={{ "--value": props.hours } as any}></span>:
+            <span style={{ "--value": props.minutes } as any}></span>:
+            <span style={{ "--value": props.seconds } as any}></span>
+          </span>
+        )}
+      </code>
+      <div className="stat-desc text-right">Day•Hours:Minutes:Seconds</div>
     </div>
   );
 };

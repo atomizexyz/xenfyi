@@ -89,7 +89,7 @@ const Stake = () => {
             <h2 className="card-title">Staking</h2>
             <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
               <Countdown
-                date={new Date((userStake?.maturityTs ?? 0) * 1000)}
+                date={Number(userStake?.maturityTs) * 1000}
                 intervalDelay={0}
                 renderer={(props) => (
                   <CountdownCard
