@@ -13,7 +13,7 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import { MaxValueField } from "~/components/FormFields";
-import { InformationCircleIcon } from "@heroicons/react/outline";
+import { InformationCircleIcon, XCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
@@ -40,6 +40,7 @@ const Stake = () => {
 
   const { data: balanceData } = useBalance({
     ...xenContract(chain),
+    addressOrName: address,
     token: xenContract(chain).addressOrName,
     watch: true,
   });
