@@ -190,3 +190,41 @@ export const CountDataCard: React.FC<GrossRewardStat> = (props) => {
     </div>
   );
 };
+
+interface CountdownCardStat {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export const CountdownCard: React.FC<CountdownCardStat> = (props) => {
+  return (
+    <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
+      <div className="flex flex-col p-2 glass rounded-box text-neutral">
+        <span className="countdown font-mono text-5xl">
+          <span style={{ "--value": props.days }}></span>
+        </span>
+        days
+      </div>
+      <div className="flex flex-col p-2 glass rounded-box text-neutral">
+        <span className="countdown font-mono text-5xl">
+          <span style={{ "--value": props.hours }}></span>
+        </span>
+        hours
+      </div>
+      <div className="flex flex-col p-2 glass rounded-box text-neutral">
+        <span className="countdown font-mono text-5xl">
+          <span style={{ "--value": props.minutes }}></span>
+        </span>
+        min
+      </div>
+      <div className="flex flex-col p-2 glass rounded-box text-neutral">
+        <span className="countdown font-mono text-5xl">
+          <span style={{ "--value": props.seconds }}></span>
+        </span>
+        sec
+      </div>
+    </div>
+  );
+};

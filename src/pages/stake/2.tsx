@@ -2,9 +2,14 @@ import Link from "next/link";
 import Container from "~/components/Container";
 import { useNetwork, useContractRead, useBalance, useAccount } from "wagmi";
 import { progressDays } from "~/lib/helpers";
-import { ProgressStatCard, NumberStatCard } from "~/components/StatCards";
+import {
+  ProgressStatCard,
+  NumberStatCard,
+  CountdownCard,
+} from "~/components/StatCards";
 import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
+import Countdown from "react-countdown";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -82,7 +87,19 @@ const Stake = () => {
         <div className="card glass">
           <div className="card-body">
             <h2 className="card-title">Staking</h2>
-            <div className="stats stats-vertical bg-transparent text-neutral">
+            <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
+              <Countdown
+                date={new Date((userStake?.maturityTs ?? 0) * 1000)}
+                intervalDelay={0}
+                renderer={(props) => (
+                  <CountdownCard
+                    days={props.days}
+                    hours={props.hours}
+                    minutes={props.minutes}
+                    seconds={props.seconds}
+                  />
+                )}
+              />
               <ProgressStatCard
                 title="Progress"
                 percentComplete={percent}

@@ -5,11 +5,16 @@ import {
   useContractReads,
 } from "wagmi";
 import Container from "~/components/Container";
-import { NumberStatCard, ProgressStatCard } from "~/components/StatCards";
-import { progressDays, estimatedXEN, MintData } from "~/lib/helpers";
+import {
+  NumberStatCard,
+  ProgressStatCard,
+  CountdownCard,
+} from "~/components/StatCards";
+import { progressDays, estimatedXEN, MintData, UTC_TIME } from "~/lib/helpers";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
+import Countdown from "react-countdown";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -117,10 +122,24 @@ const Mint = () => {
           </Link>
         </ul>
 
+        <div className="w-full"></div>
+
         <div className="card glass">
           <div className="card-body">
             <h2 className="card-title">Minting</h2>
-            <div className="stats stats-vertical bg-transparent text-neutral">
+            <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
+              <Countdown
+                date={new Date((mintingData?.maturityTs ?? 0) * 1000)}
+                intervalDelay={0}
+                renderer={(props) => (
+                  <CountdownCard
+                    days={props.days}
+                    hours={props.hours}
+                    minutes={props.minutes}
+                    seconds={props.seconds}
+                  />
+                )}
+              />
               <ProgressStatCard
                 title="Progress"
                 percentComplete={percent}
