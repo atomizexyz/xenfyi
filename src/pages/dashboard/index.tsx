@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
 import Container from "~/components/Container";
-import { useContractReads, useNetwork } from "wagmi";
-import { useState } from "react";
-import { pulseChain } from "~/lib/pulseChain";
+import { useContractReads, useNetwork, chain } from "wagmi";
+import { useEffect, useState } from "react";
 import {
   NumberStatCard,
   ChainStatCard,
@@ -20,33 +19,33 @@ interface DashboardData {
 }
 
 const Home: NextPage = () => {
-  const { chain } = useNetwork();
+  const { chain: networkChain } = useNetwork();
   const [dashboardData, setDashboardData] = useState<DashboardData>();
 
   const {} = useContractReads({
     contracts: [
       {
-        ...xenContract(chain),
+        ...xenContract(networkChain ?? chain.mainnet),
         functionName: "globalRank",
       },
       {
-        ...xenContract(chain),
+        ...xenContract(networkChain ?? chain.mainnet),
         functionName: "activeMinters",
       },
       {
-        ...xenContract(chain),
+        ...xenContract(networkChain ?? chain.mainnet),
         functionName: "activeStakes",
       },
       {
-        ...xenContract(chain),
+        ...xenContract(networkChain ?? chain.mainnet),
         functionName: "totalXenStaked",
       },
       {
-        ...xenContract(chain),
+        ...xenContract(networkChain ?? chain.mainnet),
         functionName: "totalSupply",
       },
       {
-        ...xenContract(chain),
+        ...xenContract(networkChain ?? chain.mainnet),
         functionName: "genesisTs",
       },
     ],
@@ -97,6 +96,8 @@ const Home: NextPage = () => {
     },
   ];
 
+  useEffect(() => {}, []);
+
   return (
     <div>
       <main>
@@ -107,8 +108,8 @@ const Home: NextPage = () => {
                 <h2 className="card-title">General Stats</h2>
                 <div className="stats stats-vertical bg-transparent text-neutral">
                   <ChainStatCard
-                    value={chain?.name ?? pulseChain.name}
-                    id={chain?.id ?? pulseChain.id}
+                    value={networkChain?.name ?? chain.mainnet.name}
+                    id={networkChain?.id ?? chain.mainnet.id}
                   />
                   <DateStatCard
                     title="Days Since Launch"
