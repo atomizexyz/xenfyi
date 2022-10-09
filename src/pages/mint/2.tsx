@@ -95,7 +95,7 @@ const Mint = () => {
 
         setMax(max);
         setProgress(progress);
-        setPercent(progress / max);
+        setPercent((progress / max) * 100);
       }
     }
   }, [contractReads, userMint?.maturityTs, userMint?.term, progress, userMint]);

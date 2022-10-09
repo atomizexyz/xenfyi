@@ -60,7 +60,7 @@ const Stake = () => {
 
     setMax(max);
     setProgress(progress);
-    setPercent(progress / max);
+    setPercent((progress / max) * 100);
   }, [progress, userStake?.maturityTs, userStake?.term]);
 
   return (
