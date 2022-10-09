@@ -203,25 +203,25 @@ export const CountdownCard: React.FC<CountdownCardStat> = (props) => {
     <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
       <div className="flex flex-col p-2 glass rounded-box text-neutral">
         <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.days }}></span>
+          <span style={{ "--value": props.days } as any}></span>
         </span>
         days
       </div>
       <div className="flex flex-col p-2 glass rounded-box text-neutral">
         <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.hours }}></span>
+          <span style={{ "--value": props.hours } as any}></span>
         </span>
         hours
       </div>
       <div className="flex flex-col p-2 glass rounded-box text-neutral">
         <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.minutes }}></span>
+          <span style={{ "--value": props.minutes } as any}></span>
         </span>
         min
       </div>
       <div className="flex flex-col p-2 glass rounded-box text-neutral">
         <span className="countdown font-mono text-5xl">
-          <span style={{ "--value": props.seconds }}></span>
+          <span style={{ "--value": props.seconds } as any}></span>
         </span>
         sec
       </div>
