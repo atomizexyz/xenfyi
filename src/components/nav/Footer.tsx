@@ -1,5 +1,5 @@
 import { linkItems } from "~/components/Constants";
-import { useNetwork } from "wagmi";
+import { chain, useNetwork, Chain } from "wagmi";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
@@ -8,12 +8,11 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { DONATION_ADDRESS } from "~/lib/helpers";
 
 const Footer = () => {
-  const { chain } = useNetwork();
+  const { chain: currentChain } = useNetwork();
   const [_, copy] = useCopyToClipboard();
 
-  const [address] = useState(xenContract(chain).addressOrName);
-
-  console.log(chain?.blockExplorers?.default.url);
+  const defaultChain: Chain = currentChain ?? chain.mainnet;
+  const [address] = useState(xenContract(defaultChain).addressOrName);
 
   const AddressLink = (props: any) => {
     return (
@@ -28,7 +27,7 @@ const Footer = () => {
             <DuplicateIcon className="w-5 h-5" />
           </button>
           <Link
-            href={`${chain?.blockExplorers?.default.url}/address/${props.address}`}
+            href={`${defaultChain?.blockExplorers?.default.url}/address/${props.address}`}
           >
             <a className="btn btn-square btn-xs glass">
               <ExternalLinkIcon className="w-5 h-5" />
