@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "~/components/Container";
 import {
+  useFeeData,
   useNetwork,
   useAccount,
   useContractRead,
@@ -11,20 +12,23 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
-import { gasCalculator, calculateStakeReward, UTC_TIME } from "~/lib/helpers";
+import { FeeData, calculateStakeReward, UTC_TIME } from "~/lib/helpers";
 import { useState, useEffect } from "react";
 import { CountDataCard } from "~/components/StatCards";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
+import GasEstimate from "~/components/GasEstimate";
 
 const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
+  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [earlyEndStake, setEarlyEndStake] = useState(false);
+  const { data: feeData } = useFeeData();
 
   const { handleSubmit } = useForm();
 
@@ -64,7 +68,22 @@ const Stake = () => {
         setEarlyEndStake(true);
       }
     }
-  }, [address, userStake, router, processing]);
+    const gasPrice = feeData?.gasPrice;
+    const gasLimit = config?.request?.gasLimit;
+    if (gasPrice && gasLimit) {
+      setFee({
+        gas: gasPrice,
+        transaction: gasLimit,
+      });
+    }
+  }, [
+    address,
+    userStake,
+    router,
+    processing,
+    config?.request?.gasLimit,
+    feeData?.gasPrice,
+  ]);
 
   return (
     <Container>
@@ -130,15 +149,9 @@ const Stake = () => {
                   >
                     {earlyEndStake ? "Early End Stake" : "End Stake"}
                   </button>
-                  <label className="label">
-                    <span className="label-text-alt text-neutral">
-                      GAS ESTIMATE:
-                    </span>
-                    <code className="label-text-alt text-neutral">
-                      {gasCalculator(Number(config?.request?.gasLimit ?? 0))}
-                    </code>
-                  </label>
                 </div>
+
+                <GasEstimate fee={fee} />
               </div>
             </form>
           </div>

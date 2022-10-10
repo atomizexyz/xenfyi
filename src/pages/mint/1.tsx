@@ -1,4 +1,5 @@
 import {
+  useFeeData,
   useNetwork,
   useAccount,
   useContractRead,
@@ -18,15 +19,17 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { gasCalculator, UTC_TIME } from "~/lib/helpers";
+import { UTC_TIME, FeeData } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
+import GasEstimate from "~/components/GasEstimate";
 
 const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
+  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [maxFreeMint, setMaxFreeMint] = useState(100);
   const [processing, setProcessing] = useState(false);
@@ -40,6 +43,8 @@ const Mint = () => {
     overrides: { from: address },
     watch: true,
   });
+
+  const { data: feeData } = useFeeData();
 
   const { data: contractReads } = useContractReads({
     contracts: [
@@ -117,7 +122,23 @@ const Mint = () => {
     }
 
     setMaxFreeMint(Number(contractReads?.[0] ?? 8640000) / 86400);
-  }, [address, contractReads, data, processing, watchAllFields.startMintDays]);
+    const gasPrice = feeData?.gasPrice;
+    const gasLimit = config?.request?.gasLimit;
+    if (gasPrice && gasLimit) {
+      setFee({
+        gas: gasPrice,
+        transaction: gasLimit,
+      });
+    }
+  }, [
+    address,
+    config?.request?.gasLimit,
+    contractReads,
+    data,
+    feeData?.gasPrice,
+    processing,
+    watchAllFields.startMintDays,
+  ]);
 
   return (
     <Container>
@@ -194,15 +215,8 @@ const Mint = () => {
                   >
                     Start Mint
                   </button>
-                  <label className="label">
-                    <span className="label-text-alt text-neutral">
-                      GAS ESTIMATE:
-                    </span>
-                    <code className="label-text-alt text-neutral">
-                      {gasCalculator(Number(config?.request?.gasLimit ?? 0))}
-                    </code>
-                  </label>
                 </div>
+                <GasEstimate fee={fee} />
               </div>
             </form>
           </div>

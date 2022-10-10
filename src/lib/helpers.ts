@@ -1,5 +1,5 @@
 import { daysSince } from "~/components/StatCards";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;
@@ -9,6 +9,19 @@ export const WALLET_ADDRESS_REGEX = new RegExp(
   `^(0x[0-9a-fA-F]{40})(,0x[0-9a-fA-F]{40})*$`
 );
 export const DONATION_ADDRESS = "0x06e50E3802cC7A8990Fd7624dB6216138375a709";
+
+export const formatDecimals = (
+  value: number,
+  decimals: number,
+  suffix?: string
+) => {
+  return (
+    value.toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }) + (suffix ? ` ${suffix}` : "")
+  );
+};
 
 export const daysRemaining = (timestamp?: number) => {
   if (timestamp && timestamp > 0) {
@@ -71,8 +84,22 @@ export const stakeYield = (data?: StakeData) => {
   }
 };
 
-export const gasCalculator = (gwei: number) => {
-  return ethers.utils.formatUnits(gwei, "gwei");
+export interface FeeData {
+  gas: BigNumber;
+  transaction: BigNumber;
+}
+
+export const toGwei = (value: BigNumber) => {
+  return Number(ethers.utils.formatUnits(value, "gwei"));
+};
+
+export const gasCalculator = (fee?: FeeData) => {
+  if (fee) {
+    const totalFee = fee.gas.mul(fee.transaction);
+    const totalFeeGwei = toGwei(totalFee);
+    return formatDecimals(totalFeeGwei, 0, "gwei");
+  }
+  return formatDecimals(0, 0, "gwei");
 };
 
 interface MintRewardData {

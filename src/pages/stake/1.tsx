@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Container from "~/components/Container";
-import XenCrypto from "~/abi/XENCrypto.json";
 
 import {
+  useFeeData,
   useNetwork,
   useBalance,
   useAccount,
@@ -19,12 +19,12 @@ import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
-import { stakeYield, gasCalculator, UTC_TIME } from "~/lib/helpers";
+import { UTC_TIME, FeeData, stakeYield } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
-
+import GasEstimate from "~/components/GasEstimate";
 import { clsx } from "clsx";
 import * as yup from "yup";
 
@@ -32,9 +32,11 @@ const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
+  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
+  const { data: feeData } = useFeeData();
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -140,9 +142,20 @@ const Stake = () => {
     if (!processing && address && userStake && userStake.term == 0) {
       setDisabled(false);
     }
+
+    const gasPrice = feeData?.gasPrice;
+    const gasLimit = config?.request?.gasLimit;
+    if (gasPrice && gasLimit) {
+      setFee({
+        gas: gasPrice,
+        transaction: gasLimit,
+      });
+    }
   }, [
     address,
+    config?.request?.gasLimit,
     contractReads,
+    feeData?.gasPrice,
     processing,
     userStake,
     watchAllFields.startStakeDays,
@@ -240,15 +253,8 @@ const Stake = () => {
                   >
                     Start Stake
                   </button>
-                  <label className="label">
-                    <span className="label-text-alt text-neutral">
-                      GAS ESTIMATE:
-                    </span>
-                    <code className="label-text-alt text-neutral">
-                      {gasCalculator(Number(config?.request?.gasLimit ?? 0))}
-                    </code>
-                  </label>
                 </div>
+                <GasEstimate fee={fee} />
               </div>
             </form>
           </div>

@@ -1,4 +1,5 @@
 import {
+  useFeeData,
   useNetwork,
   useAccount,
   useContractRead,
@@ -8,6 +9,7 @@ import {
 } from "wagmi";
 import Link from "next/link";
 import Container from "~/components/Container";
+import GasEstimate from "~/components/GasEstimate";
 import { MaxValueField, WalletAddressField } from "~/components/FormFields";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -17,7 +19,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CountDataCard } from "~/components/StatCards";
 import {
-  gasCalculator,
+  FeeData,
   calculateMintReward,
   mintPenalty,
   UTC_TIME,
@@ -31,11 +33,17 @@ const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
+  const [claimFee, setClaimFee] = useState<FeeData>();
+  const [claimShareFee, setClaimShareFee] = useState<FeeData>();
+  const [claimStakeFee, setClaimStakeFee] = useState<FeeData>();
+
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [penaltyPercent, setPenaltyPercent] = useState(0);
   const [penaltyXEN, setPenaltyXEN] = useState(0);
   const [reward, setReward] = useState(0);
+
+  const { data: feeData } = useFeeData();
 
   /*** CONTRACT READ SETUP  ***/
 
@@ -80,17 +88,17 @@ const Mint = () => {
       setDisabled(true);
     },
   });
+  const handleClaimSubmit = () => {
+    writeClaim?.();
+  };
   const {} = useWaitForTransaction({
     hash: claimData?.hash,
     onSuccess(data) {
-      toast("Mint successful");
+      toast("Claim mint successful");
 
       router.push("/stake/1");
     },
   });
-  const handleClaimSubmit = () => {
-    writeClaim?.();
-  };
 
   // Claim + Share
 
@@ -132,6 +140,7 @@ const Mint = () => {
       cShareWatchAllFields.claimSharePercentage,
     ],
   });
+
   const { data: claimShareData, write: writeClaimShare } = useContractWrite({
     ...configClaimShare,
     onSuccess(data) {
@@ -139,16 +148,16 @@ const Mint = () => {
       setDisabled(true);
     },
   });
-  const {} = useWaitForTransaction({
-    hash: claimShareData?.hash,
-    onSuccess(data) {
-      toast("Mint and share successful");
-      router.push("/stake/1");
-    },
-  });
   const handleClaimShareSubmit = () => {
     writeClaimShare?.();
   };
+  const {} = useWaitForTransaction({
+    hash: claimShareData?.hash,
+    onSuccess(data) {
+      toast("Claim mint and share successful");
+      router.push("/stake/1");
+    },
+  });
 
   // Claim + Stake
 
@@ -164,6 +173,7 @@ const Mint = () => {
       claimStakeDays: yup
         .number()
         .required("Days required")
+        .max(1000, "Maximum stake days: 1000")
         .positive("Days must be greater than 0")
         .typeError("Days required"),
     })
@@ -188,6 +198,7 @@ const Mint = () => {
       cStakeWatchAllFields.claimStakeDays,
     ],
   });
+
   const { data: claimStakeData, write: writeClaimStake } = useContractWrite({
     ...configClaimStake,
     onSuccess(data) {
@@ -195,17 +206,17 @@ const Mint = () => {
       setDisabled(true);
     },
   });
-  const {} = useWaitForTransaction({
-    hash: claimStakeData?.hash,
-    onSuccess(data) {
-      toast("Mint and stake successful");
-      router.push("/stake/2");
-    },
-  });
 
   const handleClaimStakeSubmit = () => {
     writeClaimStake?.();
   };
+  const {} = useWaitForTransaction({
+    hash: claimStakeData?.hash,
+    onSuccess(data) {
+      toast("Claim mint and stake successful");
+      router.push("/stake/2");
+    },
+  });
 
   /*** USE EFFECT ****/
 
@@ -230,8 +241,42 @@ const Mint = () => {
       setPenaltyPercent(penalty);
       setReward(reward);
       setPenaltyXEN(reward * (penalty / 100));
+
+      const gasPrice = feeData?.gasPrice;
+      const configClaimGasLimit = configClaim?.request?.gasLimit;
+      if (gasPrice && configClaimGasLimit) {
+        setClaimFee({
+          gas: gasPrice,
+          transaction: configClaimGasLimit,
+        });
+      }
+
+      const configClaimShareGasLimit = configClaimShare?.request?.gasLimit;
+      if (gasPrice && configClaimShareGasLimit) {
+        setClaimShareFee({
+          gas: gasPrice,
+          transaction: configClaimShareGasLimit,
+        });
+      }
+
+      const configClaimStakeGasLimit = configClaimStake?.request?.gasLimit;
+      if (gasPrice && configClaimStakeGasLimit) {
+        setClaimStakeFee({
+          gas: gasPrice,
+          transaction: configClaimStakeGasLimit,
+        });
+      }
     }
-  }, [address, userMintData, processing, grossRewardData]);
+  }, [
+    address,
+    userMintData,
+    processing,
+    grossRewardData,
+    feeData?.gasPrice,
+    configClaim?.request?.gasLimit,
+    configClaimShare?.request?.gasLimit,
+    configClaimStake?.request?.gasLimit,
+  ]);
 
   return (
     <Container>
@@ -255,7 +300,7 @@ const Mint = () => {
             <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
                 <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Mint</h2>
+                  <h2 className="card-title text-neutral">Claim Mint</h2>
 
                   <div className="flex stats glass w-full text-neutral">
                     <CountDataCard
@@ -280,19 +325,11 @@ const Mint = () => {
                       })}
                       disabled={disabled}
                     >
-                      Mint
+                      Claim Mint
                     </button>
-                    <label className="label">
-                      <span className="label-text-alt text-neutral">
-                        GAS ESTIMATE:
-                      </span>
-                      <code className="label-text-alt text-neutral">
-                        {gasCalculator(
-                          Number(configClaim?.request?.gasLimit ?? 0)
-                        )}
-                      </code>
-                    </label>
                   </div>
+
+                  <GasEstimate fee={claimFee} />
                 </div>
               </form>
             </div>
@@ -306,7 +343,9 @@ const Mint = () => {
             <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
                 <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Mint + Share</h2>
+                  <h2 className="card-title text-neutral">
+                    Claim Mint + Share
+                  </h2>
 
                   <div className="flex stats glass w-full text-neutral">
                     <CountDataCard
@@ -331,7 +370,7 @@ const Mint = () => {
                     disabled={disabled}
                     errorMessage={
                       <ErrorMessage
-                        errors={cStakeErrors}
+                        errors={cShareErrors}
                         name="claimSharePercentage"
                       />
                     }
@@ -358,19 +397,11 @@ const Mint = () => {
                       })}
                       disabled={disabled}
                     >
-                      Mint + Share
+                      Claim Mint + Share
                     </button>
-                    <label className="label">
-                      <span className="label-text-alt text-neutral">
-                        GAS ESTIMATE:
-                      </span>
-                      <code className="label-text-alt text-neutral">
-                        {gasCalculator(
-                          Number(configClaimShare?.request?.gasLimit ?? 0)
-                        )}
-                      </code>
-                    </label>
                   </div>
+
+                  <GasEstimate fee={claimShareFee} />
                 </div>
               </form>
             </div>
@@ -384,7 +415,9 @@ const Mint = () => {
             <div className="flex flex-col w-full border-opacity-50">
               <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
                 <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Mint + Stake</h2>
+                  <h2 className="card-title text-neutral">
+                    Claim Mint + Stake
+                  </h2>
 
                   <div className="flex stats glass w-full text-neutral">
                     <CountDataCard
@@ -441,19 +474,11 @@ const Mint = () => {
                       })}
                       disabled={disabled}
                     >
-                      Mint + Stake
+                      Claim Mint + Stake
                     </button>
-                    <label className="label">
-                      <span className="label-text-alt text-neutral">
-                        GAS ESTIMATE:
-                      </span>
-                      <code className="label-text-alt text-neutral">
-                        {gasCalculator(
-                          Number(configClaimStake?.request?.gasLimit ?? 0)
-                        )}
-                      </code>
-                    </label>
                   </div>
+
+                  <GasEstimate fee={claimStakeFee} />
                 </div>
               </form>
             </div>
