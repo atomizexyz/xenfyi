@@ -34,6 +34,18 @@ export const navigationItems = [
   },
 ];
 
+export const textLinkItems = [
+  {
+    name: "Developer",
+    href: "http://twitter.com/joeblau",
+  },
+
+  {
+    name: "Website Source Code",
+    href: "https://github.com/joeblau/xenfyi",
+  },
+];
+
 export const linkItems = [
   {
     name: "Whitepaper",

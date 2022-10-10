@@ -1,4 +1,4 @@
-import { linkItems } from "~/components/Constants";
+import { linkItems, textLinkItems } from "~/components/Constants";
 import { chain, useNetwork, Chain } from "wagmi";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
@@ -51,6 +51,13 @@ const Footer = () => {
       </div>
       <AddressLink name={"Contract:"} address={address} />
       <AddressLink name={"Donate:"} address={DONATION_ADDRESS} />
+      <div className="grid grid-flow-col gap-4">
+        {textLinkItems.map((item, index) => (
+          <Link href={item.href} key={index}>
+            <a className="link link-hover">{item.name}</a>
+          </Link>
+        ))}
+      </div>
     </footer>
   );
 };
