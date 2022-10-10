@@ -3,6 +3,7 @@ import Meta from "~/components/Meta";
 import { BottomNav } from "~/components/nav/BottomNav";
 import { Toaster, resolveValue } from "react-hot-toast";
 import { CheckIcon } from "@heroicons/react/outline";
+import Footer from "./nav/Footer";
 
 const Layout = ({ children }: any) => {
   return (
@@ -27,6 +28,7 @@ const Layout = ({ children }: any) => {
           </div>
         )}
       </Toaster>
+      <Footer />
       <BottomNav />
     </div>
   );

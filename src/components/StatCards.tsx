@@ -8,6 +8,7 @@ interface ProgressStat {
   value: number;
   max: number;
   daysRemaining: number;
+  dateTs: number;
 }
 
 export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
@@ -30,6 +31,7 @@ export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
           max={props.max}
         ></progress>
       </div>
+      <div className="stat-desc text-right">{formatDate(props.dateTs)}</div>
     </div>
   );
 };

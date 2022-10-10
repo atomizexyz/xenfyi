@@ -145,6 +145,7 @@ const Mint = () => {
                 value={progress}
                 max={max}
                 daysRemaining={max - progress}
+                dateTs={Number(userMint?.maturityTs)}
               />
               {mintItems.map((item, index) => (
                 <NumberStatCard

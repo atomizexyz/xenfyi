@@ -2,6 +2,7 @@ import {
   BookOpenIcon,
   ViewGridIcon,
   LockClosedIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/outline";
 import {
   TwitterIcon,
@@ -9,6 +10,7 @@ import {
   GitHubIcon,
   DiamondIcon,
   DiscordIcon,
+  CoinmarketCapIcon,
 } from "~/components/Icons";
 
 export const navigationItems = [
@@ -34,6 +36,11 @@ export const navigationItems = [
 
 export const linkItems = [
   {
+    name: "Whitepaper",
+    icon: <DocumentTextIcon className="h-5 w-5" />,
+    href: "https://faircrypto.org/xencryptolp.pdf",
+  },
+  {
     name: "Docs",
     icon: <BookOpenIcon className="h-5 w-5" />,
     href: "https://xensource.gitbook.io/www.xenpedia.io/",
@@ -57,5 +64,10 @@ export const linkItems = [
     name: "GitHub",
     icon: <GitHubIcon />,
     href: "https://github.com/FairCrypto",
+  },
+  {
+    name: "CoinMarketCap",
+    icon: <CoinmarketCapIcon />,
+    href: "https://coinmarketcap.com/currencies/xen-crypto/",
   },
 ];

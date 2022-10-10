@@ -2,7 +2,6 @@ import {
   useNetwork,
   useAccount,
   useContractRead,
-  useContractReads,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
@@ -22,6 +21,7 @@ import {
   calculateMintReward,
   mintPenalty,
   UTC_TIME,
+  WALLET_ADDRESS_REGEX,
 } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
@@ -46,13 +46,9 @@ const Mint = () => {
     watch: true,
   });
 
-  const { data: contractReads } = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chain),
-        functionName: "globalRank",
-      },
-    ],
+  const { data: globalRankData } = useContractRead({
+    ...xenContract(chain),
+    functionName: "globalRank",
     watch: true,
   });
 
@@ -60,7 +56,7 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getGrossReward",
     args: [
-      Number(contractReads?.[0] ?? 0) - (userMintData?.rank ?? 0),
+      Number(globalRankData ?? 0) - (userMintData?.rank ?? 0),
       Number(userMintData?.amplifier ?? 0),
       Number(userMintData?.term ?? 0),
       1000 + Number(userMintData?.eaaRate ?? 0),
@@ -97,9 +93,6 @@ const Mint = () => {
   };
 
   // Claim + Share
-  const walletAddressesRegex = new RegExp(
-    `^(0x[0-9a-fA-F]{40})(,0x[0-9a-fA-F]{40})*$`
-  );
 
   const schemaClaimShare = yup
     .object()
@@ -107,7 +100,7 @@ const Mint = () => {
       claimShareAddress: yup
         .string()
         .required("Crypto address required")
-        .matches(walletAddressesRegex, {
+        .matches(WALLET_ADDRESS_REGEX, {
           message: "Invalid address",
           excludeEmptyString: true,
         }),

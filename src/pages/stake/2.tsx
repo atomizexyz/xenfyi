@@ -105,6 +105,7 @@ const Stake = () => {
                 value={progress}
                 max={max}
                 daysRemaining={max - progress}
+                dateTs={Number(userStake?.maturityTs)}
               />
               {mintItems.map((item, index) => (
                 <NumberStatCard

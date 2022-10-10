@@ -39,7 +39,6 @@ const Stake = () => {
   /*** CONTRACT READ SETUP  ***/
 
   const { data: balanceData } = useBalance({
-    ...xenContract(chain),
     addressOrName: address,
     token: xenContract(chain).addressOrName,
     watch: true,
