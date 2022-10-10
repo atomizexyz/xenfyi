@@ -143,8 +143,6 @@ export const truncatedAddress = (address: string) => {
 export const estimatedStakeRewardXEN = (data: StakeRewardData) => {
   const amount = Number(ethers.utils.formatUnits(data.amount ?? 0, 18));
   if (data.maturityTs != 0 && UTC_TIME > data.maturityTs) {
-    console.log(UTC_TIME, data.maturityTs);
-
     const rate = (data.apy * data.term * 1_000_000) / DAYS_IN_YEAR;
     const totalReward = (data.amount * rate) / 100_000_000 / 1e18;
     const progress = progressDays(data.maturityTs, data.term);

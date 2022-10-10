@@ -10,12 +10,16 @@ import {
 import { xenContract } from "~/lib/xen-contract";
 
 interface DashboardData {
-  globalRank: Number;
-  activeMinters: Number;
-  activeStakes: Number;
-  totalXenStaked: Number;
-  totalXenLiquid: Number;
-  genesisTs: Number;
+  globalRank: number;
+  activeMinters: number;
+  activeStakes: number;
+  totalXenStaked: number;
+  totalXenLiquid: number;
+  genesisTs: number;
+  maxMintDays: number;
+  ampRewards: number;
+  eaaRewards: number;
+  apyRewards: number;
 }
 
 const Dashboard: NextPage = () => {
@@ -48,6 +52,23 @@ const Dashboard: NextPage = () => {
         ...xenContract(networkChain),
         functionName: "genesisTs",
       },
+      {
+        ...xenContract(networkChain),
+        functionName: "getCurrentMaxTerm",
+      },
+
+      {
+        ...xenContract(networkChain),
+        functionName: "getCurrentAMP",
+      },
+      {
+        ...xenContract(networkChain),
+        functionName: "getCurrentEAAR",
+      },
+      {
+        ...xenContract(networkChain),
+        functionName: "getCurrentAPY",
+      },
     ],
 
     onSuccess(data) {
@@ -58,6 +79,10 @@ const Dashboard: NextPage = () => {
         totalXenStaked: Number(data[3]),
         totalXenLiquid: Number(data[4]),
         genesisTs: Number(data[5]),
+        maxMintDays: Number(data[6]),
+        ampRewards: Number(data[7]),
+        eaaRewards: Number(data[8]),
+        apyRewards: Number(data[9]),
       });
     },
     watch: true,
@@ -75,6 +100,11 @@ const Dashboard: NextPage = () => {
     {
       title: "Active Stakes",
       value: Number(dashboardData?.activeStakes),
+    },
+    {
+      title: "Max Mint Term",
+      value: Number(dashboardData?.maxMintDays) / 86400,
+      suffix: " Days",
     },
   ];
 
@@ -96,46 +126,93 @@ const Dashboard: NextPage = () => {
     },
   ];
 
+  const rewardsItems = [
+    {
+      title: "AMP",
+      value: Number(dashboardData?.ampRewards),
+      decimals: 0,
+      tooltip:
+        "Reward Amplifier (AMP) is a time-dependent part of XEN Mint Reward calculation. It starts at 3,000 at Genesis and decreases by 1 every day until it reaches 1",
+    },
+    {
+      title: "EAA",
+      value: Number(dashboardData?.eaaRewards),
+      decimals: 0,
+      suffix: "%",
+      tooltip:
+        "Early Adopter Amplifier (EAA) is a part of XEN Mint Reward calculation which depends on current Global Rank. EAA starts from 10% and decreases in a linear fashion by 0.1% per each 100,000 increase in Global Rank.",
+    },
+    {
+      title: "APY",
+      value: Number(dashboardData?.apyRewards),
+      decimals: 0,
+      suffix: "%",
+      tooltip:
+        "Annual Percentage Yield (APY) determines XEN Staking Reward calculation. It is non-compounding and is pro-rated by days. APY starts at 20% on Genesis and decreases by 1p.p. every 90 days until it reaches 2%",
+    },
+  ];
+
   return (
     <div>
       <Container>
-        <div className="flex flex-col space-y-8">
-          <div className="card glass text-neutral">
-            <div className="card-body text-neutral">
-              <h2 className="card-title">General Stats</h2>
-              <div className="stats stats-vertical bg-transparent text-neutral">
-                <ChainStatCard
-                  value={networkChain?.name ?? chain.mainnet.name}
-                  id={networkChain?.id ?? chain.mainnet.id}
-                />
-                <DateStatCard
-                  title="Days Since Launch"
-                  dateTs={Number(dashboardData?.genesisTs ?? 0)}
-                  isPast={true}
-                />
-                {generalStats.map((item, index) => (
-                  <NumberStatCard
-                    key={index}
-                    title={item.title}
-                    value={item.value}
-                    decimals={0}
+        <div className="flex flex-row space-x-4">
+          <div className="flex flex-col space-y-8">
+            <div className="card glass text-neutral">
+              <div className="card-body text-neutral">
+                <h2 className="card-title">General Stats</h2>
+                <div className="stats stats-vertical bg-transparent text-neutral">
+                  <ChainStatCard
+                    value={networkChain?.name ?? chain.mainnet.name}
+                    id={networkChain?.id ?? chain.mainnet.id}
                   />
-                ))}
+                  <DateStatCard
+                    title="Days Since Launch"
+                    dateTs={Number(dashboardData?.genesisTs ?? 0)}
+                    isPast={true}
+                  />
+                  {generalStats.map((item, index) => (
+                    <NumberStatCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      decimals={0}
+                      suffix={item.suffix}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="card glass">
-            <div className="card-body text-neutral">
-              <h2 className="card-title">Supply</h2>
-              <div className="stats stats-vertical bg-transparent text-neutral">
-                {stakeItems.map((item, index) => (
-                  <NumberStatCard
-                    key={index}
-                    title={item.title}
-                    value={item.value}
-                  />
-                ))}
+            <div className="card glass">
+              <div className="card-body text-neutral">
+                <h2 className="card-title">Supply</h2>
+                <div className="stats stats-vertical bg-transparent text-neutral">
+                  {stakeItems.map((item, index) => (
+                    <NumberStatCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="card glass">
+              <div className="card-body text-neutral">
+                <h2 className="card-title">Rewards</h2>
+                <div className="stats stats-vertical bg-transparent text-neutral">
+                  {rewardsItems.map((item, index) => (
+                    <NumberStatCard
+                      key={index}
+                      title={item.title}
+                      value={item.value}
+                      decimals={item.decimals}
+                      suffix={item.suffix}
+                      tooltip={item.tooltip}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

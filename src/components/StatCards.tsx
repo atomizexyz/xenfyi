@@ -1,7 +1,7 @@
 import CountUp from "react-countup";
 import { ethers } from "ethers";
 import { UTC_TIME } from "~/lib/helpers";
-
+import { InformationCircleIcon } from "@heroicons/react/outline";
 interface ProgressStat {
   title: string;
   percentComplete: number;
@@ -87,6 +87,7 @@ interface NumberStat {
   suffix?: string;
   description?: string;
   tokenDecimals?: number;
+  tooltip?: string;
 }
 
 export const NumberStatCard: React.FC<NumberStat> = (props) => {
@@ -107,6 +108,18 @@ export const NumberStatCard: React.FC<NumberStat> = (props) => {
         />
       </code>
       <div className="stat-desc text-right">{props.description}</div>
+      {props.tooltip && (
+        <div className="alert shadow-lg glass mt-4">
+          <div>
+            <div>
+              <InformationCircleIcon className="w-8 h-8" />
+            </div>
+            <div>
+              <div className="text-xs">{props.tooltip}</div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
