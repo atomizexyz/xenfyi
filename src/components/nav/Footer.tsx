@@ -20,7 +20,7 @@ const Footer = () => {
       <div className="flex flex-col lg:flex-row space-x-2">
         <span>{props.name}</span>
         <code>{props.address}</code>
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-row space-x-8 lg:space-x-2">
           <button
             className="btn btn-square btn-xs glass"
             onClick={() => copy(props.address)}
@@ -40,7 +40,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="footer footer-center text-base-content rounded">
+    <footer className="footer footer-center text-base-content rounded pt-8 lg:pt-0">
       <div>
         <div className="grid grid-flow-col gap-6">
           {linkItems.map((item, index) => (
