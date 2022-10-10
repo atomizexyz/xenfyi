@@ -38,6 +38,7 @@ const Mint = () => {
   const [claimStakeFee, setClaimStakeFee] = useState<FeeData>();
 
   const [disabled, setDisabled] = useState(true);
+  const [activeStakeDisabled, setActiveStakeDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [penaltyPercent, setPenaltyPercent] = useState(0);
   const [penaltyXEN, setPenaltyXEN] = useState(0);
@@ -50,6 +51,13 @@ const Mint = () => {
   const { data: userMintData } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserMint",
+    overrides: { from: address },
+    watch: true,
+  });
+
+  const { data: userStakeData } = useContractRead({
+    ...xenContract(chain),
+    functionName: "getUserStake",
     overrides: { from: address },
     watch: true,
   });
@@ -267,7 +275,12 @@ const Mint = () => {
         });
       }
     }
+
+    if (address && userStakeData && userStakeData.term == 0) {
+      setActiveStakeDisabled(false);
+    }
   }, [
+    activeStakeDisabled,
     address,
     userMintData,
     processing,
@@ -276,6 +289,7 @@ const Mint = () => {
     configClaim?.request?.gasLimit,
     configClaimShare?.request?.gasLimit,
     configClaimStake?.request?.gasLimit,
+    userStakeData,
   ]);
 
   return (
@@ -439,7 +453,7 @@ const Mint = () => {
                     description="Stake percentage"
                     decimals={0}
                     value={100}
-                    disabled={disabled}
+                    disabled={disabled || activeStakeDisabled}
                     errorMessage={
                       <ErrorMessage
                         errors={cStakeErrors}
@@ -455,7 +469,7 @@ const Mint = () => {
                     description="Stake days"
                     decimals={0}
                     value={1000}
-                    disabled={disabled}
+                    disabled={disabled || activeStakeDisabled}
                     errorMessage={
                       <ErrorMessage
                         errors={cStakeErrors}
@@ -472,7 +486,7 @@ const Mint = () => {
                       className={clsx("btn glass text-neutral", {
                         loading: processing,
                       })}
-                      disabled={disabled}
+                      disabled={disabled || activeStakeDisabled}
                     >
                       Claim Mint + Stake
                     </button>
