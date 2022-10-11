@@ -86,7 +86,7 @@ const Stake = () => {
   ]);
 
   return (
-    <Container>
+    <Container className="max-w-2xl">
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/stake/1">

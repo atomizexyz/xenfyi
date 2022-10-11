@@ -16,7 +16,6 @@ const Portfolio: NextPage = () => {
   const { chain } = useNetwork() as { chain: Chain };
   const [mintTotal, setMintTotal] = useState(0);
   const [stakeTotal, setStakeTotal] = useState(0);
-  const [disableDelete, setDisableDelete] = useState(true);
   const [storedAddresses, setStoredAddresses] = useLocalStorage<string[]>(
     "storedAddresses",
     []
@@ -25,7 +24,7 @@ const Portfolio: NextPage = () => {
   const { data: globalRankData } = useContractRead({
     ...xenContract(chain),
     functionName: "globalRank",
-    // watch: true,
+    watch: true,
   });
 
   const schema = yup
@@ -47,8 +46,6 @@ const Portfolio: NextPage = () => {
     handleSubmit,
     formState: { errors },
     resetField,
-    watch,
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -57,14 +54,10 @@ const Portfolio: NextPage = () => {
         address: address,
         mint: 0,
         stake: 0,
-        isChecked: false,
       })),
     },
   });
 
-  const watchAllFields = watch();
-
-  // console.log(watchAllFields);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "portfolio",
@@ -74,22 +67,7 @@ const Portfolio: NextPage = () => {
     return (
       <tr>
         <th className="bg-transparent">
-          <button
-            name="delete"
-            id="delete"
-            type="button"
-            className="btn btn-xs glass text-neutral"
-            disabled={disableDelete}
-            onClick={() => {
-              // remove all checked fields by id
-              const checkedIds = fields
-                .filter((field) => field.isChecked)
-                .map((field, index) => index);
-              remove(checkedIds);
-            }}
-          >
-            Delete
-          </button>
+          <div></div>
         </th>
         <th className="bg-transparent">Address</th>
         <th className="bg-transparent text-right">Mint</th>
@@ -113,7 +91,6 @@ const Portfolio: NextPage = () => {
         address: newAddress,
         mint: 0,
         stake: 0,
-        isChecked: false,
       });
     }
     resetField("newAddress");
@@ -126,16 +103,10 @@ const Portfolio: NextPage = () => {
       setMintTotal(mintTotal);
       setStakeTotal(stakeTotal);
     }
-
-    const hasChecked = watchAllFields.portfolio.some(
-      (field: any) => field.isChecked
-    );
-    setDisableDelete(!hasChecked);
-    console.log(watchAllFields);
-  }, [fields, watchAllFields]);
+  }, [fields, setStoredAddresses, storedAddresses]);
 
   return (
-    <Container className="max-w-5xl">
+    <Container className="max-w-4xl">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4 w-full">
           <div className="card flex glass">
@@ -169,7 +140,9 @@ const Portfolio: NextPage = () => {
                           item={item}
                           index={index}
                           register={register}
-                          // setValue={setValue}
+                          remove={remove}
+                          storedAddresses={storedAddresses}
+                          setStoredAddresses={setStoredAddresses}
                         />
                       </tr>
                     ))}

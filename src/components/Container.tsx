@@ -4,7 +4,7 @@ const Container = ({ className, ...props }: any) => {
   return (
     <div
       className={clsx(
-        "mx-auto max-w-xl py-4 lg:py-12 px-4 sm:px-6 lg:px-8 text-neutral",
+        "mx-auto py-4 lg:py-12 px-4 sm:px-6 lg:px-8 text-neutral",
         className
       )}
       {...props}

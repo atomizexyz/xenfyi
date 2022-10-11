@@ -154,65 +154,63 @@ const Dashboard: NextPage = () => {
 
   return (
     <div>
-      <Container>
-        <div className="flex flex-row space-x-4">
-          <div className="flex flex-col space-y-8">
-            <div className="card glass text-neutral">
-              <div className="card-body text-neutral">
-                <h2 className="card-title">General Stats</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
-                  <ChainStatCard
-                    value={networkChain?.name ?? chain.mainnet.name}
-                    id={networkChain?.id ?? chain.mainnet.id}
+      <Container className="max-w-2xl">
+        <div className="flex flex-col space-y-8">
+          <div className="card glass text-neutral">
+            <div className="card-body text-neutral">
+              <h2 className="card-title">General Stats</h2>
+              <div className="stats stats-vertical bg-transparent text-neutral">
+                <ChainStatCard
+                  value={networkChain?.name ?? chain.mainnet.name}
+                  id={networkChain?.id ?? chain.mainnet.id}
+                />
+                <DateStatCard
+                  title="Days Since Launch"
+                  dateTs={Number(dashboardData?.genesisTs ?? 0)}
+                  isPast={true}
+                />
+                {generalStats.map((item, index) => (
+                  <NumberStatCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                    decimals={0}
+                    suffix={item.suffix}
                   />
-                  <DateStatCard
-                    title="Days Since Launch"
-                    dateTs={Number(dashboardData?.genesisTs ?? 0)}
-                    isPast={true}
-                  />
-                  {generalStats.map((item, index) => (
-                    <NumberStatCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                      decimals={0}
-                      suffix={item.suffix}
-                    />
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
+          </div>
 
-            <div className="card glass">
-              <div className="card-body text-neutral">
-                <h2 className="card-title">Supply</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
-                  {stakeItems.map((item, index) => (
-                    <NumberStatCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                    />
-                  ))}
-                </div>
+          <div className="card glass">
+            <div className="card-body text-neutral">
+              <h2 className="card-title">Supply</h2>
+              <div className="stats stats-vertical bg-transparent text-neutral">
+                {stakeItems.map((item, index) => (
+                  <NumberStatCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                  />
+                ))}
               </div>
             </div>
+          </div>
 
-            <div className="card glass">
-              <div className="card-body text-neutral">
-                <h2 className="card-title">Rewards</h2>
-                <div className="stats stats-vertical bg-transparent text-neutral">
-                  {rewardsItems.map((item, index) => (
-                    <NumberStatCard
-                      key={index}
-                      title={item.title}
-                      value={item.value}
-                      decimals={item.decimals}
-                      suffix={item.suffix}
-                      tooltip={item.tooltip}
-                    />
-                  ))}
-                </div>
+          <div className="card glass">
+            <div className="card-body text-neutral">
+              <h2 className="card-title">Rewards</h2>
+              <div className="stats stats-vertical bg-transparent text-neutral">
+                {rewardsItems.map((item, index) => (
+                  <NumberStatCard
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                    decimals={item.decimals}
+                    suffix={item.suffix}
+                    tooltip={item.tooltip}
+                  />
+                ))}
               </div>
             </div>
           </div>

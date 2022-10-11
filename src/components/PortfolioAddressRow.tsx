@@ -1,4 +1,5 @@
 import { useContractRead } from "wagmi";
+import type { NextPage } from "next";
 import {
   truncatedAddress,
   estimatedXEN,
@@ -7,7 +8,7 @@ import {
 import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
 
-export const PortfolioAddressRow: React.FC<any> = (props) => {
+export const PortfolioAddressRow: NextPage<any> = (props) => {
   const [mintReward, setMintReward] = useState(0);
   const [stakeReward, setStakeReward] = useState(0);
 
@@ -15,14 +16,14 @@ export const PortfolioAddressRow: React.FC<any> = (props) => {
     ...xenContract(props.chain),
     functionName: "getUserMint",
     overrides: { from: props.item.address },
-    // watch: true,
+    watch: true,
   });
 
   const { data: userStakeData } = useContractRead({
     ...xenContract(props.chain),
     functionName: "getUserStake",
     overrides: { from: props.item.address },
-    // watch: true,
+    watch: true,
   });
 
   useEffect(() => {
@@ -33,10 +34,7 @@ export const PortfolioAddressRow: React.FC<any> = (props) => {
         amount: userStakeData.amount,
         apy: userStakeData.apy,
       });
-      // props.update(props.index, {
-      //   ...props.item,
-      //   stake: reward,
-      // });
+      props.item.stake = reward;
       setStakeReward(reward);
     }
     if (userMintData && props && props.globalRankData) {
@@ -46,10 +44,7 @@ export const PortfolioAddressRow: React.FC<any> = (props) => {
         term: Number(userMintData.term ?? 0),
         globalRank: props.globalRankData,
       });
-      // props.update(props.index, {
-      //   ...props.item,
-      //   mint: reward,
-      // });
+      props.item.mint = reward;
       setMintReward(reward);
     }
   }, [
@@ -63,17 +58,23 @@ export const PortfolioAddressRow: React.FC<any> = (props) => {
 
   return (
     <>
-      <th className="bg-transparent">
-        <label>
-          <input
-            name="isChecked"
-            id="isChecked"
-            type="checkbox"
-            className="checkbox"
-            {...props.register(`portfolio.${props.index}.isChecked`)}
-          />
-        </label>
-      </th>
+      <td className="bg-transparent">
+        <button
+          name="delete"
+          id="delete"
+          type="button"
+          className="btn btn-xs glass text-neutral"
+          onClick={() => {
+            props.remove(props.index);
+            const updatedAddresses = props.storedAddresses.filter(
+              (address: string) => address !== props.item.address
+            );
+            props.setStoredAddresses(updatedAddresses);
+          }}
+        >
+          Delete
+        </button>
+      </td>
       <td className="bg-transparent">
         <pre>{truncatedAddress(props.item.address)}</pre>
       </td>
