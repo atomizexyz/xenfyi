@@ -5,6 +5,7 @@ import {
   DocumentTextIcon,
 } from "@heroicons/react/outline";
 import {
+  DuneIcon,
   TwitterIcon,
   TelegramIcon,
   GitHubIcon,
@@ -81,5 +82,10 @@ export const linkItems = [
     name: "CoinMarketCap",
     icon: <CoinmarketCapIcon />,
     href: "https://coinmarketcap.com/currencies/xen-crypto/",
+  },
+  {
+    name: "Dune Analytics",
+    icon: <DuneIcon />,
+    href: "https://dune.com/sixdegree/xen-crypto-overview",
   },
 ];

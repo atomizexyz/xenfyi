@@ -44,7 +44,9 @@ const Footer = () => {
         <div className="grid grid-flow-col gap-6">
           {linkItems.map((item, index) => (
             <Link href={item.href} key={index}>
-              <a key={index}>{item.icon}</a>
+              <div className="tooltip tooltip-info" data-tip={item.name}>
+                <a key={index}>{item.icon}</a>
+              </div>
             </Link>
           ))}
         </div>
