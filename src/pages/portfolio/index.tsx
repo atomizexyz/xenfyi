@@ -7,10 +7,11 @@ import { useLocalStorage } from "usehooks-ts";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useFieldArray } from "react-hook-form";
-import { WALLET_ADDRESS_REGEX } from "~/lib/helpers";
+import { WALLET_ADDRESS_REGEX, MAX_PROFILE_WALLETS } from "~/lib/helpers";
 import * as yup from "yup";
 import { CountDataCard } from "~/components/StatCards";
 import { useEffect, useState } from "react";
+import { InformationCircleIcon } from "@heroicons/react/outline";
 
 const Portfolio: NextPage = () => {
   const { chain } = useNetwork() as { chain: Chain };
@@ -50,11 +51,13 @@ const Portfolio: NextPage = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       newAddress: "",
-      portfolio: storedAddresses.map((address) => ({
-        address: address,
-        mint: 0,
-        stake: 0,
-      })),
+      portfolio: storedAddresses
+        .slice(0, MAX_PROFILE_WALLETS)
+        .map((address) => ({
+          address: address,
+          mint: 0,
+          stake: 0,
+        })),
     },
   });
 
@@ -156,36 +159,53 @@ const Portfolio: NextPage = () => {
           </div>
           <div className="card flex w-full glass">
             <div className="card-body">
-              <h2 className="card-title">Add New Address</h2>
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text text-neutral">Address</span>
-                  <span className="label-text-alt text-error">
-                    <ErrorMessage errors={errors} name="newAddress" />
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="0x..."
-                  className="input input-bordered w-full"
-                  disabled={storedAddresses.length == 15}
-                  {...register("newAddress", { required: true })}
-                />
-                <label className="label">
-                  <span className="label-text-alt text-neutral">
-                    Public key for address
-                  </span>
-                  <span className="label-text-alt"></span>
-                </label>
-              </div>
-              <div className="form-control w-full">
-                <button
-                  type="submit"
-                  className="btn glass text-neutral"
-                  disabled={storedAddresses.length == 15}
-                >
-                  Add New Address
-                </button>
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title">Add New Address</h2>
+                <div className="form-control w-full">
+                  <label className="label">
+                    <span className="label-text text-neutral">Address</span>
+                    <span className="label-text-alt text-error">
+                      <ErrorMessage errors={errors} name="newAddress" />
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="0x..."
+                    className="input input-bordered w-full"
+                    disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
+                    {...register("newAddress", { required: true })}
+                  />
+                  <label className="label">
+                    <span className="label-text-alt text-neutral">
+                      Public key for address
+                    </span>
+                    <span className="label-text-alt"></span>
+                  </label>
+                </div>
+
+                <div className="alert shadow-lg glass">
+                  <div>
+                    <div>
+                      <InformationCircleIcon className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold">15 Max Addresses</h3>
+                      <div className="text-xs">
+                        You can add a maximum of 15 addresses to your portfolio.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className="btn glass text-neutral"
+                    disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
+                  >
+                    Add New Address
+                  </button>
+                </div>
               </div>
             </div>
           </div>

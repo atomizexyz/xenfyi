@@ -8,6 +8,7 @@ const DAYS_IN_YEAR = 365;
 export const WALLET_ADDRESS_REGEX = new RegExp(
   `^(0x[0-9a-fA-F]{40})(,0x[0-9a-fA-F]{40})*$`
 );
+export const MAX_PROFILE_WALLETS = 15;
 export const DONATION_ADDRESS = "0x06e50E3802cC7A8990Fd7624dB6216138375a709";
 
 export const formatDecimals = (
