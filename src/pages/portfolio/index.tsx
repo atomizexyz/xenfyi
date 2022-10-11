@@ -72,9 +72,7 @@ const Portfolio: NextPage = () => {
   const TableHeaderFooter = () => {
     return (
       <tr>
-        <th className="bg-transparent">
-          <div></div>
-        </th>
+        <th className="bg-transparent"></th>
         <th className="bg-transparent">Address</th>
         <th className="bg-transparent text-right">Mint</th>
         <th className="bg-transparent text-right">Stake</th>
@@ -83,22 +81,24 @@ const Portfolio: NextPage = () => {
   };
 
   const onSubmit = (data: any) => {
-    const addressSet = new Set([...storedAddresses, data.newAddress]);
+    const newAddressArray = data.newAddress.split(",");
+    const addressSet = new Set([...storedAddresses, ...newAddressArray]);
+    console.log(addressSet);
+
     const fieldsSet = fields.map((field) => field.address);
 
     const uniqueAddresses = Array.from(addressSet);
     setStoredAddresses(uniqueAddresses);
 
-    if (fieldsSet.length !== uniqueAddresses.length) {
-      const newAddress = uniqueAddresses.filter(
-        (address) => !fieldsSet.includes(address)
-      )[0];
-      append({
-        address: newAddress,
-        mint: 0,
-        stake: 0,
-      });
-    }
+    uniqueAddresses.forEach((address) => {
+      if (!fieldsSet.includes(address)) {
+        append({
+          address: address,
+          mint: 0,
+          stake: 0,
+        });
+      }
+    });
     resetField("newAddress");
   };
 
@@ -163,24 +163,24 @@ const Portfolio: NextPage = () => {
           <div className="card flex w-full glass">
             <div className="card-body">
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title">Add New Address</h2>
+                <h2 className="card-title">Add New Addresses</h2>
                 <div className="form-control w-full">
                   <label className="label">
-                    <span className="label-text text-neutral">Address</span>
+                    <span className="label-text text-neutral">Addresses</span>
                     <span className="label-text-alt text-error">
                       <ErrorMessage errors={errors} name="newAddress" />
                     </span>
                   </label>
                   <input
                     type="text"
-                    placeholder="0x..."
+                    placeholder="0x...,0x...,0x..."
                     className="input input-bordered w-full"
                     disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
                     {...register("newAddress", { required: true })}
                   />
                   <label className="label">
                     <span className="label-text-alt text-neutral">
-                      Public key for address
+                      Public key for addresses separated by commas
                     </span>
                     <span className="label-text-alt"></span>
                   </label>
