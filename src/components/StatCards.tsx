@@ -15,7 +15,7 @@ export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
-      <div className="stat-value text-lg md:text-3xl text-right">
+      <div className="stat-value text-lg md:text-2xl text-right">
         <CountUp
           end={props.percentComplete}
           preserveValue={true}
@@ -66,7 +66,7 @@ export const DateStatCard: React.FC<DateStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
-      <code className="stat-value text-lg md:text-3xl text-right">
+      <code className="stat-value text-lg md:text-2xl text-right">
         <CountUp
           end={props.isPast ? daysSince(props.dateTs) : daysUntil(props.dateTs)}
           preserveValue={true}
@@ -98,7 +98,7 @@ export const NumberStatCard: React.FC<NumberStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
-      <code className="stat-value text-lg md:text-3xl text-right">
+      <code className="stat-value text-lg md:text-2xl text-right">
         <CountUp
           end={value}
           preserveValue={true}
@@ -133,7 +133,7 @@ export const ChainStatCard: React.FC<ChainStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">Chain</div>
-      <code className="stat-value text-lg md:text-3xl text-right">
+      <code className="stat-value text-lg md:text-2xl text-right">
         {props.value}
       </code>
       <div className="stat-desc text-right">{`Chain ID: ${props.id}`}</div>
@@ -151,7 +151,7 @@ export const DataCard: React.FC<DataStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
-      <code className="stat-value text-lg md:text-3xl text-right">
+      <code className="stat-value text-lg md:text-2xl text-right">
         {props.value}
       </code>
       <div className="stat-desc text-right">{props?.description}</div>
@@ -172,7 +172,7 @@ export const CountDataCard: React.FC<GrossRewardStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
-      <code className="stat-value text-lg md:text-3xl text-right">
+      <code className="stat-value text-lg md:text-2xl text-right">
         <CountUp
           end={props.value}
           preserveValue={true}
@@ -208,7 +208,7 @@ export const CountdownCard: React.FC<CountdownCardStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">Matures in</div>
-      <code className="stat-value text-lg md:text-3xl text-right">
+      <code className="stat-value text-lg md:text-2xl text-right">
         {props.days > 99 ? (
           <div className="">
             <div className="font-mono inline">{props.days}•</div>

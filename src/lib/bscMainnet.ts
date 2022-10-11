@@ -1,6 +1,6 @@
 import { Chain } from "wagmi";
 
-export const bscTestnet: Chain = {
+export const bscMainnet: Chain = {
   id: 56,
   name: "Binance Smart Chain Mainnet",
   network: "BSC",

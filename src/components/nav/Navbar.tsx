@@ -29,6 +29,7 @@ import { UTC_TIME } from "~/lib/helpers";
 const chainIcons = new Map<number, JSX.Element>();
 chainIcons.set(1, <EthereumIcon />);
 chainIcons.set(5, <EthereumIcon />);
+chainIcons.set(56, <BinanceSmartChainIcon />);
 chainIcons.set(97, <BinanceSmartChainIcon />);
 chainIcons.set(941, <PulseChainIcon />);
 chainIcons.set(80001, <PolygonIcon />);

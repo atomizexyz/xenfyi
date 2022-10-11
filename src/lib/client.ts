@@ -10,13 +10,21 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { bscTestnet } from "./bscTestnet";
+import { bscMainnet } from "./bscMainnet";
 import { pulseChain } from "~/lib/pulseChainTestnet";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, bscTestnet, chain.goerli, pulseChain, chain.polygonMumbai],
+  [
+    chain.mainnet,
+    bscMainnet,
+    bscTestnet,
+    chain.goerli,
+    pulseChain,
+    chain.polygonMumbai,
+  ],
   [
     alchemyProvider({ apiKey: alchemyId, priority: 0 }),
     infuraProvider({ apiKey: infuraId, priority: 0 }),
