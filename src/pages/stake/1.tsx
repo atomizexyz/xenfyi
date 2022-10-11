@@ -27,6 +27,7 @@ import toast from "react-hot-toast";
 import GasEstimate from "~/components/GasEstimate";
 import { clsx } from "clsx";
 import * as yup from "yup";
+import CardContainer from "~/components/CardContainer";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -178,87 +179,85 @@ const Stake = () => {
           </Link>
         </ul>
 
-        <div className="card glass">
-          <div className="card-body">
-            <form onSubmit={handleSubmit(handleStakeSubmit)}>
-              <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Start Stake</h2>
-                <MaxValueField
-                  title="AMOUNT"
-                  description="Maximum stake amount"
-                  value={BigNumber.from(balanceData?.value ?? 0).toString()}
-                  disabled={disabled}
-                  errorMessage={
-                    <ErrorMessage errors={errors} name="startStakeAmount" />
-                  }
-                  register={register("startStakeAmount")}
-                  setValue={setValue}
-                />
+        <CardContainer>
+          <form onSubmit={handleSubmit(handleStakeSubmit)}>
+            <div className="flex flex-col space-y-4">
+              <h2 className="card-title text-neutral">Start Stake</h2>
+              <MaxValueField
+                title="AMOUNT"
+                description="Maximum stake amount"
+                value={BigNumber.from(balanceData?.value ?? 0).toString()}
+                disabled={disabled}
+                errorMessage={
+                  <ErrorMessage errors={errors} name="startStakeAmount" />
+                }
+                register={register("startStakeAmount")}
+                setValue={setValue}
+              />
 
-                <MaxValueField
-                  title="DAYS"
-                  description="Maximum stake days"
+              <MaxValueField
+                title="DAYS"
+                description="Maximum stake days"
+                decimals={0}
+                value={1000}
+                disabled={disabled}
+                errorMessage={
+                  <ErrorMessage errors={errors} name="startStakeDays" />
+                }
+                register={register("startStakeDays")}
+                setValue={setValue}
+              />
+
+              <div className="flex stats glass w-full text-neutral">
+                <NumberStatCard
+                  title="Yield"
+                  value={stakeYield({
+                    xenBalance: watchAllFields.startStakeAmount,
+                    genesisTs: Number(contractReads?.[0]),
+                    term: watchAllFields.startStakeDays,
+                    apy: Number(contractReads?.[1]),
+                  })}
                   decimals={0}
-                  value={1000}
-                  disabled={disabled}
-                  errorMessage={
-                    <ErrorMessage errors={errors} name="startStakeDays" />
-                  }
-                  register={register("startStakeDays")}
-                  setValue={setValue}
+                  description={`${Number(contractReads?.[1]).toFixed(2)}%`}
                 />
+                <DateStatCard
+                  title="Maturity"
+                  dateTs={maturity}
+                  isPast={false}
+                />
+              </div>
 
-                <div className="flex stats glass w-full text-neutral">
-                  <NumberStatCard
-                    title="Yield"
-                    value={stakeYield({
-                      xenBalance: watchAllFields.startStakeAmount,
-                      genesisTs: Number(contractReads?.[0]),
-                      term: watchAllFields.startStakeDays,
-                      apy: Number(contractReads?.[1]),
-                    })}
-                    decimals={0}
-                    description={`${Number(contractReads?.[1]).toFixed(2)}%`}
-                  />
-                  <DateStatCard
-                    title="Maturity"
-                    dateTs={maturity}
-                    isPast={false}
-                  />
-                </div>
-
-                <div className="alert shadow-lg glass">
+              <div className="alert shadow-lg glass">
+                <div>
                   <div>
-                    <div>
-                      <InformationCircleIcon className="w-8 h-8" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold">Staking Terms</h3>
-                      <div className="text-xs">
-                        Withdraw original stake amount plus yield at any time
-                        after the maturity date, or at any time the original
-                        stake amount with 0 (zero) yield before the maturity
-                        date. One stake at a time per one address
-                      </div>
+                    <InformationCircleIcon className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">Staking Terms</h3>
+                    <div className="text-xs">
+                      Withdraw original stake amount plus yield at any time
+                      after the maturity date, or at any time the original stake
+                      amount with 0 (zero) yield before the maturity date. One
+                      stake at a time per one address
                     </div>
                   </div>
                 </div>
-                <div className="form-control w-full">
-                  <button
-                    type="submit"
-                    className={clsx("btn glass text-neutral", {
-                      loading: processing,
-                    })}
-                    disabled={disabled}
-                  >
-                    Start Stake
-                  </button>
-                </div>
-                <GasEstimate fee={fee} />
               </div>
-            </form>
-          </div>
-        </div>
+              <div className="form-control w-full">
+                <button
+                  type="submit"
+                  className={clsx("btn glass text-neutral", {
+                    loading: processing,
+                  })}
+                  disabled={disabled}
+                >
+                  Start Stake
+                </button>
+              </div>
+              <GasEstimate fee={fee} />
+            </div>
+          </form>
+        </CardContainer>
       </div>
     </Container>
   );

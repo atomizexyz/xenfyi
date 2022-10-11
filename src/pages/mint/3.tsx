@@ -28,6 +28,7 @@ import {
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
+import CardContainer from "~/components/CardContainer";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -309,195 +310,184 @@ const Mint = () => {
           </Link>
         </ul>
 
-        <div className="card glass">
-          <div className="card-body">
-            <div className="flex flex-col w-full border-opacity-50">
-              <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
-                <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">Claim Mint</h2>
+        <CardContainer>
+          <div className="flex flex-col w-full border-opacity-50">
+            <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Claim Mint</h2>
 
-                  <div className="flex stats glass w-full text-neutral">
-                    <CountDataCard
-                      title="Reward"
-                      value={reward}
-                      description="XEN"
-                    />
-                    <CountDataCard
-                      title="Penalty"
-                      value={penaltyPercent}
-                      suffix="%"
-                      descriptionNumber={penaltyXEN}
-                      descriptionNumberSuffix=" XEN"
-                    />
-                  </div>
-
-                  <div className="form-control w-full">
-                    <button
-                      type="submit"
-                      className={clsx("btn glass text-neutral", {
-                        loading: processing,
-                      })}
-                      disabled={disabled}
-                    >
-                      Claim Mint
-                    </button>
-                  </div>
-
-                  <GasEstimate fee={claimFee} />
+                <div className="flex stats glass w-full text-neutral">
+                  <CountDataCard
+                    title="Reward"
+                    value={reward}
+                    description="XEN"
+                  />
+                  <CountDataCard
+                    title="Penalty"
+                    value={penaltyPercent}
+                    suffix="%"
+                    descriptionNumber={penaltyXEN}
+                    descriptionNumberSuffix=" XEN"
+                  />
                 </div>
-              </form>
-            </div>
+
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
+                    disabled={disabled}
+                  >
+                    Claim Mint
+                  </button>
+                </div>
+
+                <GasEstimate fee={claimFee} />
+              </div>
+            </form>
           </div>
-        </div>
+        </CardContainer>
+
         {/* OR */}
         <div className="divider">OR</div>
         {/* OR */}
-        <div className="card glass">
-          <div className="card-body">
-            <div className="flex flex-col w-full border-opacity-50">
-              <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
-                <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">
+        <CardContainer>
+          <div className="flex flex-col w-full border-opacity-50">
+            <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Claim Mint + Share</h2>
+
+                <div className="flex stats glass w-full text-neutral">
+                  <CountDataCard
+                    title="Reward"
+                    value={reward}
+                    description="XEN"
+                  />
+                  <CountDataCard
+                    title="Penalty"
+                    value={penaltyPercent}
+                    suffix="%"
+                    descriptionNumber={penaltyXEN}
+                    descriptionNumberSuffix=" XEN"
+                  />
+                </div>
+
+                <MaxValueField
+                  title="PERCENTAGE"
+                  description="Stake percentage"
+                  decimals={0}
+                  value={100}
+                  disabled={disabled}
+                  errorMessage={
+                    <ErrorMessage
+                      errors={cShareErrors}
+                      name="claimSharePercentage"
+                    />
+                  }
+                  register={cShareRegister("claimSharePercentage")}
+                  setValue={cShareSetValue}
+                />
+
+                <WalletAddressField
+                  disabled={disabled}
+                  errorMessage={
+                    <ErrorMessage
+                      errors={cShareErrors}
+                      name="claimShareAddress"
+                    />
+                  }
+                  register={cShareRegister("claimShareAddress")}
+                />
+
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
+                    disabled={disabled}
+                  >
                     Claim Mint + Share
-                  </h2>
-
-                  <div className="flex stats glass w-full text-neutral">
-                    <CountDataCard
-                      title="Reward"
-                      value={reward}
-                      description="XEN"
-                    />
-                    <CountDataCard
-                      title="Penalty"
-                      value={penaltyPercent}
-                      suffix="%"
-                      descriptionNumber={penaltyXEN}
-                      descriptionNumberSuffix=" XEN"
-                    />
-                  </div>
-
-                  <MaxValueField
-                    title="PERCENTAGE"
-                    description="Stake percentage"
-                    decimals={0}
-                    value={100}
-                    disabled={disabled}
-                    errorMessage={
-                      <ErrorMessage
-                        errors={cShareErrors}
-                        name="claimSharePercentage"
-                      />
-                    }
-                    register={cShareRegister("claimSharePercentage")}
-                    setValue={cShareSetValue}
-                  />
-
-                  <WalletAddressField
-                    disabled={disabled}
-                    errorMessage={
-                      <ErrorMessage
-                        errors={cShareErrors}
-                        name="claimShareAddress"
-                      />
-                    }
-                    register={cShareRegister("claimShareAddress")}
-                  />
-
-                  <div className="form-control w-full">
-                    <button
-                      type="submit"
-                      className={clsx("btn glass text-neutral", {
-                        loading: processing,
-                      })}
-                      disabled={disabled}
-                    >
-                      Claim Mint + Share
-                    </button>
-                  </div>
-
-                  <GasEstimate fee={claimShareFee} />
+                  </button>
                 </div>
-              </form>
-            </div>
+
+                <GasEstimate fee={claimShareFee} />
+              </div>
+            </form>
           </div>
-        </div>
+        </CardContainer>
+
         {/* OR */}
         <div className="divider">OR</div>
         {/* OR */}
-        <div className="card glass">
-          <div className="card-body">
-            <div className="flex flex-col w-full border-opacity-50">
-              <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
-                <div className="flex flex-col space-y-4">
-                  <h2 className="card-title text-neutral">
-                    Claim Mint + Stake
-                  </h2>
+        <CardContainer>
+          <div className="flex flex-col w-full border-opacity-50">
+            <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
+              <div className="flex flex-col space-y-4">
+                <h2 className="card-title text-neutral">Claim Mint + Stake</h2>
 
-                  <div className="flex stats glass w-full text-neutral">
-                    <CountDataCard
-                      title="Reward"
-                      value={reward}
-                      description="XEN"
-                    />
-                    <CountDataCard
-                      title="Penalty"
-                      value={penaltyPercent}
-                      suffix="%"
-                      descriptionNumber={penaltyXEN}
-                      descriptionNumberSuffix=" XEN"
-                    />
-                  </div>
-
-                  <MaxValueField
-                    title="PERCENTAGE"
-                    description="Stake percentage"
-                    decimals={0}
-                    value={100}
-                    disabled={disabled || activeStakeDisabled}
-                    errorMessage={
-                      <ErrorMessage
-                        errors={cStakeErrors}
-                        name="claimStakePercentage"
-                      />
-                    }
-                    register={cStakeRegister("claimStakePercentage")}
-                    setValue={cStakeSetValue}
+                <div className="flex stats glass w-full text-neutral">
+                  <CountDataCard
+                    title="Reward"
+                    value={reward}
+                    description="XEN"
                   />
-
-                  <MaxValueField
-                    title="DAYS"
-                    description="Stake days"
-                    decimals={0}
-                    value={1000}
-                    disabled={disabled || activeStakeDisabled}
-                    errorMessage={
-                      <ErrorMessage
-                        errors={cStakeErrors}
-                        name="claimStakeDays"
-                      />
-                    }
-                    register={cStakeRegister("claimStakeDays")}
-                    setValue={cStakeSetValue}
+                  <CountDataCard
+                    title="Penalty"
+                    value={penaltyPercent}
+                    suffix="%"
+                    descriptionNumber={penaltyXEN}
+                    descriptionNumberSuffix=" XEN"
                   />
-
-                  <div className="form-control w-full">
-                    <button
-                      type="submit"
-                      className={clsx("btn glass text-neutral", {
-                        loading: processing,
-                      })}
-                      disabled={disabled || activeStakeDisabled}
-                    >
-                      Claim Mint + Stake
-                    </button>
-                  </div>
-
-                  <GasEstimate fee={claimStakeFee} />
                 </div>
-              </form>
-            </div>
+
+                <MaxValueField
+                  title="PERCENTAGE"
+                  description="Stake percentage"
+                  decimals={0}
+                  value={100}
+                  disabled={disabled || activeStakeDisabled}
+                  errorMessage={
+                    <ErrorMessage
+                      errors={cStakeErrors}
+                      name="claimStakePercentage"
+                    />
+                  }
+                  register={cStakeRegister("claimStakePercentage")}
+                  setValue={cStakeSetValue}
+                />
+
+                <MaxValueField
+                  title="DAYS"
+                  description="Stake days"
+                  decimals={0}
+                  value={1000}
+                  disabled={disabled || activeStakeDisabled}
+                  errorMessage={
+                    <ErrorMessage errors={cStakeErrors} name="claimStakeDays" />
+                  }
+                  register={cStakeRegister("claimStakeDays")}
+                  setValue={cStakeSetValue}
+                />
+
+                <div className="form-control w-full">
+                  <button
+                    type="submit"
+                    className={clsx("btn glass text-neutral", {
+                      loading: processing,
+                    })}
+                    disabled={disabled || activeStakeDisabled}
+                  >
+                    Claim Mint + Stake
+                  </button>
+                </div>
+
+                <GasEstimate fee={claimStakeFee} />
+              </div>
+            </form>
           </div>
-        </div>
+        </CardContainer>
       </div>
     </Container>
   );

@@ -7,6 +7,7 @@ import {
   ChainStatCard,
   DateStatCard,
 } from "~/components/StatCards";
+import CardContainer from "~/components/CardContainer";
 import { xenContract } from "~/lib/xen-contract";
 
 interface DashboardData {
@@ -156,64 +157,58 @@ const Dashboard: NextPage = () => {
     <div>
       <Container className="max-w-2xl">
         <div className="flex flex-col space-y-8">
-          <div className="card glass text-neutral">
-            <div className="card-body text-neutral">
-              <h2 className="card-title">General Stats</h2>
-              <div className="stats stats-vertical bg-transparent text-neutral">
-                <ChainStatCard
-                  value={networkChain?.name ?? chain.mainnet.name}
-                  id={networkChain?.id ?? chain.mainnet.id}
+          <CardContainer>
+            <h2 className="card-title">General Stats</h2>
+            <div className="stats stats-vertical bg-transparent text-neutral">
+              <ChainStatCard
+                value={networkChain?.name ?? chain.mainnet.name}
+                id={networkChain?.id ?? chain.mainnet.id}
+              />
+              <DateStatCard
+                title="Days Since Launch"
+                dateTs={Number(dashboardData?.genesisTs ?? 0)}
+                isPast={true}
+              />
+              {generalStats.map((item, index) => (
+                <NumberStatCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  decimals={0}
+                  suffix={item.suffix}
                 />
-                <DateStatCard
-                  title="Days Since Launch"
-                  dateTs={Number(dashboardData?.genesisTs ?? 0)}
-                  isPast={true}
+              ))}
+            </div>
+          </CardContainer>
+
+          <CardContainer>
+            <h2 className="card-title">Supply</h2>
+            <div className="stats stats-vertical bg-transparent text-neutral">
+              {stakeItems.map((item, index) => (
+                <NumberStatCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
                 />
-                {generalStats.map((item, index) => (
-                  <NumberStatCard
-                    key={index}
-                    title={item.title}
-                    value={item.value}
-                    decimals={0}
-                    suffix={item.suffix}
-                  />
-                ))}
-              </div>
+              ))}
             </div>
-          </div>
+          </CardContainer>
 
-          <div className="card glass">
-            <div className="card-body text-neutral">
-              <h2 className="card-title">Supply</h2>
-              <div className="stats stats-vertical bg-transparent text-neutral">
-                {stakeItems.map((item, index) => (
-                  <NumberStatCard
-                    key={index}
-                    title={item.title}
-                    value={item.value}
-                  />
-                ))}
-              </div>
+          <CardContainer>
+            <h2 className="card-title">Rewards</h2>
+            <div className="stats stats-vertical bg-transparent text-neutral">
+              {rewardsItems.map((item, index) => (
+                <NumberStatCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  decimals={item.decimals}
+                  suffix={item.suffix}
+                  tooltip={item.tooltip}
+                />
+              ))}
             </div>
-          </div>
-
-          <div className="card glass">
-            <div className="card-body text-neutral">
-              <h2 className="card-title">Rewards</h2>
-              <div className="stats stats-vertical bg-transparent text-neutral">
-                {rewardsItems.map((item, index) => (
-                  <NumberStatCard
-                    key={index}
-                    title={item.title}
-                    value={item.value}
-                    decimals={item.decimals}
-                    suffix={item.suffix}
-                    tooltip={item.tooltip}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+          </CardContainer>
         </div>
       </Container>
     </div>

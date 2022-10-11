@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { CountDataCard } from "~/components/StatCards";
 import { useEffect, useState } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
+import CardContainer from "~/components/CardContainer";
 
 const Portfolio: NextPage = () => {
   const { chain } = useNetwork() as { chain: Chain };
@@ -115,103 +116,100 @@ const Portfolio: NextPage = () => {
     <Container className="max-w-4xl">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4 w-full">
-          <div className="card flex glass">
-            <div className="card-body">
-              <h2 className="card-title">Portfolio</h2>
+          <CardContainer>
+            <h2 className="card-title">Portfolio</h2>
 
-              <div className="flex stats stats-vertical lg:stats-horizontal glass w-full text-neutral flex-col lg:flex-row">
-                <CountDataCard
-                  title="Mint Total"
-                  value={mintTotal}
-                  description="XEN"
-                />
-                <CountDataCard
-                  title="Stake Total"
-                  value={stakeTotal}
-                  description="XEN"
-                />
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="table table-compact w-full">
-                  <thead>
-                    <TableHeaderFooter />
-                  </thead>
-                  <tbody>
-                    {fields.map((item, index) => (
-                      <tr key={index}>
-                        <PortfolioAddressRow
-                          chain={chain}
-                          globalRankData={Number(globalRankData ?? 0)}
-                          item={item}
-                          index={index}
-                          register={register}
-                          remove={remove}
-                          storedAddresses={storedAddresses}
-                          setStoredAddresses={setStoredAddresses}
-                        />
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot>
-                    <TableHeaderFooter />
-                  </tfoot>
-                </table>
-              </div>
+            <div className="flex stats stats-vertical lg:stats-horizontal glass w-full text-neutral flex-col lg:flex-row">
+              <CountDataCard
+                title="Mint Total"
+                value={mintTotal}
+                description="XEN"
+              />
+              <CountDataCard
+                title="Stake Total"
+                value={stakeTotal}
+                description="XEN"
+              />
             </div>
-          </div>
-          <div className="card flex w-full glass">
-            <div className="card-body">
-              <div className="flex flex-col space-y-4">
-                <h2 className="card-title">Add New Addresses</h2>
-                <div className="form-control w-full">
-                  <label className="label">
-                    <span className="label-text text-neutral">Addresses</span>
-                    <span className="label-text-alt text-error">
-                      <ErrorMessage errors={errors} name="newAddress" />
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="0x...,0x...,0x..."
-                    className="input input-bordered w-full"
-                    disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
-                    {...register("newAddress", { required: true })}
-                  />
-                  <label className="label">
-                    <span className="label-text-alt text-neutral">
-                      Public key for addresses separated by commas
-                    </span>
-                    <span className="label-text-alt"></span>
-                  </label>
-                </div>
 
-                <div className="alert shadow-lg glass">
+            <div className="overflow-x-auto">
+              <table className="table table-compact w-full">
+                <thead>
+                  <TableHeaderFooter />
+                </thead>
+                <tbody>
+                  {fields.map((item, index) => (
+                    <tr key={index}>
+                      <PortfolioAddressRow
+                        chain={chain}
+                        globalRankData={Number(globalRankData ?? 0)}
+                        item={item}
+                        index={index}
+                        register={register}
+                        remove={remove}
+                        storedAddresses={storedAddresses}
+                        setStoredAddresses={setStoredAddresses}
+                      />
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <TableHeaderFooter />
+                </tfoot>
+              </table>
+            </div>
+          </CardContainer>
+
+          <CardContainer>
+            <div className="flex flex-col space-y-4">
+              <h2 className="card-title">Add New Addresses</h2>
+              <div className="form-control w-full">
+                <label className="label">
+                  <span className="label-text text-neutral">Addresses</span>
+                  <span className="label-text-alt text-error">
+                    <ErrorMessage errors={errors} name="newAddress" />
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="0x...,0x...,0x..."
+                  className="input input-bordered w-full"
+                  disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
+                  {...register("newAddress", { required: true })}
+                />
+                <label className="label">
+                  <span className="label-text-alt text-neutral">
+                    Public key for addresses separated by commas
+                  </span>
+                  <span className="label-text-alt"></span>
+                </label>
+              </div>
+
+              <div className="alert shadow-lg glass">
+                <div>
                   <div>
-                    <div>
-                      <InformationCircleIcon className="w-8 h-8" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold">15 Max Addresses</h3>
-                      <div className="text-xs">
-                        You can add a maximum of 15 addresses to your portfolio.
-                      </div>
+                    <InformationCircleIcon className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">15 Max Addresses</h3>
+                    <div className="text-xs">
+                      You can add a maximum of 15 addresses to your portfolio.
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="form-control w-full">
-                  <button
-                    type="submit"
-                    className="btn glass text-neutral"
-                    disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
-                  >
-                    Add New Address
-                  </button>
-                </div>
+              <div className="form-control w-full">
+                <button
+                  type="submit"
+                  className="btn glass text-neutral"
+                  disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
+                >
+                  Add New Address
+                </button>
               </div>
             </div>
-          </div>
+          </CardContainer>
         </div>
       </form>
     </Container>

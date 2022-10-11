@@ -10,6 +10,7 @@ import {
 import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
+import CardContainer from "~/components/CardContainer";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -83,43 +84,41 @@ const Stake = () => {
             <a className="step">End Stake</a>
           </Link>
         </ul>
-        <div className="card glass">
-          <div className="card-body">
-            <h2 className="card-title">Staking</h2>
-            <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
-              <Countdown
-                date={Number(userStake?.maturityTs) * 1000}
-                intervalDelay={0}
-                renderer={(props) => (
-                  <CountdownCard
-                    days={props.days}
-                    hours={props.hours}
-                    minutes={props.minutes}
-                    seconds={props.seconds}
-                  />
-                )}
-              />
-              <ProgressStatCard
-                title="Progress"
-                percentComplete={percent}
-                value={progress}
-                max={max}
-                daysRemaining={max - progress}
-                dateTs={Number(userStake?.maturityTs)}
-              />
-              {mintItems.map((item, index) => (
-                <NumberStatCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  suffix={item.suffix}
-                  decimals={item.decimals}
-                  tokenDecimals={item.tokenDecimals}
+        <CardContainer>
+          <h2 className="card-title">Staking</h2>
+          <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
+            <Countdown
+              date={Number(userStake?.maturityTs) * 1000}
+              intervalDelay={0}
+              renderer={(props) => (
+                <CountdownCard
+                  days={props.days}
+                  hours={props.hours}
+                  minutes={props.minutes}
+                  seconds={props.seconds}
                 />
-              ))}
-            </div>
+              )}
+            />
+            <ProgressStatCard
+              title="Progress"
+              percentComplete={percent}
+              value={progress}
+              max={max}
+              daysRemaining={max - progress}
+              dateTs={Number(userStake?.maturityTs)}
+            />
+            {mintItems.map((item, index) => (
+              <NumberStatCard
+                key={index}
+                title={item.title}
+                value={item.value}
+                suffix={item.suffix}
+                decimals={item.decimals}
+                tokenDecimals={item.tokenDecimals}
+              />
+            ))}
           </div>
-        </div>
+        </CardContainer>
       </div>
     </Container>
   );

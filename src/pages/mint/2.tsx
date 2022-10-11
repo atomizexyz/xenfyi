@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
 import Countdown from "react-countdown";
+import CardContainer from "~/components/CardContainer";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -124,41 +125,39 @@ const Mint = () => {
 
         <div className="w-full"></div>
 
-        <div className="card glass">
-          <div className="card-body">
-            <h2 className="card-title">Minting</h2>
-            <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
-              <Countdown
-                date={Number(userMint?.maturityTs) * 1000}
-                renderer={(props) => (
-                  <CountdownCard
-                    days={props.days}
-                    hours={props.hours}
-                    minutes={props.minutes}
-                    seconds={props.seconds}
-                  />
-                )}
-              />
-              <ProgressStatCard
-                title="Progress"
-                percentComplete={percent}
-                value={progress}
-                max={max}
-                daysRemaining={max - progress}
-                dateTs={Number(userMint?.maturityTs)}
-              />
-              {mintItems.map((item, index) => (
-                <NumberStatCard
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  suffix={item.suffix}
-                  decimals={item.decimals}
+        <CardContainer>
+          <h2 className="card-title">Minting</h2>
+          <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
+            <Countdown
+              date={Number(userMint?.maturityTs) * 1000}
+              renderer={(props) => (
+                <CountdownCard
+                  days={props.days}
+                  hours={props.hours}
+                  minutes={props.minutes}
+                  seconds={props.seconds}
                 />
-              ))}
-            </div>
+              )}
+            />
+            <ProgressStatCard
+              title="Progress"
+              percentComplete={percent}
+              value={progress}
+              max={max}
+              daysRemaining={max - progress}
+              dateTs={Number(userMint?.maturityTs)}
+            />
+            {mintItems.map((item, index) => (
+              <NumberStatCard
+                key={index}
+                title={item.title}
+                value={item.value}
+                suffix={item.suffix}
+                decimals={item.decimals}
+              />
+            ))}
           </div>
-        </div>
+        </CardContainer>
       </div>
     </Container>
   );

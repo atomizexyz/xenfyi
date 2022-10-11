@@ -19,6 +19,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import GasEstimate from "~/components/GasEstimate";
+import CardContainer from "~/components/CardContainer";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -101,61 +102,58 @@ const Stake = () => {
             <a className="step step-neutral">End Stake</a>
           </Link>
         </ul>
-        <div className="card glass">
-          <div className="card-body">
-            <form onSubmit={handleSubmit(handleStakeSubmit)}>
-              <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">End Stake</h2>
+        <CardContainer>
+          <form onSubmit={handleSubmit(handleStakeSubmit)}>
+            <div className="flex flex-col space-y-4">
+              <h2 className="card-title text-neutral">End Stake</h2>
 
-                <div className="stats glass w-full text-neutral">
-                  <CountDataCard
-                    title="Reward"
-                    value={calculateStakeReward({
-                      maturityTs: Number(userStake?.maturityTs ?? 0),
-                      term: Number(userStake?.term ?? 0),
-                      amount: Number(userStake?.amount ?? 0),
-                      apy: Number(userStake?.apy ?? 0),
-                    })}
-                    description="XEN"
-                  />
-                </div>
+              <div className="stats glass w-full text-neutral">
+                <CountDataCard
+                  title="Reward"
+                  value={calculateStakeReward({
+                    maturityTs: Number(userStake?.maturityTs ?? 0),
+                    term: Number(userStake?.term ?? 0),
+                    amount: Number(userStake?.amount ?? 0),
+                    apy: Number(userStake?.apy ?? 0),
+                  })}
+                  description="XEN"
+                />
+              </div>
 
-                {earlyEndStake && (
-                  <div className="alert shadow-lg glass">
+              {earlyEndStake && (
+                <div className="alert shadow-lg glass">
+                  <div>
                     <div>
-                      <div>
-                        <InformationCircleIcon className="w-8 h-8" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold">Note</h3>
-                        <div className="text-xs">
-                          Your stake term is not over yet. You can end your
-                          stake early without a penalty without you yield or you
-                          can wait until your stake matures to get the full
-                          yield.
-                        </div>
+                      <InformationCircleIcon className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold">Note</h3>
+                      <div className="text-xs">
+                        Your stake term is not over yet. You can end your stake
+                        early without a penalty without you yield or you can
+                        wait until your stake matures to get the full yield.
                       </div>
                     </div>
                   </div>
-                )}
-
-                <div className="form-control w-full">
-                  <button
-                    type="submit"
-                    className={clsx("btn glass text-neutral", {
-                      loading: processing,
-                    })}
-                    disabled={disabled}
-                  >
-                    {earlyEndStake ? "Early End Stake" : "End Stake"}
-                  </button>
                 </div>
+              )}
 
-                <GasEstimate fee={fee} />
+              <div className="form-control w-full">
+                <button
+                  type="submit"
+                  className={clsx("btn glass text-neutral", {
+                    loading: processing,
+                  })}
+                  disabled={disabled}
+                >
+                  {earlyEndStake ? "Early End Stake" : "End Stake"}
+                </button>
               </div>
-            </form>
-          </div>
-        </div>
+
+              <GasEstimate fee={fee} />
+            </div>
+          </form>
+        </CardContainer>
       </div>
     </Container>
   );
