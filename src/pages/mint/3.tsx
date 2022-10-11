@@ -8,7 +8,7 @@ import {
   usePrepareContractWrite,
 } from "wagmi";
 import Link from "next/link";
-import Container from "~/components/Container";
+import Container from "~/components/containers/Container";
 import GasEstimate from "~/components/GasEstimate";
 import { MaxValueField, WalletAddressField } from "~/components/FormFields";
 import { useState, useEffect } from "react";
@@ -28,7 +28,7 @@ import {
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
-import CardContainer from "~/components/CardContainer";
+import CardContainer from "~/components/containers/CardContainer";
 
 const Mint = () => {
   const { address } = useAccount();

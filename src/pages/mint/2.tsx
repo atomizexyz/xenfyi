@@ -4,7 +4,7 @@ import {
   useAccount,
   useContractReads,
 } from "wagmi";
-import Container from "~/components/Container";
+import Container from "~/components/containers/Container";
 import {
   NumberStatCard,
   ProgressStatCard,
@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
 import Countdown from "react-countdown";
-import CardContainer from "~/components/CardContainer";
+import CardContainer from "~/components/containers/CardContainer";
 
 const Mint = () => {
   const { address } = useAccount();

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Container from "~/components/Container";
+import Container from "~/components/containers/Container";
 import { useNetwork, useContractRead, useBalance, useAccount } from "wagmi";
 import { progressDays } from "~/lib/helpers";
 import {
@@ -10,7 +10,7 @@ import {
 import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
-import CardContainer from "~/components/CardContainer";
+import CardContainer from "~/components/containers/CardContainer";
 
 const Stake = () => {
   const { address } = useAccount();

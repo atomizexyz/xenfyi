@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Container from "~/components/Container";
+import Container from "~/components/containers/Container";
 import { useContractReads, useNetwork, chain } from "wagmi";
 import { useState } from "react";
 import {
@@ -7,7 +7,7 @@ import {
   ChainStatCard,
   DateStatCard,
 } from "~/components/StatCards";
-import CardContainer from "~/components/CardContainer";
+import CardContainer from "~/components/containers/CardContainer";
 import { xenContract } from "~/lib/xen-contract";
 
 interface DashboardData {

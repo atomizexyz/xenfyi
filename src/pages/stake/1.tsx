@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Container from "~/components/Container";
+import Container from "~/components/containers/Container";
 
 import {
   useFeeData,
@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 import GasEstimate from "~/components/GasEstimate";
 import { clsx } from "clsx";
 import * as yup from "yup";
-import CardContainer from "~/components/CardContainer";
+import CardContainer from "~/components/containers/CardContainer";
 
 const Stake = () => {
   const { address } = useAccount();

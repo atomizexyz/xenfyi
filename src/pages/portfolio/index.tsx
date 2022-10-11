@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Container from "~/components/Container";
+import Container from "~/components/containers/Container";
 import { useNetwork, Chain, useContractRead } from "wagmi";
 import { xenContract } from "~/lib/xen-contract";
 import PortfolioAddressRow from "~/components/PortfolioAddressRow";
@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { CountDataCard } from "~/components/StatCards";
 import { useEffect, useState } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import CardContainer from "~/components/CardContainer";
+import CardContainer from "~/components/containers/CardContainer";
 
 const Portfolio: NextPage = () => {
   const { chain } = useNetwork() as { chain: Chain };
