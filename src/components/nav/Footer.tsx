@@ -41,7 +41,7 @@ const Footer = () => {
   return (
     <footer className="footer footer-center text-base-content py-8">
       <div>
-        <div className="grid grid-cols-4 lg:gird-cols-none gap-10 lg:gap-6">
+        <div className="grid grid-cols-4 lg:grid-flow-col gap-10 lg:gap-6">
           {linkItems.map((item, index) => (
             <div
               key={index}

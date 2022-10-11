@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { clsx } from "clsx";
 import {
   Chain,
+  useToken,
   useAccount,
   useContractRead,
   useNetwork,
@@ -43,6 +44,10 @@ export const Navbar: React.FC = () => {
   const { connector, address, isConnected } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+
+  const { data: tokenData } = useToken({
+    address: xenContract(chain).addressOrName,
+  });
 
   const { data: userMint } = useContractRead({
     ...xenContract(chain),
@@ -235,10 +240,10 @@ export const Navbar: React.FC = () => {
                   className="justify-between text-neutral glass"
                   onClick={() => {
                     (connector as InjectedConnector)?.watchAsset?.({
-                      address: xenContract(chain).addressOrName,
-                      decimals: 18,
+                      address: tokenData.address,
+                      decimals: tokenData.decimals,
                       image: "https://xen.fyi/images/xen.png",
-                      symbol: "XEN",
+                      symbol: tokenData?.symbol ?? "XEN",
                     });
                     (document.activeElement as HTMLElement).blur();
                   }}
