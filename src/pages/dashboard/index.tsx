@@ -136,8 +136,8 @@ const Dashboard: NextPage = () => {
     },
     {
       title: "EAA",
-      value: Number(dashboardData?.eaaRewards),
-      decimals: 0,
+      value: Number((dashboardData?.eaaRewards ?? 0) / 10.0),
+      decimals: 2,
       suffix: "%",
       tooltip:
         "Early Adopter Amplifier (EAA) is a part of XEN Mint Reward calculation which depends on current Global Rank. EAA starts from 10% and decreases in a linear fashion by 0.1% per each 100,000 increase in Global Rank.",
