@@ -47,6 +47,7 @@ const Portfolio: NextPage = () => {
     handleSubmit,
     formState: { errors },
     resetField,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -60,6 +61,8 @@ const Portfolio: NextPage = () => {
         })),
     },
   });
+
+  const watchAllFields = watch();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -106,7 +109,7 @@ const Portfolio: NextPage = () => {
       setMintTotal(mintTotal);
       setStakeTotal(stakeTotal);
     }
-  }, [fields, setStoredAddresses, storedAddresses]);
+  }, [fields, setStoredAddresses, storedAddresses, watchAllFields]);
 
   return (
     <Container className="max-w-4xl">
