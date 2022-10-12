@@ -7,9 +7,9 @@ export const bscMainnet: Chain = {
   rpcUrls: {
     default: "https://bsc-dataseed1.binance.org",
     "bsc-dataseed1.binance.": "https://bsc-dataseed1.binance.org",
-    "bsc-dataseed2.binance.": "https://bsc-dataseed2.binance.org",
-    "bsc-dataseed3.binance.": "https://bsc-dataseed3.binance.org",
-    "bsc-dataseed4.binance.": "https://bsc-dataseed4.binance.org",
+    "bsc-dataseed2.binance": "https://bsc-dataseed2.binance.org",
+    "bsc-dataseed3.binance": "https://bsc-dataseed3.binance.org",
+    "bsc-dataseed4.binance": "https://bsc-dataseed4.binance.org",
     "bsc-dataseed1.defibit": "https://bsc-dataseed1.defibit.io",
     "bsc-dataseed2.defibit": "https://bsc-dataseed2.defibit.io",
     "bsc-dataseed3.defibit": "https://bsc-dataseed3.defibit.io",
@@ -27,7 +27,7 @@ export const bscMainnet: Chain = {
   },
   blockExplorers: {
     default: {
-      name: "bscscan",
+      name: "BscScan",
       url: "https://bscscan.com",
     },
   },

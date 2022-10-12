@@ -1,3 +1,4 @@
+import type { NextPage } from "next";
 import { ConnectKitButton } from "connectkit";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
@@ -129,7 +130,7 @@ export const Navbar: React.FC = () => {
     }
   }, [userMint, userStake]);
 
-  const ChainList: React.FC<{ chains: Chain[] }> = ({ chains }) => {
+  const ChainList: NextPage<{ chains: Chain[] }> = ({ chains }) => {
     return (
       <>
         {chains.map((item, index) => (
@@ -145,7 +146,7 @@ export const Navbar: React.FC = () => {
                 (document.activeElement as HTMLElement).blur();
               }}
             >
-              <a>{item.name}</a>
+              <div className="text-left">{item.name}</div>
               {chainIcons.get(item.id)}
             </button>
           </li>
@@ -186,7 +187,7 @@ export const Navbar: React.FC = () => {
                           chains={chains.filter((chain) => !chain.testnet)}
                         />
                         <li className="menu-title">
-                          <span>Testnet</span>
+                          <span className="text-neutral">Testnet</span>
                         </li>
                         <ChainList
                           chains={chains.filter((chain) => chain.testnet)}

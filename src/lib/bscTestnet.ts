@@ -13,7 +13,7 @@ export const bscTestnet: Chain = {
     default: "https://data-seed-prebsc-1-s2.binance.org:8545/",
   },
   blockExplorers: {
-    default: { name: "", url: "https://www.bscscan.com/" },
+    default: { name: "bscscan", url: "https://www.bscscan.com/" },
   },
   testnet: true,
 };
