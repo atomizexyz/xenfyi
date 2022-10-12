@@ -3,7 +3,7 @@ import XenCrypto from "~/abi/XENCrypto.json";
 import { pulseChain } from "~/lib/pulseChainTestnet";
 import { bscTestnet } from "~/lib/bscTestnet";
 import { bscMainnet } from "~/lib/bscMainnet";
-import { maticMainnet } from "~/lib/maticMainnet";
+import { polygonMainnet } from "~/lib/polygonMainnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -20,9 +20,9 @@ export const xenContract = (contractChain?: Chain) => {
         addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
         contractInterface: XenCrypto.abi,
       };
-    case maticMainnet.id:
+    case polygonMainnet.id:
       return {
-        addressOrName: "",
+        addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
         contractInterface: XenCrypto.abi,
       };
     case chain.mainnet.id:

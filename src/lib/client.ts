@@ -12,6 +12,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { bscTestnet } from "./bscTestnet";
 import { bscMainnet } from "./bscMainnet";
 import { pulseChain } from "~/lib/pulseChainTestnet";
+import { polygonMainnet } from "~/lib/polygonMainnet";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
@@ -20,6 +21,7 @@ const { chains, provider, webSocketProvider } = configureChains(
   [
     chain.mainnet,
     bscMainnet,
+    polygonMainnet,
     bscTestnet,
     chain.goerli,
     pulseChain,

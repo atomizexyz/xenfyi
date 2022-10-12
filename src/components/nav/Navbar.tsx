@@ -33,6 +33,7 @@ chainIcons.set(1, <EthereumIcon />);
 chainIcons.set(5, <EthereumIcon />);
 chainIcons.set(56, <BinanceSmartChainIcon />);
 chainIcons.set(97, <BinanceSmartChainIcon />);
+chainIcons.set(137, <PolygonIcon />);
 chainIcons.set(941, <PulseChainIcon />);
 chainIcons.set(80001, <PolygonIcon />);
 
@@ -128,7 +129,7 @@ export const Navbar: React.FC = () => {
     } else {
       setStakePageOverride(1);
     }
-  }, [userMint, userStake]);
+  }, [userMint, userStake, chain]);
 
   const ChainList: NextPage<{ chains: Chain[] }> = ({ chains }) => {
     return (

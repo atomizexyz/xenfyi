@@ -1,6 +1,6 @@
 import { Chain } from "wagmi";
 
-export const maticMainnet: Chain = {
+export const polygonMainnet: Chain = {
   id: 137,
   name: "Polygon Mainnet",
   network: "Polygon",
