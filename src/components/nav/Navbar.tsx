@@ -235,7 +235,7 @@ export const Navbar: React.FC = () => {
                 <SunIcon className="swap-off w-5 h-5 absolute right-4" />
               </label>
             </li>
-            {!isMobile && (
+            {!isMobile && tokenData && (
               <li>
                 <button
                   className="justify-between text-neutral glass"
@@ -244,7 +244,7 @@ export const Navbar: React.FC = () => {
                       address: tokenData.address,
                       decimals: tokenData.decimals,
                       image: "https://xen.fyi/images/xen.png",
-                      symbol: tokenData?.symbol ?? "XEN",
+                      symbol: tokenData.symbol ?? "XEN",
                     });
                     (document.activeElement as HTMLElement).blur();
                   }}
