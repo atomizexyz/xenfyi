@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { Chain, useNetwork } from "wagmi";
+import { Chain, useToken } from "wagmi";
 import Container from "~/components/containers/Container";
 import CardContainer from "~/components/containers/CardContainer";
 import { chainIcons } from "~/components/Constants";
@@ -18,7 +18,7 @@ const Chains: NextPage = () => {
       <div className="flex flex-row space-x-8 lg:space-x-2 lg:justify-end">
         <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
         <button
-          className="btn btn-square btn-xs glass"
+          className="btn btn-square btn-xs glass text-neutral"
           onClick={() => copy(xenContract(chain).addressOrName)}
         >
           <DuplicateIcon className="w-5 h-5" />
@@ -28,41 +28,52 @@ const Chains: NextPage = () => {
             xenContract(chain).addressOrName
           }`}
         >
-          <a className="btn btn-square btn-xs glass">
+          <a className="btn btn-square btn-xs glass text-neutral">
             <ExternalLinkIcon className="w-5 h-5" />
           </a>
         </Link>
       </div>
     );
   };
-  const ChainList: NextPage<{ chains: Chain[] }> = ({ chains }) => {
+  const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
+    const { data: tokenData } = useToken({
+      address: xenContract(chain).addressOrName,
+      chainId: chain?.id,
+    });
+
     return (
-      <>
-        {chains.map((item, index) => (
-          <tr key={index}>
-            <td className="bg-transparent">
-              <Link href={`/dashboard/${item.id}`}>
-                <div className="p-2 flex" key={index}>
-                  <div className="relative w-full lg:w-max">
-                    <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
-                      {chainIcons[item?.id ?? 1]}
-                      {item.name}
-                    </div>
+      <tr>
+        <td className="bg-transparent">
+          <Link href={`/dashboard/${chain.id}`}>
+            <div className="p-2 flex">
+              <div className="relative w-full lg:w-max">
+                <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
+                  {chainIcons[chain?.id ?? 1]}
+                  {chain.name}
+                </div>
+                {tokenData ? (
+                  <>
                     <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
                     <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
-                  </div>
-                </div>
-              </Link>
-              <div className="pt-4 lg:hidden">
-                <AddressLinks chain={item} />
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning animate-ping"></div>
+                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning"></div>
+                  </>
+                )}
               </div>
-            </td>
-            <td className="bg-transparent hidden lg:table-cell">
-              <AddressLinks chain={item} />
-            </td>
-          </tr>
-        ))}
-      </>
+            </div>
+          </Link>
+          <div className="pt-4 lg:hidden">
+            {tokenData && <AddressLinks chain={chain} />}
+          </div>
+        </td>
+
+        <td className="bg-transparent hidden lg:table-cell">
+          {tokenData && <AddressLinks chain={chain} />}
+        </td>
+      </tr>
     );
   };
 
@@ -89,9 +100,11 @@ const Chains: NextPage = () => {
                 <TableHeaderFooter />
               </thead>
               <tbody>
-                <ChainList
-                  chains={chainList.filter((chain) => !chain.testnet)}
-                />
+                {chainList
+                  .filter((chain) => !chain.testnet)
+                  .map((item, index) => (
+                    <ChainRow chain={item} />
+                  ))}
               </tbody>
               <tfoot>
                 <TableHeaderFooter />

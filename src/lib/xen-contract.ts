@@ -1,9 +1,11 @@
 import { Chain, chain } from "wagmi";
 import XenCrypto from "~/abi/XENCrypto.json";
-import { pulseChain } from "~/lib/pulseChainTestnet";
-import { bscTestnet } from "~/lib/bscTestnet";
-import { bscMainnet } from "~/lib/bscMainnet";
-import { polygonMainnet } from "~/lib/polygonMainnet";
+import { pulseChain } from "~/lib/chains/pulseChainTestnet";
+import { bscTestnet } from "~/lib/chains/bscTestnet";
+import { bscMainnet } from "~/lib/chains/bscMainnet";
+import { polygonMainnet } from "~/lib/chains/polygonMainnet";
+import { avaxMainnet } from "~/lib/chains/avaxMainnet";
+import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -14,7 +16,10 @@ export const xenContract = (contractChain?: Chain) => {
       return {
         addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
         contractInterface: XenCrypto.abi,
+        chainId: contractChain?.id,
       };
+    case avaxMainnet.id:
+    case ethwMainnet.id:
     case bscMainnet.id:
     case polygonMainnet.id:
       return {

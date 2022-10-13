@@ -199,11 +199,14 @@ const Dashboard: NextPage = () => {
                   dateTs={Number(dashboardData?.genesisTs ?? 0)}
                   isPast={true}
                 />
-                <DataCard
-                  title={"Contract"}
-                  value={tokenData?.symbol ?? "XEN"}
-                  description={xenContract(chainFromId).addressOrName}
-                />
+                {tokenData && (
+                  <DataCard
+                    title={"Contract"}
+                    value={tokenData?.symbol ?? "XEN"}
+                    description={xenContract(chainFromId).addressOrName}
+                  />
+                )}
+
                 {generalStats.map((item, index) => (
                   <NumberStatCard
                     key={index}

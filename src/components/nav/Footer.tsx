@@ -15,7 +15,7 @@ const Footer = () => {
   return (
     <footer className="footer footer-center text-base-content py-8">
       <div>
-        <div className="grid grid-cols-4 lg:grid-flow-col gap-10 lg:gap-6">
+        <div className="grid grid-cols-4 lg:grid-flow-col gap-10 lg:gap-6 text-neutral">
           {linkItems.map((item, index) => (
             <div
               key={index}
@@ -38,7 +38,7 @@ const Footer = () => {
       <div className="grid grid-flow-col gap-4">
         {textLinkItems.map((item, index) => (
           <Link href={item.href} key={index}>
-            <a className="link link-hover">{item.name}</a>
+            <a className="link link-hover text-neutral">{item.name}</a>
           </Link>
         ))}
       </div>

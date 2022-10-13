@@ -1,6 +1,6 @@
 import { Chain } from "wagmi";
 
-export const bscTestnet: Chain = {
+export const avaxMainnet: Chain = {
   id: 43114,
   name: "Avalanche C-Chain",
   network: "AVAX",

@@ -172,12 +172,6 @@ export const Navbar: React.FC = () => {
                         <ChainList
                           chains={chains.filter((chain) => !chain.testnet)}
                         />
-                        <li className="menu-title">
-                          <span className="text-neutral">Testnet</span>
-                        </li>
-                        <ChainList
-                          chains={chains.filter((chain) => chain.testnet)}
-                        />
                       </ul>
                     </div>
 

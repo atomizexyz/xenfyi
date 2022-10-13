@@ -9,10 +9,12 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
-import { bscTestnet } from "./bscTestnet";
-import { bscMainnet } from "./bscMainnet";
-import { pulseChain } from "~/lib/pulseChainTestnet";
-import { polygonMainnet } from "~/lib/polygonMainnet";
+import { bscTestnet } from "~/lib/chains/bscTestnet";
+import { bscMainnet } from "~/lib/chains/bscMainnet";
+import { pulseChain } from "~/lib/chains/pulseChainTestnet";
+import { polygonMainnet } from "~/lib/chains/polygonMainnet";
+import { avaxMainnet } from "~/lib/chains/avaxMainnet";
+import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 
 const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
@@ -21,6 +23,8 @@ export const chainList = [
   chain.mainnet,
   bscMainnet,
   polygonMainnet,
+  avaxMainnet,
+  ethwMainnet,
   bscTestnet,
   chain.goerli,
   pulseChain,
