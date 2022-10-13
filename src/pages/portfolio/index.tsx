@@ -84,7 +84,6 @@ const Portfolio: NextPage = () => {
   const onSubmit = (data: any) => {
     const newAddressArray = data.newAddress.split(",");
     const addressSet = new Set([...storedAddresses, ...newAddressArray]);
-    console.log(addressSet);
 
     const fieldsSet = fields.map((field) => field.address);
 

@@ -16,14 +16,11 @@ export const xenContract = (contractChain?: Chain) => {
         contractInterface: XenCrypto.abi,
       };
     case bscMainnet.id:
-      return {
-        addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
-        contractInterface: XenCrypto.abi,
-      };
     case polygonMainnet.id:
       return {
         addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
         contractInterface: XenCrypto.abi,
+        chainId: contractChain?.id,
       };
     case chain.mainnet.id:
     default:

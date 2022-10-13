@@ -19,7 +19,7 @@ export const polygonMainnet: Chain = {
       "https://matic-mainnet-full-rpc.bwarelabs.com",
   },
   blockExplorers: {
-    default: { name: "Polygonscan", url: "https://polygonscan.com/" },
+    default: { name: "Polygonscan", url: "https://polygonscan.com" },
   },
   testnet: false,
 };

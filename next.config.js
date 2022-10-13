@@ -7,17 +7,17 @@ const nextConfig = {
       {
         source: "/",
         destination: "/dashboard",
-        permanent: true,
+        permanent: false,
       },
       {
         source: "/mint",
         destination: "/mint/1",
-        permanent: true,
+        permanent: false,
       },
       {
         source: "/stake",
         destination: "/stake/1",
-        permanent: true,
+        permanent: false,
       },
     ];
   },

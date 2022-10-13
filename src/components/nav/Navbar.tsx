@@ -3,13 +3,7 @@ import { ConnectKitButton } from "connectkit";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
 import { MoonIcon, SunIcon, DotsVerticalIcon } from "@heroicons/react/outline";
-import {
-  WalletIcon,
-  EthereumIcon,
-  PulseChainIcon,
-  PolygonIcon,
-  BinanceSmartChainIcon,
-} from "../Icons";
+import { WalletIcon } from "../Icons";
 import { xenContract } from "~/lib/xen-contract";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
@@ -25,17 +19,8 @@ import {
 import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "../StatusBadge";
-import { navigationItems, linkItems } from "~/components/Constants";
+import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
-
-const chainIcons = new Map<number, JSX.Element>();
-chainIcons.set(1, <EthereumIcon />);
-chainIcons.set(5, <EthereumIcon />);
-chainIcons.set(56, <BinanceSmartChainIcon />);
-chainIcons.set(97, <BinanceSmartChainIcon />);
-chainIcons.set(137, <PolygonIcon />);
-chainIcons.set(941, <PulseChainIcon />);
-chainIcons.set(80001, <PolygonIcon />);
 
 export const Navbar: React.FC = () => {
   const router = useRouter();
@@ -148,7 +133,7 @@ export const Navbar: React.FC = () => {
               }}
             >
               <div className="text-left">{item.name}</div>
-              {chainIcons.get(item.id)}
+              {chainIcons[item.id]}
             </button>
           </li>
         ))}
@@ -178,7 +163,7 @@ export const Navbar: React.FC = () => {
                         tabIndex={0}
                         className="btn glass btn-square text-neutral"
                       >
-                        {chainIcons.get(chain?.id ?? 1)}
+                        {chainIcons[chain?.id ?? 1]}
                       </label>
                       <ul
                         tabIndex={0}

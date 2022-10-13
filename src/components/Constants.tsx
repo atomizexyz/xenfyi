@@ -12,7 +12,21 @@ import {
   DiamondIcon,
   DiscordIcon,
   CoinmarketCapIcon,
+  EthereumIcon,
+  PulseChainIcon,
+  PolygonIcon,
+  BinanceSmartChainIcon,
 } from "~/components/Icons";
+
+export const chainIcons: Record<number, JSX.Element> = {
+  1: <EthereumIcon />,
+  5: <EthereumIcon />,
+  56: <BinanceSmartChainIcon />,
+  97: <BinanceSmartChainIcon />,
+  137: <PolygonIcon />,
+  941: <PulseChainIcon />,
+  80001: <PolygonIcon />,
+};
 
 export const navigationItems = [
   {
@@ -20,18 +34,21 @@ export const navigationItems = [
     name: "Dashboard",
     icon: <ViewGridIcon className="h-5 w-5" />,
     href: "/dashboard",
+    canDisable: false,
   },
   {
     id: 1,
     name: "Mint",
     icon: <DiamondIcon />,
     href: "/mint",
+    canDisable: true,
   },
   {
     id: 2,
     name: "Stake",
     icon: <LockClosedIcon className="h-5 w-5" />,
     href: "/stake",
+    canDisable: true,
   },
 ];
 

@@ -17,29 +17,28 @@ import { polygonMainnet } from "~/lib/polygonMainnet";
 const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
 
-const { chains, provider, webSocketProvider } = configureChains(
-  [
-    chain.mainnet,
-    bscMainnet,
-    polygonMainnet,
-    bscTestnet,
-    chain.goerli,
-    pulseChain,
-    chain.polygonMumbai,
-  ],
-  [
-    alchemyProvider({ apiKey: alchemyId, priority: 0 }),
-    infuraProvider({ apiKey: infuraId, priority: 0 }),
-    jsonRpcProvider({
-      priority: 0,
-      rpc: (chain) => {
-        if (chain.id !== pulseChain.id) return null;
-        return { http: chain.rpcUrls.default };
-      },
-    }),
-    publicProvider({ priority: 1 }),
-  ]
-);
+export const chainList = [
+  chain.mainnet,
+  bscMainnet,
+  polygonMainnet,
+  bscTestnet,
+  chain.goerli,
+  pulseChain,
+  chain.polygonMumbai,
+];
+
+const { chains, provider, webSocketProvider } = configureChains(chainList, [
+  alchemyProvider({ apiKey: alchemyId, priority: 0 }),
+  infuraProvider({ apiKey: infuraId, priority: 0 }),
+  jsonRpcProvider({
+    priority: 0,
+    rpc: (chain) => {
+      if (chain.id !== pulseChain.id) return null;
+      return { http: chain.rpcUrls.default };
+    },
+  }),
+  publicProvider({ priority: 1 }),
+]);
 
 export const client = createClient({
   autoConnect: true,
