@@ -4,46 +4,101 @@ import Container from "~/components/containers/Container";
 import CardContainer from "~/components/containers/CardContainer";
 import { chainIcons } from "~/components/Constants";
 import Link from "next/link";
-import AddressLink from "~/components/AddressLink";
 import { xenContract } from "~/lib/xen-contract";
 import { chainList } from "~/lib/client";
+import { truncatedAddress } from "~/lib/helpers";
+import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { useCopyToClipboard } from "usehooks-ts";
 
 const Chains: NextPage = () => {
+  const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
+    const [_, copy] = useCopyToClipboard();
+
+    return (
+      <div className="flex flex-row space-x-8 lg:space-x-2 lg:justify-end">
+        <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
+        <button
+          className="btn btn-square btn-xs glass"
+          onClick={() => copy(xenContract(chain).addressOrName)}
+        >
+          <DuplicateIcon className="w-5 h-5" />
+        </button>
+        <Link
+          href={`${chain?.blockExplorers?.default.url}/address/${
+            xenContract(chain).addressOrName
+          }`}
+        >
+          <a className="btn btn-square btn-xs glass">
+            <ExternalLinkIcon className="w-5 h-5" />
+          </a>
+        </Link>
+      </div>
+    );
+  };
   const ChainList: NextPage<{ chains: Chain[] }> = ({ chains }) => {
     return (
       <>
         {chains.map((item, index) => (
-          <CardContainer key={index}>
-            <h2 className="card-title">{item.name}</h2>
-
-            <AddressLink
-              name={""}
-              address={xenContract(item).addressOrName}
-              chain={item}
-            />
-
-            <Link href={`/dashboard/${item.id}`}>
-              <div className="p-2 flex justify-right w-full" key={index}>
-                <div className="relative">
-                  <div className="btn glass gap-2 text-neutral">
-                    {chainIcons[item?.id ?? 1]}
-                    Launch Dashboard
+          <tr key={index}>
+            <td className="bg-transparent">
+              <Link href={`/dashboard/${item.id}`}>
+                <div className="p-2 flex" key={index}>
+                  <div className="relative w-full lg:w-max">
+                    <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
+                      {chainIcons[item?.id ?? 1]}
+                      {item.name}
+                    </div>
+                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
+                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
                   </div>
-                  <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
-                  <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
                 </div>
+              </Link>
+              <div className="pt-4 lg:hidden">
+                <AddressLinks chain={item} />
               </div>
-            </Link>
-          </CardContainer>
+            </td>
+            <td className="bg-transparent hidden lg:table-cell">
+              <AddressLinks chain={item} />
+            </td>
+          </tr>
         ))}
       </>
     );
   };
 
+  const TableHeaderFooter = () => {
+    return (
+      <tr>
+        <th className="bg-transparent">Chain</th>
+        <th className="bg-transparent text-right hidden lg:table-cell">
+          Address
+        </th>
+      </tr>
+    );
+  };
+
   return (
-    <Container className="max-w-2xl">
-      <div className="grid grid-cols-1 gap-4 py-4 ">
-        <ChainList chains={chainList.filter((chain) => !chain.testnet)} />
+    <Container className="max-w-4xl">
+      <div className="space-y-4 w-full">
+        <CardContainer>
+          <h2 className="card-title">Chains</h2>
+
+          <div className="overflow-x-auto">
+            <table className="table w-full">
+              <thead>
+                <TableHeaderFooter />
+              </thead>
+              <tbody>
+                <ChainList
+                  chains={chainList.filter((chain) => !chain.testnet)}
+                />
+              </tbody>
+              <tfoot>
+                <TableHeaderFooter />
+              </tfoot>
+            </table>
+          </div>
+        </CardContainer>
       </div>
     </Container>
   );

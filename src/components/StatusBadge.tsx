@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import { NextPage } from "next";
 
 interface StatusBadgeProps {
   id: number;
@@ -7,7 +8,7 @@ interface StatusBadgeProps {
   offset: string;
 }
 
-export const StatusBadge: React.FC<{ status: StatusBadgeProps }> = ({
+export const StatusBadge: NextPage<{ status: StatusBadgeProps }> = ({
   status,
 }) => {
   const renderBadge = (status: StatusBadgeProps) => {

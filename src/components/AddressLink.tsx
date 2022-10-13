@@ -1,5 +1,4 @@
-import { linkItems, textLinkItems } from "~/components/Constants";
-import { chain, useNetwork, Chain } from "wagmi";
+import { Chain } from "wagmi";
 import Link from "next/link";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
