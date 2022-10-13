@@ -24,7 +24,6 @@ export const chainList = [
   bscMainnet,
   polygonMainnet,
   avaxMainnet,
-  ethwMainnet,
   bscTestnet,
   chain.goerli,
   pulseChain,
