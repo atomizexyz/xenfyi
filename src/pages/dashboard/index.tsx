@@ -103,7 +103,7 @@ const Chains: NextPage = () => {
                 {chainList
                   .filter((chain) => !chain.testnet)
                   .map((item, index) => (
-                    <ChainRow chain={item} />
+                    <ChainRow chain={item} key={index} />
                   ))}
               </tbody>
               <tfoot>
