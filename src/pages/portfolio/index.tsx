@@ -76,7 +76,9 @@ const Portfolio: NextPage = () => {
         <th className="bg-transparent"></th>
         <th className="bg-transparent">Address</th>
         <th className="bg-transparent text-right">Mint</th>
+        <th className="bg-transparent text-right">Mint End</th>
         <th className="bg-transparent text-right">Stake</th>
+        <th className="bg-transparent text-right">Stake End</th>
       </tr>
     );
   };
@@ -112,7 +114,7 @@ const Portfolio: NextPage = () => {
   }, [fields, setStoredAddresses, storedAddresses, watchAllFields]);
 
   return (
-    <Container className="max-w-4xl">
+    <Container className="max-w-5xl">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4 w-full">
           <CardContainer>

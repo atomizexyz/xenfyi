@@ -7,6 +7,8 @@ import {
 } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
+import { formatDate, formatTime } from "~/lib/helpers";
+import { XIcon } from "@heroicons/react/outline";
 
 export const PortfolioAddressRow: NextPage<any> = (props) => {
   const [mintReward, setMintReward] = useState(0);
@@ -63,7 +65,7 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
           name="delete"
           id="delete"
           type="button"
-          className="btn btn-xs glass text-neutral"
+          className="btn btn-square btn-xs glass text-neutral"
           onClick={() => {
             props.remove(props.index);
             const updatedAddresses = props.storedAddresses.filter(
@@ -72,7 +74,7 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
             props.setStoredAddresses(updatedAddresses);
           }}
         >
-          Delete
+          <XIcon className="w-4 h-4" />
         </button>
       </td>
       <td className="bg-transparent">
@@ -87,12 +89,20 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
         </pre>
       </td>
       <td className="bg-transparent text-right">
+        <pre>{formatDate(userMintData?.maturityTs)}</pre>
+        <pre>{formatTime(userMintData?.maturityTs)}</pre>
+      </td>
+      <td className="bg-transparent text-right">
         <pre>
           {stakeReward.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}
         </pre>
+      </td>
+      <td className="bg-transparent text-right">
+        <pre>{formatDate(userStakeData?.maturityTs)}</pre>
+        <pre>{formatTime(userStakeData?.maturityTs)}</pre>
       </td>
     </>
   );

@@ -1,6 +1,6 @@
 import CountUp from "react-countup";
 import { ethers } from "ethers";
-import { UTC_TIME } from "~/lib/helpers";
+import { UTC_TIME, formatDate } from "~/lib/helpers";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 interface ProgressStat {
   title: string;
@@ -41,17 +41,6 @@ interface DateStat {
   dateTs: number;
   isPast: boolean;
 }
-
-const formatDate = (date: number) => {
-  const d = new Date(date * 1000);
-  const year = d.getFullYear();
-  const month = `0${d.getMonth() + 1}`.slice(-2);
-  const _date = `0${d.getDate()}`.slice(-2);
-  const hour = `0${d.getHours()}`.slice(-2);
-  const minute = `0${d.getMinutes()}`.slice(-2);
-  const second = `0${d.getSeconds()}`.slice(-2);
-  return `${year}/${month}/${_date} ${hour}:${minute}:${second}`;
-};
 
 // days since date
 export const daysSince = (date: number) => {
