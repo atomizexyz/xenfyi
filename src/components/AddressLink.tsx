@@ -26,7 +26,10 @@ const AddressLink = (props: AddressLinkProps) => {
         <Link
           href={`${props.chain?.blockExplorers?.default.url}/address/${props.address}`}
         >
-          <a className="btn btn-square btn-xs glass text-neutral">
+          <a
+            target="_blank"
+            className="btn btn-square btn-xs glass text-neutral"
+          >
             <ExternalLinkIcon className="w-5 h-5" />
           </a>
         </Link>
