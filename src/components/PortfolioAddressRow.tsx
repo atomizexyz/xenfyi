@@ -89,8 +89,17 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
         </pre>
       </td>
       <td className="bg-transparent text-right">
-        <pre>{formatDate(userMintData?.maturityTs)}</pre>
-        <pre>{formatTime(userMintData?.maturityTs)}</pre>
+        {userMintData?.maturityTs != 0 ? (
+          <>
+            <pre>{formatDate(userMintData?.maturityTs)}</pre>
+            <pre>{formatTime(userMintData?.maturityTs)}</pre>
+          </>
+        ) : (
+          <>
+            <pre>-</pre>
+            <pre>-</pre>
+          </>
+        )}
       </td>
       <td className="bg-transparent text-right">
         <pre>
@@ -101,8 +110,17 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
         </pre>
       </td>
       <td className="bg-transparent text-right">
-        <pre>{formatDate(userStakeData?.maturityTs)}</pre>
-        <pre>{formatTime(userStakeData?.maturityTs)}</pre>
+        {userStakeData?.maturityTs != 0 ? (
+          <>
+            <pre>{formatDate(userStakeData?.maturityTs)}</pre>
+            <pre>{formatTime(userStakeData?.maturityTs)}</pre>
+          </>
+        ) : (
+          <>
+            <pre>-</pre>
+            <pre>-</pre>
+          </>
+        )}
       </td>
     </>
   );
