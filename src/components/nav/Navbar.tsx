@@ -22,7 +22,7 @@ import { StatusBadge } from "../StatusBadge";
 import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 
-export const Navbar: React.FC = () => {
+export const Navbar: NextPage = () => {
   const router = useRouter();
   const { chain } = useNetwork();
   const { chains, switchNetwork } = useSwitchNetwork();

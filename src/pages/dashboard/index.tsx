@@ -35,6 +35,7 @@ const Chains: NextPage = () => {
       </div>
     );
   };
+
   const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
     const { data: tokenData } = useToken({
       address: xenContract(chain).addressOrName,

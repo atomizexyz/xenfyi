@@ -1,7 +1,9 @@
 import CountUp from "react-countup";
 import { ethers } from "ethers";
-import { UTC_TIME, formatDate } from "~/lib/helpers";
+import { UTC_TIME, formatFullDate } from "~/lib/helpers";
 import { InformationCircleIcon } from "@heroicons/react/outline";
+import type { NextPage } from "next";
+
 interface ProgressStat {
   title: string;
   percentComplete: number;
@@ -11,7 +13,7 @@ interface ProgressStat {
   dateTs: number;
 }
 
-export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
+export const ProgressStatCard: NextPage<ProgressStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -31,7 +33,7 @@ export const ProgressStatCard: React.FC<ProgressStat> = (props) => {
           max={props.max}
         ></progress>
       </div>
-      <div className="stat-desc text-right">{formatDate(props.dateTs)}</div>
+      <div className="stat-desc text-right">{formatFullDate(props.dateTs)}</div>
     </div>
   );
 };
@@ -51,7 +53,7 @@ export const daysUntil = (date: number) => {
   return Math.floor((date - UTC_TIME) / 86400);
 };
 
-export const DateStatCard: React.FC<DateStat> = (props) => {
+export const DateStatCard: NextPage<DateStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -63,7 +65,7 @@ export const DateStatCard: React.FC<DateStat> = (props) => {
           suffix={" Days"}
         />
       </code>
-      <div className="stat-desc text-right">{formatDate(props.dateTs)}</div>
+      <div className="stat-desc text-right">{formatFullDate(props.dateTs)}</div>
     </div>
   );
 };
@@ -79,7 +81,7 @@ interface NumberStat {
   tooltip?: string;
 }
 
-export const NumberStatCard: React.FC<NumberStat> = (props) => {
+export const NumberStatCard: NextPage<NumberStat> = (props) => {
   let value = props.value;
   if (props.tokenDecimals != null) {
     value = Number(ethers.utils.formatUnits(props.value.toString(), 18));
@@ -118,7 +120,7 @@ interface ChainStat {
   id: number;
 }
 
-export const ChainStatCard: React.FC<ChainStat> = (props) => {
+export const ChainStatCard: NextPage<ChainStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">Chain</div>
@@ -136,7 +138,7 @@ interface DataStat {
   description?: string;
 }
 
-export const DataCard: React.FC<DataStat> = (props) => {
+export const DataCard: NextPage<DataStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -157,7 +159,7 @@ interface GrossRewardStat {
   descriptionNumberSuffix?: string;
 }
 
-export const CountDataCard: React.FC<GrossRewardStat> = (props) => {
+export const CountDataCard: NextPage<GrossRewardStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -193,7 +195,7 @@ interface CountdownCardStat {
   seconds: number;
 }
 
-export const CountdownCard: React.FC<CountdownCardStat> = (props) => {
+export const CountdownCard: NextPage<CountdownCardStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">Matures in</div>

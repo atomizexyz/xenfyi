@@ -1,6 +1,7 @@
+import type { NextPage } from "next";
 import { ethers } from "ethers";
 
-export const MaxValueField: React.FC<any> = (props) => {
+export const MaxValueField: NextPage<any> = (props) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
@@ -39,7 +40,7 @@ export const MaxValueField: React.FC<any> = (props) => {
   );
 };
 
-export const WalletAddressField: React.FC<any> = (props) => {
+export const WalletAddressField: NextPage<any> = (props) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">

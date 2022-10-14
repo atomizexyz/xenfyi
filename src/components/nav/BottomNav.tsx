@@ -7,8 +7,9 @@ import { useState, useEffect } from "react";
 import { StatusBadge } from "../StatusBadge";
 import { navigationItems } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
+import type { NextPage } from "next";
 
-export const BottomNav: React.FC = () => {
+export const BottomNav: NextPage = () => {
   const router = useRouter();
   const { chain } = useNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
