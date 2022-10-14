@@ -23,7 +23,7 @@ const Footer = () => {
               data-tip={item.name}
             >
               <Link href={item.href}>
-                <a key={index}>{item.icon}</a>
+                <a target="_blank">{item.icon}</a>
               </Link>
             </div>
           ))}
@@ -38,7 +38,9 @@ const Footer = () => {
       <div className="grid grid-flow-col gap-4">
         {textLinkItems.map((item, index) => (
           <Link href={item.href} key={index}>
-            <a className="link link-hover text-neutral">{item.name}</a>
+            <a target="_blank" className="link link-hover text-neutral">
+              {item.name}
+            </a>
           </Link>
         ))}
       </div>

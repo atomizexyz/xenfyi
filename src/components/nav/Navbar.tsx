@@ -238,6 +238,7 @@ export const Navbar: NextPage = () => {
               <li key={index}>
                 <Link href={item.href ?? "/"}>
                   <a
+                    target="_blank"
                     className="justify-between text-neutral glass"
                     onClick={() => {
                       (document.activeElement as HTMLElement).blur();
