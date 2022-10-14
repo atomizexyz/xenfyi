@@ -2,6 +2,8 @@ import { Chain } from "wagmi";
 import Link from "next/link";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
+import { truncatedAddress } from "~/lib/helpers";
+import toast from "react-hot-toast";
 
 interface AddressLinkProps {
   name: string;
@@ -19,7 +21,15 @@ const AddressLink = (props: AddressLinkProps) => {
       <div className="flex flex-row space-x-8 lg:space-x-2">
         <button
           className="btn btn-square btn-xs glass text-neutral"
-          onClick={() => copy(props.address)}
+          onClick={() => {
+            copy(props.address);
+            toast.success(
+              <div>
+                <pre>{truncatedAddress(props.address)}</pre>
+                Copied to clipboard
+              </div>
+            );
+          }}
         >
           <DuplicateIcon className="w-5 h-5" />
         </button>

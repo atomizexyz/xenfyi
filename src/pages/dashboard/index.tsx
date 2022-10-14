@@ -9,7 +9,7 @@ import { chainList } from "~/lib/client";
 import { truncatedAddress } from "~/lib/helpers";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
-
+import toast from "react-hot-toast";
 const Chains: NextPage = () => {
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
@@ -19,7 +19,15 @@ const Chains: NextPage = () => {
         <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
         <button
           className="btn btn-square btn-xs glass text-neutral"
-          onClick={() => copy(xenContract(chain).addressOrName)}
+          onClick={() => {
+            copy(xenContract(chain).addressOrName);
+            toast.success(
+              <div>
+                <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
+                Copied to clipboard
+              </div>
+            );
+          }}
         >
           <DuplicateIcon className="w-5 h-5" />
         </button>
