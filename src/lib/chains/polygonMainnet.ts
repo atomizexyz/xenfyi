@@ -10,7 +10,7 @@ export const polygonMainnet: Chain = {
     decimals: 18,
   },
   rpcUrls: {
-    default: "https://polygon-rpc.com/",
+    default: "https://polygon-rpc.com",
     "rpc-mainnet.matic": "https://rpc-mainnet.matic.network",
     "matic-mainnet.chainstacklab": "https://matic-mainnet.chainstacklabs.com",
     "rpc-mainnet.maticvigil": "https://rpc-mainnet.maticvigil.com",
