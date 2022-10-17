@@ -4,12 +4,10 @@ import { BottomNav } from "~/components/nav/BottomNav";
 import { Toaster, resolveValue } from "react-hot-toast";
 import { CheckIcon } from "@heroicons/react/outline";
 import Footer from "./nav/Footer";
-import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
 const Layout = ({ children }: any) => {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);

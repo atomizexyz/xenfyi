@@ -1,10 +1,15 @@
 import Head from "next/head";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 
 const Meta: NextPage = () => {
-  const title = "XEN.fyi";
+  const router = useRouter();
+  const { pathname } = router;
+  const path = pathname.split("/").filter((item) => item !== "");
+
+  const title = `XEN.fyi - ${path.join(" - ")}`;
   const description =
-    "XEN.fyi is a community-driven project to help users understand the XEN protocol and its ecosystem.";
+    "XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem.";
   const url = "https://xen.fyi";
   const image = "https://xen.fyi/images/preview.png";
   return (
@@ -19,6 +24,11 @@ const Meta: NextPage = () => {
       />
       <meta charSet="utf-8" />
       <meta name="description" content={description} />
+      <meta name="author" content="Joe Blau joe@atomize.xyz" />
+      <meta
+        name="keywords"
+        content="xen.fyi, xencrypto, xen.network, xen, crypto, token, ethereum, avalanche, polygon, binance"
+      />
 
       {/* Apple */}
       <link rel="apple-touch-icon" href="touch-icon.png" />
