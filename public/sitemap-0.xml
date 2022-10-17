@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="https://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="https://www.w3.org/1999/xhtml" xmlns:mobile="https://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="https://www.google.com/schemas/sitemap-image/1.1" xmlns:video="https://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://xen.fyi/dashboard</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/mint/1</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/mint/2</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/mint/3</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/portfolio</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/stake/1</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/stake/2</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://xen.fyi/stake/3</loc><lastmod>2022-10-17T21:46:41.713Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/dashboard</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/mint/1</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/mint/2</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/mint/3</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/portfolio</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/stake/1</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/stake/2</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://xen.fyi/stake/3</loc><lastmod>2022-10-17T21:49:02.316Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

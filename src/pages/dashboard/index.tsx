@@ -92,7 +92,7 @@ const Chains: NextPage = () => {
   const TableHeaderFooter = () => {
     return (
       <tr>
-        <th className="bg-transparent">Chain</th>
+        <th className="bg-transparent hidden lg:table-cell">Chain</th>
         <th className="bg-transparent text-right hidden lg:table-cell">
           Address
         </th>
