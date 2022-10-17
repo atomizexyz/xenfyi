@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://xen.fyi
+
+# Sitemaps
+Sitemap: https://xen.fyi/sitemap.xml
