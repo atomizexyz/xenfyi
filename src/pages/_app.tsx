@@ -9,7 +9,7 @@ import Layout from "~/components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute="class">
+    <ThemeProvider>
       <WagmiConfig client={client}>
         <ConnectKitProvider
           options={{
