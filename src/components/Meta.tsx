@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 
 const Meta: NextPage = () => {
   const router = useRouter();
-  const { pathname } = router;
-  const path = pathname.split("/").filter((item) => item !== "");
+  const { asPath } = router;
+  const path = asPath.split("/").filter((item) => item !== "");
 
   const title = `XEN.fyi - ${path.join(" - ")}`;
   const description =
     "XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem.";
   const url = "https://xen.fyi";
   const image = "https://xen.fyi/images/preview.png";
+
   return (
     <Head>
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
