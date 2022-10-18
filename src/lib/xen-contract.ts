@@ -29,6 +29,7 @@ export const xenContract = (contractChain?: Chain) => {
     case ethwMainnet.id:
     case bscMainnet.id:
     case polygonMainnet.id:
+    case evmosMainnet.id:
       return {
         addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
         contractInterface: XenCrypto.abi,
@@ -37,12 +38,6 @@ export const xenContract = (contractChain?: Chain) => {
     case moonbeamMainnet.id:
       return {
         addressOrName: "0xb564A5767A00Ee9075cAC561c427643286F8F4E1",
-        contractInterface: XenCrypto.abi,
-        chainId: contractChain?.id,
-      };
-    case evmosMainnet.id:
-      return {
-        addressOrName: "",
         contractInterface: XenCrypto.abi,
         chainId: contractChain?.id,
       };
