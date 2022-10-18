@@ -6,6 +6,8 @@ import { bscMainnet } from "~/lib/chains/bscMainnet";
 import { polygonMainnet } from "~/lib/chains/polygonMainnet";
 import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
+import { moonbeamMainnet } from "./chains/moonbeamMainnet";
+import { evmosMainnet } from "./chains/evmosMainnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -29,6 +31,13 @@ export const xenContract = (contractChain?: Chain) => {
     case polygonMainnet.id:
       return {
         addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
+        contractInterface: XenCrypto.abi,
+        chainId: contractChain?.id,
+      };
+    case moonbeamMainnet.id:
+    case evmosMainnet.id:
+      return {
+        addressOrName: "",
         contractInterface: XenCrypto.abi,
         chainId: contractChain?.id,
       };

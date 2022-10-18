@@ -171,54 +171,60 @@ const Dashboard: NextPage = () => {
     <div>
       <Container className="max-w-2xl">
         <div className="flex flex-col space-y-8">
-          <div>
-            <div className="tabs flex justify-center">
+          <div className="dropdown dropdown-hover">
+            <label tabIndex={0} className="btn m-1 glass text-neutral">
+              Select Chain
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow rounded-box glass w-96"
+            >
               {chainList
                 .filter((chain) => !chain.testnet)
                 .map((c) => (
-                  <Link href={`/dashboard/${c.id}`} key={c.id}>
-                    <a
-                      className={`tab tab-lg tab-lifted text-neutral ${
-                        c.id == chainId ? "glass" : ""
-                      }`}
-                    >
-                      {chainIcons[c.id]}
-                    </a>
-                  </Link>
+                  <li key={c.id}>
+                    <Link href={`/dashboard/${c.id}`}>
+                      <a className="text-neutral justify-between">
+                        {c.name}
+                        {chainIcons[c.id]}
+                      </a>
+                    </Link>
+                  </li>
                 ))}
-            </div>
-            <CardContainer>
-              <h2 className="card-title">General Stats</h2>
-              <div className="stats stats-vertical bg-transparent text-neutral">
-                <ChainStatCard
-                  value={chainFromId?.name ?? "Ethereum"}
-                  id={chainFromId?.id ?? 1}
-                />
-                <DateStatCard
-                  title="Days Since Launch"
-                  dateTs={Number(dashboardData?.genesisTs ?? 0)}
-                  isPast={true}
-                />
-                {tokenData && (
-                  <DataCard
-                    title={"Contract"}
-                    value={tokenData?.symbol ?? "XEN"}
-                    description={xenContract(chainFromId).addressOrName}
-                  />
-                )}
-
-                {generalStats.map((item, index) => (
-                  <NumberStatCard
-                    key={index}
-                    title={item.title}
-                    value={item.value}
-                    decimals={0}
-                    suffix={item.suffix}
-                  />
-                ))}
-              </div>
-            </CardContainer>
+            </ul>
           </div>
+
+          <CardContainer>
+            <h2 className="card-title">General Stats</h2>
+            <div className="stats stats-vertical bg-transparent text-neutral">
+              <ChainStatCard
+                value={chainFromId?.name ?? "Ethereum"}
+                id={chainFromId?.id ?? 1}
+              />
+              <DateStatCard
+                title="Days Since Launch"
+                dateTs={Number(dashboardData?.genesisTs ?? 0)}
+                isPast={true}
+              />
+              {tokenData && (
+                <DataCard
+                  title={"Contract"}
+                  value={tokenData?.symbol ?? "XEN"}
+                  description={xenContract(chainFromId).addressOrName}
+                />
+              )}
+
+              {generalStats.map((item, index) => (
+                <NumberStatCard
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  decimals={0}
+                  suffix={item.suffix}
+                />
+              ))}
+            </div>
+          </CardContainer>
 
           <CardContainer>
             <h2 className="card-title">Supply</h2>
