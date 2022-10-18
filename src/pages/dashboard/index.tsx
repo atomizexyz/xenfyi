@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { Chain, useToken } from "wagmi";
+import { Chain, useToken, useContractRead } from "wagmi";
 import Container from "~/components/containers/Container";
 import CardContainer from "~/components/containers/CardContainer";
 import { chainIcons } from "~/components/Constants";
@@ -10,13 +10,17 @@ import { truncatedAddress } from "~/lib/helpers";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
 import toast from "react-hot-toast";
+import CountUp from "react-countup";
+
 const Chains: NextPage = () => {
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
 
     return (
-      <div className="flex flex-row space-x-8 lg:space-x-2 lg:justify-end">
-        <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
+      <div className="flex flex-row-reverse lg:flex-row space-x-8 lg:space-x-2 lg:justify-end">
+        <pre className="pl-8 lg:pl-0">
+          {truncatedAddress(xenContract(chain).addressOrName)}
+        </pre>
         <button
           className="btn btn-square btn-xs glass text-neutral"
           onClick={() => {
@@ -53,6 +57,12 @@ const Chains: NextPage = () => {
       chainId: chain?.id,
     });
 
+    const { data: globalRank } = useContractRead({
+      ...xenContract(chain),
+      functionName: "globalRank",
+      watch: true,
+    });
+
     return (
       <tr>
         <td className="bg-transparent">
@@ -77,11 +87,28 @@ const Chains: NextPage = () => {
               </div>
             </div>
           </Link>
-          <div className="pt-4 lg:hidden">
+          <div className="pt-4 lg:hidden flex flex-col space-y-4">
+            <pre className="text-right">
+              <CountUp
+                end={Number(globalRank)}
+                preserveValue={true}
+                separator=","
+                suffix=" gRank"
+              />
+            </pre>
             {tokenData && <AddressLinks chain={chain} />}
           </div>
         </td>
 
+        <td className="bg-transparent hidden lg:table-cell text-right">
+          <pre>
+            <CountUp
+              end={Number(globalRank)}
+              preserveValue={true}
+              separator=","
+            />
+          </pre>
+        </td>
         <td className="bg-transparent hidden lg:table-cell">
           {tokenData && <AddressLinks chain={chain} />}
         </td>
@@ -93,7 +120,10 @@ const Chains: NextPage = () => {
     return (
       <tr>
         <th className="bg-transparent hidden lg:table-cell">Chain</th>
-        <th className="bg-transparent text-right hidden lg:table-cell">
+        <th className="bg-transparent hidden lg:table-cell text-right">
+          gRank
+        </th>
+        <th className="bg-transparent hidden lg:table-cell text-right">
           Address
         </th>
       </tr>
@@ -101,7 +131,7 @@ const Chains: NextPage = () => {
   };
 
   return (
-    <Container className="max-w-4xl">
+    <Container className="max-w-5xl">
       <div className="space-y-4 w-full">
         <CardContainer>
           <h2 className="card-title">Chains</h2>

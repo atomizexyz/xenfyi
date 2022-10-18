@@ -26,7 +26,7 @@ const Portfolio: NextPage = () => {
   const { data: globalRankData } = useContractRead({
     ...xenContract(chain),
     functionName: "globalRank",
-    watch: true,
+    // watch: true,
   });
 
   const schema = yup
@@ -73,12 +73,18 @@ const Portfolio: NextPage = () => {
   const TableHeaderFooter = () => {
     return (
       <tr>
-        <th className="bg-transparent"></th>
-        <th className="bg-transparent">Address</th>
-        <th className="bg-transparent text-right">Mint</th>
-        <th className="bg-transparent text-right">Mint End</th>
-        <th className="bg-transparent text-right">Stake</th>
-        <th className="bg-transparent text-right">Stake End</th>
+        <th className="bg-transparent hidden lg:table-cell"></th>
+        <th className="bg-transparent hidden lg:table-cell">Address</th>
+        <th className="bg-transparent hidden lg:table-cell text-right">Mint</th>
+        <th className="bg-transparent hidden lg:table-cell text-right">
+          Mint End
+        </th>
+        <th className="bg-transparent hidden lg:table-cell text-right">
+          Stake
+        </th>
+        <th className="bg-transparent hidden lg:table-cell text-right">
+          Stake End
+        </th>
       </tr>
     );
   };
@@ -192,9 +198,12 @@ const Portfolio: NextPage = () => {
                     <InformationCircleIcon className="w-8 h-8" />
                   </div>
                   <div>
-                    <h3 className="font-bold">15 Max Addresses</h3>
+                    <h3 className="font-bold">
+                      {MAX_PROFILE_WALLETS} Max Addresses
+                    </h3>
                     <div className="text-xs">
-                      You can add a maximum of 15 addresses to your portfolio.
+                      You can add a maximum of {MAX_PROFILE_WALLETS} addresses
+                      to your portfolio.
                     </div>
                   </div>
                 </div>

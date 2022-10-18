@@ -18,14 +18,14 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
     ...xenContract(props.chain),
     functionName: "getUserMint",
     overrides: { from: props.item.address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: userStakeData } = useContractRead({
     ...xenContract(props.chain),
     functionName: "getUserStake",
     overrides: { from: props.item.address },
-    watch: true,
+    // watch: true,
   });
 
   useEffect(() => {
