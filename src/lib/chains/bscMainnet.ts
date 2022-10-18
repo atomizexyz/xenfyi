@@ -2,7 +2,7 @@ import { Chain } from "wagmi";
 
 export const bscMainnet: Chain = {
   id: 56,
-  name: "Binance Smart Chain Mainnet",
+  name: "Binance Smart Chain",
   network: "BSC",
   rpcUrls: {
     default: "https://bsc-dataseed1.binance.org",

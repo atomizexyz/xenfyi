@@ -177,14 +177,14 @@ const Dashboard: NextPage = () => {
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu p-2 shadow rounded-box glass w-96"
+              className="dropdown-content menu p-2 shadow rounded-box glass w-64 flex space-y-2"
             >
               {chainList
                 .filter((chain) => !chain.testnet)
                 .map((c) => (
                   <li key={c.id}>
                     <Link href={`/dashboard/${c.id}`}>
-                      <a className="text-neutral justify-between">
+                      <a className="text-neutral justify-between glass">
                         {c.name}
                         {chainIcons[c.id]}
                       </a>

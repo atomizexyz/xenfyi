@@ -2,7 +2,7 @@ import { Chain } from "wagmi";
 
 export const polygonMainnet: Chain = {
   id: 137,
-  name: "Polygon Mainnet",
+  name: "Polygon",
   network: "Polygon",
   nativeCurrency: {
     name: "MATIC",

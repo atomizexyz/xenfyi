@@ -167,7 +167,7 @@ export const Navbar: NextPage = () => {
                       </label>
                       <ul
                         tabIndex={0}
-                        className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-52 space-y-2"
+                        className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-64 space-y-2"
                       >
                         <ChainList
                           chains={chains.filter((chain) => !chain.testnet)}
