@@ -9,24 +9,17 @@ import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
 import { formatDate, formatTime } from "~/lib/helpers";
 import { XIcon } from "@heroicons/react/outline";
+import useXENAddressBalance from "~/hooks/useXENAddressBalance";
 
 export const PortfolioAddressRow: NextPage<any> = (props) => {
   const [mintReward, setMintReward] = useState(0);
   const [stakeReward, setStakeReward] = useState(0);
 
-  const { data: userMintData } = useContractRead({
-    ...xenContract(props.chain),
-    functionName: "getUserMint",
-    overrides: { from: props.item.address },
-    // watch: true,
-  });
-
-  const { data: userStakeData } = useContractRead({
-    ...xenContract(props.chain),
-    functionName: "getUserStake",
-    overrides: { from: props.item.address },
-    // watch: true,
-  });
+  const { mintData: userMintData, stakeData: userStakeData } =
+    useXENAddressBalance({
+      address: props.item.address,
+      chain: props.chain,
+    });
 
   useEffect(() => {
     if (userStakeData) {
