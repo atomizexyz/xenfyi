@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  background: url(/images/bg.svg) no-repeat center center fixed;
+body {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

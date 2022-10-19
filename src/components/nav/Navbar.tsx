@@ -16,6 +16,7 @@ import {
   useNetwork,
   useSwitchNetwork,
 } from "wagmi";
+
 import { useState, useEffect } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "../StatusBadge";
@@ -198,7 +199,7 @@ export const Navbar: NextPage = () => {
           </label>
           <ul
             tabIndex={0}
-            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-52 space-y-2"
+            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-64 space-y-2"
           >
             <li>
               <label className="flex swap swap-rotate justify-between text-neutral glass">
