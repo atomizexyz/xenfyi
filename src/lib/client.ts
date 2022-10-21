@@ -18,8 +18,8 @@ import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { moonbeamMainnet } from "./chains/moonbeamMainnet";
 import { evmosMainnet } from "./chains/evmosMainnet";
 
-const alchemyId = process.env.ALCHEMY_ID;
-const infuraId = process.env.INFURA_ID;
+const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
+const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 
 export const chainList = [
   chain.mainnet,
