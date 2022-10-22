@@ -53,20 +53,20 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: userStakeData } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: globalRankData } = useContractRead({
     ...xenContract(chain),
     functionName: "globalRank",
-    watch: true,
+    // watch: true,
   });
 
   const { data: grossRewardData } = useContractRead({
@@ -78,7 +78,7 @@ const Mint = () => {
       Number(userMintData?.term ?? 0),
       1000 + Number(userMintData?.eaaRate ?? 0),
     ],
-    watch: true,
+    // watch: true,
   });
   /*** FORM SETUP ***/
 

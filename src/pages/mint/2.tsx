@@ -29,7 +29,7 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: contractReads } = useContractReads({
@@ -43,7 +43,7 @@ const Mint = () => {
         functionName: "globalRank",
       },
     ],
-    watch: true,
+    // watch: true,
   });
 
   const mintItems = [

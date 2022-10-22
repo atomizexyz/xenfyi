@@ -41,14 +41,14 @@ export const Navbar: NextPage = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: userStake } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const NavigationItems = (props: any) => {

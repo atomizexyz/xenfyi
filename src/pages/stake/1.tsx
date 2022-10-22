@@ -44,14 +44,14 @@ const Stake = () => {
   const { data: balanceData } = useBalance({
     addressOrName: address,
     token: xenContract(chain).addressOrName,
-    watch: true,
+    // watch: true,
   });
 
   const { data: userStake } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: contractReads } = useContractReads({

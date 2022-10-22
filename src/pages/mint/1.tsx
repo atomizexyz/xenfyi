@@ -42,7 +42,7 @@ const Mint = () => {
     ...xenContract(chain),
     functionName: "getUserMint",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { data: feeData } = useFeeData();
@@ -58,7 +58,7 @@ const Mint = () => {
         functionName: "globalRank",
       },
     ],
-    watch: true,
+    // watch: true,
   });
 
   /*** FORM SETUP ***/

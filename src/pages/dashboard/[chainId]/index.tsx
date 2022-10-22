@@ -100,7 +100,7 @@ const Dashboard: NextPage = () => {
         apyRewards: Number(data[9]),
       });
     },
-    watch: true,
+    // watch: true,
   });
 
   const generalStats = [

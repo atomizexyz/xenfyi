@@ -37,7 +37,7 @@ const Stake = () => {
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const { config } = usePrepareContractWrite({

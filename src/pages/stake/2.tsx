@@ -21,14 +21,14 @@ const Stake = () => {
 
   const { data: balanceData } = useBalance({
     ...xenContract(chain),
-    watch: true,
+    // watch: true,
   });
 
   const { data: userStake } = useContractRead({
     ...xenContract(chain),
     functionName: "getUserStake",
     overrides: { from: address },
-    watch: true,
+    // watch: true,
   });
 
   const mintItems = [
