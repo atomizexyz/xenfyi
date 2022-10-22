@@ -33,3 +33,7 @@ body {
     0 0 0 2px rgb(0 0 0 / 5%);
   text-shadow: 0 1px rgb(0 0 0 / var(--glass-text-shadow-opacity, 5%));
 }
+
+.table :where(tbody th, tbody td, thead th, thead td, tfoot th, tfoot td) {
+  background-color: transparent;
+}

@@ -53,7 +53,7 @@ const Chains: NextPage = () => {
 
   const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
     const { data: tokenData } = useToken({
-      address: xenContract(chain).addressOrName,
+      address: xenContract(chain).addressOrName as any,
       chainId: chain?.id,
     });
 
@@ -65,7 +65,7 @@ const Chains: NextPage = () => {
 
     return (
       <tr>
-        <td className="bg-transparent">
+        <td>
           <Link href={`/dashboard/${chain.id}`}>
             <div className="p-2 flex">
               <div className="relative w-full lg:w-max">
@@ -100,7 +100,7 @@ const Chains: NextPage = () => {
           </div>
         </td>
 
-        <td className="bg-transparent hidden lg:table-cell text-right">
+        <td className="hidden lg:table-cell text-right">
           <pre>
             <CountUp
               end={Number(globalRank)}
@@ -109,7 +109,7 @@ const Chains: NextPage = () => {
             />
           </pre>
         </td>
-        <td className="bg-transparent hidden lg:table-cell">
+        <td className="hidden lg:table-cell">
           {tokenData && <AddressLinks chain={chain} />}
         </td>
       </tr>
@@ -119,13 +119,9 @@ const Chains: NextPage = () => {
   const TableHeaderFooter = () => {
     return (
       <tr>
-        <th className="bg-transparent hidden lg:table-cell">Chain</th>
-        <th className="bg-transparent hidden lg:table-cell text-right">
-          gRank
-        </th>
-        <th className="bg-transparent hidden lg:table-cell text-right">
-          Address
-        </th>
+        <th className="hidden lg:table-cell">Chain</th>
+        <th className="hidden lg:table-cell text-right">gRank</th>
+        <th className="hidden lg:table-cell text-right">Address</th>
       </tr>
     );
   };
