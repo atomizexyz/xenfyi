@@ -1,4 +1,4 @@
-import { createClient, configureChains, chain } from "wagmi";
+import { createClient, configureChains, chain, Chain } from "wagmi";
 
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -40,7 +40,7 @@ const { chains, provider, webSocketProvider } = configureChains(chainList, [
   infuraProvider({ apiKey: infuraId, priority: 0 }),
   jsonRpcProvider({
     priority: 0,
-    rpc: (chain) => {
+    rpc: (chain: Chain) => {
       if (chain.id !== pulseChain.id) return null;
       return { http: chain.rpcUrls.default };
     },

@@ -16,7 +16,7 @@
     "clsx": "^1.2.1",
     "connectkit": "^0.0.2",
     "daisyui": "^2.31.0",
-    "ethers": "^5.7.1",
+    "ethers": "^5.7.2",
     "next": "12.3.1",
     "next-sitemap": "^3.1.28",
     "next-themes": "^0.2.1",
@@ -30,7 +30,7 @@
     "react-hot-toast": "^2.4.0",
     "tailwindcss-safe-area": "^0.2.2",
     "usehooks-ts": "^2.7.2",
-    "wagmi": "^0.6.7",
+    "wagmi": "^0.7.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {
