@@ -29,31 +29,31 @@ const Mint = () => {
   const mintItems = [
     {
       title: "Estimated XEN",
-      value: estimatedXEN(userMint, globalRank),
+      value: estimatedXEN(userMint, globalRank) ?? 0,
       suffix: "",
       decimals: 0,
     },
     {
       title: "Amplifier",
-      value: userMint?.amplifier,
+      value: userMint?.amplifier ?? 0,
       suffix: "",
       decimals: 0,
     },
     {
       title: "EAA Rate",
-      value: userMint?.eaaRate / 10,
+      value: userMint?.eaaRate / 10 ?? 0,
       suffix: "%",
       decimals: 2,
     },
     {
       title: "Rank",
-      value: userMint?.rank,
+      value: userMint?.rank ?? 0,
       suffix: "",
       decimals: 0,
     },
     {
       title: "Term",
-      value: userMint?.term,
+      value: userMint?.term ?? 0,
       suffix: "",
       decimals: 0,
     },

@@ -25,23 +25,23 @@ const Stake = () => {
   const mintItems = [
     {
       title: "Liquid XEN",
-      value: xenBalance.formatted,
+      value: xenBalance?.formatted ?? 0,
       suffix: "",
     },
     {
       title: "Staked XEN",
-      value: userStake?.amount,
+      value: userStake?.amount ?? 0,
       suffix: "",
       tokenDecimals: 2,
     },
     {
       title: "APY",
-      value: userStake?.apy,
+      value: userStake?.apy ?? 0,
       suffix: "%",
     },
     {
       title: "Term",
-      value: userStake?.term,
+      value: userStake?.term ?? 0,
       suffix: "",
       decimals: 0,
     },
