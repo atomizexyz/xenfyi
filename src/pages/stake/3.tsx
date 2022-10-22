@@ -13,13 +13,14 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { FeeData, calculateStakeReward, UTC_TIME } from "~/lib/helpers";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { CountDataCard } from "~/components/StatCards";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -33,12 +34,7 @@ const Stake = () => {
 
   const { handleSubmit } = useForm();
 
-  const { data: userStake } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
+  const { userStake } = useContext(XENContext);
 
   const { config } = usePrepareContractWrite({
     ...xenContract(chain),

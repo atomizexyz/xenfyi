@@ -17,11 +17,12 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "../StatusBadge";
 import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
+import XENContext from "~/contexts/XENContext";
 
 export const Navbar: NextPage = () => {
   const router = useRouter();
@@ -33,23 +34,7 @@ export const Navbar: NextPage = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const { data: tokenData } = useToken({
-    address: xenContract(chain).address,
-  });
-
-  const { data: userMint } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: userStake } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
+  const { userMint, userStake, token } = useContext(XENContext);
 
   const NavigationItems = (props: any) => {
     return (
@@ -115,7 +100,7 @@ export const Navbar: NextPage = () => {
     } else {
       setStakePageOverride(1);
     }
-  }, [userMint, userStake, chain]);
+  }, [userMint, userStake]);
 
   const ChainList: NextPage<{ chains: Chain[] }> = ({ chains }) => {
     return (
@@ -216,16 +201,16 @@ export const Navbar: NextPage = () => {
                 <SunIcon className="swap-off w-5 h-5 absolute right-4" />
               </label>
             </li>
-            {!isMobile && tokenData && (
+            {!isMobile && token && (
               <li>
                 <button
                   className="justify-between text-neutral glass"
                   onClick={() => {
                     (connector as InjectedConnector)?.watchAsset?.({
-                      address: tokenData.address,
-                      decimals: tokenData.decimals,
+                      address: token.address,
+                      decimals: token.decimals,
                       image: "https://xen.fyi/images/xen.png",
-                      symbol: tokenData.symbol ?? "XEN",
+                      symbol: token.symbol ?? "XEN",
                     });
                     (document.activeElement as HTMLElement).blur();
                   }}

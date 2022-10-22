@@ -2,9 +2,7 @@ import {
   useFeeData,
   useNetwork,
   useAccount,
-  useContractRead,
   useContractWrite,
-  useContractReads,
   useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
@@ -14,7 +12,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
@@ -25,10 +23,12 @@ import { clsx } from "clsx";
 import * as yup from "yup";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
 
 const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
+  const { data: feeData } = useFeeData();
   const router = useRouter();
   const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
@@ -36,30 +36,7 @@ const Mint = () => {
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
-  /*** CONTRACT READ SETUP  ***/
-
-  const { data } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: feeData } = useFeeData();
-
-  const { data: contractReads } = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chain),
-        functionName: "getCurrentMaxTerm",
-      },
-      {
-        ...xenContract(chain),
-        functionName: "globalRank",
-      },
-    ],
-    // watch: true,
-  });
+  const { userMint, currentMaxTerm, globalRank } = useContext(XENContext);
 
   /*** FORM SETUP ***/
 
@@ -118,11 +95,11 @@ const Mint = () => {
       setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400);
     }
 
-    if (!processing && address && data && data.term.isZero()) {
+    if (!processing && address && userMint && userMint.term.isZero()) {
       setDisabled(false);
     }
 
-    setMaxFreeMint(Number(contractReads?.[0] ?? 8640000) / 86400);
+    setMaxFreeMint(Number(currentMaxTerm ?? 8640000) / 86400);
     const gasPrice = feeData?.gasPrice;
     const gasLimit = config?.request?.gasLimit;
     if (gasPrice && gasLimit) {
@@ -134,10 +111,10 @@ const Mint = () => {
   }, [
     address,
     config?.request?.gasLimit,
-    contractReads,
-    data,
+    currentMaxTerm,
     feeData?.gasPrice,
     processing,
+    userMint,
     watchAllFields.startMintDays,
   ]);
 
@@ -178,7 +155,7 @@ const Mint = () => {
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard
                   title="Your Claim Rank"
-                  value={Number(contractReads?.[1] ?? 0)}
+                  value={globalRank}
                   decimals={0}
                 />
                 <DateStatCard

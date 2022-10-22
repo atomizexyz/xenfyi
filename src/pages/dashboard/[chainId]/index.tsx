@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Container from "~/components/containers/Container";
 import { useContractReads, useNetwork, useToken } from "wagmi";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import {
   NumberStatCard,
@@ -14,19 +14,7 @@ import { xenContract } from "~/lib/xen-contract";
 import { chainIcons } from "~/components/Constants";
 import Link from "next/link";
 import { chainList } from "~/lib/client";
-
-interface DashboardData {
-  globalRank: number;
-  activeMinters: number;
-  activeStakes: number;
-  totalXenStaked: number;
-  totalXenLiquid: number;
-  genesisTs: number;
-  maxMintDays: number;
-  ampRewards: number;
-  eaaRewards: number;
-  apyRewards: number;
-}
+import XENContext from "~/contexts/XENContext";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
@@ -36,89 +24,42 @@ const Dashboard: NextPage = () => {
 
   const chainFromId = chainList.find((c) => c && c.id == chainId);
 
+  const {
+    setChainOverride,
+    globalRank,
+    activeMinters,
+    activeStakes,
+    totalXenStaked,
+    totalSupply,
+    genesisTs,
+    gurrentMaxTerm,
+    currentAMP,
+    currentEAAR,
+    currentAPY,
+  } = useContext(XENContext);
+
   const { data: tokenData } = useToken({
-    address: xenContract(chainFromId).addressOrName,
+    address: xenContract(chainFromId).address,
     chainId: chainFromId?.id,
   });
 
-  const {} = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chainFromId),
-        functionName: "globalRank",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "activeMinters",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "activeStakes",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "totalXenStaked",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "totalSupply",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "genesisTs",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "getCurrentMaxTerm",
-      },
-
-      {
-        ...xenContract(chainFromId),
-        functionName: "getCurrentAMP",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "getCurrentEAAR",
-      },
-      {
-        ...xenContract(chainFromId),
-        functionName: "getCurrentAPY",
-      },
-    ],
-
-    onSuccess(data) {
-      setDashboardData({
-        globalRank: Number(data[0]),
-        activeMinters: Number(data[1]),
-        activeStakes: Number(data[2]),
-        totalXenStaked: Number(data[3]),
-        totalXenLiquid: Number(data[4]),
-        genesisTs: Number(data[5]),
-        maxMintDays: Number(data[6]),
-        ampRewards: Number(data[7]),
-        eaaRewards: Number(data[8]),
-        apyRewards: Number(data[9]),
-      });
-    },
-    // watch: true,
-  });
-
+  setChainOverride(chainFromId);
   const generalStats = [
     {
       title: "Global Rank",
-      value: Number(dashboardData?.globalRank),
+      value: globalRank,
     },
     {
       title: "Active Minters",
-      value: Number(dashboardData?.activeMinters),
+      value: activeMinters,
     },
     {
       title: "Active Stakes",
-      value: Number(dashboardData?.activeStakes),
+      value: activeStakes,
     },
     {
       title: "Max Mint Term",
-      value: Number(dashboardData?.maxMintDays) / 86400,
+      value: gurrentMaxTerm / 86400,
       suffix: " Days",
     },
   ];
@@ -126,32 +67,29 @@ const Dashboard: NextPage = () => {
   const stakeItems = [
     {
       title: "Total",
-      value:
-        (Number(dashboardData?.totalXenLiquid) +
-          Number(dashboardData?.totalXenStaked)) /
-        1e18,
+      value: (totalSupply + totalXenStaked) / 1e18,
     },
     {
       title: "Liquid",
-      value: Number(dashboardData?.totalXenLiquid) / 1e18,
+      value: totalSupply / 1e18,
     },
     {
       title: "Stake",
-      value: Number(dashboardData?.totalXenStaked) / 1e18,
+      value: totalXenStaked / 1e18,
     },
   ];
 
   const rewardsItems = [
     {
       title: "AMP",
-      value: Number(dashboardData?.ampRewards),
+      value: currentAMP,
       decimals: 0,
       tooltip:
         "Reward Amplifier (AMP) is a time-dependent part of XEN Mint Reward calculation. It starts at 3,000 at Genesis and decreases by 1 every day until it reaches 1",
     },
     {
       title: "EAA",
-      value: Number((dashboardData?.eaaRewards ?? 0) / 10.0),
+      value: currentEAAR / 10.0,
       decimals: 2,
       suffix: "%",
       tooltip:
@@ -159,7 +97,7 @@ const Dashboard: NextPage = () => {
     },
     {
       title: "APY",
-      value: Number(dashboardData?.apyRewards),
+      value: currentAPY,
       decimals: 0,
       suffix: "%",
       tooltip:
@@ -203,7 +141,7 @@ const Dashboard: NextPage = () => {
               />
               <DateStatCard
                 title="Days Since Launch"
-                dateTs={Number(dashboardData?.genesisTs ?? 0)}
+                dateTs={genesisTs}
                 isPast={true}
               />
               {tokenData && (

@@ -11,7 +11,7 @@ import Link from "next/link";
 import Container from "~/components/containers/Container";
 import GasEstimate from "~/components/GasEstimate";
 import { MaxValueField, WalletAddressField } from "~/components/FormFields";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
@@ -29,6 +29,7 @@ import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -44,42 +45,10 @@ const Mint = () => {
   const [penaltyPercent, setPenaltyPercent] = useState(0);
   const [penaltyXEN, setPenaltyXEN] = useState(0);
   const [reward, setReward] = useState(0);
-
   const { data: feeData } = useFeeData();
+  const { userMint, userStake, genesisTs, globalRank, grossReward } =
+    useContext(XENContext);
 
-  /*** CONTRACT READ SETUP  ***/
-
-  const { data: userMintData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: userStakeData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: globalRankData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "globalRank",
-    // watch: true,
-  });
-
-  const { data: grossRewardData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getGrossReward",
-    args: [
-      Number(globalRankData ?? 0) - (userMintData?.rank ?? 0),
-      Number(userMintData?.amplifier ?? 0),
-      Number(userMintData?.term ?? 0),
-      1000 + Number(userMintData?.eaaRate ?? 0),
-    ],
-    // watch: true,
-  });
   /*** FORM SETUP ***/
 
   // Claim
@@ -96,6 +65,7 @@ const Mint = () => {
       setProcessing(true);
       setDisabled(true);
     },
+    enabled: userMint != null,
   });
   const handleClaimSubmit = () => {
     writeClaim?.();
@@ -148,6 +118,7 @@ const Mint = () => {
       cShareWatchAllFields.claimShareAddress,
       cShareWatchAllFields.claimSharePercentage,
     ],
+    enabled: userMint != null,
   });
 
   const { data: claimShareData, write: writeClaimShare } = useContractWrite({
@@ -206,6 +177,7 @@ const Mint = () => {
       cStakeWatchAllFields.claimStakePercentage,
       cStakeWatchAllFields.claimStakeDays,
     ],
+    enabled: userMint != null,
   });
 
   const { data: claimStakeData, write: writeClaimStake } = useContractWrite({
@@ -232,20 +204,20 @@ const Mint = () => {
   useEffect(() => {
     if (
       address &&
-      userMintData &&
-      !userMintData.maturityTs.isZero() &&
-      userMintData.maturityTs < UTC_TIME
+      userMint &&
+      !userMint.maturityTs.isZero() &&
+      userMint.maturityTs < UTC_TIME
     ) {
       if (!processing) {
         setDisabled(false);
       }
     }
 
-    if (userMintData && !userMintData.maturityTs.isZero()) {
-      const penalty = mintPenalty(Number(userMintData.maturityTs ?? 0));
+    if (userMint && !userMint.maturityTs.isZero()) {
+      const penalty = mintPenalty(userMint.maturityTs);
       const reward = calculateMintReward({
-        maturityTs: userMintData.maturityTs,
-        grossReward: Number(grossRewardData ?? 0),
+        maturityTs: userMint.maturityTs,
+        grossReward: grossReward,
       });
       setPenaltyPercent(penalty);
       setReward(reward);
@@ -277,20 +249,20 @@ const Mint = () => {
       }
     }
 
-    if (address && userStakeData && userStakeData.term == 0) {
+    if (address && userStake && userStake.term == 0) {
       setActiveStakeDisabled(false);
     }
   }, [
     activeStakeDisabled,
     address,
-    userMintData,
     processing,
-    grossRewardData,
     feeData?.gasPrice,
     configClaim?.request?.gasLimit,
     configClaimShare?.request?.gasLimit,
     configClaimStake?.request?.gasLimit,
-    userStakeData,
+    userMint,
+    userStake,
+    grossReward,
   ]);
 
   return (

@@ -2,33 +2,19 @@ import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import { useAccount, useContractRead, useNetwork } from "wagmi";
-import { useState, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { StatusBadge } from "../StatusBadge";
 import { navigationItems } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 import type { NextPage } from "next";
+import XENContext from "~/contexts/XENContext";
 
 export const BottomNav: NextPage = () => {
   const router = useRouter();
-  const { chain } = useNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
-  const { address } = useAccount();
 
-  const { data: userMint } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: userStake } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
+  const { userMint, userStake } = useContext(XENContext);
 
   useEffect(() => {
     if (userMint && !userMint.term.isZero()) {

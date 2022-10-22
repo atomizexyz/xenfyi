@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Container from "~/components/containers/Container";
-
 import {
   useFeeData,
   useNetwork,
@@ -14,7 +13,7 @@ import {
 } from "wagmi";
 import { MaxValueField } from "~/components/FormFields";
 import { InformationCircleIcon, XCircleIcon } from "@heroicons/react/outline";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -28,6 +27,7 @@ import GasEstimate from "~/components/GasEstimate";
 import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -39,34 +39,8 @@ const Stake = () => {
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
   const { data: feeData } = useFeeData();
 
-  /*** CONTRACT READ SETUP  ***/
-
-  const { data: balanceData } = useBalance({
-    addressOrName: address,
-    token: xenContract(chain).address,
-    // watch: true,
-  });
-
-  const { data: userStake } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: contractReads } = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chain),
-        functionName: "genesisTs",
-      },
-      {
-        ...xenContract(chain),
-        functionName: "getCurrentAPY",
-      },
-    ],
-    overrides: { from: address },
-  });
+  const { xenBalance, userStake, genesisTs, globalRank, currentAPY } =
+    useContext(XENContext);
 
   /*** FORM SETUP ***/
 
@@ -77,8 +51,8 @@ const Stake = () => {
         .number()
         .required("Stake amount required")
         .max(
-          Number(balanceData?.formatted ?? 0),
-          `Maximum stake amount: ${balanceData?.formatted}`
+          Number(xenBalance.formatted ?? 0),
+          `Maximum stake amount: ${xenBalance.formatted}`
         )
         .positive()
         .typeError("Stake amount required"),
@@ -110,7 +84,7 @@ const Stake = () => {
     args: [
       ethers.utils.parseUnits(
         (Number(watchAllFields?.startStakeAmount) || 0).toString(),
-        balanceData?.decimals ?? 1
+        xenBalance?.decimals ?? 1
       ),
       watchAllFields.startStakeDays ?? 0,
     ],
@@ -155,7 +129,6 @@ const Stake = () => {
   }, [
     address,
     config?.request?.gasLimit,
-    contractReads,
     feeData?.gasPrice,
     processing,
     userStake,
@@ -186,7 +159,7 @@ const Stake = () => {
               <MaxValueField
                 title="AMOUNT"
                 description="Maximum stake amount"
-                value={BigNumber.from(balanceData?.value ?? 0).toString()}
+                value={BigNumber.from(xenBalance?.value ?? 0).toString()}
                 disabled={disabled}
                 errorMessage={
                   <ErrorMessage errors={errors} name="startStakeAmount" />
@@ -213,12 +186,12 @@ const Stake = () => {
                   title="Yield"
                   value={stakeYield({
                     xenBalance: watchAllFields.startStakeAmount,
-                    genesisTs: Number(contractReads?.[0]),
+                    genesisTs: genesisTs,
                     term: watchAllFields.startStakeDays,
-                    apy: Number(contractReads?.[1]),
+                    apy: currentAPY,
                   })}
                   decimals={0}
-                  description={`${Number(contractReads?.[1]).toFixed(2)}%`}
+                  description={`${currentAPY.toFixed(2)}%`}
                 />
                 <DateStatCard
                   title="Maturity"

@@ -33,12 +33,7 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
       setStakeReward(reward);
     }
     if (userMintData && props && props.globalRankData) {
-      const reward = estimatedXEN({
-        amplifier: Number(userMintData.amplifier ?? 0),
-        rank: Number(userMintData.rank ?? 0),
-        term: Number(userMintData.term ?? 0),
-        globalRank: props.globalRankData,
-      });
+      const reward = estimatedXEN(userMintData, props.globalRankData);
       props.item.mint = reward;
       setMintReward(reward);
     }

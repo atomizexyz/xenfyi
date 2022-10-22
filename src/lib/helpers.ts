@@ -53,12 +53,11 @@ export interface MintData {
   genesisTs?: number;
 }
 
-export const estimatedXEN = (data?: MintData) => {
+export const estimatedXEN = (data?: UserMint, globalRank: number) => {
   if (data) {
     const EAA = 0.1 - 0.001 * (data.rank / 1e5);
-
     const XEN =
-      Math.log2(data.globalRank - data.rank) *
+      Math.log2(globalRank - data.rank) *
       data.term *
       data.amplifier *
       (1 + EAA);
@@ -142,7 +141,7 @@ export const truncatedAddress = (address: string) => {
   return `${address.slice(0, 6)}••••${address.slice(-4)}`;
 };
 
-export const estimatedStakeRewardXEN = (data: StakeRewardData) => {
+export const estimatedStakeRewardXEN = (data: UserStake) => {
   const amount = Number(ethers.utils.formatUnits(data.amount ?? 0, 18));
   if (data.maturityTs != 0 && UTC_TIME > data.maturityTs) {
     const rate = (data.apy * data.term * 1_000_000) / DAYS_IN_YEAR;
