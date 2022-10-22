@@ -16,14 +16,14 @@ export const xenContract = (contractChain?: Chain) => {
     case chain.polygonMumbai.id:
     case bscTestnet.id:
       return {
-        addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-        contractInterface: XenCrypto.abi,
+        address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+        abi: XenCrypto.abi,
         chainId: contractChain?.id,
       };
     case avaxMainnet.id:
       return {
-        addressOrName: "0xC0C5AA69Dbe4d6DDdfBc89c0957686ec60F24389",
-        contractInterface: XenCrypto.abi,
+        address: "0xC0C5AA69Dbe4d6DDdfBc89c0957686ec60F24389",
+        abi: XenCrypto.abi,
         chainId: contractChain?.id,
       };
     case ethwMainnet.id:
@@ -31,21 +31,21 @@ export const xenContract = (contractChain?: Chain) => {
     case polygonMainnet.id:
     case evmosMainnet.id:
       return {
-        addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
-        contractInterface: XenCrypto.abi,
+        address: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
+        abi: XenCrypto.abi,
         chainId: contractChain?.id,
       };
     case moonbeamMainnet.id:
       return {
-        addressOrName: "0xb564A5767A00Ee9075cAC561c427643286F8F4E1",
-        contractInterface: XenCrypto.abi,
+        address: "0xb564A5767A00Ee9075cAC561c427643286F8F4E1",
+        abi: XenCrypto.abi,
         chainId: contractChain?.id,
       };
     case chain.mainnet.id:
     default:
       return {
-        addressOrName: "0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8",
-        contractInterface: XenCrypto.abi,
+        address: "0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8",
+        abi: XenCrypto.abi,
         chainId: chain.mainnet.id,
       };
   }

@@ -19,15 +19,15 @@ const Chains: NextPage = () => {
     return (
       <div className="flex flex-row-reverse lg:flex-row space-x-8 lg:space-x-2 lg:justify-end">
         <pre className="pl-8 lg:pl-0">
-          {truncatedAddress(xenContract(chain).addressOrName)}
+          {truncatedAddress(xenContract(chain).address)}
         </pre>
         <button
           className="btn btn-square btn-xs glass text-neutral"
           onClick={() => {
-            copy(xenContract(chain).addressOrName);
+            copy(xenContract(chain).address);
             toast.success(
               <div>
-                <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
+                <pre>{truncatedAddress(xenContract(chain).address)}</pre>
                 Copied to clipboard
               </div>
             );
@@ -37,7 +37,7 @@ const Chains: NextPage = () => {
         </button>
         <Link
           href={`${chain?.blockExplorers?.default.url}/address/${
-            xenContract(chain).addressOrName
+            xenContract(chain).address
           }`}
         >
           <a
@@ -53,7 +53,7 @@ const Chains: NextPage = () => {
 
   const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
     const { data: tokenData } = useToken({
-      address: xenContract(chain).addressOrName as any,
+      address: xenContract(chain).address as any,
       chainId: chain?.id,
     });
 

@@ -34,7 +34,7 @@ export const Navbar: NextPage = () => {
   const isDark = resolvedTheme === "dark";
 
   const { data: tokenData } = useToken({
-    address: xenContract(chain).addressOrName,
+    address: xenContract(chain).address,
   });
 
   const { data: userMint } = useContractRead({
