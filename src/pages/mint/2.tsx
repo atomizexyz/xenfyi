@@ -29,7 +29,7 @@ const Mint = () => {
   const mintItems = [
     {
       title: "Estimated XEN",
-      value: estimatedXEN(userMint, globalRank) ?? 0,
+      value: estimatedXEN(globalRank, userMint),
       suffix: "",
       decimals: 0,
     },

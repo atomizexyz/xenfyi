@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Container from "~/components/containers/Container";
-import { useNetwork, Chain, useContractRead } from "wagmi";
-import { xenContract } from "~/lib/xen-contract";
+import { useNetwork, Chain } from "wagmi";
 import PortfolioAddressRow from "~/components/PortfolioAddressRow";
 import { useLocalStorage } from "usehooks-ts";
 import { ErrorMessage } from "@hookform/error-message";
@@ -13,7 +12,6 @@ import { CountDataCard } from "~/components/StatCards";
 import { useEffect, useState, useContext } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import CardContainer from "~/components/containers/CardContainer";
-import { chainList } from "~/lib/client";
 import XENContext from "~/contexts/XENContext";
 
 const Portfolio: NextPage = () => {

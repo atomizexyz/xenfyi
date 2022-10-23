@@ -1,5 +1,4 @@
 import {
-  useFeeData,
   useNetwork,
   useAccount,
   useContractWrite,
@@ -17,27 +16,26 @@ import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UTC_TIME, FeeData } from "~/lib/helpers";
+import { UTC_TIME } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
+import { claimRankFunction } from "~/abi/abi-functions";
 
 const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
-  const { data: feeData } = useFeeData();
   const router = useRouter();
-  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [maxFreeMint, setMaxFreeMint] = useState(100);
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
-  const { userMint, currentMaxTerm, globalRank } = useContext(XENContext);
-
+  const { userMint, currentMaxTerm, globalRank, feeData } =
+    useContext(XENContext);
   /*** FORM SETUP ***/
 
   const schema = yup
@@ -66,7 +64,8 @@ const Mint = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config, error } = usePrepareContractWrite({
-    ...xenContract(chain),
+    address: xenContract(chain).address,
+    abi: claimRankFunction,
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
   });
@@ -95,26 +94,16 @@ const Mint = () => {
       setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400);
     }
 
-    if (!processing && address && userMint && userMint.term.isZero()) {
+    if (!processing && address && userMint.term.isZero()) {
       setDisabled(false);
     }
 
     setMaxFreeMint(Number(currentMaxTerm ?? 8640000) / 86400);
-    const gasPrice = feeData?.gasPrice;
-    const gasLimit = config?.request?.gasLimit;
-    if (gasPrice && gasLimit) {
-      setFee({
-        gas: gasPrice,
-        transaction: gasLimit,
-      });
-    }
   }, [
     address,
-    config?.request?.gasLimit,
     currentMaxTerm,
-    feeData?.gasPrice,
     processing,
-    userMint,
+    userMint.term,
     watchAllFields.startMintDays,
   ]);
 
@@ -193,7 +182,11 @@ const Mint = () => {
                   Start Mint
                 </button>
               </div>
-              <GasEstimate fee={fee} />
+
+              <GasEstimate
+                feeData={feeData}
+                gasLimit={config?.request?.gasLimit}
+              />
             </div>
           </form>
         </CardContainer>

@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
-import { Chain, useContractRead } from "wagmi";
+import { Address, Chain, useContractRead } from "wagmi";
 import { xenContract } from "~/lib/xen-contract";
+import { getUserMintFunction, getUserStakeFunction } from "~/abi/abi-functions";
 
 interface AddressBalanceProps {
-  address: string;
+  address: Address;
   chain: Chain;
 }
 
 export const useXENAddressBalance = (props: AddressBalanceProps) => {
   const { data: userMintData } = useContractRead({
-    ...xenContract(props.chain),
+    address: xenContract(props.chain).address,
+    abi: getUserMintFunction,
     functionName: "getUserMint",
     overrides: { from: props.address },
     // watch: true,
   });
 
   const { data: userStakeData } = useContractRead({
-    ...xenContract(props.chain),
+    address: xenContract(props.chain).address,
+    abi: getUserStakeFunction,
     functionName: "getUserStake",
     overrides: { from: props.address },
     // watch: true,

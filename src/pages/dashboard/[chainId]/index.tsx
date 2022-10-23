@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Container from "~/components/containers/Container";
-import { useContractReads, useNetwork, useToken } from "wagmi";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import {
   NumberStatCard,
@@ -18,10 +17,7 @@ import XENContext from "~/contexts/XENContext";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
-
-  const [dashboardData, setDashboardData] = useState<DashboardData>();
   const { chainId } = router.query as unknown as { chainId: number };
-
   const chainFromId = chainList.find((c) => c && c.id == chainId);
 
   const {
@@ -31,17 +27,13 @@ const Dashboard: NextPage = () => {
     activeStakes,
     totalXenStaked,
     totalSupply,
+    currentMaxTerm,
     genesisTs,
-    gurrentMaxTerm,
     currentAMP,
     currentEAAR,
     currentAPY,
+    token,
   } = useContext(XENContext);
-
-  const { data: tokenData } = useToken({
-    address: xenContract(chainFromId).address,
-    chainId: chainFromId?.id,
-  });
 
   setChainOverride(chainFromId);
   const generalStats = [
@@ -59,7 +51,7 @@ const Dashboard: NextPage = () => {
     },
     {
       title: "Max Mint Term",
-      value: gurrentMaxTerm / 86400,
+      value: currentMaxTerm / 86400,
       suffix: " Days",
     },
   ];
@@ -144,10 +136,10 @@ const Dashboard: NextPage = () => {
                 dateTs={genesisTs}
                 isPast={true}
               />
-              {tokenData && (
+              {token && (
                 <DataCard
                   title={"Contract"}
-                  value={tokenData?.symbol ?? "XEN"}
+                  value={token?.symbol ?? "XEN"}
                   description={xenContract(chainFromId).address}
                 />
               )}

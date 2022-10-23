@@ -1,5 +1,5 @@
 import { Chain, chain } from "wagmi";
-import XenCrypto from "~/abi/XENCrypto.json";
+import XenCryptoABI from "~/abi/XENCrypto.json";
 import { pulseChain } from "~/lib/chains/pulseChainTestnet";
 import { bscTestnet } from "~/lib/chains/bscTestnet";
 import { bscMainnet } from "~/lib/chains/bscMainnet";
@@ -17,13 +17,13 @@ export const xenContract = (contractChain?: Chain) => {
     case bscTestnet.id:
       return {
         address: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
-        abi: XenCrypto.abi,
+        abi: XenCryptoABI,
         chainId: contractChain?.id,
       };
     case avaxMainnet.id:
       return {
         address: "0xC0C5AA69Dbe4d6DDdfBc89c0957686ec60F24389",
-        abi: XenCrypto.abi,
+        abi: XenCryptoABI,
         chainId: contractChain?.id,
       };
     case ethwMainnet.id:
@@ -32,20 +32,20 @@ export const xenContract = (contractChain?: Chain) => {
     case evmosMainnet.id:
       return {
         address: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
-        abi: XenCrypto.abi,
+        abi: XenCryptoABI,
         chainId: contractChain?.id,
       };
     case moonbeamMainnet.id:
       return {
         address: "0xb564A5767A00Ee9075cAC561c427643286F8F4E1",
-        abi: XenCrypto.abi,
+        abi: XenCryptoABI,
         chainId: contractChain?.id,
       };
     case chain.mainnet.id:
     default:
       return {
         address: "0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8",
-        abi: XenCrypto.abi,
+        abi: XenCryptoABI,
         chainId: chain.mainnet.id,
       };
   }

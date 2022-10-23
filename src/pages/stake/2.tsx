@@ -1,21 +1,17 @@
 import Link from "next/link";
 import Container from "~/components/containers/Container";
-import { useNetwork, useContractRead, useBalance, useAccount } from "wagmi";
 import { progressDays } from "~/lib/helpers";
 import {
   ProgressStatCard,
   NumberStatCard,
   CountdownCard,
 } from "~/components/StatCards";
-import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState, useContext } from "react";
 import Countdown from "react-countdown";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
 
 const Stake = () => {
-  const { address } = useAccount();
-  const { chain } = useNetwork();
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
 
@@ -25,7 +21,7 @@ const Stake = () => {
   const mintItems = [
     {
       title: "Liquid XEN",
-      value: xenBalance?.formatted ?? 0,
+      value: xenBalance ?? 0,
       suffix: "",
     },
     {

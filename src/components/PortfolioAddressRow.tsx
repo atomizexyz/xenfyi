@@ -1,11 +1,9 @@
-import { useContractRead } from "wagmi";
 import type { NextPage } from "next";
 import {
   truncatedAddress,
   estimatedXEN,
   estimatedStakeRewardXEN,
 } from "~/lib/helpers";
-import { xenContract } from "~/lib/xen-contract";
 import { useEffect, useState } from "react";
 import { formatDate, formatTime } from "~/lib/helpers";
 import { XIcon } from "@heroicons/react/outline";
@@ -33,7 +31,7 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
       setStakeReward(reward);
     }
     if (userMintData && props && props.globalRankData) {
-      const reward = estimatedXEN(userMintData, props.globalRankData);
+      const reward = estimatedXEN(props.globalRankData, userMintData);
       props.item.mint = reward;
       setMintReward(reward);
     }
@@ -77,10 +75,10 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
         </pre>
       </td>
       <td className="bg-transparent text-right">
-        {userMintData?.maturityTs != 0 ? (
+        {!userMintData?.maturityTs.isZero() ? (
           <>
-            <pre>{formatDate(userMintData?.maturityTs)}</pre>
-            <pre>{formatTime(userMintData?.maturityTs)}</pre>
+            <pre>{formatDate(userMintData?.maturityTs.toNumber() ?? 0)}</pre>
+            <pre>{formatTime(userMintData?.maturityTs.toNumber() ?? 0)}</pre>
           </>
         ) : (
           <>
@@ -98,10 +96,10 @@ export const PortfolioAddressRow: NextPage<any> = (props) => {
         </pre>
       </td>
       <td className="bg-transparent text-right">
-        {userStakeData?.maturityTs != 0 ? (
+        {!userStakeData?.maturityTs.isZero() ? (
           <>
-            <pre>{formatDate(userStakeData?.maturityTs)}</pre>
-            <pre>{formatTime(userStakeData?.maturityTs)}</pre>
+            <pre>{formatDate(userStakeData?.maturityTs.toNumber() ?? 0)}</pre>
+            <pre>{formatTime(userStakeData?.maturityTs.toNumber() ?? 0)}</pre>
           </>
         ) : (
           <>

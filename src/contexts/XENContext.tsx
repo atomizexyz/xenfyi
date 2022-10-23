@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import {
   Chain,
   useToken,
+  useFeeData,
   useBalance,
   useAccount,
   useNetwork,
@@ -11,7 +12,7 @@ import {
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
 
-interface UserMint {
+export interface UserMint {
   user: string;
   amplifier: BigNumber;
   eaaRate: BigNumber;
@@ -20,17 +21,64 @@ interface UserMint {
   term: BigNumber;
 }
 
-interface UserStake {
+export interface UserStake {
   amount: BigNumber;
   apy: BigNumber;
   maturityTs: BigNumber;
   term: BigNumber;
 }
 
-const XENContext = createContext({
-  setChainOverride: (chain?: Chain) => {},
+export interface Formatted {
+  gasPrice: string;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
+}
+
+export interface FeeData {
+  formatted: Formatted;
+  gasPrice: BigNumber;
+  lastBaseFeePerGas: BigNumber;
+  maxFeePerGas: BigNumber;
+  maxPriorityFeePerGas: BigNumber;
+}
+
+export interface TotalSupply {
+  formatted: string;
+  value: BigNumber;
+}
+
+export interface Token {
+  address: string;
+  decimals: number;
+  name: string;
+  symbol: string;
+  totalSupply: TotalSupply;
+}
+
+interface IXENContext {
+  setChainOverride: (chain?: Chain) => {};
+  userMint: UserMint;
+  userStake: UserStake;
+  feeData: FeeData;
+  xenBalance: 0;
+  globalRank: 0;
+  activeMinters: 0;
+  activeStakes: 0;
+  totalXenStaked: 0;
+  totalSupply: 0;
+  genesisTs: 0;
+  currentMaxTerm: 0;
+  currentAMP: 0;
+  currentEAAR: 0;
+  currentAPY: 0;
+  grossReward: 0;
+  token: Token;
+}
+
+const XENContext = createContext<IXENContext>({
   userMint: null,
   userStake: null,
+  feeData: null,
   xenBalance: 0,
   globalRank: 0,
   activeMinters: 0,
@@ -43,13 +91,13 @@ const XENContext = createContext({
   currentEAAR: 0,
   currentAPY: 0,
   grossReward: 0,
-  token: null,
 });
 
 export const XENProvider = ({ chainId, children }) => {
-  const [chainOverride, setChainOverride] = useState<Chain>();
-  const [userMint, setUserMint] = useState<UserMint>();
-  const [userStake, setUserStake] = useState<UserStake>();
+  const [chainOverride, setChainOverride] = useState<Chain | null>(null);
+  const [userMint, setUserMint] = useState<UserMint | null>(null);
+  const [userStake, setUserStake] = useState<UserStake | null>(null);
+  const [feeData, setFeeData] = useState<FeeData | null>(null);
   const [xenBalance, setXenBalance] = useState(0);
   const [globalRank, setGlobalRank] = useState(0);
   const [activeMinters, setActiveMinters] = useState(0);
@@ -62,7 +110,7 @@ export const XENProvider = ({ chainId, children }) => {
   const [currentEAAR, setCurrentEAAR] = useState(0);
   const [currentAPY, setCurrentAPY] = useState(0);
   const [grossReward, setGrossReward] = useState(0);
-  const [token, setToken] = useState<any>();
+  const [token, setToken] = useState<Token | null>(null);
 
   const { address } = useAccount();
   const { chain: networkChain } = useNetwork();
@@ -181,12 +229,21 @@ export const XENProvider = ({ chainId, children }) => {
     },
   });
 
+  useFeeData({
+    formatUnits: "gwei",
+    onSuccess(data) {
+      setFeeData(data);
+    },
+    // watch: true,
+  });
+
   return (
     <XENContext.Provider
       value={{
         setChainOverride,
         userMint,
         userStake,
+        feeData,
         xenBalance,
         globalRank,
         activeMinters,

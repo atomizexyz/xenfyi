@@ -1,8 +1,6 @@
 import {
-  useFeeData,
   useNetwork,
   useAccount,
-  useContractRead,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
@@ -19,7 +17,6 @@ import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CountDataCard } from "~/components/StatCards";
 import {
-  FeeData,
   calculateMintReward,
   mintPenalty,
   UTC_TIME,
@@ -30,14 +27,16 @@ import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
+import {
+  claimMintRewardFunction,
+  claimMintRewardAndShareFunction,
+  claimMintRewardAndStakeFunction,
+} from "~/abi/abi-functions";
 
 const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
-  const [claimFee, setClaimFee] = useState<FeeData>();
-  const [claimShareFee, setClaimShareFee] = useState<FeeData>();
-  const [claimStakeFee, setClaimStakeFee] = useState<FeeData>();
 
   const [disabled, setDisabled] = useState(true);
   const [activeStakeDisabled, setActiveStakeDisabled] = useState(true);
@@ -45,9 +44,7 @@ const Mint = () => {
   const [penaltyPercent, setPenaltyPercent] = useState(0);
   const [penaltyXEN, setPenaltyXEN] = useState(0);
   const [reward, setReward] = useState(0);
-  const { data: feeData } = useFeeData();
-  const { userMint, userStake, genesisTs, globalRank, grossReward } =
-    useContext(XENContext);
+  const { userMint, userStake, grossReward, feeData } = useContext(XENContext);
 
   /*** FORM SETUP ***/
 
@@ -56,7 +53,8 @@ const Mint = () => {
   const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
-    ...xenContract(chain),
+    address: xenContract(chain).address,
+    abi: claimMintRewardFunction,
     functionName: "claimMintReward",
   });
   const { data: claimData, write: writeClaim } = useContractWrite({
@@ -112,7 +110,8 @@ const Mint = () => {
   const cShareWatchAllFields = cShareWatch();
 
   const { config: configClaimShare } = usePrepareContractWrite({
-    ...xenContract(chain),
+    address: xenContract(chain).address,
+    abi: claimMintRewardAndShareFunction,
     functionName: "claimMintRewardAndShare",
     args: [
       cShareWatchAllFields.claimShareAddress,
@@ -171,7 +170,8 @@ const Mint = () => {
   const cStakeWatchAllFields = cStakeWatch();
 
   const { config: configClaimStake } = usePrepareContractWrite({
-    ...xenContract(chain),
+    address: xenContract(chain).address,
+    abi: claimMintRewardAndStakeFunction,
     functionName: "claimMintRewardAndStake",
     args: [
       cStakeWatchAllFields.claimStakePercentage,
@@ -206,7 +206,7 @@ const Mint = () => {
       address &&
       userMint &&
       !userMint.maturityTs.isZero() &&
-      userMint.maturityTs < UTC_TIME
+      userMint?.maturityTs < UTC_TIME
     ) {
       if (!processing) {
         setDisabled(false);
@@ -222,31 +222,6 @@ const Mint = () => {
       setPenaltyPercent(penalty);
       setReward(reward);
       setPenaltyXEN(reward * (penalty / 100));
-
-      const gasPrice = feeData?.gasPrice;
-      const configClaimGasLimit = configClaim?.request?.gasLimit;
-      if (gasPrice && configClaimGasLimit) {
-        setClaimFee({
-          gas: gasPrice,
-          transaction: configClaimGasLimit,
-        });
-      }
-
-      const configClaimShareGasLimit = configClaimShare?.request?.gasLimit;
-      if (gasPrice && configClaimShareGasLimit) {
-        setClaimShareFee({
-          gas: gasPrice,
-          transaction: configClaimShareGasLimit,
-        });
-      }
-
-      const configClaimStakeGasLimit = configClaimStake?.request?.gasLimit;
-      if (gasPrice && configClaimStakeGasLimit) {
-        setClaimStakeFee({
-          gas: gasPrice,
-          transaction: configClaimStakeGasLimit,
-        });
-      }
     }
 
     if (address && userStake && userStake.term == 0) {
@@ -256,10 +231,6 @@ const Mint = () => {
     activeStakeDisabled,
     address,
     processing,
-    feeData?.gasPrice,
-    configClaim?.request?.gasLimit,
-    configClaimShare?.request?.gasLimit,
-    configClaimStake?.request?.gasLimit,
     userMint,
     userStake,
     grossReward,
@@ -315,7 +286,10 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate fee={claimFee} />
+                <GasEstimate
+                  feeData={feeData}
+                  gasLimit={configClaim?.request?.gasLimit}
+                />
               </div>
             </form>
           </div>
@@ -384,7 +358,10 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate fee={claimShareFee} />
+                <GasEstimate
+                  feeData={feeData}
+                  gasLimit={configClaimShare?.request?.gasLimit}
+                />
               </div>
             </form>
           </div>
@@ -455,7 +432,10 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate fee={claimStakeFee} />
+                <GasEstimate
+                  feeData={feeData}
+                  gasLimit={configClaimStake?.request?.gasLimit}
+                />
               </div>
             </form>
           </div>

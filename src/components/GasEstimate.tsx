@@ -1,29 +1,38 @@
-import { toGwei, gasCalculator, formatDecimals } from "~/lib/helpers";
+import { NextPage } from "next";
+import { toGwei, formatDecimals } from "~/lib/helpers";
 import { BigNumber } from "ethers";
+import { FeeData } from "~/contexts/XENContext";
 
-const GasEstimate = (props: any) => {
+interface GasEstimateProps {
+  feeData?: FeeData;
+  gasLimit?: BigNumber;
+}
+
+const GasEstimate: NextPage<GasEstimateProps> = ({ feeData, gasLimit }) => {
   return (
     <table className="w-full">
       <tbody>
         <tr className="label-text-alt text-neutral">
           <td>GAS:</td>
           <td className="text-right">
-            {formatDecimals(
-              toGwei(props.fee?.gas ?? BigNumber.from(0)),
-              0,
-              "gwei"
-            )}
+            {formatDecimals(Number(toGwei(feeData?.gasPrice ?? 0)), 0, "gwei")}
           </td>
         </tr>
         <tr className="label-text-alt text-neutral">
           <td>TRANSACTION:</td>
           <td className="text-right">
-            {formatDecimals(Number(props.fee?.transaction ?? 0), 0, "gwei")}
+            {formatDecimals(Number(gasLimit ?? 0), 0, "gwei")}
           </td>
         </tr>
         <tr className="label-text-alt text-neutral">
           <td>TOTAL:</td>
-          <td className="text-right">{gasCalculator(props.fee)}</td>
+          <td className="text-right">
+            {formatDecimals(
+              Number(toGwei(feeData?.gasPrice.mul(gasLimit ?? 0) ?? 0)),
+              0,
+              "gwei"
+            )}
+          </td>
         </tr>
       </tbody>
     </table>

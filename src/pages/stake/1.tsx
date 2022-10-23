@@ -1,24 +1,20 @@
 import Link from "next/link";
 import Container from "~/components/containers/Container";
 import {
-  useFeeData,
   useNetwork,
-  useBalance,
   useAccount,
-  useContractRead,
-  useContractReads,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
 import { MaxValueField } from "~/components/FormFields";
-import { InformationCircleIcon, XCircleIcon } from "@heroicons/react/outline";
+import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState, useContext } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
-import { UTC_TIME, FeeData, stakeYield } from "~/lib/helpers";
+import { UTC_TIME, stakeYield } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -33,13 +29,11 @@ const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
-  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
-  const { data: feeData } = useFeeData();
 
-  const { xenBalance, userStake, genesisTs, globalRank, currentAPY } =
+  const { xenBalance, userStake, genesisTs, globalRank, currentAPY, feeData } =
     useContext(XENContext);
 
   /*** FORM SETUP ***/
@@ -50,10 +44,7 @@ const Stake = () => {
       startStakeAmount: yup
         .number()
         .required("Stake amount required")
-        .max(
-          Number(xenBalance.formatted ?? 0),
-          `Maximum stake amount: ${xenBalance.formatted}`
-        )
+        .max(Number(xenBalance), `Maximum stake amount: ${xenBalance}`)
         .positive()
         .typeError("Stake amount required"),
       startStakeDays: yup
@@ -79,12 +70,24 @@ const Stake = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
-    ...xenContract(chain),
+    address: xenContract(chain).address,
+    abi: [
+      {
+        inputs: [
+          { internalType: "uint256", name: "amount", type: "uint256" },
+          { internalType: "uint256", name: "term", type: "uint256" },
+        ],
+        name: "stake",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(
         (Number(watchAllFields?.startStakeAmount) || 0).toString(),
-        xenBalance?.decimals ?? 1
+        xenBalance
       ),
       watchAllFields.startStakeDays ?? 0,
     ],
@@ -117,23 +120,7 @@ const Stake = () => {
     if (!processing && address && userStake && userStake.term == 0) {
       setDisabled(false);
     }
-
-    const gasPrice = feeData?.gasPrice;
-    const gasLimit = config?.request?.gasLimit;
-    if (gasPrice && gasLimit) {
-      setFee({
-        gas: gasPrice,
-        transaction: gasLimit,
-      });
-    }
-  }, [
-    address,
-    config?.request?.gasLimit,
-    feeData?.gasPrice,
-    processing,
-    userStake,
-    watchAllFields.startStakeDays,
-  ]);
+  }, [address, processing, userStake, watchAllFields.startStakeDays]);
 
   return (
     <Container className="max-w-2xl">
@@ -159,7 +146,7 @@ const Stake = () => {
               <MaxValueField
                 title="AMOUNT"
                 description="Maximum stake amount"
-                value={BigNumber.from(xenBalance?.value ?? 0).toString()}
+                value={BigNumber.from(xenBalance).toString()}
                 disabled={disabled}
                 errorMessage={
                   <ErrorMessage errors={errors} name="startStakeAmount" />
@@ -227,7 +214,10 @@ const Stake = () => {
                   Start Stake
                 </button>
               </div>
-              <GasEstimate fee={fee} />
+              <GasEstimate
+                feeData={feeData}
+                gasLimit={config?.request?.gasLimit}
+              />
             </div>
           </form>
         </CardContainer>

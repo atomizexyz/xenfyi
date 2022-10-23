@@ -1,6 +1,6 @@
 import { daysSince } from "~/components/StatCards";
 import { BigNumber, ethers } from "ethers";
-
+import { UserStake, UserMint } from "~/contexts/XENContext";
 export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;
 const MAX_PENALTY_PCT = 99;
@@ -53,7 +53,7 @@ export interface MintData {
   genesisTs?: number;
 }
 
-export const estimatedXEN = (data?: UserMint, globalRank: number) => {
+export const estimatedXEN = (globalRank: number, data?: UserMint) => {
   if (data) {
     const EAA = 0.1 - 0.001 * (data.rank / 1e5);
     const XEN =
@@ -85,22 +85,8 @@ export const stakeYield = (data?: StakeData) => {
   }
 };
 
-export interface FeeData {
-  gas: BigNumber;
-  transaction: BigNumber;
-}
-
 export const toGwei = (value: BigNumber) => {
-  return Number(ethers.utils.formatUnits(value, "gwei"));
-};
-
-export const gasCalculator = (fee?: FeeData) => {
-  if (fee) {
-    const totalFee = fee.gas.mul(fee.transaction);
-    const totalFeeGwei = toGwei(totalFee);
-    return formatDecimals(totalFeeGwei, 0, "gwei");
-  }
-  return formatDecimals(0, 0, "gwei");
+  return ethers.utils.formatUnits(value, "gwei");
 };
 
 interface MintRewardData {
