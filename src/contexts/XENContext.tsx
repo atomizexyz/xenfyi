@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import {
   Chain,
+  Address,
   useToken,
   useFeeData,
   useBalance,
@@ -93,7 +94,7 @@ const XENContext = createContext<IXENContext>({
   grossReward: 0,
 });
 
-export const XENProvider = ({ chainId, children }) => {
+export const XENProvider = ({ children }) => {
   const [chainOverride, setChainOverride] = useState<Chain | null>(null);
   const [userMint, setUserMint] = useState<UserMint | null>(null);
   const [userStake, setUserStake] = useState<UserStake | null>(null);
@@ -224,6 +225,7 @@ export const XENProvider = ({ chainId, children }) => {
 
   useToken({
     address: xenContract(chain).address,
+    chainId: chain.id,
     onSuccess(data) {
       setToken(data);
     },

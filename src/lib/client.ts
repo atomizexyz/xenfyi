@@ -57,9 +57,7 @@ const { chains, provider, webSocketProvider } = configureChains(chainList, [
   jsonRpcProvider({
     priority: 2,
     rpc: (chain: Chain) => ({
-      http: ANKR_CHAIN_ID_SET.includes(chain.id)
-        ? "https://rpc.ankr.com/multichain"
-        : null,
+      http: "https://rpc.ankr.com/multichain",
     }),
   }),
 ]);

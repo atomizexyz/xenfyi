@@ -4,18 +4,10 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
 import { MoonIcon, SunIcon, DotsVerticalIcon } from "@heroicons/react/outline";
 import { WalletIcon } from "../Icons";
-import { xenContract } from "~/lib/xen-contract";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import {
-  Chain,
-  useToken,
-  useAccount,
-  useContractRead,
-  useNetwork,
-  useSwitchNetwork,
-} from "wagmi";
+import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 import { useState, useEffect, useContext } from "react";
 import { isMobile } from "react-device-detect";
@@ -206,12 +198,6 @@ export const Navbar: NextPage = () => {
                 <button
                   className="justify-between text-neutral glass"
                   onClick={() => {
-                    (connector as InjectedConnector)?.watchAsset?.({
-                      address: token.address,
-                      decimals: token.decimals,
-                      image: "https://xen.fyi/images/xen.png",
-                      symbol: token.symbol ?? "XEN",
-                    });
                     (document.activeElement as HTMLElement).blur();
                   }}
                 >

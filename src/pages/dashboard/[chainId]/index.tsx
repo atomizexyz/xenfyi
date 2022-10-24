@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Container from "~/components/containers/Container";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   NumberStatCard,
@@ -35,7 +35,6 @@ const Dashboard: NextPage = () => {
     token,
   } = useContext(XENContext);
 
-  setChainOverride(chainFromId);
   const generalStats = [
     {
       title: "Global Rank",
@@ -96,6 +95,10 @@ const Dashboard: NextPage = () => {
         "Annual Percentage Yield (APY) determines XEN Staking Reward calculation. It is non-compounding and is pro-rated by days. APY starts at 20% on Genesis and decreases by 1p.p. every 90 days until it reaches 2%",
     },
   ];
+
+  useEffect(() => {
+    setChainOverride(chainFromId);
+  }, [chainFromId, setChainOverride]);
 
   return (
     <div>

@@ -24,6 +24,7 @@ import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
+import { stakeFunction } from "~/abi/abi-functions";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -60,29 +61,17 @@ const Stake = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
   const watchAllFields = watch();
-
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
     address: xenContract(chain).address,
-    abi: [
-      {
-        inputs: [
-          { internalType: "uint256", name: "amount", type: "uint256" },
-          { internalType: "uint256", name: "term", type: "uint256" },
-        ],
-        name: "stake",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
+    abi: stakeFunction,
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(
@@ -91,6 +80,7 @@ const Stake = () => {
       ),
       watchAllFields.startStakeDays ?? 0,
     ],
+    enabled: isValid,
   });
   const { data: stakeData, write: writeStake } = useContractWrite({
     ...config,

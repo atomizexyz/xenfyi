@@ -49,13 +49,13 @@ const Mint = () => {
   /*** FORM SETUP ***/
 
   // Claim
-
   const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
     address: xenContract(chain).address,
     abi: claimMintRewardFunction,
     functionName: "claimMintReward",
+    enabled: (userMint && !userMint.term.isZero()) ?? false,
   });
   const { data: claimData, write: writeClaim } = useContractWrite({
     ...configClaim,
@@ -63,7 +63,6 @@ const Mint = () => {
       setProcessing(true);
       setDisabled(true);
     },
-    enabled: userMint != null,
   });
   const handleClaimSubmit = () => {
     writeClaim?.();
@@ -102,7 +101,7 @@ const Mint = () => {
     register: cShareRegister,
     handleSubmit: cShareHandleSubmit,
     watch: cShareWatch,
-    formState: { errors: cShareErrors },
+    formState: { errors: cShareErrors, isValid: cShareIsValid },
     setValue: cShareSetValue,
   } = useForm({
     resolver: yupResolver(schemaClaimShare),
@@ -117,7 +116,7 @@ const Mint = () => {
       cShareWatchAllFields.claimShareAddress,
       cShareWatchAllFields.claimSharePercentage,
     ],
-    enabled: userMint != null,
+    enabled: (userMint && !userMint.term.isZero() && cShareIsValid) ?? false,
   });
 
   const { data: claimShareData, write: writeClaimShare } = useContractWrite({
@@ -162,7 +161,7 @@ const Mint = () => {
     register: cStakeRegister,
     handleSubmit: cStakeHandleSubmit,
     watch: cStakeWatch,
-    formState: { errors: cStakeErrors },
+    formState: { errors: cStakeErrors, isValid: cStakeIsValid },
     setValue: cStakeSetValue,
   } = useForm({
     resolver: yupResolver(schemaClaimStake),
@@ -177,7 +176,7 @@ const Mint = () => {
       cStakeWatchAllFields.claimStakePercentage,
       cStakeWatchAllFields.claimStakeDays,
     ],
-    enabled: userMint != null,
+    enabled: (userMint && !userMint.term.isZero() && cStakeIsValid) ?? false,
   });
 
   const { data: claimStakeData, write: writeClaimStake } = useContractWrite({

@@ -54,7 +54,7 @@ const Mint = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm({
     resolver: yupResolver(schema),
@@ -68,6 +68,7 @@ const Mint = () => {
     abi: claimRankFunction,
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
+    enabled: isValid,
   });
   const { data: claimRankData, write } = useContractWrite({
     ...config,
@@ -94,7 +95,7 @@ const Mint = () => {
       setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400);
     }
 
-    if (!processing && address && userMint.term.isZero()) {
+    if (!processing && address && userMint?.term.isZero()) {
       setDisabled(false);
     }
 
@@ -103,7 +104,7 @@ const Mint = () => {
     address,
     currentMaxTerm,
     processing,
-    userMint.term,
+    userMint?.term,
     watchAllFields.startMintDays,
   ]);
 
