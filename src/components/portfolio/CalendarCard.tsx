@@ -13,3 +13,5 @@ const CalendarCard: NextPage = () => {
     </div>
   );
 };
+
+export default CalendarCard;

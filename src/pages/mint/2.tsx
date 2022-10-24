@@ -32,7 +32,7 @@ const Mint = () => {
     },
     {
       title: "EAA Rate",
-      value: userMint?.eaaRate.toNumber() / 10 ?? 0,
+      value: userMint?.eaaRate.toNumber() ?? 0 / 10,
       suffix: "%",
       decimals: 2,
     },
@@ -54,12 +54,12 @@ const Mint = () => {
     if (userMint) {
       if (userMint.maturityTs) {
         const progress = progressDays(
-          userMint.maturityTs ?? 0,
-          userMint.term ?? 0
+          userMint.maturityTs.toNumber() ?? 0,
+          userMint.term.toNumber() ?? 0
         );
 
         setProgress(progress);
-        setPercent((progress / userMint.term) * 100);
+        setPercent((progress / userMint.term.toNumber()) * 100);
       }
     }
   }, [userMint?.maturityTs, userMint?.term, progress, userMint]);
@@ -87,7 +87,7 @@ const Mint = () => {
           <h2 className="card-title">Minting</h2>
           <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
             <Countdown
-              date={userMint?.maturityTs.toNumber() * 1000}
+              date={userMint?.maturityTs.toNumber() ?? 0 * 1000}
               renderer={(props) => (
                 <CountdownCard
                   days={props.days}
@@ -101,8 +101,8 @@ const Mint = () => {
               title="Progress"
               percentComplete={percent}
               value={progress}
-              max={userMint?.term}
-              daysRemaining={userMint?.term.toNumber() - progress}
+              max={userMint?.term.toNumber() ?? 0}
+              daysRemaining={userMint?.term.toNumber() ?? 0 - progress}
               dateTs={userMint?.maturityTs.toNumber() ?? 0}
             />
             {mintItems.map((item, index) => (

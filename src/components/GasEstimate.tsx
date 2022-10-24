@@ -15,7 +15,11 @@ const GasEstimate: NextPage<GasEstimateProps> = ({ feeData, gasLimit }) => {
         <tr className="label-text-alt text-neutral">
           <td>GAS:</td>
           <td className="text-right">
-            {formatDecimals(Number(toGwei(feeData?.gasPrice ?? 0)), 0, "gwei")}
+            {formatDecimals(
+              Number(toGwei(feeData?.gasPrice ?? BigNumber.from(0))),
+              0,
+              "gwei"
+            )}
           </td>
         </tr>
         <tr className="label-text-alt text-neutral">
@@ -28,7 +32,11 @@ const GasEstimate: NextPage<GasEstimateProps> = ({ feeData, gasLimit }) => {
           <td>TOTAL:</td>
           <td className="text-right">
             {formatDecimals(
-              Number(toGwei(feeData?.gasPrice.mul(gasLimit ?? 0) ?? 0)),
+              Number(
+                toGwei(
+                  feeData?.gasPrice.mul(gasLimit ?? 0) ?? BigNumber.from(0)
+                )
+              ),
               0,
               "gwei"
             )}

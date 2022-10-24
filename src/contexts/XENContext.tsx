@@ -10,6 +10,7 @@ import {
   useContractRead,
   useContractReads,
 } from "wagmi";
+import { BigNumber } from "ethers";
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
 
@@ -56,31 +57,39 @@ export interface Token {
   totalSupply: TotalSupply;
 }
 
+export interface Balance {
+  decimals: number;
+  formatted: string;
+  symbol: string;
+  value: BigNumber;
+}
+
 interface IXENContext {
-  setChainOverride: (chain?: Chain) => {};
-  userMint: UserMint;
-  userStake: UserStake;
-  feeData: FeeData;
-  xenBalance: 0;
-  globalRank: 0;
-  activeMinters: 0;
-  activeStakes: 0;
-  totalXenStaked: 0;
-  totalSupply: 0;
-  genesisTs: 0;
-  currentMaxTerm: 0;
-  currentAMP: 0;
-  currentEAAR: 0;
-  currentAPY: 0;
-  grossReward: 0;
-  token: Token;
+  setChainOverride: (chain: Chain) => void;
+  userMint?: UserMint;
+  userStake?: UserStake;
+  feeData?: FeeData;
+  xenBalance?: Balance;
+  globalRank: number;
+  activeMinters: number;
+  activeStakes: number;
+  totalXenStaked: number;
+  totalSupply: number;
+  genesisTs: number;
+  currentMaxTerm: number;
+  currentAMP: number;
+  currentEAAR: number;
+  currentAPY: number;
+  grossReward: number;
+  token?: Token;
 }
 
 const XENContext = createContext<IXENContext>({
-  userMint: null,
-  userStake: null,
-  feeData: null,
-  xenBalance: 0,
+  setChainOverride: (chain: Chain) => {},
+  userMint: undefined,
+  userStake: undefined,
+  feeData: undefined,
+  xenBalance: undefined,
   globalRank: 0,
   activeMinters: 0,
   activeStakes: 0,
@@ -92,14 +101,15 @@ const XENContext = createContext<IXENContext>({
   currentEAAR: 0,
   currentAPY: 0,
   grossReward: 0,
+  token: undefined,
 });
 
-export const XENProvider = ({ children }) => {
-  const [chainOverride, setChainOverride] = useState<Chain | null>(null);
-  const [userMint, setUserMint] = useState<UserMint | null>(null);
-  const [userStake, setUserStake] = useState<UserStake | null>(null);
-  const [feeData, setFeeData] = useState<FeeData | null>(null);
-  const [xenBalance, setXenBalance] = useState(0);
+export const XENProvider = ({ children }: any) => {
+  const [chainOverride, setChainOverride] = useState<Chain | undefined>();
+  const [userMint, setUserMint] = useState<UserMint | undefined>();
+  const [userStake, setUserStake] = useState<UserStake | undefined>();
+  const [feeData, setFeeData] = useState<FeeData | undefined>();
+  const [xenBalance, setXenBalance] = useState<Balance | undefined>();
   const [globalRank, setGlobalRank] = useState(0);
   const [activeMinters, setActiveMinters] = useState(0);
   const [activeStakes, setActiveStakes] = useState(0);
@@ -111,7 +121,7 @@ export const XENProvider = ({ children }) => {
   const [currentEAAR, setCurrentEAAR] = useState(0);
   const [currentAPY, setCurrentAPY] = useState(0);
   const [grossReward, setGrossReward] = useState(0);
-  const [token, setToken] = useState<Token | null>(null);
+  const [token, setToken] = useState<Token | undefined>();
 
   const { address } = useAccount();
   const { chain: networkChain } = useNetwork();
@@ -119,7 +129,8 @@ export const XENProvider = ({ children }) => {
   const chain = chainOverride ?? networkChain ?? chainList[0];
 
   useBalance({
-    ...xenContract(chain),
+    addressOrName: address,
+    token: xenContract(chain).address as Address,
     onSuccess(data) {
       setXenBalance(data);
     },
@@ -131,7 +142,7 @@ export const XENProvider = ({ children }) => {
     functionName: "getUserMint",
     overrides: { from: address },
     onSuccess(data) {
-      setUserMint(data);
+      setUserMint(data as UserMint);
     },
     enabled: address != null,
     cacheOnBlock: true,
@@ -143,7 +154,7 @@ export const XENProvider = ({ children }) => {
     functionName: "getUserStake",
     overrides: { from: address },
     onSuccess(data) {
-      setUserStake(data);
+      setUserStake(data as UserStake);
     },
     enabled: address != null,
     cacheOnBlock: true,
@@ -180,7 +191,6 @@ export const XENProvider = ({ children }) => {
         ...xenContract(chain),
         functionName: "getCurrentMaxTerm",
       },
-
       {
         ...xenContract(chain),
         functionName: "getCurrentAMP",
@@ -205,7 +215,6 @@ export const XENProvider = ({ children }) => {
         enable: userMint != null,
       },
     ],
-
     onSuccess(data) {
       setGlobalRank(Number(data[0]));
       setActiveMinters(Number(data[1]));
@@ -224,7 +233,7 @@ export const XENProvider = ({ children }) => {
   });
 
   useToken({
-    address: xenContract(chain).address,
+    address: xenContract(chain).address as Address,
     chainId: chain.id,
     onSuccess(data) {
       setToken(data);
@@ -234,7 +243,7 @@ export const XENProvider = ({ children }) => {
   useFeeData({
     formatUnits: "gwei",
     onSuccess(data) {
-      setFeeData(data);
+      setFeeData(data as FeeData);
     },
     // watch: true,
   });

@@ -55,7 +55,7 @@ const Mint = () => {
     address: xenContract(chain).address,
     abi: claimMintRewardFunction,
     functionName: "claimMintReward",
-    enabled: (userMint && !userMint.term.isZero()) ?? false,
+    enabled: !disabled,
   });
   const { data: claimData, write: writeClaim } = useContractWrite({
     ...configClaim,
@@ -116,7 +116,7 @@ const Mint = () => {
       cShareWatchAllFields.claimShareAddress,
       cShareWatchAllFields.claimSharePercentage,
     ],
-    enabled: (userMint && !userMint.term.isZero() && cShareIsValid) ?? false,
+    enabled: !disabled,
   });
 
   const { data: claimShareData, write: writeClaimShare } = useContractWrite({
@@ -176,7 +176,7 @@ const Mint = () => {
       cStakeWatchAllFields.claimStakePercentage,
       cStakeWatchAllFields.claimStakeDays,
     ],
-    enabled: (userMint && !userMint.term.isZero() && cStakeIsValid) ?? false,
+    enabled: !disabled,
   });
 
   const { data: claimStakeData, write: writeClaimStake } = useContractWrite({
@@ -205,7 +205,7 @@ const Mint = () => {
       address &&
       userMint &&
       !userMint.maturityTs.isZero() &&
-      userMint?.maturityTs < UTC_TIME
+      userMint?.maturityTs.toNumber() < UTC_TIME
     ) {
       if (!processing) {
         setDisabled(false);
@@ -213,9 +213,9 @@ const Mint = () => {
     }
 
     if (userMint && !userMint.maturityTs.isZero()) {
-      const penalty = mintPenalty(userMint.maturityTs);
+      const penalty = mintPenalty(userMint.maturityTs.toNumber());
       const reward = calculateMintReward({
-        maturityTs: userMint.maturityTs,
+        maturityTs: userMint.maturityTs.toNumber(),
         grossReward: grossReward,
       });
       setPenaltyPercent(penalty);
@@ -223,7 +223,7 @@ const Mint = () => {
       setPenaltyXEN(reward * (penalty / 100));
     }
 
-    if (address && userStake && userStake.term == 0) {
+    if (address && userStake && userStake.term.toNumber() == 0) {
       setActiveStakeDisabled(false);
     }
   }, [

@@ -10,6 +10,7 @@ import { useEffect, useState, useContext } from "react";
 import Countdown from "react-countdown";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
+import { ethers, BigNumber } from "ethers";
 
 const Stake = () => {
   const [progress, setProgress] = useState(0);
@@ -21,23 +22,27 @@ const Stake = () => {
   const mintItems = [
     {
       title: "Liquid XEN",
-      value: xenBalance ?? 0,
+      value: Number(
+        ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
+      ),
       suffix: "",
     },
     {
       title: "Staked XEN",
-      value: userStake?.amount ?? 0,
+      value: Number(
+        ethers.utils.formatUnits(userStake?.amount ?? BigNumber.from(0))
+      ),
       suffix: "",
       tokenDecimals: 2,
     },
     {
       title: "APY",
-      value: userStake?.apy ?? 0,
+      value: userStake?.apy.toNumber() ?? 0,
       suffix: "%",
     },
     {
       title: "Term",
-      value: userStake?.term ?? 0,
+      value: userStake?.term.toNumber() ?? 0,
       suffix: "",
       decimals: 0,
     },
@@ -45,10 +50,13 @@ const Stake = () => {
 
   useEffect(() => {
     if (userStake) {
-      const progress = progressDays(userStake.maturityTs, userStake.term);
+      const progress = progressDays(
+        userStake.maturityTs.toNumber(),
+        userStake.term.toNumber()
+      );
 
       setProgress(progress);
-      setPercent((progress / userStake.term) * 100);
+      setPercent((progress / userStake.term.toNumber()) * 100);
     }
   }, [progress, userStake, userStake?.maturityTs, userStake?.term]);
 
@@ -72,7 +80,7 @@ const Stake = () => {
           <h2 className="card-title">Staking</h2>
           <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
             <Countdown
-              date={userStake?.maturityTs * 1000}
+              date={userStake?.maturityTs.toNumber() ?? 0 * 1000}
               intervalDelay={0}
               renderer={(props) => (
                 <CountdownCard
@@ -87,9 +95,9 @@ const Stake = () => {
               title="Progress"
               percentComplete={percent}
               value={progress}
-              max={userStake?.term}
-              daysRemaining={userStake?.term - progress}
-              dateTs={userStake?.maturityTs ?? 0}
+              max={userStake?.term.toNumber() ?? 0}
+              daysRemaining={userStake?.term.toNumber() ?? 0 - progress}
+              dateTs={userStake?.maturityTs.toNumber() ?? 0}
             />
             {mintItems.map((item, index) => (
               <NumberStatCard

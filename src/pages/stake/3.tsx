@@ -65,7 +65,7 @@ const Stake = () => {
       !userStake.maturityTs?.isZero()
     ) {
       setDisabled(false);
-      if (UTC_TIME < userStake?.maturityTs ?? 0) {
+      if (UTC_TIME < userStake.maturityTs.toNumber() ?? 0) {
         setEarlyEndStake(true);
       }
     }

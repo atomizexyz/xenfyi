@@ -7,7 +7,13 @@ import { WalletIcon } from "../Icons";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import {
+  Chain,
+  Address,
+  useAccount,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
 
 import { useState, useEffect, useContext } from "react";
 import { isMobile } from "react-device-detect";
@@ -22,7 +28,7 @@ export const Navbar: NextPage = () => {
   const { chains, switchNetwork } = useSwitchNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
-  const { connector, address, isConnected } = useAccount();
+  const { connector, isConnected } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -75,7 +81,7 @@ export const Navbar: NextPage = () => {
 
   useEffect(() => {
     if (userMint && !userMint.term.isZero()) {
-      if (userMint.maturityTs > UTC_TIME) {
+      if (userMint.maturityTs.toNumber() > UTC_TIME) {
         setMintPageOverride(2);
       } else {
         setMintPageOverride(3);
@@ -84,7 +90,7 @@ export const Navbar: NextPage = () => {
       setMintPageOverride(1);
     }
     if (userStake && !userStake.term.isZero()) {
-      if (userStake.maturityTs > UTC_TIME) {
+      if (userStake.maturityTs.toNumber() > UTC_TIME) {
         setStakePageOverride(2);
       } else {
         setStakePageOverride(3);
@@ -198,6 +204,12 @@ export const Navbar: NextPage = () => {
                 <button
                   className="justify-between text-neutral glass"
                   onClick={() => {
+                    (connector as InjectedConnector)?.watchAsset?.({
+                      address: token.address as Address,
+                      decimals: token.decimals,
+                      image: "https://xen.fyi/images/xen.png",
+                      symbol: token.symbol ?? "XEN",
+                    });
                     (document.activeElement as HTMLElement).blur();
                   }}
                 >

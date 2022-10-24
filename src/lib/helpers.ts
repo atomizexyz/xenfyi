@@ -42,24 +42,13 @@ export const progressDays = (maturityTs: number, term: number) => {
   return 0;
 };
 
-export interface MintData {
-  amplifier: number; // use
-  rank: number; // used
-  term: number; // term
-  globalRank: number; // used
-  eaaRate?: number;
-  maturityTs?: number;
-  user?: string;
-  genesisTs?: number;
-}
-
 export const estimatedXEN = (globalRank: number, data?: UserMint) => {
   if (data) {
-    const EAA = 0.1 - 0.001 * (data.rank / 1e5);
+    const EAA = 0.1 - 0.001 * (data.rank.toNumber() / 1e5);
     const XEN =
-      Math.log2(globalRank - data.rank) *
-      data.term *
-      data.amplifier *
+      Math.log2(globalRank - data.rank.toNumber()) *
+      data.term.toNumber() *
+      data.amplifier.toNumber() *
       (1 + EAA);
 
     return XEN;
@@ -129,12 +118,19 @@ export const truncatedAddress = (address: string) => {
 
 export const estimatedStakeRewardXEN = (data: UserStake) => {
   const amount = Number(ethers.utils.formatUnits(data.amount ?? 0, 18));
-  if (data.maturityTs != 0 && UTC_TIME > data.maturityTs) {
-    const rate = (data.apy * data.term * 1_000_000) / DAYS_IN_YEAR;
-    const totalReward = (data.amount * rate) / 100_000_000 / 1e18;
-    const progress = progressDays(data.maturityTs, data.term);
+  if (
+    data.maturityTs.toNumber() != 0 &&
+    UTC_TIME > data.maturityTs.toNumber()
+  ) {
+    const rate =
+      (data.apy.toNumber() * data.term.toNumber() * 1_000_000) / DAYS_IN_YEAR;
+    const totalReward = (data.amount.toNumber() * rate) / 100_000_000 / 1e18;
+    const progress = progressDays(
+      data.maturityTs.toNumber(),
+      data.term.toNumber()
+    );
 
-    return amount + (progress / data.term) * totalReward;
+    return amount + (progress / data.term.toNumber()) * totalReward;
   }
   return amount;
 };

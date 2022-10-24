@@ -45,7 +45,10 @@ const Stake = () => {
       startStakeAmount: yup
         .number()
         .required("Stake amount required")
-        .max(Number(xenBalance), `Maximum stake amount: ${xenBalance}`)
+        .max(
+          xenBalance?.value.toNumber() ?? 0,
+          `Maximum stake amount: ${xenBalance?.value.toNumber() ?? 0}`
+        )
         .positive()
         .typeError("Stake amount required"),
       startStakeDays: yup
@@ -76,7 +79,7 @@ const Stake = () => {
     args: [
       ethers.utils.parseUnits(
         (Number(watchAllFields?.startStakeAmount) || 0).toString(),
-        xenBalance
+        xenBalance?.decimals ?? 0
       ),
       watchAllFields.startStakeDays ?? 0,
     ],
@@ -107,7 +110,7 @@ const Stake = () => {
       setMaturity(UTC_TIME + (watchAllFields.startStakeDays ?? 0) * 86400);
     }
 
-    if (!processing && address && userStake && userStake.term == 0) {
+    if (!processing && address && userStake && userStake.term.toNumber() == 0) {
       setDisabled(false);
     }
   }, [address, processing, userStake, watchAllFields.startStakeDays]);
@@ -136,7 +139,10 @@ const Stake = () => {
               <MaxValueField
                 title="AMOUNT"
                 description="Maximum stake amount"
-                value={BigNumber.from(xenBalance).toString()}
+                value={ethers.utils.formatUnits(
+                  xenBalance?.value ?? BigNumber.from(0),
+                  xenBalance?.decimals ?? BigNumber.from(0)
+                )}
                 disabled={disabled}
                 errorMessage={
                   <ErrorMessage errors={errors} name="startStakeAmount" />

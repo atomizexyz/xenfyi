@@ -97,7 +97,9 @@ const Dashboard: NextPage = () => {
   ];
 
   useEffect(() => {
-    setChainOverride(chainFromId);
+    if (chainFromId) {
+      setChainOverride(chainFromId);
+    }
   }, [chainFromId, setChainOverride]);
 
   return (
