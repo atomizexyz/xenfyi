@@ -7,13 +7,7 @@ import { WalletIcon } from "../Icons";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import {
-  Chain,
-  Address,
-  useAccount,
-  useNetwork,
-  useSwitchNetwork,
-} from "wagmi";
+import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 import { useState, useEffect, useContext } from "react";
 import { isMobile } from "react-device-detect";
@@ -205,7 +199,7 @@ export const Navbar: NextPage = () => {
                   className="justify-between text-neutral glass"
                   onClick={() => {
                     (connector as InjectedConnector)?.watchAsset?.({
-                      address: token.address as Address,
+                      address: token.address,
                       decimals: token.decimals,
                       image: "https://xen.fyi/images/xen.png",
                       symbol: token.symbol ?? "XEN",

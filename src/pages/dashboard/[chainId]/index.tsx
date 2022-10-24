@@ -145,7 +145,7 @@ const Dashboard: NextPage = () => {
                 <DataCard
                   title={"Contract"}
                   value={token?.symbol ?? "XEN"}
-                  description={xenContract(chainFromId).address}
+                  description={xenContract(chainFromId).addressOrName}
                 />
               )}
 

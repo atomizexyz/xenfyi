@@ -10,7 +10,7 @@ const Footer = () => {
   const { chain: currentChain } = useNetwork();
 
   const defaultChain: Chain = currentChain ?? chain.mainnet;
-  const [address] = useState(xenContract(defaultChain).address);
+  const [address] = useState(xenContract(defaultChain).addressOrName);
 
   return (
     <footer className="footer footer-center text-base-content py-8">

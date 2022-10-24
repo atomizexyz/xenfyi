@@ -19,7 +19,7 @@ import { clsx } from "clsx";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
-import { withdrawFunction } from "~/abi/abi-functions";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -34,8 +34,8 @@ const Stake = () => {
   const { userStake, feeData } = useContext(XENContext);
 
   const { config } = usePrepareContractWrite({
-    address: xenContract(chain).address,
-    abi: withdrawFunction,
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "withdraw",
     enabled: (userStake && !userStake.term.isZero()) ?? false,
   });

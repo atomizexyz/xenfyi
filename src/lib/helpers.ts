@@ -1,6 +1,5 @@
 import { daysSince } from "~/components/StatCards";
 import { BigNumber, ethers } from "ethers";
-import { UserStake, UserMint } from "~/contexts/XENContext";
 export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;
 const MAX_PENALTY_PCT = 99;
@@ -42,7 +41,7 @@ export const progressDays = (maturityTs: number, term: number) => {
   return 0;
 };
 
-export const estimatedXEN = (globalRank: number, data?: UserMint) => {
+export const estimatedXEN = (globalRank: number, data?: any) => {
   if (data) {
     const EAA = 0.1 - 0.001 * (data.rank.toNumber() / 1e5);
     const XEN =
@@ -116,7 +115,7 @@ export const truncatedAddress = (address: string) => {
   return `${address.slice(0, 6)}••••${address.slice(-4)}`;
 };
 
-export const estimatedStakeRewardXEN = (data: UserStake) => {
+export const estimatedStakeRewardXEN = (data: any) => {
   const amount = Number(ethers.utils.formatUnits(data.amount ?? 0, 18));
   if (
     data.maturityTs.toNumber() != 0 &&

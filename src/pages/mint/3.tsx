@@ -27,11 +27,7 @@ import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
-import {
-  claimMintRewardFunction,
-  claimMintRewardAndShareFunction,
-  claimMintRewardAndStakeFunction,
-} from "~/abi/abi-functions";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -52,8 +48,8 @@ const Mint = () => {
   const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
-    address: xenContract(chain).address,
-    abi: claimMintRewardFunction,
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimMintReward",
     enabled: !disabled,
   });
@@ -109,8 +105,8 @@ const Mint = () => {
   const cShareWatchAllFields = cShareWatch();
 
   const { config: configClaimShare } = usePrepareContractWrite({
-    address: xenContract(chain).address,
-    abi: claimMintRewardAndShareFunction,
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimMintRewardAndShare",
     args: [
       cShareWatchAllFields.claimShareAddress,
@@ -169,8 +165,8 @@ const Mint = () => {
   const cStakeWatchAllFields = cStakeWatch();
 
   const { config: configClaimStake } = usePrepareContractWrite({
-    address: xenContract(chain).address,
-    abi: claimMintRewardAndStakeFunction,
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimMintRewardAndStake",
     args: [
       cStakeWatchAllFields.claimStakePercentage,

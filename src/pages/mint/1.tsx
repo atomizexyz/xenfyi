@@ -23,7 +23,7 @@ import * as yup from "yup";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
-import { claimRankFunction } from "~/abi/abi-functions";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Mint = () => {
   const { address } = useAccount();
@@ -64,8 +64,8 @@ const Mint = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config, error } = usePrepareContractWrite({
-    address: xenContract(chain).address,
-    abi: claimRankFunction,
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
     enabled: isValid,

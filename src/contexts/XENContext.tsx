@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import {
   Chain,
-  Address,
   useToken,
   useFeeData,
   useBalance,
@@ -130,7 +129,7 @@ export const XENProvider = ({ children }: any) => {
 
   useBalance({
     addressOrName: address,
-    token: xenContract(chain).address as Address,
+    token: xenContract(chain).addressOrName,
     onSuccess(data) {
       setXenBalance(data);
     },
@@ -142,7 +141,14 @@ export const XENProvider = ({ children }: any) => {
     functionName: "getUserMint",
     overrides: { from: address },
     onSuccess(data) {
-      setUserMint(data as UserMint);
+      setUserMint({
+        user: data.user,
+        amplifier: data.amplifier,
+        eaaRate: data.eaaRate,
+        maturityTs: data.maturityTs,
+        rank: data.rank,
+        term: data.term,
+      });
     },
     enabled: address != null,
     cacheOnBlock: true,
@@ -154,7 +160,12 @@ export const XENProvider = ({ children }: any) => {
     functionName: "getUserStake",
     overrides: { from: address },
     onSuccess(data) {
-      setUserStake(data as UserStake);
+      setUserStake({
+        amount: data.amount,
+        apy: data.apy,
+        maturityTs: data.maturityTs,
+        term: data.term,
+      });
     },
     enabled: address != null,
     cacheOnBlock: true,
@@ -207,12 +218,11 @@ export const XENProvider = ({ children }: any) => {
         ...xenContract(chain),
         functionName: "getGrossReward",
         args: [
-          Number(globalRank) - (userMint?.rank ?? 0),
+          Number(globalRank) - (userMint?.rank.toNumber() ?? 0),
           Number(userMint?.amplifier ?? 0),
           Number(userMint?.term ?? 0),
           1000 + Number(userMint?.eaaRate ?? 0),
         ],
-        enable: userMint != null,
       },
     ],
     onSuccess(data) {
@@ -233,7 +243,7 @@ export const XENProvider = ({ children }: any) => {
   });
 
   useToken({
-    address: xenContract(chain).address as Address,
+    address: xenContract(chain).addressOrName,
     chainId: chain.id,
     onSuccess(data) {
       setToken(data);

@@ -24,7 +24,7 @@ import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
-import { stakeFunction } from "~/abi/abi-functions";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Stake = () => {
   const { address } = useAccount();
@@ -73,8 +73,8 @@ const Stake = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
-    address: xenContract(chain).address,
-    abi: stakeFunction,
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(
