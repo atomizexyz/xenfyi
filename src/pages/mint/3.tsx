@@ -100,6 +100,7 @@ const Mint = () => {
     formState: { errors: cShareErrors, isValid: cShareIsValid },
     setValue: cShareSetValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schemaClaimShare),
   });
   const cShareWatchAllFields = cShareWatch();
@@ -160,6 +161,7 @@ const Mint = () => {
     formState: { errors: cStakeErrors, isValid: cStakeIsValid },
     setValue: cStakeSetValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schemaClaimStake),
   });
   const cStakeWatchAllFields = cStakeWatch();

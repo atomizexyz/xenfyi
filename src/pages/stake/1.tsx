@@ -69,6 +69,7 @@ const Stake = () => {
     formState: { errors, isValid },
     setValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schema),
   });
   const watchAllFields = watch();

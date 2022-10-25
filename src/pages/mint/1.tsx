@@ -57,6 +57,7 @@ const Mint = () => {
     formState: { errors, isValid },
     setValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schema),
   });
   const watchAllFields = watch();
