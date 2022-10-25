@@ -222,6 +222,12 @@ const Mint = () => {
     if (address && userStake && userStake.term.toNumber() == 0) {
       setActiveStakeDisabled(false);
     }
+    if (cShareIsValid) {
+      configClaimShare.enabled = true;
+    }
+    if (cStakeIsValid) {
+      configClaimStake.enabled = true;
+    }
   }, [
     activeStakeDisabled,
     address,
@@ -229,6 +235,10 @@ const Mint = () => {
     userMint,
     userStake,
     grossReward,
+    cShareIsValid,
+    cStakeIsValid,
+    configClaimShare,
+    configClaimStake,
   ]);
 
   return (

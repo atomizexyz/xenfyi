@@ -100,9 +100,14 @@ const Mint = () => {
     }
 
     setMaxFreeMint(Number(currentMaxTerm ?? 8640000) / 86400);
+    if (isValid) {
+      config.enabled = true;
+    }
   }, [
     address,
+    config,
     currentMaxTerm,
+    isValid,
     processing,
     userMint?.term,
     watchAllFields.startMintDays,

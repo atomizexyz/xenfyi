@@ -131,7 +131,12 @@ export const XENProvider = ({ children }: any) => {
     addressOrName: address,
     token: xenContract(chain).addressOrName,
     onSuccess(data) {
-      setXenBalance(data);
+      setXenBalance({
+        decimals: data.decimals,
+        formatted: data.formatted,
+        symbol: data.symbol,
+        value: data.value,
+      });
     },
     // watch: true,
   });
@@ -232,7 +237,7 @@ export const XENProvider = ({ children }: any) => {
       setTotalXenStaked(Number(data[3]));
       setTotalSupply(Number(data[4]));
       setGenesisTs(Number(data[5]));
-      setCurrentMaxTerm(Number(data[6]));
+      setCurrentMaxTerm(Number(data[6] ?? 100 * 86400));
       setCurrentAMP(Number(data[7]));
       setCurrentEAAR(Number(data[8]));
       setCurrentAPY(Number(data[9]));
@@ -246,14 +251,29 @@ export const XENProvider = ({ children }: any) => {
     address: xenContract(chain).addressOrName,
     chainId: chain.id,
     onSuccess(data) {
-      setToken(data);
+      setToken({
+        address: data.address,
+        decimals: data.decimals,
+        name: data.name,
+        symbol: data.symbol,
+        totalSupply: {
+          formatted: data.totalSupply.formatted,
+          value: data.totalSupply.value,
+        },
+      });
     },
   });
 
   useFeeData({
     formatUnits: "gwei",
     onSuccess(data) {
-      setFeeData(data as FeeData);
+      setFeeData({
+        formatted: data.formatted,
+        gasPrice: data.gasPrice,
+        lastBaseFeePerGas: data.lastBaseFeePerGas,
+        maxFeePerGas: data.maxFeePerGas,
+        maxPriorityFeePerGas: data.maxPriorityFeePerGas,
+      });
     },
     // watch: true,
   });

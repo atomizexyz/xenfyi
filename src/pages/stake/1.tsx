@@ -46,8 +46,10 @@ const Stake = () => {
         .number()
         .required("Stake amount required")
         .max(
-          xenBalance?.value.toNumber() ?? 0,
-          `Maximum stake amount: ${xenBalance?.value.toNumber() ?? 0}`
+          Number(
+            ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
+          ),
+          `Maximum stake amount: ${xenBalance?.formattedValue}`
         )
         .positive()
         .typeError("Stake amount required"),
@@ -113,7 +115,17 @@ const Stake = () => {
     if (!processing && address && userStake && userStake.term.toNumber() == 0) {
       setDisabled(false);
     }
-  }, [address, processing, userStake, watchAllFields.startStakeDays]);
+    if (isValid) {
+      config.enabled = true;
+    }
+  }, [
+    address,
+    processing,
+    userStake,
+    watchAllFields.startStakeDays,
+    isValid,
+    config,
+  ]);
 
   return (
     <Container className="max-w-2xl">
