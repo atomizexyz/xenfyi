@@ -268,11 +268,15 @@ export const XENProvider = ({ children }: any) => {
     formatUnits: "gwei",
     onSuccess(data) {
       setFeeData({
-        formatted: data.formatted,
-        gasPrice: data.gasPrice,
-        lastBaseFeePerGas: data.lastBaseFeePerGas,
-        maxFeePerGas: data.maxFeePerGas,
-        maxPriorityFeePerGas: data.maxPriorityFeePerGas,
+        formatted: {
+          gasPrice: data.formatted.gasPrice ?? "",
+          maxFeePerGas: data.formatted.maxFeePerGas ?? "",
+          maxPriorityFeePerGas: data.formatted.maxPriorityFeePerGas ?? "",
+        },
+        gasPrice: data.gasPrice ?? BigNumber.from(0),
+        lastBaseFeePerGas: data.lastBaseFeePerGas ?? BigNumber.from(0),
+        maxFeePerGas: data.maxFeePerGas ?? BigNumber.from(0),
+        maxPriorityFeePerGas: data.maxPriorityFeePerGas ?? BigNumber.from(0),
       });
     },
     // watch: true,

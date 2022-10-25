@@ -49,7 +49,7 @@ const Stake = () => {
           Number(
             ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
           ),
-          `Maximum stake amount: ${xenBalance?.formattedValue}`
+          `Maximum stake amount: ${xenBalance?.formatted}`
         )
         .positive()
         .typeError("Stake amount required"),
@@ -114,9 +114,6 @@ const Stake = () => {
 
     if (!processing && address && userStake && userStake.term.toNumber() == 0) {
       setDisabled(false);
-    }
-    if (isValid) {
-      config.enabled = true;
     }
   }, [
     address,
