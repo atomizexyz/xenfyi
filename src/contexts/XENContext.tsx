@@ -244,7 +244,7 @@ export const XENProvider = ({ children }: any) => {
       setGrossReward(Number(data[10]));
     },
     cacheOnBlock: true,
-    // watch: true,
+    watch: true,
   });
 
   useToken({
