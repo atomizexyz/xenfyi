@@ -44,7 +44,7 @@ const Meta: NextPage = () => {
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@hexwalletapp" />
+      <meta name="twitter:site" content="@atomizexyz" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />

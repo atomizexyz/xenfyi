@@ -1,10 +1,7 @@
 import {
-  useFeeData,
   useNetwork,
   useAccount,
-  useContractRead,
   useContractWrite,
-  useContractReads,
   useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
@@ -14,53 +11,31 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UTC_TIME, FeeData } from "~/lib/helpers";
+import { UTC_TIME } from "~/lib/helpers";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
-  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [maxFreeMint, setMaxFreeMint] = useState(100);
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
-  /*** CONTRACT READ SETUP  ***/
-
-  const { data } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: feeData } = useFeeData();
-
-  const { data: contractReads } = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chain),
-        functionName: "getCurrentMaxTerm",
-      },
-      {
-        ...xenContract(chain),
-        functionName: "globalRank",
-      },
-    ],
-    // watch: true,
-  });
-
+  const { userMint, currentMaxTerm, globalRank, feeData } =
+    useContext(XENContext);
   /*** FORM SETUP ***/
 
   const schema = yup
@@ -79,9 +54,10 @@ const Mint = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schema),
   });
   const watchAllFields = watch();
@@ -89,9 +65,11 @@ const Mint = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config, error } = usePrepareContractWrite({
-    ...xenContract(chain),
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
+    enabled: isValid,
   });
   const { data: claimRankData, write } = useContractWrite({
     ...config,
@@ -118,26 +96,18 @@ const Mint = () => {
       setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400);
     }
 
-    if (!processing && address && data && data.term.isZero()) {
+    if (!processing && address && userMint?.term.isZero()) {
       setDisabled(false);
     }
 
-    setMaxFreeMint(Number(contractReads?.[0] ?? 8640000) / 86400);
-    const gasPrice = feeData?.gasPrice;
-    const gasLimit = config?.request?.gasLimit;
-    if (gasPrice && gasLimit) {
-      setFee({
-        gas: gasPrice,
-        transaction: gasLimit,
-      });
-    }
+    setMaxFreeMint(Number(currentMaxTerm ?? 8640000) / 86400);
   }, [
     address,
-    config?.request?.gasLimit,
-    contractReads,
-    data,
-    feeData?.gasPrice,
+    config,
+    currentMaxTerm,
+    isValid,
     processing,
+    userMint?.term,
     watchAllFields.startMintDays,
   ]);
 
@@ -178,7 +148,7 @@ const Mint = () => {
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard
                   title="Your Claim Rank"
-                  value={Number(contractReads?.[1] ?? 0)}
+                  value={globalRank}
                   decimals={0}
                 />
                 <DateStatCard
@@ -216,7 +186,11 @@ const Mint = () => {
                   Start Mint
                 </button>
               </div>
-              <GasEstimate fee={fee} />
+
+              <GasEstimate
+                feeData={feeData}
+                gasLimit={config?.request?.gasLimit}
+              />
             </div>
           </form>
         </CardContainer>

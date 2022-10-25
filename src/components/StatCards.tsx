@@ -82,16 +82,12 @@ interface NumberStat {
 }
 
 export const NumberStatCard: NextPage<NumberStat> = (props) => {
-  let value = props.value;
-  if (props.tokenDecimals != null) {
-    value = Number(ethers.utils.formatUnits(props.value.toString(), 18));
-  }
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-2xl text-right">
         <CountUp
-          end={value}
+          end={props.value}
           preserveValue={true}
           separator={props?.separator ?? ","}
           decimals={props?.decimals ?? 2}

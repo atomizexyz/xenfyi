@@ -1,8 +1,6 @@
 import {
-  useFeeData,
   useNetwork,
   useAccount,
-  useContractRead,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
@@ -11,7 +9,7 @@ import Link from "next/link";
 import Container from "~/components/containers/Container";
 import GasEstimate from "~/components/GasEstimate";
 import { MaxValueField, WalletAddressField } from "~/components/FormFields";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
@@ -19,7 +17,6 @@ import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CountDataCard } from "~/components/StatCards";
 import {
-  FeeData,
   calculateMintReward,
   mintPenalty,
   UTC_TIME,
@@ -29,14 +26,13 @@ import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Mint = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
-  const [claimFee, setClaimFee] = useState<FeeData>();
-  const [claimShareFee, setClaimShareFee] = useState<FeeData>();
-  const [claimStakeFee, setClaimStakeFee] = useState<FeeData>();
 
   const [disabled, setDisabled] = useState(true);
   const [activeStakeDisabled, setActiveStakeDisabled] = useState(true);
@@ -44,51 +40,18 @@ const Mint = () => {
   const [penaltyPercent, setPenaltyPercent] = useState(0);
   const [penaltyXEN, setPenaltyXEN] = useState(0);
   const [reward, setReward] = useState(0);
+  const { userMint, userStake, grossReward, feeData } = useContext(XENContext);
 
-  const { data: feeData } = useFeeData();
-
-  /*** CONTRACT READ SETUP  ***/
-
-  const { data: userMintData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: userStakeData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: globalRankData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "globalRank",
-    // watch: true,
-  });
-
-  const { data: grossRewardData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getGrossReward",
-    args: [
-      Number(globalRankData ?? 0) - (userMintData?.rank ?? 0),
-      Number(userMintData?.amplifier ?? 0),
-      Number(userMintData?.term ?? 0),
-      1000 + Number(userMintData?.eaaRate ?? 0),
-    ],
-    // watch: true,
-  });
   /*** FORM SETUP ***/
 
   // Claim
-
   const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
-    ...xenContract(chain),
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimMintReward",
+    enabled: !disabled,
   });
   const { data: claimData, write: writeClaim } = useContractWrite({
     ...configClaim,
@@ -134,20 +97,23 @@ const Mint = () => {
     register: cShareRegister,
     handleSubmit: cShareHandleSubmit,
     watch: cShareWatch,
-    formState: { errors: cShareErrors },
+    formState: { errors: cShareErrors, isValid: cShareIsValid },
     setValue: cShareSetValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schemaClaimShare),
   });
   const cShareWatchAllFields = cShareWatch();
 
   const { config: configClaimShare } = usePrepareContractWrite({
-    ...xenContract(chain),
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimMintRewardAndShare",
     args: [
       cShareWatchAllFields.claimShareAddress,
       cShareWatchAllFields.claimSharePercentage,
     ],
+    enabled: !disabled,
   });
 
   const { data: claimShareData, write: writeClaimShare } = useContractWrite({
@@ -192,20 +158,23 @@ const Mint = () => {
     register: cStakeRegister,
     handleSubmit: cStakeHandleSubmit,
     watch: cStakeWatch,
-    formState: { errors: cStakeErrors },
+    formState: { errors: cStakeErrors, isValid: cStakeIsValid },
     setValue: cStakeSetValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schemaClaimStake),
   });
   const cStakeWatchAllFields = cStakeWatch();
 
   const { config: configClaimStake } = usePrepareContractWrite({
-    ...xenContract(chain),
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "claimMintRewardAndStake",
     args: [
       cStakeWatchAllFields.claimStakePercentage,
       cStakeWatchAllFields.claimStakeDays,
     ],
+    enabled: !disabled,
   });
 
   const { data: claimStakeData, write: writeClaimStake } = useContractWrite({
@@ -232,65 +201,40 @@ const Mint = () => {
   useEffect(() => {
     if (
       address &&
-      userMintData &&
-      !userMintData.maturityTs.isZero() &&
-      userMintData.maturityTs < UTC_TIME
+      userMint &&
+      !userMint.maturityTs.isZero() &&
+      userMint?.maturityTs.toNumber() < UTC_TIME
     ) {
       if (!processing) {
         setDisabled(false);
       }
     }
 
-    if (userMintData && !userMintData.maturityTs.isZero()) {
-      const penalty = mintPenalty(Number(userMintData.maturityTs ?? 0));
+    if (userMint && !userMint.maturityTs.isZero()) {
+      const penalty = mintPenalty(userMint.maturityTs.toNumber());
       const reward = calculateMintReward({
-        maturityTs: userMintData.maturityTs,
-        grossReward: Number(grossRewardData ?? 0),
+        maturityTs: userMint.maturityTs.toNumber(),
+        grossReward: grossReward,
       });
       setPenaltyPercent(penalty);
       setReward(reward);
       setPenaltyXEN(reward * (penalty / 100));
-
-      const gasPrice = feeData?.gasPrice;
-      const configClaimGasLimit = configClaim?.request?.gasLimit;
-      if (gasPrice && configClaimGasLimit) {
-        setClaimFee({
-          gas: gasPrice,
-          transaction: configClaimGasLimit,
-        });
-      }
-
-      const configClaimShareGasLimit = configClaimShare?.request?.gasLimit;
-      if (gasPrice && configClaimShareGasLimit) {
-        setClaimShareFee({
-          gas: gasPrice,
-          transaction: configClaimShareGasLimit,
-        });
-      }
-
-      const configClaimStakeGasLimit = configClaimStake?.request?.gasLimit;
-      if (gasPrice && configClaimStakeGasLimit) {
-        setClaimStakeFee({
-          gas: gasPrice,
-          transaction: configClaimStakeGasLimit,
-        });
-      }
     }
 
-    if (address && userStakeData && userStakeData.term == 0) {
+    if (address && userStake && userStake.term.toNumber() == 0) {
       setActiveStakeDisabled(false);
     }
   }, [
     activeStakeDisabled,
     address,
-    userMintData,
     processing,
-    grossRewardData,
-    feeData?.gasPrice,
-    configClaim?.request?.gasLimit,
-    configClaimShare?.request?.gasLimit,
-    configClaimStake?.request?.gasLimit,
-    userStakeData,
+    userMint,
+    userStake,
+    grossReward,
+    cShareIsValid,
+    cStakeIsValid,
+    configClaimShare,
+    configClaimStake,
   ]);
 
   return (
@@ -343,7 +287,10 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate fee={claimFee} />
+                <GasEstimate
+                  feeData={feeData}
+                  gasLimit={configClaim?.request?.gasLimit}
+                />
               </div>
             </form>
           </div>
@@ -412,7 +359,10 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate fee={claimShareFee} />
+                <GasEstimate
+                  feeData={feeData}
+                  gasLimit={configClaimShare?.request?.gasLimit}
+                />
               </div>
             </form>
           </div>
@@ -483,7 +433,10 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate fee={claimStakeFee} />
+                <GasEstimate
+                  feeData={feeData}
+                  gasLimit={configClaimStake?.request?.gasLimit}
+                />
               </div>
             </form>
           </div>

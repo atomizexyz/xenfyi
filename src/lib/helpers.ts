@@ -1,6 +1,5 @@
 import { daysSince } from "~/components/StatCards";
 import { BigNumber, ethers } from "ethers";
-
 export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;
 const MAX_PENALTY_PCT = 99;
@@ -42,25 +41,13 @@ export const progressDays = (maturityTs: number, term: number) => {
   return 0;
 };
 
-export interface MintData {
-  amplifier: number; // use
-  rank: number; // used
-  term: number; // term
-  globalRank: number; // used
-  eaaRate?: number;
-  maturityTs?: number;
-  user?: string;
-  genesisTs?: number;
-}
-
-export const estimatedXEN = (data?: MintData) => {
+export const estimatedXEN = (globalRank: number, data?: any) => {
   if (data) {
-    const EAA = 0.1 - 0.001 * (data.rank / 1e5);
-
+    const EAA = 0.1 - 0.001 * (data.rank.toNumber() / 1e5);
     const XEN =
-      Math.log2(data.globalRank - data.rank) *
-      data.term *
-      data.amplifier *
+      Math.log2(globalRank - data.rank.toNumber()) *
+      data.term.toNumber() *
+      data.amplifier.toNumber() *
       (1 + EAA);
 
     return XEN;
@@ -86,22 +73,8 @@ export const stakeYield = (data?: StakeData) => {
   }
 };
 
-export interface FeeData {
-  gas: BigNumber;
-  transaction: BigNumber;
-}
-
 export const toGwei = (value: BigNumber) => {
-  return Number(ethers.utils.formatUnits(value, "gwei"));
-};
-
-export const gasCalculator = (fee?: FeeData) => {
-  if (fee) {
-    const totalFee = fee.gas.mul(fee.transaction);
-    const totalFeeGwei = toGwei(totalFee);
-    return formatDecimals(totalFeeGwei, 0, "gwei");
-  }
-  return formatDecimals(0, 0, "gwei");
+  return ethers.utils.formatUnits(value, "gwei");
 };
 
 interface MintRewardData {
@@ -142,14 +115,21 @@ export const truncatedAddress = (address: string) => {
   return `${address.slice(0, 6)}••••${address.slice(-4)}`;
 };
 
-export const estimatedStakeRewardXEN = (data: StakeRewardData) => {
+export const estimatedStakeRewardXEN = (data: any) => {
   const amount = Number(ethers.utils.formatUnits(data.amount ?? 0, 18));
-  if (data.maturityTs != 0 && UTC_TIME > data.maturityTs) {
-    const rate = (data.apy * data.term * 1_000_000) / DAYS_IN_YEAR;
-    const totalReward = (data.amount * rate) / 100_000_000 / 1e18;
-    const progress = progressDays(data.maturityTs, data.term);
+  if (
+    data.maturityTs.toNumber() != 0 &&
+    UTC_TIME > data.maturityTs.toNumber()
+  ) {
+    const rate =
+      (data.apy.toNumber() * data.term.toNumber() * 1_000_000) / DAYS_IN_YEAR;
+    const totalReward = (data.amount.toNumber() * rate) / 100_000_000 / 1e18;
+    const progress = progressDays(
+      data.maturityTs.toNumber(),
+      data.term.toNumber()
+    );
 
-    return amount + (progress / data.term) * totalReward;
+    return amount + (progress / data.term.toNumber()) * totalReward;
   }
   return amount;
 };

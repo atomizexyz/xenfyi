@@ -1,25 +1,20 @@
 import Link from "next/link";
 import Container from "~/components/containers/Container";
-
 import {
-  useFeeData,
   useNetwork,
-  useBalance,
   useAccount,
-  useContractRead,
-  useContractReads,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
 } from "wagmi";
 import { MaxValueField } from "~/components/FormFields";
-import { InformationCircleIcon, XCircleIcon } from "@heroicons/react/outline";
-import { useEffect, useState } from "react";
+import { InformationCircleIcon } from "@heroicons/react/outline";
+import { useEffect, useState, useContext } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { xenContract } from "~/lib/xen-contract";
-import { UTC_TIME, FeeData, stakeYield } from "~/lib/helpers";
+import { UTC_TIME, stakeYield } from "~/lib/helpers";
 import { BigNumber, ethers } from "ethers";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -28,45 +23,19 @@ import GasEstimate from "~/components/GasEstimate";
 import { clsx } from "clsx";
 import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
-  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
-  const { data: feeData } = useFeeData();
 
-  /*** CONTRACT READ SETUP  ***/
-
-  const { data: balanceData } = useBalance({
-    addressOrName: address,
-    token: xenContract(chain).addressOrName,
-    // watch: true,
-  });
-
-  const { data: userStake } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: contractReads } = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chain),
-        functionName: "genesisTs",
-      },
-      {
-        ...xenContract(chain),
-        functionName: "getCurrentAPY",
-      },
-    ],
-    overrides: { from: address },
-  });
+  const { xenBalance, userStake, genesisTs, globalRank, currentAPY, feeData } =
+    useContext(XENContext);
 
   /*** FORM SETUP ***/
 
@@ -77,8 +46,10 @@ const Stake = () => {
         .number()
         .required("Stake amount required")
         .max(
-          Number(balanceData?.formatted ?? 0),
-          `Maximum stake amount: ${balanceData?.formatted}`
+          Number(
+            ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
+          ),
+          `Maximum stake amount: ${xenBalance?.formatted}`
         )
         .positive()
         .typeError("Stake amount required"),
@@ -95,25 +66,27 @@ const Stake = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm({
+    mode: "onChange",
     resolver: yupResolver(schema),
   });
   const watchAllFields = watch();
-
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
-    ...xenContract(chain),
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "stake",
     args: [
       ethers.utils.parseUnits(
         (Number(watchAllFields?.startStakeAmount) || 0).toString(),
-        balanceData?.decimals ?? 1
+        xenBalance?.decimals ?? 0
       ),
       watchAllFields.startStakeDays ?? 0,
     ],
+    enabled: isValid,
   });
   const { data: stakeData, write: writeStake } = useContractWrite({
     ...config,
@@ -140,26 +113,16 @@ const Stake = () => {
       setMaturity(UTC_TIME + (watchAllFields.startStakeDays ?? 0) * 86400);
     }
 
-    if (!processing && address && userStake && userStake.term == 0) {
+    if (!processing && address && userStake && userStake.term.toNumber() == 0) {
       setDisabled(false);
-    }
-
-    const gasPrice = feeData?.gasPrice;
-    const gasLimit = config?.request?.gasLimit;
-    if (gasPrice && gasLimit) {
-      setFee({
-        gas: gasPrice,
-        transaction: gasLimit,
-      });
     }
   }, [
     address,
-    config?.request?.gasLimit,
-    contractReads,
-    feeData?.gasPrice,
     processing,
     userStake,
     watchAllFields.startStakeDays,
+    isValid,
+    config,
   ]);
 
   return (
@@ -186,7 +149,10 @@ const Stake = () => {
               <MaxValueField
                 title="AMOUNT"
                 description="Maximum stake amount"
-                value={BigNumber.from(balanceData?.value ?? 0).toString()}
+                value={ethers.utils.formatUnits(
+                  xenBalance?.value ?? BigNumber.from(0),
+                  xenBalance?.decimals ?? BigNumber.from(0)
+                )}
                 disabled={disabled}
                 errorMessage={
                   <ErrorMessage errors={errors} name="startStakeAmount" />
@@ -213,12 +179,12 @@ const Stake = () => {
                   title="Yield"
                   value={stakeYield({
                     xenBalance: watchAllFields.startStakeAmount,
-                    genesisTs: Number(contractReads?.[0]),
+                    genesisTs: genesisTs,
                     term: watchAllFields.startStakeDays,
-                    apy: Number(contractReads?.[1]),
+                    apy: currentAPY,
                   })}
                   decimals={0}
-                  description={`${Number(contractReads?.[1]).toFixed(2)}%`}
+                  description={`${currentAPY.toFixed(2)}%`}
                 />
                 <DateStatCard
                   title="Maturity"
@@ -254,7 +220,10 @@ const Stake = () => {
                   Start Stake
                 </button>
               </div>
-              <GasEstimate fee={fee} />
+              <GasEstimate
+                feeData={feeData}
+                gasLimit={config?.request?.gasLimit}
+              />
             </div>
           </form>
         </CardContainer>

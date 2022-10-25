@@ -18,17 +18,10 @@ export const MaxValueField: NextPage<any> = (props) => {
       <label className="label">
         <span className="label-text-alt text-neutral">{props.description}</span>
         <span className="label-text-alt text-neutral">
-          {`${Number(
-            ethers.utils.formatUnits(props.value, props.decimals)
-          ).toLocaleString("en-US")}`}
+          {`${Number(props.value).toLocaleString("en-US")}`}
           <button
             type="button"
-            onClick={() =>
-              props.setValue(
-                props.register.name,
-                ethers.utils.formatUnits(props.value, props.decimals)
-              )
-            }
+            onClick={() => props.setValue(props.register.name, props.value)}
             className="btn btn-xs glass text-neutral ml-2"
             disabled={props.disabled}
           >

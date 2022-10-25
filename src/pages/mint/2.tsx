@@ -1,110 +1,68 @@
-import {
-  useNetwork,
-  useContractRead,
-  useAccount,
-  useContractReads,
-} from "wagmi";
 import Container from "~/components/containers/Container";
 import {
   NumberStatCard,
   ProgressStatCard,
   CountdownCard,
 } from "~/components/StatCards";
-import { progressDays, estimatedXEN, MintData, UTC_TIME } from "~/lib/helpers";
-import { useEffect, useState } from "react";
+import { progressDays, estimatedXEN } from "~/lib/helpers";
+import { useEffect, useState, useContext } from "react";
 import Link from "next/link";
-import { xenContract } from "~/lib/xen-contract";
 import Countdown from "react-countdown";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
 
 const Mint = () => {
-  const { address } = useAccount();
-  const { chain } = useNetwork();
-  const [mintingData, setMintingData] = useState<MintData>();
-  const [max, setMax] = useState(0);
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
 
-  const { data: userMint } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserMint",
-    overrides: { from: address },
-    // watch: true,
-  });
-
-  const { data: contractReads } = useContractReads({
-    contracts: [
-      {
-        ...xenContract(chain),
-        functionName: "genesisTs",
-      },
-      {
-        ...xenContract(chain),
-        functionName: "globalRank",
-      },
-    ],
-    // watch: true,
-  });
+  const { userMint, globalRank } = useContext(XENContext);
 
   const mintItems = [
     {
       title: "Estimated XEN",
-      value: Number(estimatedXEN(mintingData)),
+      value: estimatedXEN(globalRank, userMint),
       suffix: "",
       decimals: 0,
     },
     {
       title: "Amplifier",
-      value: Number(mintingData?.amplifier),
+      value: userMint?.amplifier.toNumber() ?? 0,
       suffix: "",
       decimals: 0,
     },
     {
       title: "EAA Rate",
-      value: Number(mintingData?.eaaRate) / 10,
+      value: userMint?.eaaRate.toNumber() ?? 0 / 10,
       suffix: "%",
       decimals: 2,
     },
     {
       title: "Rank",
-      value: Number(mintingData?.rank),
+      value: userMint?.rank.toNumber() ?? 0,
       suffix: "",
       decimals: 0,
     },
     {
       title: "Term",
-      value: Number(mintingData?.term),
+      value: userMint?.term.toNumber() ?? 0,
       suffix: "",
       decimals: 0,
     },
   ];
 
   useEffect(() => {
-    if (userMint && contractReads) {
-      setMintingData({
-        user: String(userMint?.user),
-        eaaRate: Number(userMint?.eaaRate),
-        maturityTs: Number(userMint?.maturityTs),
-        rank: Number(userMint?.rank),
-        amplifier: Number(userMint?.amplifier),
-        term: Number(userMint?.term),
-        genesisTs: Number(contractReads[0]),
-        globalRank: Number(contractReads[1]),
-      });
-
+    if (userMint) {
       if (userMint.maturityTs) {
-        const max = Number(userMint.term ?? 0);
         const progress = progressDays(
-          Number(userMint.maturityTs ?? 0),
-          Number(userMint.term ?? 0)
+          userMint.maturityTs.toNumber() ?? 0,
+          userMint.term.toNumber() ?? 0
         );
 
-        setMax(max);
         setProgress(progress);
-        setPercent((progress / max) * 100);
+        setPercent((progress / userMint.term.toNumber()) * 100);
       }
     }
-  }, [contractReads, userMint?.maturityTs, userMint?.term, progress, userMint]);
+  }, [userMint?.maturityTs, userMint?.term, progress, userMint]);
 
   return (
     <Container className="max-w-2xl">
@@ -129,7 +87,7 @@ const Mint = () => {
           <h2 className="card-title">Minting</h2>
           <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
             <Countdown
-              date={Number(userMint?.maturityTs) * 1000}
+              date={(userMint?.maturityTs.toNumber() ?? 0) * 1000}
               renderer={(props) => (
                 <CountdownCard
                   days={props.days}
@@ -143,9 +101,9 @@ const Mint = () => {
               title="Progress"
               percentComplete={percent}
               value={progress}
-              max={max}
-              daysRemaining={max - progress}
-              dateTs={Number(userMint?.maturityTs)}
+              max={userMint?.term.toNumber() ?? 0}
+              daysRemaining={userMint?.term.toNumber() ?? 0 - progress}
+              dateTs={userMint?.maturityTs.toNumber() ?? 0}
             />
             {mintItems.map((item, index) => (
               <NumberStatCard

@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Container from "~/components/containers/Container";
-import { useNetwork, Chain, useContractRead } from "wagmi";
-import { xenContract } from "~/lib/xen-contract";
+import { useNetwork, Chain } from "wagmi";
 import PortfolioAddressRow from "~/components/PortfolioAddressRow";
 import { useLocalStorage } from "usehooks-ts";
 import { ErrorMessage } from "@hookform/error-message";
@@ -10,10 +9,10 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { WALLET_ADDRESS_REGEX, MAX_PROFILE_WALLETS } from "~/lib/helpers";
 import * as yup from "yup";
 import { CountDataCard } from "~/components/StatCards";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import CardContainer from "~/components/containers/CardContainer";
-import { chainList } from "~/lib/client";
+import XENContext from "~/contexts/XENContext";
 
 const Portfolio: NextPage = () => {
   const { chain } = useNetwork() as { chain: Chain };
@@ -23,12 +22,7 @@ const Portfolio: NextPage = () => {
     "storedAddresses",
     []
   );
-
-  const { data: globalRankData } = useContractRead({
-    ...xenContract(chain),
-    functionName: "globalRank",
-    // watch: true,
-  });
+  const { globalRank } = useContext(XENContext);
 
   const schema = yup
     .object()
@@ -118,7 +112,7 @@ const Portfolio: NextPage = () => {
       setMintTotal(mintTotal);
       setStakeTotal(stakeTotal);
     }
-  }, [fields]);
+  }, [fields, mintTotal, stakeTotal]);
 
   return (
     <Container className="max-w-5xl">
@@ -150,7 +144,7 @@ const Portfolio: NextPage = () => {
                     <tr key={index}>
                       <PortfolioAddressRow
                         chain={chain}
-                        globalRankData={Number(globalRankData ?? 0)}
+                        globalRankData={globalRank}
                         item={item}
                         index={index}
                         register={register}

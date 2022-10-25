@@ -53,7 +53,7 @@ const Chains: NextPage = () => {
 
   const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
     const { data: tokenData } = useToken({
-      address: xenContract(chain).addressOrName as any,
+      address: xenContract(chain).addressOrName,
       chainId: chain?.id,
     });
 

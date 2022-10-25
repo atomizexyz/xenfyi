@@ -1,10 +1,8 @@
 import Link from "next/link";
 import Container from "~/components/containers/Container";
 import {
-  useFeeData,
   useNetwork,
   useAccount,
-  useContractRead,
   useContractWrite,
   useWaitForTransaction,
   usePrepareContractWrite,
@@ -12,37 +10,34 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { xenContract } from "~/lib/xen-contract";
-import { FeeData, calculateStakeReward, UTC_TIME } from "~/lib/helpers";
-import { useState, useEffect } from "react";
+import { calculateStakeReward, UTC_TIME } from "~/lib/helpers";
+import { useState, useEffect, useContext } from "react";
 import { CountDataCard } from "~/components/StatCards";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import toast from "react-hot-toast";
 import { clsx } from "clsx";
 import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
+import XENContext from "~/contexts/XENContext";
+import XENCryptoABI from "~/abi/XENCryptoABI";
 
 const Stake = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
-  const [fee, setFee] = useState<FeeData>();
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
   const [earlyEndStake, setEarlyEndStake] = useState(false);
-  const { data: feeData } = useFeeData();
 
   const { handleSubmit } = useForm();
 
-  const { data: userStake } = useContractRead({
-    ...xenContract(chain),
-    functionName: "getUserStake",
-    overrides: { from: address },
-    // watch: true,
-  });
+  const { userStake, feeData } = useContext(XENContext);
 
   const { config } = usePrepareContractWrite({
-    ...xenContract(chain),
+    addressOrName: xenContract(chain).addressOrName,
+    contractInterface: XENCryptoABI,
     functionName: "withdraw",
+    enabled: (userStake && !userStake.term.isZero()) ?? false,
   });
   const { data: withdrawData, write: writeStake } = useContractWrite({
     ...config,
@@ -63,28 +58,18 @@ const Stake = () => {
   };
 
   useEffect(() => {
-    if (!processing && address && userStake && !userStake.maturityTs.isZero()) {
+    if (
+      !processing &&
+      address &&
+      userStake &&
+      !userStake.maturityTs?.isZero()
+    ) {
       setDisabled(false);
-      if (UTC_TIME < userStake.maturityTs) {
+      if (UTC_TIME < userStake.maturityTs.toNumber() ?? 0) {
         setEarlyEndStake(true);
       }
     }
-    const gasPrice = feeData?.gasPrice;
-    const gasLimit = config?.request?.gasLimit;
-    if (gasPrice && gasLimit) {
-      setFee({
-        gas: gasPrice,
-        transaction: gasLimit,
-      });
-    }
-  }, [
-    address,
-    userStake,
-    router,
-    processing,
-    config?.request?.gasLimit,
-    feeData?.gasPrice,
-  ]);
+  }, [address, userStake, router, processing]);
 
   return (
     <Container className="max-w-2xl">
@@ -150,7 +135,10 @@ const Stake = () => {
                 </button>
               </div>
 
-              <GasEstimate fee={fee} />
+              <GasEstimate
+                feeData={feeData}
+                gasLimit={config?.request?.gasLimit}
+              />
             </div>
           </form>
         </CardContainer>

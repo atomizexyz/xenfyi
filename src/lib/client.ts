@@ -20,6 +20,14 @@ import { evmosMainnet } from "./chains/evmosMainnet";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
+const ANKR_CHAIN_ID_SET = [
+  chain.mainnet.id,
+  bscMainnet.id,
+  chain.polygon.id,
+  chain.optimism.id,
+  chain.arbitrum.id,
+  avaxMainnet.id,
+];
 
 export const chainList = [
   chain.mainnet,
@@ -46,6 +54,12 @@ const { chains, provider, webSocketProvider } = configureChains(chainList, [
     },
   }),
   publicProvider({ priority: 1 }),
+  jsonRpcProvider({
+    priority: 2,
+    rpc: (chain: Chain) => ({
+      http: "https://rpc.ankr.com/multichain",
+    }),
+  }),
 ]);
 
 export const client = createClient({
