@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Container from "~/components/containers/Container";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useToken } from "wagmi";
 import {
   NumberStatCard,
   ChainStatCard,
@@ -32,8 +33,14 @@ const Dashboard: NextPage = () => {
     currentAMP,
     currentEAAR,
     currentAPY,
-    token,
   } = useContext(XENContext);
+
+  const { data: token } = useToken({
+    address: xenContract(chainFromId).addressOrName,
+    chainId: chainFromId?.id,
+  });
+
+  console.log(token);
 
   const generalStats = [
     {

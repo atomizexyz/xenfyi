@@ -141,6 +141,23 @@ export const XENProvider = ({ children }: any) => {
     // watch: true,
   });
 
+  useToken({
+    address: xenContract(chain).addressOrName,
+    chainId: chain?.id,
+    onSuccess(data) {
+      setToken({
+        address: data.address,
+        decimals: data.decimals,
+        name: data.name,
+        symbol: data.symbol,
+        totalSupply: {
+          formatted: data.totalSupply.formatted,
+          value: data.totalSupply.value,
+        },
+      });
+    },
+  });
+
   useContractRead({
     ...xenContract(chain),
     functionName: "getUserMint",
@@ -245,23 +262,6 @@ export const XENProvider = ({ children }: any) => {
     },
     cacheOnBlock: true,
     watch: true,
-  });
-
-  useToken({
-    address: xenContract(chain).addressOrName,
-    chainId: chain.id,
-    onSuccess(data) {
-      setToken({
-        address: data.address,
-        decimals: data.decimals,
-        name: data.name,
-        symbol: data.symbol,
-        totalSupply: {
-          formatted: data.totalSupply.formatted,
-          value: data.totalSupply.value,
-        },
-      });
-    },
   });
 
   useFeeData({
