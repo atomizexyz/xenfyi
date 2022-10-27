@@ -23,7 +23,7 @@ export const xenContract = (contractChain?: Chain) => {
       };
     case fantomMainnet.id:
       return {
-        addressOrName: "",
+        addressOrName: "0xeF4B763385838FfFc708000f884026B8c0434275",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
