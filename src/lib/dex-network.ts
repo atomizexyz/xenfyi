@@ -68,6 +68,33 @@ export const dexes: Record<number, DexNetwork> = {
       },
     }),
   },
+  250: {
+    stableAddress: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75", // USDC
+    uniswapPairSettings: new UniswapPairSettings({
+      cloneUniswapContractDetails: {
+        v2Override: {
+          routerAddress: "0xF491e7B69E4244ad4002BC14e878a34207E38c29",
+          factoryAddress: "0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3",
+          pairAddress: "0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3",
+        },
+      },
+      customNetwork: {
+        nameNetwork: "Fantom",
+        multicallContractAddress: "0xcA11bde05977b3631167028862bE2a173976CA11",
+        nativeCurrency: {
+          name: "Fantom",
+          symbol: "FTM",
+        },
+        nativeWrappedTokenInfo: {
+          chainId: 250,
+          contractAddress: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          decimals: 18,
+          symbol: "WFTM",
+          name: "Wrapped FTM",
+        },
+      },
+    }),
+  },
   1284: {
     stableAddress: "0x931715FEE2d06333043d11F658C8CE934aC61D0c", // USDT
     uniswapPairSettings: new UniswapPairSettings({
