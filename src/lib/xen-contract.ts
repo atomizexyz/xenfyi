@@ -8,6 +8,7 @@ import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { moonbeamMainnet } from "./chains/moonbeamMainnet";
 import { evmosMainnet } from "./chains/evmosMainnet";
+import { fantomMainnet } from "./chains/fantomMainnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -17,6 +18,12 @@ export const xenContract = (contractChain?: Chain) => {
     case bscTestnet.id:
       return {
         addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+        contractInterface: XENCryptoABI,
+        chainId: contractChain.id,
+      };
+    case fantomMainnet.id:
+      return {
+        addressOrName: "",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };

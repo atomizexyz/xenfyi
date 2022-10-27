@@ -20,6 +20,7 @@ import {
   EthereumPOWIcon,
   EVMOSIcon,
   MoonbeamIcon,
+  FantomIcon,
 } from "~/components/Icons";
 
 export const chainIcons: Record<number, JSX.Element> = {
@@ -28,6 +29,7 @@ export const chainIcons: Record<number, JSX.Element> = {
   56: <BinanceSmartChainIcon />,
   97: <BinanceSmartChainIcon />,
   137: <PolygonIcon />,
+  250: <FantomIcon />,
   941: <PulseChainIcon />,
   1284: <MoonbeamIcon />,
   9001: <EVMOSIcon />,

@@ -17,6 +17,7 @@ import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { moonbeamMainnet } from "./chains/moonbeamMainnet";
 import { evmosMainnet } from "./chains/evmosMainnet";
+import { fantomMainnet } from "./chains/fantomMainnet";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -29,6 +30,7 @@ export const chainList = [
   ethwMainnet,
   moonbeamMainnet,
   evmosMainnet,
+  fantomMainnet,
   bscTestnet,
   chain.goerli,
   pulseChain,
