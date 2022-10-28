@@ -40,8 +40,6 @@ const Dashboard: NextPage = () => {
     chainId: chainFromId?.id,
   });
 
-  console.log(token);
-
   const generalStats = [
     {
       title: "Global Rank",

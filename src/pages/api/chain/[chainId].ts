@@ -42,7 +42,6 @@ export default async function handler(
 
       const globalRank = await XENContract.globalRank();
 
-      console.log(globalRank);
       res.status(200).json({
         xenContract: xenContractAddress,
         gRank: globalRank.toNumber(),
