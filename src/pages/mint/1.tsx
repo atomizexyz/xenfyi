@@ -69,7 +69,7 @@ const Mint = () => {
     contractInterface: XENCryptoABI,
     functionName: "claimRank",
     args: [watchAllFields.startMintDays ?? 0],
-    enabled: isValid,
+    enabled: !disabled,
   });
   const { data: claimRankData, write } = useContractWrite({
     ...config,
@@ -96,7 +96,7 @@ const Mint = () => {
       setMaturity(UTC_TIME + watchAllFields.startMintDays * 86400);
     }
 
-    if (!processing && address && userMint?.term.isZero()) {
+    if (!processing && address && userMint && userMint.term.isZero()) {
       setDisabled(false);
     }
 
@@ -107,7 +107,7 @@ const Mint = () => {
     currentMaxTerm,
     isValid,
     processing,
-    userMint?.term,
+    userMint,
     watchAllFields.startMintDays,
   ]);
 

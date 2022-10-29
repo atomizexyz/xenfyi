@@ -86,7 +86,7 @@ const Stake = () => {
       ),
       watchAllFields.startStakeDays ?? 0,
     ],
-    enabled: isValid,
+    enabled: !disabled,
   });
   const { data: stakeData, write: writeStake } = useContractWrite({
     ...config,
