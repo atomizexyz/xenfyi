@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { GoogleAnalytics } from "nextjs-google-analytics";
 import { client } from "~/lib/client";
 import Layout from "~/components/Layout";
+import { Analytics } from "@vercel/analytics/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Layout>
             <GoogleAnalytics trackPageViews />
             <Component {...pageProps} />
+            <Analytics />
           </Layout>
         </ConnectKitProvider>
       </WagmiConfig>
