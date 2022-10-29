@@ -70,7 +70,7 @@ export const textLinkItems = [
 
   {
     name: "Website Source Code",
-    href: "https://github.com/joeblau/xenfyi",
+    href: "https://github.com/atomizexyz/xenfyi",
   },
 ];
 
