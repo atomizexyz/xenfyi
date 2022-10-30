@@ -4,11 +4,9 @@
   "global-rank": "Global Rank",
   "chain": "Chain",
   "address": "Address",
-  "developer": "Developer",
-  "source-code": "Website Source Code",
   "theme": "Theme",
-  "whitepaper": "Whitepaper",
-  "documentation": "Documentation",
+  "add-to-wallet": "Add XEN to Wallet",
+  "connect-wallet": "Connect Wallet",
   "or": "or",
   "success": "Success",
   "link": {

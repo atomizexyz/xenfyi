@@ -166,7 +166,7 @@ export const Navbar: NextPage = () => {
                   </>
                 ) : (
                   <button onClick={show} className="btn glass text-neutral">
-                    Connect Wallet
+                    {t("connect-wallet")}
                   </button>
                 )}
               </>
@@ -183,7 +183,7 @@ export const Navbar: NextPage = () => {
           >
             <li>
               <label className="flex swap swap-rotate justify-between text-neutral glass">
-                Theme
+                {t("theme")}
                 <input
                   type="checkbox"
                   onChange={() => {
@@ -210,7 +210,7 @@ export const Navbar: NextPage = () => {
                     (document.activeElement as HTMLElement).blur();
                   }}
                 >
-                  Add XEN to Wallet
+                  {t("add-to-wallet")}
                   <WalletIcon />
                 </button>
               </li>
