@@ -11,8 +11,13 @@ import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
 import toast from "react-hot-toast";
 import CountUp from "react-countup";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Chains: NextPage = () => {
+  const { t } = useTranslation("common");
+
+  console.log(t);
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
 
@@ -28,7 +33,7 @@ const Chains: NextPage = () => {
             toast.success(
               <div>
                 <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
-                Copied to clipboard
+                {t("toast.copied-to-clipboard")}
               </div>
             );
           }}
@@ -119,9 +124,9 @@ const Chains: NextPage = () => {
   const TableHeaderFooter = () => {
     return (
       <tr>
-        <th className="hidden lg:table-cell">Chain</th>
-        <th className="hidden lg:table-cell text-right">gRank</th>
-        <th className="hidden lg:table-cell text-right">Address</th>
+        <th className="hidden lg:table-cell"></th>
+        <th className="hidden lg:table-cell text-right">{t("global-rank")}</th>
+        <th className="hidden lg:table-cell text-right">{t("address")}</th>
       </tr>
     );
   };
@@ -130,7 +135,7 @@ const Chains: NextPage = () => {
     <Container className="max-w-5xl">
       <div className="space-y-4 w-full">
         <CardContainer>
-          <h2 className="card-title">Chains</h2>
+          <h2 className="card-title">{t("dashboard.chains")}</h2>
 
           <div className="overflow-x-auto">
             <table className="table w-full">
@@ -154,5 +159,13 @@ const Chains: NextPage = () => {
     </Container>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Chains;

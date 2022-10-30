@@ -15,8 +15,12 @@ import { chainIcons } from "~/components/Constants";
 import Link from "next/link";
 import { chainList } from "~/lib/client";
 import XENContext from "~/contexts/XENContext";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Dashboard: NextPage = () => {
+  const { t } = useTranslation("common");
+
   const router = useRouter();
   const { chainId } = router.query as unknown as { chainId: number };
   const chainFromId = chainList.find((c) => c && c.id == chainId);
@@ -42,19 +46,19 @@ const Dashboard: NextPage = () => {
 
   const generalStats = [
     {
-      title: "Global Rank",
+      title: t("card.global-rank"),
       value: globalRank,
     },
     {
-      title: "Active Minters",
+      title: t("card.active-mints"),
       value: activeMinters,
     },
     {
-      title: "Active Stakes",
+      title: t("card.active-stakes"),
       value: activeStakes,
     },
     {
-      title: "Max Mint Term",
+      title: t("card.max-mint-term"),
       value: currentMaxTerm / 86400,
       suffix: " Days",
     },
@@ -62,42 +66,39 @@ const Dashboard: NextPage = () => {
 
   const stakeItems = [
     {
-      title: "Total",
+      title: t("card.total"),
       value: (totalSupply + totalXenStaked) / 1e18,
     },
     {
-      title: "Liquid",
+      title: t("card.liquid"),
       value: totalSupply / 1e18,
     },
     {
-      title: "Stake",
+      title: t("card.staked"),
       value: totalXenStaked / 1e18,
     },
   ];
 
   const rewardsItems = [
     {
-      title: "AMP",
+      title: t("dashboard.amp"),
       value: currentAMP,
       decimals: 0,
-      tooltip:
-        "Reward Amplifier (AMP) is a time-dependent part of XEN Mint Reward calculation. It starts at 3,000 at Genesis and decreases by 1 every day until it reaches 1",
+      tooltip: t("dashboard.amp-description"),
     },
     {
-      title: "EAA",
+      title: t("dashboard.eaa"),
       value: currentEAAR / 10.0,
       decimals: 2,
       suffix: "%",
-      tooltip:
-        "Early Adopter Amplifier (EAA) is a part of XEN Mint Reward calculation which depends on current Global Rank. EAA starts from 10% and decreases in a linear fashion by 0.1% per each 100,000 increase in Global Rank.",
+      tooltip: t("dashboard.eaa-description"),
     },
     {
-      title: "APY",
+      title: t("dashboard.apy"),
       value: currentAPY,
       decimals: 0,
       suffix: "%",
-      tooltip:
-        "Annual Percentage Yield (APY) determines XEN Staking Reward calculation. It is non-compounding and is pro-rated by days. APY starts at 20% on Genesis and decreases by 1p.p. every 90 days until it reaches 2%",
+      tooltip: t("dashboard.apy-description"),
     },
   ];
 
@@ -113,7 +114,7 @@ const Dashboard: NextPage = () => {
         <div className="flex flex-col space-y-8">
           <div className="dropdown dropdown-hover">
             <label tabIndex={0} className="btn m-1 glass text-neutral">
-              Select Chain
+              {t("dashboard.select-chain")}
             </label>
             <ul
               tabIndex={0}
@@ -135,7 +136,7 @@ const Dashboard: NextPage = () => {
           </div>
 
           <CardContainer>
-            <h2 className="card-title">General Stats</h2>
+            <h2 className="card-title">{t("dashboard.general-stats")}</h2>
             <div className="stats stats-vertical bg-transparent text-neutral">
               <ChainStatCard
                 value={chainFromId?.name ?? "Ethereum"}
@@ -167,7 +168,7 @@ const Dashboard: NextPage = () => {
           </CardContainer>
 
           <CardContainer>
-            <h2 className="card-title">Supply</h2>
+            <h2 className="card-title">{t("dashboard.supply")}</h2>
             <div className="stats stats-vertical bg-transparent text-neutral">
               {stakeItems.map((item, index) => (
                 <NumberStatCard
@@ -180,7 +181,7 @@ const Dashboard: NextPage = () => {
           </CardContainer>
 
           <CardContainer>
-            <h2 className="card-title">Rewards</h2>
+            <h2 className="card-title">{t("dashboard.rewards")}</h2>
             <div className="stats stats-vertical bg-transparent text-neutral">
               {rewardsItems.map((item, index) => (
                 <NumberStatCard
@@ -199,5 +200,13 @@ const Dashboard: NextPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Dashboard;

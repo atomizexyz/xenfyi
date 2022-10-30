@@ -7,8 +7,9 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import { client } from "~/lib/client";
 import Layout from "~/components/Layout";
 import { Analytics } from "@vercel/analytics/react";
+import { appWithTranslation } from "next-i18next";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider>
       <WagmiConfig client={client}>
@@ -45,6 +46,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </WagmiConfig>
     </ThemeProvider>
   );
-}
+};
 
-export default MyApp;
+export default appWithTranslation(MyApp);

@@ -1,15 +1,17 @@
 import Head from "next/head";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 const Meta: NextPage = () => {
+  const { t } = useTranslation("common");
+
   const router = useRouter();
   const { asPath } = router;
   const path = asPath.split("/").filter((item) => item !== "");
 
   const title = `XEN.fyi - ${path.join(" - ")}`;
-  const description =
-    "XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem.";
+  const description = t("meta.description");
   const url = "https://xen.fyi";
   const image = "https://xen.fyi/images/preview.png";
 
@@ -28,7 +30,7 @@ const Meta: NextPage = () => {
       <meta name="author" content="Joe Blau joe@atomize.xyz" />
       <meta
         name="keywords"
-        content="xen.fyi, xen crypto, xencrypto, xen, crypto, xen.network, token, ethereum, avalanche, polygon, binance"
+        content="xen.fyi, xen crypto, xencrypto, xen, crypto, xen.network, token, ethereum, avalanche, polygon, binance, moonbeam, evmos, fantom, dogechain"
       />
 
       {/* Apple */}

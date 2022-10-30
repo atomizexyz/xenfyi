@@ -25,8 +25,12 @@ import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
 import XENCryptoABI from "~/abi/XENCryptoABI";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Stake = () => {
+  const { t } = useTranslation("common");
+
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
@@ -34,7 +38,7 @@ const Stake = () => {
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
-  const { xenBalance, userStake, genesisTs, globalRank, currentAPY, feeData } =
+  const { xenBalance, userStake, genesisTs, currentAPY, feeData } =
     useContext(XENContext);
 
   /*** FORM SETUP ***/
@@ -44,21 +48,23 @@ const Stake = () => {
     .shape({
       startStakeAmount: yup
         .number()
-        .required("Stake amount required")
+        .required(t("form-field.amount-required"))
         .max(
           Number(
             ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
           ),
-          `Maximum stake amount: ${xenBalance?.formatted}`
+          t("form-field.amount-maximum", {
+            maximumAmount: xenBalance?.formatted,
+          })
         )
-        .positive()
-        .typeError("Stake amount required"),
+        .positive(t("form-field.amount-positive"))
+        .typeError(t("form-field.amount-required")),
       startStakeDays: yup
         .number()
-        .required("Days required")
-        .max(1000, "Maximum stake days: 1000")
-        .positive("Days must be greater than 0")
-        .typeError("Days required"),
+        .required(t("form-field.days-required"))
+        .max(1000, t("form-field.days-maximum", { numberOfDays: 1000 }))
+        .positive(t("form-field.days-positive"))
+        .typeError(t("form-field.days-required")),
     })
     .required();
 
@@ -98,7 +104,7 @@ const Stake = () => {
   const {} = useWaitForTransaction({
     hash: stakeData?.hash,
     onSuccess(data) {
-      toast("Stake successful");
+      toast(t("toast.stake-successful"));
       router.push("/stake/2");
     },
   });
@@ -130,25 +136,25 @@ const Stake = () => {
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/stake/1">
-            <a className="step step-neutral">Start Stake</a>
+            <a className="step step-neutral">{t("stake.start")}</a>
           </Link>
 
           <Link href="/stake/2">
-            <a className="step">Staking</a>
+            <a className="step">{t("stake.staking")}</a>
           </Link>
 
           <Link href="/stake/3">
-            <a className="step">End Stake</a>
+            <a className="step">{t("stake.end")}</a>
           </Link>
         </ul>
 
         <CardContainer>
           <form onSubmit={handleSubmit(handleStakeSubmit)}>
             <div className="flex flex-col space-y-4">
-              <h2 className="card-title text-neutral">Start Stake</h2>
+              <h2 className="card-title text-neutral">{t("stake.start")}</h2>
               <MaxValueField
-                title="AMOUNT"
-                description="Maximum stake amount"
+                title={t("form-field.amount").toUpperCase()}
+                description={t("form-field.amount-description")}
                 value={ethers.utils.formatUnits(
                   xenBalance?.value ?? BigNumber.from(0),
                   xenBalance?.decimals ?? BigNumber.from(0)
@@ -162,8 +168,8 @@ const Stake = () => {
               />
 
               <MaxValueField
-                title="DAYS"
-                description="Maximum stake days"
+                title={t("form-field.days").toUpperCase()}
+                description={t("form-field.days-description")}
                 decimals={0}
                 value={1000}
                 disabled={disabled}
@@ -176,7 +182,7 @@ const Stake = () => {
 
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard
-                  title="Yield"
+                  title={t("card.yield")}
                   value={stakeYield({
                     xenBalance: watchAllFields.startStakeAmount,
                     genesisTs: genesisTs,
@@ -187,7 +193,7 @@ const Stake = () => {
                   description={`${currentAPY.toFixed(2)}%`}
                 />
                 <DateStatCard
-                  title="Maturity"
+                  title={t("card.maturity")}
                   dateTs={maturity}
                   isPast={false}
                 />
@@ -199,13 +205,8 @@ const Stake = () => {
                     <InformationCircleIcon className="w-8 h-8" />
                   </div>
                   <div>
-                    <h3 className="font-bold">Staking Terms</h3>
-                    <div className="text-xs">
-                      Withdraw original stake amount plus yield at any time
-                      after the maturity date, or at any time the original stake
-                      amount with 0 (zero) yield before the maturity date. One
-                      stake at a time per one address
-                    </div>
+                    <h3 className="font-bold">{t("stake.terms")}</h3>
+                    <div className="text-xs">{t("stake.terms-details")}</div>
                   </div>
                 </div>
               </div>
@@ -217,7 +218,7 @@ const Stake = () => {
                   })}
                   disabled={disabled}
                 >
-                  Start Stake
+                  {t("stake.start")}
                 </button>
               </div>
               <GasEstimate
@@ -231,5 +232,13 @@ const Stake = () => {
     </Container>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Stake;

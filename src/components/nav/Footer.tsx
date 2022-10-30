@@ -5,8 +5,11 @@ import { xenContract } from "~/lib/xen-contract";
 import { useState } from "react";
 import { DONATION_ADDRESS } from "~/lib/helpers";
 import AddressLink from "~/components/AddressLink";
+import { useTranslation } from "next-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation("common");
+
   const { chain: currentChain } = useNetwork();
 
   const defaultChain: Chain = currentChain ?? chain.mainnet;
@@ -20,7 +23,7 @@ const Footer = () => {
             <div
               key={index}
               className="tooltip tooltip-info"
-              data-tip={item.name}
+              data-tip={t(item.t)}
             >
               <Link href={item.href}>
                 <a target="_blank">{item.icon}</a>
@@ -29,9 +32,13 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <AddressLink name={"Contract:"} address={address} chain={defaultChain} />
       <AddressLink
-        name={"Donate:"}
+        name={t("contract")}
+        address={address}
+        chain={defaultChain}
+      />
+      <AddressLink
+        name={t("donate")}
         address={DONATION_ADDRESS}
         chain={defaultChain}
       />
@@ -39,7 +46,7 @@ const Footer = () => {
         {textLinkItems.map((item, index) => (
           <Link href={item.href} key={index}>
             <a target="_blank" className="link link-hover text-neutral">
-              {item.name}
+              {t(item.t)}
             </a>
           </Link>
         ))}

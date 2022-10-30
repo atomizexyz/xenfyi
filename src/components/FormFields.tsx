@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
-import { ethers } from "ethers";
+import { useTranslation } from "next-i18next";
 
 export const MaxValueField: NextPage<any> = (props) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
@@ -25,7 +27,7 @@ export const MaxValueField: NextPage<any> = (props) => {
             className="btn btn-xs glass text-neutral ml-2"
             disabled={props.disabled}
           >
-            MAX
+            {t("form-field.max")}
           </button>
         </span>
       </label>
@@ -34,10 +36,14 @@ export const MaxValueField: NextPage<any> = (props) => {
 };
 
 export const WalletAddressField: NextPage<any> = (props) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
-        <span className="label-text text-neutral">WALLET ADDRESS</span>
+        <span className="label-text text-neutral">
+          {t("form-field.wallet-address")}
+        </span>
         <span className="label-text-alt text-error">{props.errorMessage}</span>
       </label>
       <input
@@ -49,7 +55,7 @@ export const WalletAddressField: NextPage<any> = (props) => {
       />
       <label className="label">
         <span className="label-text-alt text-neutral">
-          Wallet address where you want to share your XEN
+          {t("form-field.wallet-address-description")}
         </span>
       </label>
     </div>

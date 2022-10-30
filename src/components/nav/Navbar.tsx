@@ -15,8 +15,11 @@ import { StatusBadge } from "../StatusBadge";
 import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 import XENContext from "~/contexts/XENContext";
+import { useTranslation } from "next-i18next";
 
 export const Navbar: NextPage = () => {
+  const { t } = useTranslation("common");
+
   const router = useRouter();
   const { chain } = useNetwork();
   const { chains, switchNetwork } = useSwitchNetwork();
@@ -56,7 +59,7 @@ export const Navbar: NextPage = () => {
                 }}
               >
                 {item.icon}
-                {item.name}
+                {t(item.t)}
                 <StatusBadge
                   status={{
                     id: item.id,
@@ -222,7 +225,7 @@ export const Navbar: NextPage = () => {
                       (document.activeElement as HTMLElement).blur();
                     }}
                   >
-                    {item.name}
+                    {t(item.t)}
                     {item.icon}
                   </a>
                 </Link>

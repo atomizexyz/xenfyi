@@ -41,21 +41,21 @@ export const chainIcons: Record<number, JSX.Element> = {
 export const navigationItems = [
   {
     id: 0,
-    name: "Dashboard",
+    t: "dashboard.title",
     icon: <ViewGridIcon className="h-5 w-5" />,
     href: "/dashboard",
     canDisable: false,
   },
   {
     id: 1,
-    name: "Mint",
+    t: "mint.title",
     icon: <DiamondIcon />,
     href: "/mint",
     canDisable: true,
   },
   {
     id: 2,
-    name: "Stake",
+    t: "stake.title",
     icon: <LockClosedIcon className="h-5 w-5" />,
     href: "/stake",
     canDisable: true,
@@ -65,11 +65,13 @@ export const navigationItems = [
 export const textLinkItems = [
   {
     name: "Developer",
+    t: "link.developer",
     href: "http://twitter.com/joeblau",
   },
 
   {
     name: "Website Source Code",
+    t: "link.website-source-code",
     href: "https://github.com/atomizexyz/xenfyi",
   },
 ];
@@ -77,41 +79,49 @@ export const textLinkItems = [
 export const linkItems = [
   {
     name: "Whitepaper",
+    t: "link.whitepaper",
     icon: <DocumentTextIcon className="h-5 w-5" />,
     href: "https://faircrypto.org/xencryptolp.pdf",
   },
   {
     name: "Docs",
+    t: "link.docs",
     icon: <BookOpenIcon className="h-5 w-5" />,
     href: "https://xensource.gitbook.io/www.xenpedia.io/",
   },
   {
     name: "Twitter",
+    t: "link.twitter",
     icon: <TwitterIcon />,
     href: "https://twitter.com/XEN_Crypto",
   },
   {
     name: "Telegram",
+    t: "link.telegram",
     icon: <TelegramIcon />,
     href: "https://t.me/XENCryptoTalk",
   },
   {
     name: "Discord",
+    t: "link.discord",
     icon: <DiscordIcon />,
     href: "https://discord.gg/rcAhrKWJb6",
   },
   {
     name: "GitHub",
+    t: "link.github",
     icon: <GitHubIcon />,
     href: "https://github.com/FairCrypto",
   },
   {
     name: "CoinMarketCap",
+    t: "link.coinmarketcap",
     icon: <CoinmarketCapIcon />,
     href: "https://coinmarketcap.com/currencies/xen-crypto/",
   },
   {
     name: "Dune Analytics",
+    t: "link.dune",
     icon: <DuneIcon />,
     href: "https://dune.com/sixdegree/xen-crypto-overview",
   },

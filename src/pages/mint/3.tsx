@@ -28,8 +28,12 @@ import * as yup from "yup";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
 import XENCryptoABI from "~/abi/XENCryptoABI";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Mint = () => {
+  const { t } = useTranslation("common");
+
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
@@ -66,7 +70,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimData?.hash,
     onSuccess(data) {
-      toast("Claim mint successful");
+      toast(t("toast.claim-successful"));
 
       router.push("/stake/1");
     },
@@ -79,17 +83,17 @@ const Mint = () => {
     .shape({
       claimShareAddress: yup
         .string()
-        .required("Crypto address required")
+        .required(t("form-field.wallet-address-required"))
         .matches(WALLET_ADDRESS_REGEX, {
-          message: "Invalid address",
+          message: t("form-field.wallet-address-invalid"),
           excludeEmptyString: true,
         }),
       claimSharePercentage: yup
         .number()
-        .required("Percentage required")
-        .positive("Percentage must be greater than 0")
-        .max(100, "Maximum claim + share percentage: 100")
-        .typeError("Percentage required"),
+        .required(t("form-field.percentage-required"))
+        .positive(t("form-field.percentage-positive"))
+        .max(100, t("form-field.percentage-maximum"))
+        .typeError(t("form-field.percentage-required")),
     })
     .required();
 
@@ -129,7 +133,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimShareData?.hash,
     onSuccess(data) {
-      toast("Claim mint and share successful");
+      toast(t("toast.claim-and-share-successful"));
       router.push("/stake/1");
     },
   });
@@ -141,16 +145,16 @@ const Mint = () => {
     .shape({
       claimStakePercentage: yup
         .number()
-        .required("Percentage required")
-        .positive("Percentage must be greater than 0")
-        .max(100, "Maximum claim + stake percentage: 100")
-        .typeError("Percentage required"),
+        .required(t("form-field.percentage-required"))
+        .positive(t("form-field.percentage-positive"))
+        .max(100, t("form-field.percentage-maximum"))
+        .typeError(t("form-field.percentage-required")),
       claimStakeDays: yup
         .number()
-        .required("Days required")
-        .max(1000, "Maximum stake days: 1000")
-        .positive("Days must be greater than 0")
-        .typeError("Days required"),
+        .required(t("form-field.days-required"))
+        .max(1000, t("form-field.days-maximum", { numberOfDays: 1000 }))
+        .positive(t("form-field.days-positive"))
+        .typeError(t("form-field.days-required")),
     })
     .required();
 
@@ -191,7 +195,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimStakeData?.hash,
     onSuccess(data) {
-      toast("Claim mint and stake successful");
+      toast(t("toast.claim-and-stake-successful"));
       router.push("/stake/2");
     },
   });
@@ -242,15 +246,15 @@ const Mint = () => {
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/mint/1">
-            <a className="step step-neutral">Start Mint</a>
+            <a className="step step-neutral">{t("mint.start")}</a>
           </Link>
 
           <Link href="/mint/2">
-            <a className="step step-neutral">Minting</a>
+            <a className="step step-neutral">{t("mint.minting")}</a>
           </Link>
 
           <Link href="/mint/3">
-            <a className="step step-neutral">Mint</a>
+            <a className="step step-neutral">{t("mint.title")}</a>
           </Link>
         </ul>
 
@@ -258,16 +262,18 @@ const Mint = () => {
           <div className="flex flex-col w-full border-opacity-50">
             <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Claim Mint</h2>
+                <h2 className="card-title text-neutral">
+                  {t("mint.claim-mint")}
+                </h2>
 
                 <div className="flex stats glass w-full text-neutral">
                   <CountDataCard
-                    title="Reward"
+                    title={t("card.reward")}
                     value={reward}
                     description="XEN"
                   />
                   <CountDataCard
-                    title="Penalty"
+                    title={t("card.penalty")}
                     value={penaltyPercent}
                     suffix="%"
                     descriptionNumber={penaltyXEN}
@@ -283,7 +289,7 @@ const Mint = () => {
                     })}
                     disabled={disabled}
                   >
-                    Claim Mint
+                    {t("mint.claim-mint")}
                   </button>
                 </div>
 
@@ -297,22 +303,24 @@ const Mint = () => {
         </CardContainer>
 
         {/* OR */}
-        <div className="divider">OR</div>
+        <div className="divider">{t("or").toUpperCase()}</div>
         {/* OR */}
         <CardContainer>
           <div className="flex flex-col w-full border-opacity-50">
             <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Claim Mint + Share</h2>
+                <h2 className="card-title text-neutral">
+                  {t("mint.claim-mint-share")}
+                </h2>
 
                 <div className="flex stats glass w-full text-neutral">
                   <CountDataCard
-                    title="Reward"
+                    title={t("card.reward")}
                     value={reward}
                     description="XEN"
                   />
                   <CountDataCard
-                    title="Penalty"
+                    title={t("card.penalty")}
                     value={penaltyPercent}
                     suffix="%"
                     descriptionNumber={penaltyXEN}
@@ -321,8 +329,8 @@ const Mint = () => {
                 </div>
 
                 <MaxValueField
-                  title="PERCENTAGE"
-                  description="Stake percentage"
+                  title={t("form-field.percentage").toUpperCase()}
+                  description={t("form-field.percentage-description")}
                   decimals={0}
                   value={100}
                   disabled={disabled}
@@ -355,7 +363,7 @@ const Mint = () => {
                     })}
                     disabled={disabled}
                   >
-                    Claim Mint + Share
+                    {t("mint.claim-mint-share")}
                   </button>
                 </div>
 
@@ -369,22 +377,24 @@ const Mint = () => {
         </CardContainer>
 
         {/* OR */}
-        <div className="divider">OR</div>
+        <div className="divider">{t("or").toUpperCase()}</div>
         {/* OR */}
         <CardContainer>
           <div className="flex flex-col w-full border-opacity-50">
             <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">Claim Mint + Stake</h2>
+                <h2 className="card-title text-neutral">
+                  {t("mint.claim-mint-stake")}
+                </h2>
 
                 <div className="flex stats glass w-full text-neutral">
                   <CountDataCard
-                    title="Reward"
+                    title={t("card.reward")}
                     value={reward}
                     description="XEN"
                   />
                   <CountDataCard
-                    title="Penalty"
+                    title={t("card.penalty")}
                     value={penaltyPercent}
                     suffix="%"
                     descriptionNumber={penaltyXEN}
@@ -393,8 +403,8 @@ const Mint = () => {
                 </div>
 
                 <MaxValueField
-                  title="PERCENTAGE"
-                  description="Stake percentage"
+                  title={t("form-field.percentage").toUpperCase()}
+                  description={t("form-field.percentage-description")}
                   decimals={0}
                   value={100}
                   disabled={disabled || activeStakeDisabled}
@@ -409,8 +419,8 @@ const Mint = () => {
                 />
 
                 <MaxValueField
-                  title="DAYS"
-                  description="Stake days"
+                  title={t("form-field.days").toUpperCase()}
+                  description={t("form-field.days-description")}
                   decimals={0}
                   value={1000}
                   disabled={disabled || activeStakeDisabled}
@@ -429,7 +439,7 @@ const Mint = () => {
                     })}
                     disabled={disabled || activeStakeDisabled}
                   >
-                    Claim Mint + Stake
+                    {t("mint.claim-mint-stake")}
                   </button>
                 </div>
 
@@ -445,5 +455,13 @@ const Mint = () => {
     </Container>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Mint;

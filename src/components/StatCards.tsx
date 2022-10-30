@@ -3,6 +3,8 @@ import { ethers } from "ethers";
 import { UTC_TIME, formatFullDate } from "~/lib/helpers";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import type { NextPage } from "next";
+import { useTranslation } from "next-i18next";
+import { t } from "i18next";
 
 interface ProgressStat {
   title: string;
@@ -54,6 +56,8 @@ export const daysUntil = (date: number) => {
 };
 
 export const DateStatCard: NextPage<DateStat> = (props) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
@@ -62,7 +66,7 @@ export const DateStatCard: NextPage<DateStat> = (props) => {
           end={props.isPast ? daysSince(props.dateTs) : daysUntil(props.dateTs)}
           preserveValue={true}
           separator={","}
-          suffix={" Days"}
+          suffix={` ${t("card.days")}`}
         />
       </code>
       <div className="stat-desc text-right">{formatFullDate(props.dateTs)}</div>
@@ -117,9 +121,11 @@ interface ChainStat {
 }
 
 export const ChainStatCard: NextPage<ChainStat> = (props) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className="stat">
-      <div className="stat-title">Chain</div>
+      <div className="stat-title">{t("card.chain")}</div>
       <code className="stat-value text-lg md:text-2xl text-right">
         {props.value}
       </code>
@@ -192,9 +198,11 @@ interface CountdownCardStat {
 }
 
 export const CountdownCard: NextPage<CountdownCardStat> = (props) => {
+  const { t } = useTranslation("common");
+
   return (
     <div className="stat">
-      <div className="stat-title">Matures in</div>
+      <div className="stat-title">{t("card.matures-in")}</div>
       <code className="stat-value text-lg md:text-2xl text-right">
         {props.days > 99 ? (
           <div className="">
@@ -214,7 +222,7 @@ export const CountdownCard: NextPage<CountdownCardStat> = (props) => {
           </span>
         )}
       </code>
-      <div className="stat-desc text-right">Day•Hours:Minutes:Seconds</div>
+      <div className="stat-desc text-right">{t("card.countdown-details")}</div>
     </div>
   );
 };

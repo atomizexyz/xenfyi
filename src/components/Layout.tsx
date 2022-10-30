@@ -6,8 +6,11 @@ import { CheckIcon } from "@heroicons/react/outline";
 import Footer from "./nav/Footer";
 import { useState, useEffect } from "react";
 import { XENProvider } from "~/contexts/XENContext";
+import { useTranslation } from "next-i18next";
 
 const Layout = ({ children }: any) => {
+  const { t } = useTranslation("common");
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -25,16 +28,16 @@ const Layout = ({ children }: any) => {
         <Navbar />
         {children}
         <Toaster position="top-right">
-          {(t) => (
+          {(toast) => (
             <div className="alert shadow-lg glass max-w-fit text-neutral">
               <div>
                 <div>
                   <CheckIcon className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-neutral">🎉 Success</h3>
+                  <h3 className="font-bold text-neutral">🎉 {t("success")}</h3>
                   <div className="text-xs text-neutral">
-                    {resolveValue(t.message, t)}
+                    {resolveValue(toast.message, toast)}
                   </div>
                 </div>
               </div>

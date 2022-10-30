@@ -1,15 +1,17 @@
 import Link from "next/link";
-import { xenContract } from "~/lib/xen-contract";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StatusBadge } from "../StatusBadge";
 import { navigationItems } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 import type { NextPage } from "next";
 import XENContext from "~/contexts/XENContext";
+import { useTranslation } from "next-i18next";
 
 export const BottomNav: NextPage = () => {
+  const { t } = useTranslation("common");
+
   const router = useRouter();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
@@ -60,7 +62,7 @@ export const BottomNav: NextPage = () => {
             })}
           >
             {item.icon}
-            <span className="btm-nav-label">{item.name}</span>
+            <span className="btm-nav-label">{t(item.t)}</span>
 
             <StatusBadge
               status={{

@@ -4,6 +4,7 @@ import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
 import { truncatedAddress } from "~/lib/helpers";
 import toast from "react-hot-toast";
+import { useTranslation } from "next-i18next";
 
 interface AddressLinkProps {
   name: string;
@@ -12,6 +13,8 @@ interface AddressLinkProps {
 }
 
 const AddressLink = (props: AddressLinkProps) => {
+  const { t } = useTranslation("common");
+
   const [_, copy] = useCopyToClipboard();
 
   return (
@@ -26,7 +29,7 @@ const AddressLink = (props: AddressLinkProps) => {
             toast.success(
               <div>
                 <pre>{truncatedAddress(props.address)}</pre>
-                Copied to clipboard
+                {t("toast.copied-to-clipboard")}
               </div>
             );
           }}

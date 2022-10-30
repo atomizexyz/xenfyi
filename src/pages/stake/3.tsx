@@ -20,8 +20,12 @@ import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
 import XENCryptoABI from "~/abi/XENCryptoABI";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Stake = () => {
+  const { t } = useTranslation("common");
+
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
@@ -49,7 +53,7 @@ const Stake = () => {
   const {} = useWaitForTransaction({
     hash: withdrawData?.hash,
     onSuccess(data) {
-      toast("End stake successful");
+      toast(t("toast.end-stake-successful"));
       router.push("/stake/1");
     },
   });
@@ -76,25 +80,25 @@ const Stake = () => {
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/stake/1">
-            <a className="step step-neutral">Start Stake</a>
+            <a className="step step-neutral">{t("stake.start")}</a>
           </Link>
 
           <Link href="/stake/2">
-            <a className="step step-neutral">Staking</a>
+            <a className="step step-neutral">{t("stake.staking")}</a>
           </Link>
 
           <Link href="/stake/3">
-            <a className="step step-neutral">End Stake</a>
+            <a className="step step-neutral">{t("stake.end")}</a>
           </Link>
         </ul>
         <CardContainer>
           <form onSubmit={handleSubmit(handleStakeSubmit)}>
             <div className="flex flex-col space-y-4">
-              <h2 className="card-title text-neutral">End Stake</h2>
+              <h2 className="card-title text-neutral">{t("stake.end")}</h2>
 
               <div className="stats glass w-full text-neutral">
                 <CountDataCard
-                  title="Reward"
+                  title={t("card.reward")}
                   value={calculateStakeReward({
                     maturityTs: Number(userStake?.maturityTs ?? 0),
                     term: Number(userStake?.term ?? 0),
@@ -112,11 +116,9 @@ const Stake = () => {
                       <InformationCircleIcon className="w-8 h-8" />
                     </div>
                     <div>
-                      <h3 className="font-bold">Note</h3>
+                      <h3 className="font-bold">{t("stake.note")}</h3>
                       <div className="text-xs">
-                        Your stake term is not over yet. You can end your stake
-                        early without a penalty without you yield or you can
-                        wait until your stake matures to get the full yield.
+                        {t("stake.note-description")}
                       </div>
                     </div>
                   </div>
@@ -131,7 +133,7 @@ const Stake = () => {
                   })}
                   disabled={disabled}
                 >
-                  {earlyEndStake ? "Early End Stake" : "End Stake"}
+                  {earlyEndStake ? t("stake.end-early") : t("stake.end")}
                 </button>
               </div>
 
@@ -146,5 +148,13 @@ const Stake = () => {
     </Container>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Stake;

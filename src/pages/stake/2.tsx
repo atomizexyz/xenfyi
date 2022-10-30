@@ -11,8 +11,12 @@ import Countdown from "react-countdown";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
 import { ethers, BigNumber } from "ethers";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Stake = () => {
+  const { t } = useTranslation("common");
+
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
 
@@ -21,29 +25,29 @@ const Stake = () => {
 
   const mintItems = [
     {
-      title: "Liquid XEN",
+      title: t("card.liquid"),
       value: Number(
         ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
       ),
-      suffix: "",
+      suffix: " XEN",
     },
     {
-      title: "Staked XEN",
+      title: t("card.staked"),
       value: Number(
         ethers.utils.formatUnits(userStake?.amount ?? BigNumber.from(0))
       ),
-      suffix: "",
+      suffix: " XEN",
       tokenDecimals: 2,
     },
     {
-      title: "APY",
+      title: t("card.annual-percentage-yield"),
       value: userStake?.apy.toNumber() ?? 0,
       suffix: "%",
     },
     {
-      title: "Term",
+      title: t("card.term"),
       value: userStake?.term.toNumber() ?? 0,
-      suffix: "",
+      suffix: ` ${t("card.days")}`,
       decimals: 0,
     },
   ];
@@ -65,19 +69,19 @@ const Stake = () => {
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/stake/1">
-            <a className="step step-neutral">Start Stake</a>
+            <a className="step step-neutral">{t("stake.start")}</a>
           </Link>
 
           <Link href="/stake/2">
-            <a className="step step-neutral">Staking</a>
+            <a className="step step-neutral">{t("stake.staking")}</a>
           </Link>
 
           <Link href="/stake/3">
-            <a className="step">End Stake</a>
+            <a className="step">{t("stake.end")}</a>
           </Link>
         </ul>
         <CardContainer>
-          <h2 className="card-title">Staking</h2>
+          <h2 className="card-title">{t("stake.staking")}</h2>
           <div className="stats stats-vertical bg-transparent text-neutral space-y-4">
             <Countdown
               date={(userStake?.maturityTs.toNumber() ?? 0) * 1000}
@@ -92,7 +96,7 @@ const Stake = () => {
               )}
             />
             <ProgressStatCard
-              title="Progress"
+              title={t("card.progress")}
               percentComplete={percent}
               value={progress}
               max={userStake?.term.toNumber() ?? 0}
@@ -115,5 +119,13 @@ const Stake = () => {
     </Container>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Stake;

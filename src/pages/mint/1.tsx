@@ -24,8 +24,12 @@ import GasEstimate from "~/components/GasEstimate";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
 import XENCryptoABI from "~/abi/XENCryptoABI";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Mint = () => {
+  const { t } = useTranslation("common");
+
   const { address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
@@ -38,15 +42,20 @@ const Mint = () => {
     useContext(XENContext);
   /*** FORM SETUP ***/
 
+  const numberOfDays = 100;
+
   const schema = yup
     .object()
     .shape({
       startMintDays: yup
         .number()
-        .required("Days required")
-        .max(maxFreeMint, `Maximum claim days: ${maxFreeMint}`)
-        .positive("Days must be greater than 0")
-        .typeError("Days required"),
+        .required(t("form-field.days-required"))
+        .max(
+          maxFreeMint,
+          t("form-field.days-maximum", { numberOfDays: maxFreeMint })
+        )
+        .positive(t("form-field.days-positive"))
+        .typeError(t("form-field.days-required")),
     })
     .required();
 
@@ -81,7 +90,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimRankData?.hash,
     onSuccess(data) {
-      toast("Claim successful");
+      toast(t("toast.claim-successful"));
       router.push("/mint/2");
     },
   });
@@ -116,25 +125,27 @@ const Mint = () => {
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/mint/1">
-            <a className="step step-neutral">Start Mint</a>
+            <a className="step step-neutral">{t("mint.start")}</a>
           </Link>
 
           <Link href="/mint/2">
-            <a className="step">Minting</a>
+            <a className="step">{t("mint.minting")}</a>
           </Link>
 
           <Link href="/mint/3">
-            <a className="step">Mint</a>
+            <a className="step">{t("mint.title")}</a>
           </Link>
         </ul>
 
         <CardContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col space-y-4">
-              <h2 className="card-title text-neutral">Claim Rank</h2>
+              <h2 className="card-title text-neutral">
+                {t("mint.claim-rank")}
+              </h2>
               <MaxValueField
-                title="DAYS"
-                description="Number of days"
+                title={t("form-field.days").toUpperCase()}
+                description={t("form-field.days-description")}
                 decimals={0}
                 value={maxFreeMint}
                 disabled={disabled}
@@ -147,12 +158,12 @@ const Mint = () => {
 
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard
-                  title="Your Claim Rank"
+                  title={t("card.claim-rank")}
                   value={globalRank}
                   decimals={0}
                 />
                 <DateStatCard
-                  title="Maturity"
+                  title={t("card.maturity")}
                   dateTs={maturity}
                   isPast={false}
                 />
@@ -164,12 +175,9 @@ const Mint = () => {
                     <InformationCircleIcon className="w-8 h-8" />
                   </div>
                   <div>
-                    <h3 className="font-bold">Minting Terms</h3>
+                    <h3 className="font-bold">{t("mint.terms")}</h3>
                     <div className="text-xs">
-                      Your mint starts by claiming a rank. Select the number of
-                      days you want to mint for. The longer you mint for, the
-                      more rewards you will receive. You can mint for a maximum
-                      of {maxFreeMint} days.
+                      {t("mint.terms-details", { numberOfDays: maxFreeMint })}
                     </div>
                   </div>
                 </div>
@@ -183,7 +191,7 @@ const Mint = () => {
                   })}
                   disabled={disabled}
                 >
-                  Start Mint
+                  {t("mint.start")}
                 </button>
               </div>
 
@@ -198,5 +206,13 @@ const Mint = () => {
     </Container>
   );
 };
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 export default Mint;
