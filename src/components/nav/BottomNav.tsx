@@ -8,6 +8,7 @@ import { UTC_TIME } from "~/lib/helpers";
 import type { NextPage } from "next";
 import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
+import { isMobile } from "react-device-detect";
 
 export const BottomNav: NextPage = () => {
   const { t } = useTranslation("common");
@@ -40,7 +41,12 @@ export const BottomNav: NextPage = () => {
   }, [userMint, userStake]);
 
   return (
-    <div className="btm-nav lg:hidden">
+    <div
+      className={clsx("btm-nav lg:hidden", {
+        "h-24 pb-6":
+          isMobile && ((window.navigator as any).standalone ?? false),
+      })}
+    >
       {navigationItems.map((item, index) => (
         <Link
           key={index}
