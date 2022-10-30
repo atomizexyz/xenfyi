@@ -6,10 +6,9 @@ export default function Document() {
     <Html>
       <Head />
       <body
-        className={clsx("bg-base-100", {
-          "bg-[url(/images/bg.svg)] bg-[no-repeat] bg-[center] bg-[fixed]":
-            true,
-        })}
+        className={
+          "bg-base-100 bg-[url(/images/bg.svg)] bg-no-repeat bg-center bg-fixed"
+        }
       >
         <Main />
         <NextScript />
