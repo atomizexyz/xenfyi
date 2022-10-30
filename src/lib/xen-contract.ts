@@ -55,7 +55,6 @@ export const xenContract = (contractChain?: Chain) => {
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
-
     case chain.mainnet.id:
     default:
       return {
