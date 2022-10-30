@@ -30,6 +30,8 @@
     "general-stats": "General Stats",
     "supply": "Supply",
     "rewards": "Rewards",
+    "days-since-launch": "Days Since Launch",
+    "token-address": "Token/Address",
     "select-chain": "Select Chain",
     "chain-id": "Chain ID: {{chainId}}",
     "amp": "AMP",

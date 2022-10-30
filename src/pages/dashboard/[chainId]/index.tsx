@@ -143,13 +143,13 @@ const Dashboard: NextPage = () => {
                 id={chainFromId?.id ?? 1}
               />
               <DateStatCard
-                title="Days Since Launch"
+                title={t("dashboard.days-since-launch")}
                 dateTs={genesisTs}
                 isPast={true}
               />
               {token && (
                 <DataCard
-                  title={"Contract"}
+                  title={t("dashboard.token-address")}
                   value={token?.symbol ?? "XEN"}
                   description={xenContract(chainFromId).addressOrName}
                 />
