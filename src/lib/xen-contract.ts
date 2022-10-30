@@ -13,6 +13,12 @@ import { dogechainMainnet } from "~/lib/chains/dogechainMainnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
+    case dogechainMainnet.id:
+      return {
+        addressOrName: "0x948eed4490833D526688fD1E5Ba0b9B35CD2c32e",
+        contractInterface: XENCryptoABI,
+        chainId: contractChain.id,
+      };
     case pulseChain.id:
     case chain.goerli.id:
     case chain.polygonMumbai.id:
@@ -46,12 +52,6 @@ export const xenContract = (contractChain?: Chain) => {
     case moonbeamMainnet.id:
       return {
         addressOrName: "0xb564A5767A00Ee9075cAC561c427643286F8F4E1",
-        contractInterface: XENCryptoABI,
-        chainId: contractChain.id,
-      };
-    case dogechainMainnet.id:
-      return {
-        addressOrName: "0x948eed4490833D526688fD1E5Ba0b9B35CD2c32e",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };

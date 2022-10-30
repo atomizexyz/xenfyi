@@ -6,7 +6,7 @@ export const bscMainnet: Chain = {
   network: "BSC",
   rpcUrls: {
     default: "https://bsc-dataseed1.binance.org",
-    "bsc-dataseed1.binance.": "https://bsc-dataseed1.binance.org",
+    "bsc-dataseed1.binance": "https://bsc-dataseed1.binance.org",
     "bsc-dataseed2.binance": "https://bsc-dataseed2.binance.org",
     "bsc-dataseed3.binance": "https://bsc-dataseed3.binance.org",
     "bsc-dataseed4.binance": "https://bsc-dataseed4.binance.org",

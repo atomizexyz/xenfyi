@@ -47,17 +47,16 @@ export const { chains, provider, webSocketProvider } = configureChains(
     jsonRpcProvider({
       priority: 0,
       rpc: (chain: Chain) => {
-        if (chain.id !== pulseChain.id) return null;
         return { http: chain.rpcUrls.default };
       },
     }),
     publicProvider({ priority: 1 }),
-    jsonRpcProvider({
-      priority: 2,
-      rpc: (chain: Chain) => ({
-        http: "https://rpc.ankr.com/multichain",
-      }),
-    }),
+    // jsonRpcProvider({
+    //   priority: 2,
+    //   rpc: (chain: Chain) => ({
+    //     http: "https://rpc.ankr.com/multichain",
+    //   }),
+    // }),
   ]
 );
 

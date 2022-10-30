@@ -11,6 +11,8 @@ export const dogechainMainnet: Chain = {
   },
   rpcUrls: {
     default: "https://rpc.dogechain.dog",
+    "rpc-us.dogechain": "https://rpc-us.dogechain.dog",
+    "dogechain.ankr": "https://dogechain.ankr.com",
   },
   blockExplorers: {
     default: {

@@ -17,7 +17,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
 
-  console.log(t);
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
 
