@@ -211,8 +211,8 @@ export async function getStaticProps({ locale }: any) {
 
 export const getStaticPaths = async () => {
   return {
-    paths: ["/dashboard/[chainId]"],
-    fallback: true,
+    paths: [],
+    fallback: "blocking",
   };
 };
 
