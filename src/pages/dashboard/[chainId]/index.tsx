@@ -211,8 +211,12 @@ export async function getStaticProps({ locale }: any) {
 
 export const getStaticPaths = async () => {
   return {
-    paths: [],
-    fallback: "blocking",
+    paths: chainList.map((chain) => ({
+      params: {
+        chainId: chain.id.toString(),
+      },
+    })),
+    fallback: false,
   };
 };
 
