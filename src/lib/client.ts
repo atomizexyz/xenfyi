@@ -46,8 +46,11 @@ export const { chains, provider, webSocketProvider } = configureChains(
     infuraProvider({ apiKey: infuraId, priority: 0 }),
     jsonRpcProvider({
       priority: 0,
-      rpc: (chain: Chain) => {
-        return { http: chain.rpcUrls.default };
+      rpc: (c: Chain) => {
+        if (c.id === chain.mainnet.id) {
+          return null;
+        }
+        return { http: c.rpcUrls.default };
       },
     }),
     publicProvider({ priority: 1 }),
