@@ -51,7 +51,7 @@ export const xenContract = (contractChain?: Chain) => {
       };
     case dogechainMainnet.id:
       return {
-        addressOrName: "",
+        addressOrName: "0x948eed4490833D526688fD1E5Ba0b9B35CD2c32e",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
