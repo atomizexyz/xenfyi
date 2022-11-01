@@ -1,6 +1,6 @@
 # XEN.fyi
 
-[xen.fyi](https://xen.fyi) is an alternative front ent for [xen.network](https://xen.network). This project was built to help provide users with multiple options to interact with the XEN protocol.
+[xen.fyi](https://xen.fyi) is an alternative frontend for [xen.network](https://xen.network). This project was built to help provide users with multiple options to interact with the XEN protocol.
 
 ## Setup
 
