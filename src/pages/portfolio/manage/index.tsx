@@ -2,12 +2,12 @@ import Container from "~/components/containers/Container";
 import CardContainer from "~/components/containers/CardContainer";
 import { NextPage } from "next";
 
-const Balance: NextPage = () => {
+const Manage: NextPage = () => {
   return (
     <Container className="max-w-5xl">
-      <CardContainer>Balance</CardContainer>
+      <CardContainer>Manage</CardContainer>
     </Container>
   );
 };
 
-export default Balance;
+export default Manage;
