@@ -30,6 +30,7 @@ import XENContext from "~/contexts/XENContext";
 import XENCryptoABI from "~/abi/XENCryptoABI";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Breadcrumbs from "~/components/Breadcrumbs";
 
 const Mint = () => {
   const { t } = useTranslation("common");
@@ -243,6 +244,8 @@ const Mint = () => {
 
   return (
     <Container className="max-w-2xl">
+      <Breadcrumbs />
+
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
           <Link href="/mint/1">

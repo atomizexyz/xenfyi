@@ -10,7 +10,6 @@ import { useTranslation } from "next-i18next";
 
 const Layout = ({ children }: any) => {
   const { t } = useTranslation("common");
-
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

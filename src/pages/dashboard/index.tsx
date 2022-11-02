@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import CountUp from "react-countup";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Breadcrumbs from "~/components/Breadcrumbs";
 
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
@@ -132,6 +133,8 @@ const Chains: NextPage = () => {
 
   return (
     <Container className="max-w-5xl">
+      <Breadcrumbs />
+
       <div className="space-y-4 w-full">
         <CardContainer>
           <h2 className="card-title">{t("dashboard.chains")}</h2>

@@ -17,6 +17,7 @@ import { chainList } from "~/lib/client";
 import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Breadcrumbs from "~/components/Breadcrumbs";
 
 const Dashboard: NextPage = () => {
   const { t } = useTranslation("common");
@@ -111,6 +112,8 @@ const Dashboard: NextPage = () => {
   return (
     <div>
       <Container className="max-w-2xl">
+        <Breadcrumbs />
+
         <div className="flex flex-col space-y-8">
           <div className="dropdown dropdown-hover">
             <label tabIndex={0} className="btn m-1 glass text-neutral">
