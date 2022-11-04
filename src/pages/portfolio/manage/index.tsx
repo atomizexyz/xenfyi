@@ -117,22 +117,9 @@ const Manage: NextPage = () => {
   return (
     <Container className="max-w-5xl">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-4 w-full">
-          <CardContainer>
+        <CardContainer>
+          <div className="space-y-4 w-full">
             <h2 className="card-title">Portfolio</h2>
-
-            <div className="flex stats stats-vertical lg:stats-horizontal glass w-full text-neutral flex-col lg:flex-row">
-              <CountDataCard
-                title="Mint Total"
-                value={mintTotal}
-                description="XEN"
-              />
-              <CountDataCard
-                title="Stake Total"
-                value={stakeTotal}
-                description="XEN"
-              />
-            </div>
 
             <div className="overflow-x-auto">
               <table className="table table-compact w-full">
@@ -160,62 +147,18 @@ const Manage: NextPage = () => {
                 </tfoot>
               </table>
             </div>
-          </CardContainer>
 
-          <CardContainer>
-            <div className="flex flex-col space-y-4">
-              <h2 className="card-title">Add New Addresses</h2>
-              <div className="form-control w-full">
-                <label className="label">
-                  <span className="label-text text-neutral">Addresses</span>
-                  <span className="label-text-alt text-error">
-                    <ErrorMessage errors={errors} name="newAddress" />
-                  </span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="0x...,0x...,0x..."
-                  className="input input-bordered w-full"
-                  disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
-                  {...register("newAddress", { required: true })}
-                />
-                <label className="label">
-                  <span className="label-text-alt text-neutral">
-                    Public key for addresses separated by commas
-                  </span>
-                  <span className="label-text-alt"></span>
-                </label>
-              </div>
-
-              <div className="alert shadow-lg glass">
-                <div>
-                  <div>
-                    <InformationCircleIcon className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">
-                      {MAX_PROFILE_WALLETS} Max Addresses
-                    </h3>
-                    <div className="text-xs">
-                      You can add a maximum of {MAX_PROFILE_WALLETS} addresses
-                      to your portfolio.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-control w-full">
-                <button
-                  type="submit"
-                  className="btn glass text-neutral"
-                  disabled={storedAddresses.length > MAX_PROFILE_WALLETS}
-                >
-                  Add New Address
-                </button>
+            <div className="flex justify-center w-full">
+              <div className="btn-group">
+                <button className="btn glass">1</button>
+                <button className="btn glass">2</button>
+                <button className="btn btn-disabled">...</button>
+                <button className="btn glass">99</button>
+                <button className="btn glass">100</button>
               </div>
             </div>
-          </CardContainer>
-        </div>
+          </div>
+        </CardContainer>
       </form>
     </Container>
   );
