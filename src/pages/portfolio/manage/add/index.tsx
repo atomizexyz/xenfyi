@@ -4,9 +4,13 @@ import CardContainer from "~/components/containers/CardContainer";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { WALLET_ADDRESS_REGEX, MAX_PROFILE_WALLETS } from "~/lib/helpers";
 import { useTranslation } from "next-i18next";
+import { useLocalStorage } from "usehooks-ts";
 
 const Add: NextPage = () => {
   const { t } = useTranslation("common");
+  const [storedAddresses, setStoredAddresses] = useLocalStorage<
+    Record<string, string>
+  >("storedAddresses", {});
 
   return (
     <Container className="max-w-5xl">

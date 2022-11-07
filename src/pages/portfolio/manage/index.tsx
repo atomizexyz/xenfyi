@@ -13,14 +13,17 @@ import { useEffect, useState, useContext } from "react";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import CardContainer from "~/components/containers/CardContainer";
 import XENContext from "~/contexts/XENContext";
+import PortfolioNav from "~/components/nav/PortfolioNav";
 
 const Manage: NextPage = () => {
   const { chain } = useNetwork() as { chain: Chain };
   const [mintTotal, setMintTotal] = useState(0);
   const [stakeTotal, setStakeTotal] = useState(0);
-  const [storedAddresses, setStoredAddresses] = useLocalStorage<string[]>(
+
+  // typescript key value object string string
+  const [storedAddresses] = useLocalStorage<Record<string, string>>(
     "storedAddresses",
-    []
+    {}
   );
   const { globalRank } = useContext(XENContext);
 
@@ -48,22 +51,21 @@ const Manage: NextPage = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       newAddress: "",
-      portfolio: storedAddresses
-        .slice(0, MAX_PROFILE_WALLETS)
-        .map((address) => ({
-          address: address,
-          mint: 0,
-          stake: 0,
-        })),
+      portfolio: Object.keys(storedAddresses).slice(0, MAX_PROFILE_WALLETS),
+      // .map((address) => ({
+      //   address: address,
+      //   mint: 0,
+      //   stake: 0,
+      // })),
     },
   });
 
   const watchAllFields = watch();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "portfolio",
-  });
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "portfolio",
+  // });
 
   const TableHeaderFooter = () => {
     return (
@@ -86,37 +88,39 @@ const Manage: NextPage = () => {
 
   const onSubmit = (data: any) => {
     const newAddressArray = data.newAddress.split(",");
-    const addressSet = new Set([...storedAddresses, ...newAddressArray]);
+    // const addressSet = new Set([...storedAddresses, ...newAddressArray]);
 
-    const fieldsSet = fields.map((field) => field.address);
+    // const fieldsSet = fields.map((field) => field.address);
 
-    const uniqueAddresses = Array.from(addressSet);
-    setStoredAddresses(uniqueAddresses);
+    // const uniqueAddresses = Array.from(addressSet);
+    // setStoredAddresses(uniqueAddresses);
 
-    uniqueAddresses.forEach((address) => {
-      if (!fieldsSet.includes(address)) {
-        append({
-          address: address,
-          mint: 0,
-          stake: 0,
-        });
-      }
-    });
+    // uniqueAddresses.forEach((address) => {
+    //   if (!fieldsSet.includes(address)) {
+    //     append({
+    //       address: address,
+    //       mint: 0,
+    //       stake: 0,
+    //     });
+    //   }
+    // });
     resetField("newAddress");
   };
 
   useEffect(() => {
-    if (fields) {
-      const mintTotal = fields.reduce((acc, field) => acc + field.mint, 0);
-      const stakeTotal = fields.reduce((acc, field) => acc + field.stake, 0);
-      setMintTotal(mintTotal);
-      setStakeTotal(stakeTotal);
-    }
-  }, [fields, mintTotal, stakeTotal]);
+    // if (fields) {
+    // const mintTotal = fields.reduce((acc, field) => acc + field.mint, 0);
+    // const stakeTotal = fields.reduce((acc, field) => acc + field.stake, 0);
+    //   setMintTotal(mintTotal);
+    //   setStakeTotal(stakeTotal);
+    // }
+    console.log(storedAddresses);
+  }, []);
 
   return (
     <Container className="max-w-5xl">
       <form onSubmit={handleSubmit(onSubmit)}>
+        <PortfolioNav />
         <CardContainer>
           <div className="space-y-4 w-full">
             <h2 className="card-title">Portfolio</h2>
@@ -127,7 +131,7 @@ const Manage: NextPage = () => {
                   <TableHeaderFooter />
                 </thead>
                 <tbody>
-                  {fields.map((item, index) => (
+                  {/* {fields.map((item, index) => (
                     <tr key={index}>
                       <PortfolioAddressRow
                         chain={chain}
@@ -140,7 +144,7 @@ const Manage: NextPage = () => {
                         setStoredAddresses={setStoredAddresses}
                       />
                     </tr>
-                  ))}
+                  ))} */}
                 </tbody>
                 <tfoot>
                   <TableHeaderFooter />

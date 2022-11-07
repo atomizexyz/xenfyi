@@ -5,6 +5,7 @@ import { NumberStatCard } from "~/components/StatCards";
 import { chainList } from "~/lib/client";
 import { Chain } from "wagmi";
 import { chainIcons } from "~/components/Constants";
+import PortfolioNav from "~/components/nav/PortfolioNav";
 
 const Balance: NextPage = () => {
   const BalanceRow: NextPage<{ chain: Chain }> = ({ chain }) => {
@@ -55,7 +56,8 @@ const Balance: NextPage = () => {
 
   return (
     <Container className="max-w-5xl">
-      <CardContainer>
+      <PortfolioNav />
+      <CardContainer className="rounded-none rounded-r-2xl rounded-bl-2xl">
         <div className="overflow-x-auto">
           <table className="table table-compact w-full">
             <thead>

@@ -18,9 +18,23 @@ body {
   opacity: 0.8;
 }
 
+.tab-lifted {
+  border-bottom-color: transparent;
+}
+
+.tab-lifted.tab-active {
+  background: transparent;
+}
+
+.tab-lifted.tab-active:before,
+.tab-lifted.tab-active:after {
+  background-image: none !important;
+}
+
 .glass,
 .glass:hover,
-.glass.btn-active {
+.glass.btn-active,
+.tab-lifted.glass {
   border: none;
   -webkit-backdrop-filter: blur(var(--glass-blur, 40px));
   backdrop-filter: blur(var(--glass-blur, 40px));
@@ -38,7 +52,8 @@ body {
 [data-theme="dark"],
 [data-theme="dark"] .glass,
 [data-theme="dark"] .glass:hover,
-[data-theme="dark"] .glass.btn-active {
+[data-theme="dark"] .glass.btn-active,
+[data-theme="dark"] .tab-lifted.glass {
   border: none;
   -webkit-backdrop-filter: blur(var(--glass-blur, 40px));
   backdrop-filter: blur(var(--glass-blur, 40px));

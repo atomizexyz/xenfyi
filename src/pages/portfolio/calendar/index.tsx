@@ -5,6 +5,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { chainList } from "~/lib/client";
 import { NumberStatCard } from "~/components/StatCards";
+import PortfolioNav from "~/components/nav/PortfolioNav";
 
 const Calendar: NextPage = () => {
   const MaturityDateRow: NextPage = () => {
@@ -48,6 +49,7 @@ const Calendar: NextPage = () => {
 
   return (
     <Container className="max-w-5xl">
+      <PortfolioNav />
       <CardContainer>
         <div className="overflow-x-auto">
           <table className="table table-compact w-full">
