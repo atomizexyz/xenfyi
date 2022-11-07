@@ -212,13 +212,19 @@ export async function getStaticProps({ locale }: any) {
   };
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async ({ locales }: any) => {
+  // generate locales paths for all chains and all locales
+  const allPaths = chainList.flatMap((chain) =>
+    locales.map((locale: string) => ({
+      params: { chainId: chain.id.toString() },
+      locale,
+    }))
+  );
+
+  console.log(allPaths);
+
   return {
-    paths: chainList.map((chain) => ({
-      params: {
-        chainId: chain.id.toString(),
-      },
-    })),
+    paths: allPaths,
     fallback: false,
   };
 };
