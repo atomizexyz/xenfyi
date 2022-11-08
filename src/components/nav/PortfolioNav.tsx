@@ -6,7 +6,7 @@ import { clsx } from "clsx";
 const PortfolioNav: NextPage = () => {
   const router = useRouter();
   const { pathname } = router;
-  console.log(pathname);
+
   return (
     <div className="tabs">
       <Link href="/portfolio/balance">

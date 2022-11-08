@@ -221,8 +221,6 @@ export const getStaticPaths = async ({ locales }: any) => {
     }))
   );
 
-  console.log(allPaths);
-
   return {
     paths: allPaths,
     fallback: false,

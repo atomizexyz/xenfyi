@@ -114,7 +114,6 @@ const Manage: NextPage = () => {
     //   setMintTotal(mintTotal);
     //   setStakeTotal(stakeTotal);
     // }
-    console.log(storedAddresses);
   }, []);
 
   return (
