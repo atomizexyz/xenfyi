@@ -2,12 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  height: 100%;
+}
+
 body {
+  background-image: url("/images/bg.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow: visible;
+  min-height: 100%;
 }
 
 .stat-title {
