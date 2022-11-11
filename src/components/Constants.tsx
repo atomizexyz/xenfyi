@@ -22,12 +22,14 @@ import {
   MoonbeamIcon,
   FantomIcon,
   DogeChainIcon,
+  OKChainIcon,
 } from "~/components/Icons";
 
 export const chainIcons: Record<number, JSX.Element> = {
   1: <EthereumIcon />,
   5: <EthereumIcon />,
   56: <BinanceSmartChainIcon />,
+  66: <OKChainIcon />,
   97: <BinanceSmartChainIcon />,
   137: <PolygonIcon />,
   250: <FantomIcon />,
