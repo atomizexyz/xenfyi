@@ -12,7 +12,6 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { bscTestnet } from "~/lib/chains/bscTestnet";
 import { bscMainnet } from "~/lib/chains/bscMainnet";
 import { pulseChain } from "~/lib/chains/pulseChainTestnet";
-import { polygonMainnet } from "~/lib/chains/polygonMainnet";
 import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { moonbeamMainnet } from "./chains/moonbeamMainnet";
@@ -27,7 +26,7 @@ const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 export const chainList = [
   chain.mainnet,
   bscMainnet,
-  polygonMainnet,
+  chain.polygon,
   avaxMainnet,
   ethwMainnet,
   moonbeamMainnet,

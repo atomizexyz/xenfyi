@@ -3,13 +3,13 @@ import XENCryptoABI from "~/abi/XENCryptoABI";
 import { pulseChain } from "~/lib/chains/pulseChainTestnet";
 import { bscTestnet } from "~/lib/chains/bscTestnet";
 import { bscMainnet } from "~/lib/chains/bscMainnet";
-import { polygonMainnet } from "~/lib/chains/polygonMainnet";
 import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { moonbeamMainnet } from "~/lib/chains/moonbeamMainnet";
 import { evmosMainnet } from "~/lib/chains/evmosMainnet";
 import { fantomMainnet } from "~/lib/chains/fantomMainnet";
 import { dogechainMainnet } from "~/lib/chains/dogechainMainnet";
+import { okxMainnet } from "./chains/okxMainnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -42,7 +42,7 @@ export const xenContract = (contractChain?: Chain) => {
       };
     case ethwMainnet.id:
     case bscMainnet.id:
-    case polygonMainnet.id:
+    case chain.polygon.id:
     case evmosMainnet.id:
       return {
         addressOrName: "0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e",
@@ -52,6 +52,12 @@ export const xenContract = (contractChain?: Chain) => {
     case moonbeamMainnet.id:
       return {
         addressOrName: "0xb564A5767A00Ee9075cAC561c427643286F8F4E1",
+        contractInterface: XENCryptoABI,
+        chainId: contractChain.id,
+      };
+    case okxMainnet.id:
+      return {
+        addressOrName: "",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
