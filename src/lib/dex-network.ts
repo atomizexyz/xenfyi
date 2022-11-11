@@ -10,7 +10,7 @@ export const dexes: Record<number, DexNetwork> = {
     stableAddress: "0xdAC17F958D2ee523a2206206994597C13D831ec7", // USDT
   },
   56: {
-    stableAddress: "0x55d398326f99059ff775485246999027b3197955", // USDT
+    stableAddress: "0x55d398326f99059fF775485246999027B3197955", // USDT
     uniswapPairSettings: new UniswapPairSettings({
       cloneUniswapContractDetails: {
         v2Override: {

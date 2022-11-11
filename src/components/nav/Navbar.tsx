@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { ConnectKitButton } from "connectkit";
+import { ConnectKitButton, Avatar } from "connectkit";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Link from "next/link";
 import { MoonIcon, SunIcon, DotsVerticalIcon } from "@heroicons/react/outline";
@@ -134,7 +134,7 @@ export const Navbar: NextPage = () => {
       </div>
       <div className="navbar-end space-x-4">
         <ConnectKitButton.Custom>
-          {({ show, truncatedAddress }) => {
+          {({ show, address, truncatedAddress }) => {
             return (
               <>
                 {isConnected ? (
@@ -158,6 +158,9 @@ export const Navbar: NextPage = () => {
 
                     <button onClick={show} className="btn glass text-neutral">
                       <div className="flex space-x-2 items-center">
+                        <div className="hidden lg:inline-flex">
+                          <Avatar address={address} size={32} />
+                        </div>
                         <pre className="text-base font-light">
                           {truncatedAddress}
                         </pre>

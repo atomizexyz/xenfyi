@@ -1867,10 +1867,10 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
-connectkit@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/connectkit/-/connectkit-0.0.2.tgz#57ab76b768b6db098f09df7e00331dd4719eaf4e"
-  integrity sha512-Gx8PPx/PWV9jh209nymJY/n2KOz1OBjGrTS3iJHNkAF9xXrxy/gvR/+HctuLI7f4kHYpZ4gTKanSs5yeIUMXwQ==
+connectkit@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/connectkit/-/connectkit-1.0.0.tgz#a7c663673b8fccccaf3602d53783bd2cb69cc728"
+  integrity sha512-3vPH7qTSNUTNqUUQFLgB76Yx+hKLSX7Pr0ml5tIwDKDM9HJ4pIkyDX5NtjypPc4Cf2eFFuC+nBjshBFGTicaDA==
   dependencies:
     buffer "^6.0.3"
     detect-browser "^5.3.0"
