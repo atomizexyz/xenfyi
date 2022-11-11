@@ -2,7 +2,7 @@ import { Chain } from "wagmi";
 
 export const okxMainnet: Chain = {
   id: 66,
-  name: "OKXChain Mainnet",
+  name: "OKXChain",
   network: "OKT",
   nativeCurrency: {
     name: "OK Token",
