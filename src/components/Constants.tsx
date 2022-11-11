@@ -12,6 +12,9 @@ import {
   DiamondIcon,
   DiscordIcon,
   CoinmarketCapIcon,
+} from "~/components/Icons";
+
+import {
   EthereumIcon,
   PulseChainIcon,
   PolygonIcon,
@@ -23,7 +26,7 @@ import {
   FantomIcon,
   DogeChainIcon,
   OKChainIcon,
-} from "~/components/Icons";
+} from "~/components/ChainIcons";
 
 export const chainIcons: Record<number, JSX.Element> = {
   1: <EthereumIcon />,

@@ -35,6 +35,7 @@ export const chainList = [
   fantomMainnet,
   dogechainMainnet,
   bscTestnet,
+  okxMainnet,
   chain.goerli,
   pulseChain,
   chain.polygonMumbai,
