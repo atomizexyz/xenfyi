@@ -10,7 +10,8 @@ export const evmosMainnet: Chain = {
     symbol: "EVMOS",
   },
   rpcUrls: {
-    default: "https://eth.bd.evmos.org:8545",
+    default:
+      "https://evmos-mainnet.gateway.pokt.network/v1/lb/627586ddea1b320039c95205",
   },
   blockExplorers: {
     default: {
