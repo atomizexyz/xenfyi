@@ -16,13 +16,15 @@ import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
 import { UTC_TIME } from "~/lib/helpers";
 import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
+import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 
 export const Navbar: NextPage = () => {
   const { t } = useTranslation("common");
 
   const router = useRouter();
   const { chain } = useNetwork();
-  const { chains, switchNetwork } = useSwitchNetwork();
+  const { envChains } = useEnvironmentChains();
+  const { switchNetwork } = useSwitchNetwork();
   const [mintPageOverride, setMintPageOverride] = useState(1);
   const [stakePageOverride, setStakePageOverride] = useState(1);
   const { connector, isConnected } = useAccount();
@@ -150,9 +152,7 @@ export const Navbar: NextPage = () => {
                         tabIndex={0}
                         className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-64 space-y-2"
                       >
-                        <ChainList
-                          chains={chains.filter((chain) => !chain.testnet)}
-                        />
+                        <ChainList chains={envChains} />
                       </ul>
                     </div>
 

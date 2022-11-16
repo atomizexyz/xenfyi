@@ -2,12 +2,14 @@ import Container from "~/components/containers/Container";
 import CardContainer from "~/components/containers/CardContainer";
 import { NextPage } from "next";
 import { NumberStatCard } from "~/components/StatCards";
-import { chainList } from "~/lib/client";
 import { Chain } from "wagmi";
 import { chainIcons } from "~/components/Constants";
 import PortfolioNav from "~/components/nav/PortfolioNav";
+import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 
 const Balance: NextPage = () => {
+  const { envChains } = useEnvironmentChains();
+
   const BalanceRow: NextPage<{ chain: Chain }> = ({ chain }) => {
     return (
       <tr>
@@ -64,7 +66,7 @@ const Balance: NextPage = () => {
               <BalanceHeaderFooterRow />
             </thead>
             <tbody>
-              {chainList.map((chain, index) => (
+              {envChains.map((chain, index) => (
                 <BalanceRow key={index} chain={chain} />
               ))}
             </tbody>

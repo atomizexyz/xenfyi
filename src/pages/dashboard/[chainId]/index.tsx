@@ -13,18 +13,20 @@ import CardContainer from "~/components/containers/CardContainer";
 import { xenContract } from "~/lib/xen-contract";
 import { chainIcons } from "~/components/Constants";
 import Link from "next/link";
-import { chainList } from "~/lib/client";
 import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
+import { chainList } from "~/lib/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Breadcrumbs from "~/components/Breadcrumbs";
+import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 
 const Dashboard: NextPage = () => {
   const { t } = useTranslation("common");
+  const { envChains } = useEnvironmentChains();
 
   const router = useRouter();
   const { chainId } = router.query as unknown as { chainId: number };
-  const chainFromId = chainList.find((c) => c && c.id == chainId);
+  const chainFromId = envChains.find((c) => c && c.id == chainId);
 
   const {
     setChainOverride,
@@ -123,18 +125,16 @@ const Dashboard: NextPage = () => {
               tabIndex={0}
               className="dropdown-content menu p-2 shadow rounded-box glass w-64 flex space-y-2"
             >
-              {chainList
-                .filter((chain) => !chain.testnet)
-                .map((c) => (
-                  <li key={c.id}>
-                    <Link href={`/dashboard/${c.id}`}>
-                      <a className="text-neutral justify-between glass">
-                        {c.name}
-                        {chainIcons[c.id]}
-                      </a>
-                    </Link>
-                  </li>
-                ))}
+              {envChains.map((c) => (
+                <li key={c.id}>
+                  <Link href={`/dashboard/${c.id}`}>
+                    <a className="text-neutral justify-between glass">
+                      {c.name}
+                      {chainIcons[c.id]}
+                    </a>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

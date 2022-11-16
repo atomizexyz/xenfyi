@@ -5,7 +5,6 @@ import CardContainer from "~/components/containers/CardContainer";
 import { chainIcons } from "~/components/Constants";
 import Link from "next/link";
 import { xenContract } from "~/lib/xen-contract";
-import { chainList } from "~/lib/client";
 import { truncatedAddress } from "~/lib/helpers";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -14,9 +13,11 @@ import CountUp from "react-countup";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Breadcrumbs from "~/components/Breadcrumbs";
+import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
+  const { envChains } = useEnvironmentChains();
 
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
@@ -145,11 +146,9 @@ const Chains: NextPage = () => {
                 <TableHeaderFooter />
               </thead>
               <tbody>
-                {chainList
-                  .filter((chain) => !chain.testnet)
-                  .map((item, index) => (
-                    <ChainRow chain={item} key={index} />
-                  ))}
+                {envChains.map((item, index) => (
+                  <ChainRow chain={item} key={index} />
+                ))}
               </tbody>
               <tfoot>
                 <TableHeaderFooter />

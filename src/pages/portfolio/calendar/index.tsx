@@ -3,12 +3,14 @@ import CardContainer from "~/components/containers/CardContainer";
 import { NextPage } from "next";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-import { chainList } from "~/lib/client";
 import { NumberStatCard } from "~/components/StatCards";
 import PortfolioNav from "~/components/nav/PortfolioNav";
+import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 
 const Calendar: NextPage = () => {
   const MaturityDateRow: NextPage = () => {
+    const { envChains } = useEnvironmentChains();
+
     const date = new Date();
     // add random number of days to date
     date.setDate(date.getDate() + Math.floor(Math.random() * 100));
@@ -26,7 +28,7 @@ const Calendar: NextPage = () => {
         </td>
         <td className="align-top">
           <div className="card-actions pt-4">
-            {chainList.map((chain, index) => (
+            {envChains.map((chain, index) => (
               <div key={index} className="badge badge-outline">
                 {chain.name}
               </div>
