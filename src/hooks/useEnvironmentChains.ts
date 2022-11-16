@@ -1,12 +1,13 @@
-import { useRouter } from "next/router";
 import { useSwitchNetwork } from "wagmi";
 
 export const useEnvironmentChains = () => {
-  const router = useRouter();
   const { chains } = useSwitchNetwork();
+
+  const env = process.env.NODE_ENV;
+
   return {
     envChains: chains.filter((chain) =>
-      router.isPreview ? chain.testnet : !chain.testnet
+      env == "production" ? !chain.testnet : chain.testnet
     ),
   };
 };
