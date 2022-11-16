@@ -1,12 +1,11 @@
-import { useSwitchNetwork } from "wagmi";
+import { Chain, useSwitchNetwork } from "wagmi";
+import { chainList } from "~/lib/client";
 
 export const useEnvironmentChains = () => {
-  const { chains } = useSwitchNetwork();
-
-  const env = process.env.NODE_ENV;
+  const env = process.env.NODE_ENV as string;
 
   return {
-    envChains: chains.filter((chain) =>
+    envChains: chainList.filter((chain: Chain) =>
       env == "production" ? !chain.testnet : chain.testnet
     ),
   };
