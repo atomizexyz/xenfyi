@@ -6,7 +6,7 @@ export const useEnvironmentChains = () => {
   const { isPreview } = useRouter();
   const env = process.env.NODE_ENV as string;
 
-  console.log(env, isPreview);
+  console.log("status", env, isPreview);
 
   return {
     envChains: chainList.filter((chain: Chain) =>
