@@ -3,12 +3,14 @@ import { chainList } from "~/lib/client";
 import { useRouter } from "next/router";
 
 export const useEnvironmentChains = () => {
-  const router = useRouter();
+  const { isPreview } = useRouter();
   const env = process.env.NODE_ENV as string;
+
+  console.log(env, isPreview);
 
   return {
     envChains: chainList.filter((chain: Chain) =>
-      env == "production" && !router.isPreview ? !chain.testnet : chain.testnet
+      env == "production" && !isPreview ? !chain.testnet : chain.testnet
     ),
   };
 };
