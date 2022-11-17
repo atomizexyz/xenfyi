@@ -30,4 +30,5 @@ yarn build
 NEXT_PUBLIC_GA_MEASUREMENT_ID= // Google Analytics measurement ID
 NEXT_PUBLIC_ALCHEMY_ID=        // Alchemy ID
 NEXT_PUBLIC_INFURA_ID=         // Infura ID
+NEXT_PUBLIC_CHAIN_NETWORK=     // mainnet || testnet
 ```
