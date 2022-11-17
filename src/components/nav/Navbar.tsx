@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { clsx } from "clsx";
 import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { isMobile } from "react-device-detect";
 import { StatusBadge } from "../StatusBadge";
 import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
@@ -32,6 +32,8 @@ export const Navbar: NextPage = () => {
   const isDark = resolvedTheme === "dark";
 
   const { userMint, userStake, token } = useContext(XENContext);
+  const chainDropdown = useRef<HTMLDivElement>(null);
+  const menuDropdown = useRef<HTMLDivElement>(null);
 
   const NavigationItems = (props: any) => {
     return (
@@ -141,13 +143,19 @@ export const Navbar: NextPage = () => {
               <>
                 {isConnected ? (
                   <>
-                    <div className="dropdown">
-                      <label
+                    <div className="dropdown" ref={chainDropdown}>
+                      <div
                         tabIndex={0}
                         className="btn glass btn-square text-neutral"
+                        onClick={() => {
+                          chainDropdown?.current?.classList.toggle(
+                            "dropdown-open"
+                          );
+                          (document.activeElement as HTMLElement).blur();
+                        }}
                       >
                         {chainIcons[chain?.id ?? 1]}
-                      </label>
+                      </div>
                       <ul
                         tabIndex={0}
                         className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-64 space-y-2"
@@ -176,10 +184,17 @@ export const Navbar: NextPage = () => {
             );
           }}
         </ConnectKitButton.Custom>
-        <div className="dropdown dropdown-end">
-          <label tabIndex={0} className="btn glass btn-square text-neutral">
+        <div className="dropdown dropdown-end" ref={menuDropdown}>
+          <div
+            tabIndex={0}
+            className="btn glass btn-square text-neutral"
+            onClick={() => {
+              menuDropdown?.current?.classList.toggle("dropdown-open");
+              (document.activeElement as HTMLElement).blur();
+            }}
+          >
             <DotsVerticalIcon className="h-5 w-5" />
-          </label>
+          </div>
           <ul
             tabIndex={0}
             className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-64 space-y-2"
