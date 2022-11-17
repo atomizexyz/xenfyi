@@ -20,6 +20,7 @@ import { fantomMainnet } from "./chains/fantomMainnet";
 import { dogechainMainnet } from "./chains/dogechainMainnet";
 import { okxMainnet } from "./chains/okxMainnet";
 import { polygonMainnet } from "./chains/polygonMainnet";
+import { polygonTestnet } from "./chains/polygonTestnet";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -38,7 +39,7 @@ export const chainList = [
   okxMainnet,
   chain.goerli,
   pulseChain,
-  chain.polygonMumbai,
+  polygonTestnet,
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(
