@@ -10,6 +10,7 @@ import { evmosMainnet } from "~/lib/chains/evmosMainnet";
 import { fantomMainnet } from "~/lib/chains/fantomMainnet";
 import { dogechainMainnet } from "~/lib/chains/dogechainMainnet";
 import { okxMainnet } from "./chains/okxMainnet";
+import { polygonTestnet } from "./chains/polygonTestnet";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -21,10 +22,15 @@ export const xenContract = (contractChain?: Chain) => {
       };
     case pulseChain.id:
     case chain.goerli.id:
-    case chain.polygonMumbai.id:
     case bscTestnet.id:
       return {
         addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+        contractInterface: XENCryptoABI,
+        chainId: contractChain.id,
+      };
+    case polygonTestnet.id:
+      return {
+        addressOrName: "0xdBBb2aa7C1208401382Fd1b611A1D9942B12fa64",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
