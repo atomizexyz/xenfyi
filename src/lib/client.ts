@@ -19,6 +19,7 @@ import { evmosMainnet } from "./chains/evmosMainnet";
 import { fantomMainnet } from "./chains/fantomMainnet";
 import { dogechainMainnet } from "./chains/dogechainMainnet";
 import { okxMainnet } from "./chains/okxMainnet";
+import { polygonMainnet } from "./chains/polygonMainnet";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -26,7 +27,7 @@ const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 export const chainList = [
   chain.mainnet,
   bscMainnet,
-  chain.polygon,
+  polygonMainnet,
   avaxMainnet,
   ethwMainnet,
   moonbeamMainnet,
