@@ -128,8 +128,8 @@ export const dexes: Record<number, DexNetwork> = {
       cloneUniswapContractDetails: {
         v2Override: {
           routerAddress: "0xFCd2Ce20ef8ed3D43Ab4f8C2dA13bbF1C6d9512F",
-          factoryAddress: "0x6abdda34fb225be4610a2d153845e09429523cd2",
-          pairAddress: "0x6abdda34fb225be4610a2d153845e09429523cd2",
+          factoryAddress: "0x6aBdDa34Fb225be4610a2d153845e09429523Cd2",
+          pairAddress: "0x6aBdDa34Fb225be4610a2d153845e09429523Cd2",
         },
       },
       customNetwork: {
