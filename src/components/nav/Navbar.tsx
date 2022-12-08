@@ -17,6 +17,8 @@ import { UTC_TIME } from "~/lib/helpers";
 import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { useToken } from "wagmi";
+import { xenContract } from "~/lib/xen-contract";
 
 export const Navbar: NextPage = () => {
   const { t } = useTranslation("common");
@@ -31,9 +33,14 @@ export const Navbar: NextPage = () => {
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const { userMint, userStake, token } = useContext(XENContext);
+  const { userMint, userStake } = useContext(XENContext);
   const chainDropdown = useRef<HTMLDivElement>(null);
   const menuDropdown = useRef<HTMLDivElement>(null);
+
+  const { data: token } = useToken({
+    address: xenContract(chain).addressOrName,
+    chainId: chain?.id,
+  });
 
   const NavigationItems = (props: any) => {
     return (

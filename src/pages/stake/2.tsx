@@ -21,8 +21,7 @@ const Stake = () => {
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
 
-  const { xenBalance, userStake, genesisTs, globalRank, currentAPY } =
-    useContext(XENContext);
+  const { xenBalance, userStake } = useContext(XENContext);
 
   const mintItems = [
     {

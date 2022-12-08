@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import {
   Chain,
-  useToken,
   useFeeData,
   useBalance,
   useAccount,
@@ -120,7 +119,6 @@ export const XENProvider = ({ children }: any) => {
   const [currentEAAR, setCurrentEAAR] = useState(0);
   const [currentAPY, setCurrentAPY] = useState(0);
   const [grossReward, setGrossReward] = useState(0);
-  const [token, setToken] = useState<Token | undefined>();
 
   const { address } = useAccount();
   const { chain: networkChain } = useNetwork();
@@ -139,23 +137,6 @@ export const XENProvider = ({ children }: any) => {
       });
     },
     // watch: true,
-  });
-
-  useToken({
-    address: xenContract(chain).addressOrName,
-    chainId: chain?.id,
-    onSuccess(data) {
-      setToken({
-        address: data.address,
-        decimals: data.decimals,
-        name: data.name,
-        symbol: data.symbol,
-        totalSupply: {
-          formatted: data.totalSupply.formatted,
-          value: data.totalSupply.value,
-        },
-      });
-    },
   });
 
   useContractRead({
@@ -301,7 +282,6 @@ export const XENProvider = ({ children }: any) => {
         currentEAAR,
         currentAPY,
         grossReward,
-        token,
       }}
     >
       {children}
