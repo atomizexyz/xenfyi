@@ -72,7 +72,7 @@ const Chains: NextPage = () => {
     const { data: globalRank } = useContractRead({
       ...xenContract(chain),
       functionName: "globalRank",
-      watch: true,
+      // watch: true,
     });
 
     const tempMintAddresses = mintAddresses;
