@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { Chain, useToken, useContractRead } from "wagmi";
 import Container from "~/components/containers/Container";
 import CardContainer from "~/components/containers/CardContainer";
@@ -18,6 +19,11 @@ import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
   const { envChains } = useEnvironmentChains();
+  const [mintAddresses, setMintAddresses] = useState<{ [key: number]: number }>(
+    {}
+  );
+  const [totalMintCount, setTotalMintCount] = useState(0);
+  const [totalChainCount, setTotalChainCount] = useState(0);
 
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
@@ -68,6 +74,10 @@ const Chains: NextPage = () => {
       functionName: "globalRank",
       watch: true,
     });
+
+    const tempMintAddresses = mintAddresses;
+    tempMintAddresses[chain.id] = Number(globalRank);
+    setMintAddresses(tempMintAddresses);
 
     return (
       <tr>
@@ -122,6 +132,38 @@ const Chains: NextPage = () => {
     );
   };
 
+  const TotalMintRow = () => {
+    return (
+      <tr>
+        <td>
+          <div className="p-2 flex text-xl font-bold">
+            {totalChainCount} {t("dashboard.chains")}
+          </div>
+          <div className="pt-4 lg:hidden flex flex-col space-y-4">
+            <pre className="text-right">
+              <CountUp
+                end={Number(totalMintCount)}
+                preserveValue={true}
+                separator=","
+                suffix=" gRank"
+              />
+            </pre>
+          </div>
+        </td>
+        <td className="hidden lg:table-cell text-right">
+          <pre>
+            <CountUp
+              end={Number(totalMintCount)}
+              preserveValue={true}
+              separator=","
+            />
+          </pre>
+        </td>
+        <td className="hidden lg:table-cell"></td>
+      </tr>
+    );
+  };
+
   const TableHeaderFooter = () => {
     return (
       <tr>
@@ -131,6 +173,13 @@ const Chains: NextPage = () => {
       </tr>
     );
   };
+
+  useEffect(() => {
+    const chains = Object.keys(mintAddresses).length;
+    setTotalChainCount(chains);
+    const gRanks = Object.values(mintAddresses).reduce((a, b) => a + b, 0);
+    setTotalMintCount(gRanks);
+  }, [mintAddresses]);
 
   return (
     <Container className="max-w-5xl">
@@ -149,6 +198,7 @@ const Chains: NextPage = () => {
                 {envChains.map((item, index) => (
                   <ChainRow chain={item} key={index} />
                 ))}
+                <TotalMintRow />
               </tbody>
               <tfoot>
                 <TableHeaderFooter />
