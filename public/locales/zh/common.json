@@ -1,8 +1,8 @@
 {
   "contract": "合约",
-  "donate": "捐款",
+  "donate": "捐赠",
   "global-rank": "全球排名",
-  "chain": "链",
+  "chain": "区块链",
   "address": "地址",
   "theme": "主题",
   "add-to-wallet": "添加XEN到钱包",
@@ -26,14 +26,14 @@
   },
   "dashboard": {
     "title": "仪表盘",
-    "chains": "链",
+    "chains": "区块链",
     "general-stats": "通用状态",
     "supply": "供应量",
     "rewards": "奖励",
     "days-since-launch": "创世天数",
     "token-address": "代币/地址",
-    "select-chain": "选择链",
-    "chain-id": "链ID: {{chainId}}",
+    "select-chain": "选择区块链",
+    "chain-id": "区块链ID: {{chainId}}",
     "amp": "AMP",
     "amp-description": "奖励增强值 (AMP) 是XEN铸造过程中时间相关的奖励部分。它自创世第一天开始，以3,000作为起始数值，逐日递减1，达到1后将不再变化。",
     "eaa": "EAA",
@@ -48,17 +48,17 @@
     "your-claim-rank": "您的申领排名",
     "maturity": "成熟期",
     "terms": "铸造期限",
-    "terms-details": "一旦申请了一个排名，便开启了铸造过程。首先选择你希望铸造的天数。铸造的天数越长，能获取的铸造奖励越多。你可以最多铸造 {{numberOfDays}} 天。",
+    "terms-details": "一旦申领了排名，便随即开启铸造过程。首先选择你希望铸造的天数。铸造的天数越长，能获得的铸造奖励越多。你可以最多铸造 {{numberOfDays}} 天。",
     "minting": "铸造中",
-    "claim-mint": "申请铸造",
+    "claim-mint": "申领铸造",
     "claim-mint-share": "申领铸造 + 分享",
-    "claim-mint-stake": "申请铸造 + 质押"
+    "claim-mint-stake": "申领铸造 + 质押"
   },
   "stake": {
     "title": "质押",
     "start": "开始质押",
-    "staking": "Staking质押中",
-    "end": "End Stake结束质押",
+    "staking": "质押中",
+    "end": "结束质押",
     "end-early": "提前结束质押",
     "terms": "质押期限",
     "terms-details": "可以在成熟期后的任意时刻提取原质押数量以及奖励数量，或者在成熟期之前提取原质押数量且没有奖励。每个钱包地址只能在同一时刻质押一次。",
@@ -66,12 +66,12 @@
     "note-description": "您的质押期限还没有结束。您可以提前结束质押，虽然没有惩罚，但也没有奖励；或者您也可以等待质押成熟期满后提取质押数量以及奖励。"
   },
   "gas": {
-    "gas": "手续费",
+    "gas": "GAS",
     "transaction": "交易",
     "total": "总计"
   },
   "card": {
-    "chain": "链",
+    "chain": "区块链",
     "days-since-launch": "创世天数",
     "contract": "合约",
     "global-rank": "全球排名",
@@ -116,7 +116,7 @@
     "amount-maximum": "最大数量是 {{maximumAmount}}",
     "amount-positive": "数量必须大于0",
     "amount-description": "最大数量",
-    "max": "Max最大"
+    "max": "最大值"
   },
   "toast": {
     "copied-to-clipboard": "拷贝到剪贴板",
