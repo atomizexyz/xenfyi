@@ -37,9 +37,9 @@
     "amp": "AMP",
     "amp-description": "Reward Amplifier (AMP) jest zależną od czasu częścią kalkulacji XEN Mint Reward. Zaczyna się od 3000 w Genesis i zmniejsza się o 1 każdego dnia, aż osiągnie 1",
     "eaa": "EAA",
-    "eaa-description": "Early Adopter Amplifier (EAA) jest częścią kalkulacji nagrody XEN Mint, która zależy od aktualnej rangi globalnej. EAA zaczyna się od 10% i maleje liniowo o 0,1% za każde 100 000 wzrostu Globalnej Rangi.",
+    "eaa-description": "Early Adopter Amplifier (EAA) jest częścią kalkulacji nagrody XEN Mint, która zależy od aktualnego Global Rank. EAA zaczyna się od 10% i maleje liniowo o 0,1% za każde 100 000 wzrostu Globalnej Rangi.",
     "apy": "APY",
-    "apy-description": "Annual Percentage Yield (APY) określa kalkulację XEN Staking Reward. Nie podlega składaniu i jest obliczany proporcjonalnie do dni. APY zaczyna się od 20% na Genesis i spada o 1 p.p. co 90 dni, aż osiągnie 2%"
+    "apy-description": "Annual Percentage Yield (APY) określa kalkulację XEN Staking Reward. Nie podlega składaniu i jest obliczany proporcjonalnie do dni. APY zaczyna się od 20% w Genesis i spada o 1 p.p. co 90 dni, aż osiągnie 2%"
   },
   "mint": {
     "title": "Mint",
@@ -48,7 +48,7 @@
     "your-claim-rank": "Twój Claim Rank",
     "maturity": "Termin dojrzałości",
     "terms": "Warunki mintowania",
-    "terms-details": "Twój mint zaczyna się od Claim Rank. Wybierz liczbę dni, przez które chcesz mintować. Im dłużej mintujesz, tym więcej nagród otrzymasz. Maksymalnie możesz bić przez {{numberOfDays}} dni.",
+    "terms-details": "Twój mint zaczyna się od Claim Rank. Wybierz liczbę dni, przez które chcesz mintować. Im dłużej mintujesz, tym więcej nagród otrzymasz. Maksymalnie możesz mintować przez {{numberOfDays}} dni.",
     "minting": "Mintowanie",
     "claim-mint": "Claim Mint",
     "claim-mint-share": "Claim Mint + Podziel",
@@ -63,7 +63,7 @@
     "terms": "Warunki Stakowania",
     "terms-details": "Wypłać pierwotną kwotę stawki plus zysk w dowolnym momencie po terminie dojrzałości lub w dowolnym momencie pierwotną kwotę stawki z zyskiem 0 (zero) przed terminem dojrzałości. Jedna stake na raz na jeden adres.",
     "note": "Uwaga",
-    "note-description": "Twój okres stake jeszcze się nie skończył. Możesz zakończyć swoją stake wcześniej, bez kary bez kary i bez zysku, lub możesz poczekać, aż Twoja stake dojrzeje, aby uzyskać pełny zysk."
+    "note-description": "Twój okres stake jeszcze się nie skończył. Możesz zakończyć swoją stake wcześniej, bez kary i bez zysku, lub możesz poczekać, aż Twoja stake dojrzeje, aby uzyskać pełny zysk."
   },
   "gas": {
     "gas": "Gas",
@@ -77,9 +77,9 @@
     "global-rank": "Global Rank",
     "active-mints": "Aktywne Minty",
     "active-stakes": "Aktywne Staki",
-    "max-mint-term": "Max Mint Termin",
+    "max-mint-term": "Max Termin Mintu",
     "total": "Całkowita",
-    "matures-in": "Dojrzewa za",
+    "matures-in": "Zapadalność za",
     "progress": "Postęp",
     "estimated": "Szacowana",
     "amplifier": "Amplifikator",
@@ -90,7 +90,7 @@
     "yield": "Zysk",
     "liquid": "Płynna",
     "staked": "Stakowana",
-    "maturity": "Postęp",
+    "maturity": "Zapadalność",
     "claim-rank": "Claim Rank",
     "annual-percentage-yield": "APY",
     "days": "Dni",
