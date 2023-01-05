@@ -61,8 +61,7 @@ export const Navbar: NextPage = () => {
             >
               <a
                 className={clsx({
-                  "btn-disabled text-neutral-content":
-                    router.pathname.startsWith(item.href),
+                  "btn-disabled text-neutral-content": router.pathname.startsWith(item.href),
                   "glass text-neutral": !router.pathname.startsWith(item.href),
                 })}
                 onClick={() => {
@@ -155,9 +154,7 @@ export const Navbar: NextPage = () => {
                         tabIndex={0}
                         className="btn glass btn-square text-neutral"
                         onClick={() => {
-                          chainDropdown?.current?.classList.toggle(
-                            "dropdown-open"
-                          );
+                          chainDropdown?.current?.classList.toggle("dropdown-open");
                           (document.activeElement as HTMLElement).blur();
                         }}
                       >
@@ -176,9 +173,7 @@ export const Navbar: NextPage = () => {
                         <div className="hidden lg:inline-flex">
                           <Avatar address={address} size={32} />
                         </div>
-                        <pre className="text-base font-light">
-                          {truncatedAddress}
-                        </pre>
+                        <pre className="text-base font-light">{truncatedAddress}</pre>
                       </div>
                     </button>
                   </>
@@ -204,7 +199,7 @@ export const Navbar: NextPage = () => {
           </div>
           <ul
             tabIndex={0}
-            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-64 space-y-2"
+            className="mt-3 p-2 shadow menu menu-compact dropdown-content glass rounded-box w-72 space-y-2"
           >
             <li>
               <label className="flex swap swap-rotate justify-between text-neutral glass">
