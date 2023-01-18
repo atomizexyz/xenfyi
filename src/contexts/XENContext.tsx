@@ -1,13 +1,5 @@
 import React, { createContext, useState } from "react";
-import {
-  Chain,
-  useFeeData,
-  useBalance,
-  useAccount,
-  useNetwork,
-  useContractRead,
-  useContractReads,
-} from "wagmi";
+import { Chain, useFeeData, useBalance, useAccount, useNetwork, useContractRead, useContractReads } from "wagmi";
 import { BigNumber } from "ethers";
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
@@ -42,19 +34,6 @@ export interface FeeData {
   maxPriorityFeePerGas: BigNumber;
 }
 
-export interface TotalSupply {
-  formatted: string;
-  value: BigNumber;
-}
-
-export interface Token {
-  address: string;
-  decimals: number;
-  name: string;
-  symbol: string;
-  totalSupply: TotalSupply;
-}
-
 export interface Balance {
   decimals: number;
   formatted: string;
@@ -79,7 +58,6 @@ interface IXENContext {
   currentEAAR: number;
   currentAPY: number;
   grossReward: number;
-  token?: Token;
 }
 
 const XENContext = createContext<IXENContext>({
@@ -99,7 +77,6 @@ const XENContext = createContext<IXENContext>({
   currentEAAR: 0,
   currentAPY: 0,
   grossReward: 0,
-  token: undefined,
 });
 
 export const XENProvider = ({ children }: any) => {

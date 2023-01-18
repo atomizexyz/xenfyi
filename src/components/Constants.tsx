@@ -1,9 +1,4 @@
-import {
-  BookOpenIcon,
-  ViewGridIcon,
-  LockClosedIcon,
-  DocumentTextIcon,
-} from "@heroicons/react/outline";
+import { BookOpenIcon, ViewGridIcon, LockClosedIcon, DocumentTextIcon, HomeIcon } from "@heroicons/react/outline";
 import {
   DuneIcon,
   TwitterIcon,
@@ -26,6 +21,7 @@ import {
   FantomIcon,
   DogeChainIcon,
   OKChainIcon,
+  FoundryIcon,
 } from "~/components/ChainIcons";
 
 export const chainIcons: Record<number, JSX.Element> = {
@@ -38,11 +34,13 @@ export const chainIcons: Record<number, JSX.Element> = {
   250: <FantomIcon />,
   941: <PulseChainIcon />,
   1284: <MoonbeamIcon />,
+  1337: <HomeIcon className="h-5 w-5" />,
   2000: <DogeChainIcon />,
   9001: <EVMOSIcon />,
   10001: <EthereumPOWIcon />,
   43114: <AvalancheIcon />,
   80001: <PolygonIcon />,
+  31337: <FoundryIcon />,
 };
 
 export const navigationItems = [

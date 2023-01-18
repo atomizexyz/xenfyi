@@ -9,18 +9,20 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
-import { bscTestnet } from "~/lib/chains/bscTestnet";
-import { bscMainnet } from "~/lib/chains/bscMainnet";
-import { pulseChain } from "~/lib/chains/pulseChainTestnet";
-import { avaxMainnet } from "~/lib/chains/avaxMainnet";
-import { ethwMainnet } from "~/lib/chains/ethwMainnet";
-import { moonbeamMainnet } from "./chains/moonbeamMainnet";
-import { evmosMainnet } from "./chains/evmosMainnet";
-import { fantomMainnet } from "./chains/fantomMainnet";
-import { dogechainMainnet } from "./chains/dogechainMainnet";
-import { okxMainnet } from "./chains/okxMainnet";
-import { polygonMainnet } from "./chains/polygonMainnet";
-import { polygonTestnet } from "./chains/polygonTestnet";
+import {
+  bscTestnet,
+  bscMainnet,
+  pulseChain,
+  avaxMainnet,
+  ethwMainnet,
+  moonbeamMainnet,
+  evmosMainnet,
+  fantomMainnet,
+  dogechainMainnet,
+  okxMainnet,
+  polygonMainnet,
+  polygonTestnet,
+} from "~/lib/chains";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -40,31 +42,30 @@ export const chainList = [
   chain.goerli,
   pulseChain,
   polygonTestnet,
+  chain.foundry,
+  chain.localhost,
 ];
 
-export const { chains, provider, webSocketProvider } = configureChains(
-  chainList,
-  [
-    alchemyProvider({ apiKey: alchemyId, priority: 0 }),
-    infuraProvider({ apiKey: infuraId, priority: 0 }),
-    jsonRpcProvider({
-      priority: 0,
-      rpc: (c: Chain) => {
-        if (c.id === chain.mainnet.id) {
-          return null;
-        }
-        return { http: c.rpcUrls.default };
-      },
+export const { chains, provider, webSocketProvider } = configureChains(chainList, [
+  alchemyProvider({ apiKey: alchemyId, priority: 0 }),
+  infuraProvider({ apiKey: infuraId, priority: 0 }),
+  jsonRpcProvider({
+    priority: 0,
+    rpc: (c: Chain) => {
+      if (c.id === chain.mainnet.id) {
+        return null;
+      }
+      return { http: c.rpcUrls.default };
+    },
+  }),
+  publicProvider({ priority: 1 }),
+  jsonRpcProvider({
+    priority: 2,
+    rpc: (chain: Chain) => ({
+      http: "https://rpc.ankr.com/multichain",
     }),
-    publicProvider({ priority: 1 }),
-    // jsonRpcProvider({
-    //   priority: 2,
-    //   rpc: (chain: Chain) => ({
-    //     http: "https://rpc.ankr.com/multichain",
-    //   }),
-    // }),
-  ]
-);
+  }),
+]);
 
 export const client = createClient({
   autoConnect: true,
