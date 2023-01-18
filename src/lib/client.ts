@@ -27,6 +27,11 @@ import {
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 
+var foundryTest = chain.foundry;
+foundryTest.testnet = true;
+
+var localhostTest = chain.localhost;
+localhostTest.testnet = true;
 export const chainList = [
   chain.mainnet,
   bscMainnet,
@@ -42,8 +47,8 @@ export const chainList = [
   chain.goerli,
   pulseChain,
   polygonTestnet,
-  chain.foundry,
-  chain.localhost,
+  foundryTest,
+  localhostTest,
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(chainList, [
