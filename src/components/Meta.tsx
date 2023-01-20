@@ -13,7 +13,7 @@ const Meta: NextPage = () => {
   const title = `XEN.fyi - ${path.join(" - ")}`;
   const description = t("meta.description");
   const url = "https://xen.fyi";
-  const image = "https://xen.fyi/images/preview.png";
+  const image = "https://xen.fyi/images/xen-logo-slogan-horizontal.png";
 
   return (
     <Head>
@@ -21,10 +21,7 @@ const Meta: NextPage = () => {
       <link rel="icon" href="/favicon.png" type="image/png" />
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover"
-      />
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <meta charSet="utf-8" />
       <meta name="description" content={description} />
       <meta name="author" content="Joe Blau joe@atomize.xyz" />

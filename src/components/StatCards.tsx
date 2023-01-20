@@ -20,20 +20,10 @@ export const ProgressStatCard: NextPage<ProgressStat> = (props) => {
     <div className="stat">
       <div className="stat-title">{props.title}</div>
       <div className="stat-value text-lg md:text-2xl text-right">
-        <CountUp
-          end={props.percentComplete}
-          preserveValue={true}
-          separator=","
-          suffix="%"
-          decimals={2}
-        />
+        <CountUp end={props.percentComplete} preserveValue={true} separator="," suffix="%" decimals={2} />
       </div>
       <div>
-        <progress
-          className="progress progress-secondary"
-          value={props.value}
-          max={props.max}
-        ></progress>
+        <progress className="progress progress-secondary" value={props.value} max={props.max}></progress>
       </div>
       <div className="stat-desc text-right">{formatFullDate(props.dateTs)}</div>
     </div>
@@ -126,9 +116,7 @@ export const ChainStatCard: NextPage<ChainStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{t("card.chain")}</div>
-      <code className="stat-value text-lg md:text-2xl text-right">
-        {props.value}
-      </code>
+      <code className="stat-value text-lg md:text-2xl text-right">{props.value}</code>
       <div className="stat-desc text-right">{`Chain ID: ${props.id}`}</div>
     </div>
   );
@@ -144,9 +132,7 @@ export const DataCard: NextPage<DataStat> = (props) => {
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
-      <code className="stat-value text-lg md:text-2xl text-right">
-        {props.value}
-      </code>
+      <code className="stat-value text-lg md:text-2xl text-right">{props.value}</code>
       <div className="stat-desc text-right">{props?.description}</div>
     </div>
   );
@@ -166,12 +152,7 @@ export const CountDataCard: NextPage<GrossRewardStat> = (props) => {
     <div className="stat">
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-2xl text-right">
-        <CountUp
-          end={props.value}
-          preserveValue={true}
-          separator=","
-          suffix={props.suffix ?? ""}
-        />
+        <CountUp end={props.value} preserveValue={true} separator="," suffix={props.suffix ?? ""} />
       </code>
 
       <div className="stat-desc text-right">

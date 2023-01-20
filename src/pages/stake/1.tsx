@@ -1,12 +1,6 @@
 import Link from "next/link";
 import Container from "~/components/containers/Container";
-import {
-  useNetwork,
-  useAccount,
-  useContractWrite,
-  useWaitForTransaction,
-  usePrepareContractWrite,
-} from "wagmi";
+import { useNetwork, useAccount, useContractWrite, useWaitForTransaction, usePrepareContractWrite } from "wagmi";
 import { MaxValueField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState, useContext } from "react";
@@ -39,8 +33,7 @@ const Stake = () => {
   const [processing, setProcessing] = useState(false);
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
-  const { xenBalance, userStake, genesisTs, currentAPY, feeData } =
-    useContext(XENContext);
+  const { xenBalance, userStake, genesisTs, currentAPY, feeData } = useContext(XENContext);
 
   /*** FORM SETUP ***/
 
@@ -51,9 +44,7 @@ const Stake = () => {
         .number()
         .required(t("form-field.amount-required"))
         .max(
-          Number(
-            ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))
-          ),
+          Number(ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))),
           t("form-field.amount-maximum", {
             maximumAmount: xenBalance?.formatted,
           })
@@ -87,10 +78,7 @@ const Stake = () => {
     contractInterface: XENCryptoABI,
     functionName: "stake",
     args: [
-      ethers.utils.parseUnits(
-        (Number(watchAllFields?.startStakeAmount) || 0).toString(),
-        xenBalance?.decimals ?? 0
-      ),
+      ethers.utils.parseUnits((Number(watchAllFields?.startStakeAmount) || 0).toString(), xenBalance?.decimals ?? 0),
       watchAllFields.startStakeDays ?? 0,
     ],
     enabled: !disabled,
@@ -123,14 +111,7 @@ const Stake = () => {
     if (!processing && address && userStake && userStake.term.toNumber() == 0) {
       setDisabled(false);
     }
-  }, [
-    address,
-    processing,
-    userStake,
-    watchAllFields.startStakeDays,
-    isValid,
-    config,
-  ]);
+  }, [address, processing, userStake, watchAllFields.startStakeDays, isValid, config]);
 
   return (
     <Container className="max-w-2xl">
@@ -163,9 +144,7 @@ const Stake = () => {
                   xenBalance?.decimals ?? BigNumber.from(0)
                 )}
                 disabled={disabled}
-                errorMessage={
-                  <ErrorMessage errors={errors} name="startStakeAmount" />
-                }
+                errorMessage={<ErrorMessage errors={errors} name="startStakeAmount" />}
                 register={register("startStakeAmount")}
                 setValue={setValue}
               />
@@ -176,9 +155,7 @@ const Stake = () => {
                 decimals={0}
                 value={1000}
                 disabled={disabled}
-                errorMessage={
-                  <ErrorMessage errors={errors} name="startStakeDays" />
-                }
+                errorMessage={<ErrorMessage errors={errors} name="startStakeDays" />}
                 register={register("startStakeDays")}
                 setValue={setValue}
               />
@@ -193,13 +170,9 @@ const Stake = () => {
                     apy: currentAPY,
                   })}
                   decimals={0}
-                  description={`${currentAPY.toFixed(2)}%`}
+                  description={`${currentAPY?.toFixed(2) ?? 0}%`}
                 />
-                <DateStatCard
-                  title={t("card.maturity")}
-                  dateTs={maturity}
-                  isPast={false}
-                />
+                <DateStatCard title={t("card.maturity")} dateTs={maturity} isPast={false} />
               </div>
 
               <div className="alert shadow-lg glass">
@@ -224,10 +197,7 @@ const Stake = () => {
                   {t("stake.start")}
                 </button>
               </div>
-              <GasEstimate
-                feeData={feeData}
-                gasLimit={config?.request?.gasLimit}
-              />
+              <GasEstimate feeData={feeData} gasLimit={config?.request?.gasLimit} />
             </div>
           </form>
         </CardContainer>

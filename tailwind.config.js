@@ -1,10 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
   theme: {
     extend: {
@@ -23,6 +20,8 @@ module.exports = {
           neutral: "black",
           "base-100": "white",
           "neutral-content": "#6b7280",
+          accent: "#F2AAFA",
+          "accent-focus": "#B9F5FB",
         },
       },
       {
@@ -32,6 +31,8 @@ module.exports = {
           neutral: "white",
           "base-100": "black",
           "neutral-content": "#d1d5db",
+          accent: "#84338D",
+          "accent-focus": "#3E747B",
         },
       },
     ],

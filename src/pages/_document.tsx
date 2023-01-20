@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html>
       <Head />
-      <body className={"bg-base-100"}>
+      <body className="bg-gradient-to-br from-accent to-accent-focus">
         <Main />
         <NextScript />
       </body>

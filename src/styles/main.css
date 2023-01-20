@@ -7,14 +7,6 @@ html {
 }
 
 body {
-  background-image: url("/images/bg.svg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: top;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   min-height: 100%;
 }
 
@@ -46,14 +38,8 @@ body {
   border: none;
   -webkit-backdrop-filter: blur(var(--glass-blur, 40px));
   backdrop-filter: blur(var(--glass-blur, 40px));
-  background-image: linear-gradient(
-    135deg,
-    rgb(255 255 255 / var(--glass-opacity, 30%)) 0%,
-    rgb(0 0 0 / 0%) 100%
-  );
-  box-shadow: 0 0 0 1px rgb(255 255 255 / var(--glass-border-opacity, 10%))
-      inset,
-    0 0 0 2px rgb(0 0 0 / 5%);
+  background-image: linear-gradient(135deg, rgb(255 255 255 / var(--glass-opacity, 30%)) 0%, rgb(0 0 0 / 0%) 100%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / var(--glass-border-opacity, 10%)) inset, 0 0 0 2px rgb(0 0 0 / 5%);
   text-shadow: 0 1px rgb(0 0 0 / var(--glass-text-shadow-opacity, 5%));
 }
 
@@ -65,13 +51,8 @@ body {
   border: none;
   -webkit-backdrop-filter: blur(var(--glass-blur, 40px));
   backdrop-filter: blur(var(--glass-blur, 40px));
-  background-image: linear-gradient(
-    135deg,
-    rgb(0 0 0 / var(--glass-opacity, 30%)) 10%,
-    rgb(0 0 0 / 0%) 100%
-  );
-  box-shadow: 0 0 0 1px rgb(0 0 0 / var(--glass-border-opacity, 10%)) inset,
-    0 0 0 2px rgb(128 128 128 / 15%);
+  background-image: linear-gradient(135deg, rgb(0 0 0 / var(--glass-opacity, 30%)) 10%, rgb(0 0 0 / 0%) 100%);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / var(--glass-border-opacity, 10%)) inset, 0 0 0 2px rgb(128 128 128 / 15%);
   text-shadow: 0 1px rgb(0 0 0 / var(--glass-text-shadow-opacity, 5%));
 }
 
