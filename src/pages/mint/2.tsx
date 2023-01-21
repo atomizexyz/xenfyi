@@ -1,9 +1,5 @@
 import Container from "~/components/containers/Container";
-import {
-  NumberStatCard,
-  ProgressStatCard,
-  CountdownCard,
-} from "~/components/StatCards";
+import { NumberStatCard, ProgressStatCard, CountdownCard } from "~/components/StatCards";
 import { progressDays, estimatedXEN } from "~/lib/helpers";
 import { useEffect, useState, useContext } from "react";
 import Link from "next/link";
@@ -58,10 +54,7 @@ const Mint = () => {
   useEffect(() => {
     if (userMint) {
       if (userMint.maturityTs) {
-        const progress = progressDays(
-          userMint.maturityTs.toNumber() ?? 0,
-          userMint.term.toNumber() ?? 0
-        );
+        const progress = progressDays(userMint.maturityTs.toNumber() ?? 0, userMint.term.toNumber() ?? 0);
 
         setProgress(progress);
         setPercent((progress / userMint.term.toNumber()) * 100);
@@ -96,12 +89,7 @@ const Mint = () => {
             <Countdown
               date={(userMint?.maturityTs.toNumber() ?? 0) * 1000}
               renderer={(props) => (
-                <CountdownCard
-                  days={props.days}
-                  hours={props.hours}
-                  minutes={props.minutes}
-                  seconds={props.seconds}
-                />
+                <CountdownCard days={props.days} hours={props.hours} minutes={props.minutes} seconds={props.seconds} />
               )}
             />
             <ProgressStatCard

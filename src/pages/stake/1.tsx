@@ -170,7 +170,7 @@ const Stake = () => {
                     apy: currentAPY,
                   })}
                   decimals={0}
-                  description={`${currentAPY?.toFixed(2) ?? 0}%`}
+                  description={`${Number(currentAPY ?? 0).toFixed(2)}%`}
                 />
                 <DateStatCard title={t("card.maturity")} dateTs={maturity} isPast={false} />
               </div>
