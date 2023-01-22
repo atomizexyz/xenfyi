@@ -60,7 +60,7 @@ export const Navbar: NextPage = () => {
               })()}
             >
               <a
-                className={clsx({
+                className={clsx("btn-sm", {
                   "btn-disabled text-neutral-content": router.pathname.startsWith(item.href),
                   "glass text-neutral": !router.pathname.startsWith(item.href),
                 })}
@@ -152,7 +152,7 @@ export const Navbar: NextPage = () => {
                     <div className="dropdown" ref={chainDropdown}>
                       <div
                         tabIndex={0}
-                        className="btn glass btn-square text-neutral"
+                        className="btn lg:btn-sm glass btn-square text-neutral"
                         onClick={() => {
                           chainDropdown?.current?.classList.toggle("dropdown-open");
                           (document.activeElement as HTMLElement).blur();
@@ -168,17 +168,17 @@ export const Navbar: NextPage = () => {
                       </ul>
                     </div>
 
-                    <button onClick={show} className="btn glass text-neutral">
+                    <button onClick={show} className="btn lg:btn-sm glass text-neutral">
                       <div className="flex space-x-2 items-center">
                         <div className="hidden lg:inline-flex">
-                          <Avatar address={address} size={32} />
+                          <Avatar address={address} size={16} />
                         </div>
                         <pre className="text-base font-light">{truncatedAddress}</pre>
                       </div>
                     </button>
                   </>
                 ) : (
-                  <button onClick={show} className="btn glass text-neutral">
+                  <button onClick={show} className="btn lg:btn-sm glass text-neutral">
                     {t("connect-wallet")}
                   </button>
                 )}
@@ -189,7 +189,7 @@ export const Navbar: NextPage = () => {
         <div className="dropdown dropdown-end" ref={menuDropdown}>
           <div
             tabIndex={0}
-            className="btn glass btn-square text-neutral"
+            className="btn lg:btn-sm glass btn-square text-neutral"
             onClick={() => {
               menuDropdown?.current?.classList.toggle("dropdown-open");
               (document.activeElement as HTMLElement).blur();
