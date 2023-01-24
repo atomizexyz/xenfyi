@@ -5,10 +5,15 @@ export const useEnvironmentChains = () => {
   const chainNetwork = process.env.NEXT_PUBLIC_CHAIN_NETWORK as string;
 
   const environmentChains = () => {
-    if (!chainNetwork) return chainList;
-    if (chainNetwork == "devnet") return [chain.foundry, chain.localhost];
-
-    return chainList.filter((chain: Chain) => (chainNetwork == "mainnet" ? !chain.testnet : chain.testnet));
+    const local = [chain.foundry, chain.localhost];
+    switch (chainNetwork) {
+      case "mainnet":
+        return chainList.filter((c: Chain) => !c?.testnet).filter((x) => !local.includes(x));
+      case "testnet":
+        return chainList.filter((c: Chain) => c?.testnet);
+      default:
+        return local;
+    }
   };
 
   return {
