@@ -11,7 +11,7 @@ export const MaxValueField: NextPage<any> = (props) => {
         <span className="label-text-alt text-error">{props.errorMessage}</span>
       </label>
       <input
-        type="text"
+        type="number"
         placeholder="0"
         className="input input-bordered w-full text-neutral"
         disabled={props.disabled}
@@ -41,9 +41,7 @@ export const WalletAddressField: NextPage<any> = (props) => {
   return (
     <div className="form-control w-full">
       <label className="label text-neutral">
-        <span className="label-text text-neutral">
-          {t("form-field.wallet-address")}
-        </span>
+        <span className="label-text text-neutral">{t("form-field.wallet-address")}</span>
         <span className="label-text-alt text-error">{props.errorMessage}</span>
       </label>
       <input
@@ -54,9 +52,7 @@ export const WalletAddressField: NextPage<any> = (props) => {
         {...props.register}
       />
       <label className="label">
-        <span className="label-text-alt text-neutral">
-          {t("form-field.wallet-address-description")}
-        </span>
+        <span className="label-text-alt text-neutral">{t("form-field.wallet-address-description")}</span>
       </label>
     </div>
   );
