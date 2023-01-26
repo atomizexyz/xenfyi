@@ -48,7 +48,7 @@ export const BottomNav: NextPage = () => {
       })}
     >
       {navigationItems.map((item, index) => (
-        <Link
+        (<Link
           key={index}
           href={(() => {
             switch (index) {
@@ -60,26 +60,23 @@ export const BottomNav: NextPage = () => {
                 return item.href;
             }
           })()}
-        >
-          <a
-            className={clsx("text-neutral", {
-              "disabled active": router.pathname.startsWith(item.href),
-              glass: !router.pathname.startsWith(item.href),
-            })}
-          >
-            {item.icon}
-            <span className="btm-nav-label">{t(item.t)}</span>
+          className={clsx("text-neutral", {
+            "disabled active": router.pathname.startsWith(item.href),
+            glass: !router.pathname.startsWith(item.href),
+          })}>
 
-            <StatusBadge
-              status={{
-                id: item.id,
-                mintPageOverride: mintPageOverride,
-                stakePageOverride: stakePageOverride,
-                offset: "-top-3 right-2",
-              }}
-            />
-          </a>
-        </Link>
+          {item.icon}
+          <span className="btm-nav-label">{t(item.t)}</span>
+          <StatusBadge
+            status={{
+              id: item.id,
+              mintPageOverride: mintPageOverride,
+              stakePageOverride: stakePageOverride,
+              offset: "-top-3 right-2",
+            }}
+          />
+
+        </Link>)
       ))}
     </div>
   );

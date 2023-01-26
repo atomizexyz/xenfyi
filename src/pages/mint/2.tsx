@@ -68,16 +68,16 @@ const Mint = () => {
 
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
-          <Link href="/mint/1">
-            <a className="step step-neutral">{t("mint.start")}</a>
+          <Link href="/mint/1" className="step step-neutral">
+            {t("mint.start")}
           </Link>
 
-          <Link href="/mint/2">
-            <a className="step step-neutral">{t("mint.minting")}</a>
+          <Link href="/mint/2" className="step step-neutral">
+            {t("mint.minting")}
           </Link>
 
-          <Link href="/mint/3">
-            <a className="step">{t("mint.title")}</a>
+          <Link href="/mint/3" className="step">
+            {t("mint.title")}
           </Link>
         </ul>
 

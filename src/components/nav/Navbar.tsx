@@ -43,47 +43,43 @@ export const Navbar: NextPage = () => {
   });
 
   const NavigationItems = (props: any) => {
-    return (
-      <>
-        {navigationItems.map((item, index) => (
-          <li key={index}>
-            <Link
-              href={(() => {
-                switch (index) {
-                  case 1:
-                    return `/mint/${mintPageOverride}`;
-                  case 2:
-                    return `/stake/${stakePageOverride}`;
-                  default:
-                    return item.href;
-                }
-              })()}
-            >
-              <a
-                className={clsx("btn-sm", {
-                  "btn-disabled text-neutral-content": router.pathname.startsWith(item.href),
-                  "glass text-neutral": !router.pathname.startsWith(item.href),
-                })}
-                onClick={() => {
-                  (document.activeElement as HTMLElement).blur();
-                }}
-              >
-                {item.icon}
-                {t(item.t)}
-                <StatusBadge
-                  status={{
-                    id: item.id,
-                    mintPageOverride: mintPageOverride,
-                    stakePageOverride: stakePageOverride,
-                    offset: "right-2 lg:-top-2 lg:-right-3",
-                  }}
-                />
-              </a>
-            </Link>
-          </li>
-        ))}
-      </>
-    );
+    return <>
+      {navigationItems.map((item, index) => (
+        <li key={index}>
+          <Link
+            href={(() => {
+              switch (index) {
+                case 1:
+                  return `/mint/${mintPageOverride}`;
+                case 2:
+                  return `/stake/${stakePageOverride}`;
+                default:
+                  return item.href;
+              }
+            })()}
+            className={clsx("btn-sm", {
+              "btn-disabled text-neutral-content": router.pathname.startsWith(item.href),
+              "glass text-neutral": !router.pathname.startsWith(item.href),
+            })}
+            onClick={() => {
+              (document.activeElement as HTMLElement).blur();
+            }}>
+
+            {item.icon}
+            {t(item.t)}
+            <StatusBadge
+              status={{
+                id: item.id,
+                mintPageOverride: mintPageOverride,
+                stakePageOverride: stakePageOverride,
+                offset: "right-2 lg:-top-2 lg:-right-3",
+              }}
+            />
+
+          </Link>
+        </li>
+      ))}
+    </>;
   };
 
   useEffect(() => {
@@ -237,17 +233,17 @@ export const Navbar: NextPage = () => {
             )}
             {linkItems.map((item, index) => (
               <li key={index}>
-                <Link href={item.href ?? "/"}>
-                  <a
-                    target="_blank"
-                    className="justify-between text-neutral glass"
-                    onClick={() => {
-                      (document.activeElement as HTMLElement).blur();
-                    }}
-                  >
-                    {t(item.t)}
-                    {item.icon}
-                  </a>
+                <Link
+                  href={item.href ?? "/"}
+                  target="_blank"
+                  className="justify-between text-neutral glass"
+                  onClick={() => {
+                    (document.activeElement as HTMLElement).blur();
+                  }}>
+
+                  {t(item.t)}
+                  {item.icon}
+
                 </Link>
               </li>
             ))}

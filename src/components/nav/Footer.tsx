@@ -25,8 +25,8 @@ const Footer = () => {
               className="tooltip tooltip-info"
               data-tip={t(item.t)}
             >
-              <Link href={item.href}>
-                <a target="_blank">{item.icon}</a>
+              <Link href={item.href} target="_blank">
+                {item.icon}
               </Link>
             </div>
           ))}
@@ -44,11 +44,15 @@ const Footer = () => {
       />
       <div className="grid grid-flow-col gap-4">
         {textLinkItems.map((item, index) => (
-          <Link href={item.href} key={index}>
-            <a target="_blank" className="link link-hover text-neutral">
-              {t(item.t)}
-            </a>
-          </Link>
+          (<Link
+            href={item.href}
+            key={index}
+            target="_blank"
+            className="link link-hover text-neutral">
+
+            {t(item.t)}
+
+          </Link>)
         ))}
       </div>
     </footer>

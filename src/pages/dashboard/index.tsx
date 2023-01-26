@@ -51,13 +51,11 @@ const Chains: NextPage = () => {
           href={`${chain?.blockExplorers?.default.url}/address/${
             xenContract(chain).addressOrName
           }`}
-        >
-          <a
-            target="_blank"
-            className="btn btn-square btn-xs glass text-neutral"
-          >
-            <ExternalLinkIcon className="w-5 h-5" />
-          </a>
+          target="_blank"
+          className="btn btn-square btn-xs glass text-neutral">
+
+          <ExternalLinkIcon className="w-5 h-5" />
+
         </Link>
       </div>
     );
@@ -82,7 +80,7 @@ const Chains: NextPage = () => {
     return (
       <tr>
         <td>
-          <Link href={`/dashboard/${chain.id}`}>
+          <Link href={`/dashboard/${chain.id}`} legacyBehavior>
             <div className="p-2 flex">
               <div className="relative w-full lg:w-max">
                 <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">

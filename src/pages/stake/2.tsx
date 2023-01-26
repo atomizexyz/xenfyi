@@ -70,16 +70,16 @@ const Stake = () => {
 
       <div className="flew flex-row space-y-8 ">
         <ul className="steps w-full">
-          <Link href="/stake/1">
-            <a className="step step-neutral">{t("stake.start")}</a>
+          <Link href="/stake/1" className="step step-neutral">
+            {t("stake.start")}
           </Link>
 
-          <Link href="/stake/2">
-            <a className="step step-neutral">{t("stake.staking")}</a>
+          <Link href="/stake/2" className="step step-neutral">
+            {t("stake.staking")}
           </Link>
 
-          <Link href="/stake/3">
-            <a className="step">{t("stake.end")}</a>
+          <Link href="/stake/3" className="step">
+            {t("stake.end")}
           </Link>
         </ul>
         <CardContainer>

@@ -11,10 +11,10 @@ const Breadcrumbs = () => {
     <div className="text-sm breadcrumbs pb-4 lg:pb-8">
       <ul>
         <li>
-          <Link href="/">
-            <a className="text-neutral">
-              <HomeIcon className="h-4 w-4" />
-            </a>
+          <Link href="/" className="text-neutral">
+
+            <HomeIcon className="h-4 w-4" />
+
           </Link>
         </li>
         {path.map((item, index) => {
@@ -24,7 +24,7 @@ const Breadcrumbs = () => {
           return (
             <li key={index}>
               <Link href={href}>
-                <a>{item.charAt(0).toUpperCase() + item.slice(1)}</a>
+                {item.charAt(0).toUpperCase() + item.slice(1)}
               </Link>
             </li>
           );

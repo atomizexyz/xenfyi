@@ -127,11 +127,13 @@ const Dashboard: NextPage = () => {
             >
               {envChains.map((c) => (
                 <li key={c.id}>
-                  <Link href={`/dashboard/${c.id}`}>
-                    <a className="text-neutral justify-between glass">
-                      {c.name}
-                      {chainIcons[c.id]}
-                    </a>
+                  <Link
+                    href={`/dashboard/${c.id}`}
+                    className="text-neutral justify-between glass">
+
+                    {c.name}
+                    {chainIcons[c.id]}
+
                   </Link>
                 </li>
               ))}
