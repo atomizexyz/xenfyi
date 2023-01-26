@@ -116,7 +116,9 @@
     "amount-maximum": "Importo massimo è {{maximumAmount}}",
     "amount-positive": "Importo deve essere più grande dello 0",
     "amount-description": "Importo massimo",
-    "max": "Max"
+    "max": "Max",
+    "go-to-today": "Vai a Oggi",
+    "lock-month": "Mese Bloccato"
   },
   "toast": {
     "copied-to-clipboard": "Copiato negli appunti",

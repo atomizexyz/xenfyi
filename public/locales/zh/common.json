@@ -116,7 +116,9 @@
     "amount-maximum": "最大数量是 {{maximumAmount}}",
     "amount-positive": "数量必须大于0",
     "amount-description": "最大数量",
-    "max": "最大值"
+    "max": "最大值",
+    "go-to-today": "转到今天",
+    "lock-month": "锁定月份"
   },
   "toast": {
     "copied-to-clipboard": "拷贝到剪贴板",

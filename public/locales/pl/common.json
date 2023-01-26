@@ -116,7 +116,9 @@
     "amount-maximum": "Maksymalna kwota to {{maximumAmount}}",
     "amount-positive": "Kwota musi być większa niż 0",
     "amount-description": "Kwota maksymalna",
-    "max": "Max"
+    "max": "Max",
+    "go-to-today": "Przejdź do Dzisiaj",
+    "lock-month": "Zablokowany Miesiąc"
   },
   "toast": {
     "copied-to-clipboard": "Skopiowane do schowka",

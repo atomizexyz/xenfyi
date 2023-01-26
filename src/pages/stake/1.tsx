@@ -3,7 +3,7 @@ import Container from "~/components/containers/Container";
 import { useNetwork, useAccount, useContractWrite, useWaitForTransaction, usePrepareContractWrite } from "wagmi";
 import { MaxValueField } from "~/components/FormFields";
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -22,9 +22,16 @@ import XENCryptoABI from "~/abi/XENCryptoABI";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Breadcrumbs from "~/components/Breadcrumbs";
+import { DayPicker } from "react-day-picker";
+import { isSameMonth, addDays, differenceInDays } from "date-fns";
+import "react-day-picker/dist/style.css";
 
 const Stake = () => {
   const { t } = useTranslation("common");
+  const today = new Date();
+  const tomorrow = addDays(today, 1);
+  const [month, setMonth] = useState<Date>(today);
+  const [isLockMonth, setIsLockMonth] = useState<boolean>(true);
 
   const { address } = useAccount();
   const { chain } = useNetwork();
@@ -70,7 +77,7 @@ const Stake = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
   });
-  const watchAllFields = watch();
+  const { startStakeAmount, startStakeDays } = watch();
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
@@ -78,8 +85,8 @@ const Stake = () => {
     contractInterface: XENCryptoABI,
     functionName: "stake",
     args: [
-      ethers.utils.parseUnits((Number(watchAllFields?.startStakeAmount) || 0).toString(), xenBalance?.decimals ?? 0),
-      watchAllFields.startStakeDays ?? 0,
+      ethers.utils.parseUnits((Number(startStakeAmount) || 0).toString(), xenBalance?.decimals ?? 0),
+      startStakeDays ?? 0,
     ],
     enabled: !disabled,
   });
@@ -103,15 +110,23 @@ const Stake = () => {
 
   /*** USE EFFECT ****/
 
+  const selectedFromDay = useCallback(() => {
+    return addDays(new Date(), startStakeDays ?? 0);
+  }, [startStakeDays]);
+
+  const selectedToDay = (date: any) => {
+    setValue("startMintDays", differenceInDays(date, today) + 1);
+  };
+
   useEffect(() => {
-    if (watchAllFields.startStakeDays) {
-      setMaturity(UTC_TIME + (watchAllFields.startStakeDays ?? 0) * 86400);
+    if (startStakeDays) {
+      setMaturity(UTC_TIME + (startStakeDays ?? 0) * 86400);
     }
 
     if (!processing && address && userStake && userStake.term.toNumber() == 0) {
       setDisabled(false);
     }
-  }, [address, processing, userStake, watchAllFields.startStakeDays, isValid, config]);
+  }, [address, processing, userStake, startStakeDays, isValid, config]);
 
   return (
     <Container className="max-w-2xl">
@@ -160,13 +175,36 @@ const Stake = () => {
                 setValue={setValue}
               />
 
+              {/* <div className="stats stats-vertical glass w-full text-neutral">
+                <div className="flex justify-center">
+                  <DayPicker
+                    locale={dayPickerLocale(router.locale ?? "en")}
+                    mode="single"
+                    modifiersClassNames={{
+                      selected: "day-selected",
+                      outside: "day-outside",
+                    }}
+                    disabled={[{ before: tomorrow, after: maxStakeLengthDay }]}
+                    selected={selectedFromDay()}
+                    onSelect={selectedToDay}
+                    month={month}
+                    onMonthChange={setMonth}
+                    footer={footer}
+                    fromYear={currentYear()}
+                    toYear={maxEndYear(currentMaxTerm)}
+                    captionLayout="dropdown"
+                    fixedWeeks
+                  />
+                </div>
+              </div> */}
+
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard
                   title={t("card.yield")}
                   value={stakeYield({
-                    xenBalance: watchAllFields.startStakeAmount,
+                    xenBalance: startStakeAmount,
                     genesisTs: genesisTs,
-                    term: watchAllFields.startStakeDays,
+                    term: startStakeDays,
                     apy: currentAPY,
                   })}
                   decimals={0}

@@ -59,3 +59,11 @@ body {
 .table :where(tbody th, tbody td, thead th, thead td, tfoot th, tfoot td) {
   background-color: transparent;
 }
+
+.day-selected:not([disabled]) {
+  @apply bg-base-100 text-neutral;
+}
+
+.day-selected:hover:not([disabled]) {
+  @apply glass bg-transparent;
+}

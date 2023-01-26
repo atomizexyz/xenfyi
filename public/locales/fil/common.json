@@ -116,7 +116,9 @@
     "amount-maximum": "Ang maximum na halaga ay {{maximumAmount}}",
     "amount-positive": "Ang halaga ay dapat na higit sa 0",
     "amount-description": "Pinakamataas na halaga",
-    "max": "Max"
+    "max": "Max",
+    "go-to-today": "Pumunta sa Ngayon",
+    "lock-month": "Naka-lock na buwan"
   },
   "toast": {
     "copied-to-clipboard": "Kinopya sa clipboard",
