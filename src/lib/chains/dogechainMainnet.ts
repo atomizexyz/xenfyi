@@ -10,7 +10,7 @@ export const dogechainMainnet: Chain = {
     symbol: "DOGE",
   },
   rpcUrls: {
-    default: "https://dogechain.ankr.com",
+    default: "https://rpc01.dogechain.dog",
     "rpc-us.dogecahin": "https://rpc-us.dogechain.dog",
     "rpc-sg.dogecahin": "https://rpc-sg.dogechain.dog",
     "rpc.dogechain": "https://rpc.dogechain.dog",
