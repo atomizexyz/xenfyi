@@ -47,8 +47,7 @@ export const chainList = [
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(chainList, [
-  // alchemyProvider({ apiKey: alchemyId, priority: 0 }),
-  // infuraProvider({ apiKey: infuraId, priority: 0 }),
+  alchemyProvider({ apiKey: alchemyId, priority: 0 }),
   jsonRpcProvider({
     priority: 0,
     rpc: (c: Chain) => {
@@ -58,6 +57,7 @@ export const { chains, provider, webSocketProvider } = configureChains(chainList
       return { http: c.rpcUrls.default };
     },
   }),
+  infuraProvider({ apiKey: infuraId, priority: 1 }),
   publicProvider({ priority: 1 }),
   jsonRpcProvider({
     priority: 2,
