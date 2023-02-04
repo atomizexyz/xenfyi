@@ -12,6 +12,7 @@ export const MaxValueField: NextPage<any> = (props) => {
       </label>
       <input
         type="number"
+        step="any"
         placeholder="0"
         className="input input-bordered w-full text-neutral"
         disabled={props.disabled}

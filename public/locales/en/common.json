@@ -117,7 +117,6 @@
     "amount-positive": "Amount must be greater than 0",
     "amount-description": "Maximum amount",
     "max": "Max",
-
     "go-to-today": "Go to Today",
     "lock-month": "Lock Month"
   },
