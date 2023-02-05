@@ -1,4 +1,4 @@
-import { Chain,chain, configureChains, createClient } from "wagmi";
+import { Chain, chain, configureChains, createClient } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -60,7 +60,7 @@ export const { chains, provider, webSocketProvider } = configureChains(chainList
   publicProvider({ priority: 1 }),
   jsonRpcProvider({
     priority: 2,
-    rpc: (chain: Chain) => ({
+    rpc: (_chain: Chain) => ({
       http: "https://rpc.ankr.com/multichain",
     }),
   }),

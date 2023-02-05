@@ -1,18 +1,18 @@
-import { DotsVerticalIcon,MoonIcon, SunIcon } from "@heroicons/react/outline";
+import { DotsVerticalIcon, MoonIcon, SunIcon } from "@heroicons/react/outline";
 import { clsx } from "clsx";
-import { Avatar,ConnectKitButton } from "connectkit";
+import { Avatar, ConnectKitButton } from "connectkit";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
-import { useContext, useEffect, useRef,useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { useToken } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 
-import { chainIcons,linkItems, navigationItems } from "~/components/Constants";
+import { chainIcons, linkItems, navigationItems } from "~/components/Constants";
 import XENContext from "~/contexts/XENContext";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 import { UTC_TIME } from "~/lib/helpers";
@@ -43,7 +43,7 @@ export const Navbar: NextPage = () => {
     chainId: chain?.id,
   });
 
-  const NavigationItems = (props: any) => {
+  const NavigationItems = () => {
     return (
       <>
         {navigationItems.map((item, index) => (

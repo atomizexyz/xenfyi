@@ -1,6 +1,6 @@
 import { BigNumber } from "ethers";
 import React, { createContext, useState } from "react";
-import { Chain, useAccount, useBalance, useContractRead, useContractReads,useFeeData, useNetwork } from "wagmi";
+import { Chain, useAccount, useBalance, useContractRead, useContractReads, useFeeData, useNetwork } from "wagmi";
 
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
@@ -43,7 +43,7 @@ export interface Balance {
 }
 
 interface IXENContext {
-  setChainOverride: (chain: Chain) => void;
+  setChainOverride: (_chain: Chain) => void;
   userMint?: UserMint;
   userStake?: UserStake;
   feeData?: FeeData;
@@ -62,7 +62,7 @@ interface IXENContext {
 }
 
 const XENContext = createContext<IXENContext>({
-  setChainOverride: (chain: Chain) => {},
+  setChainOverride: (_chain: Chain) => {},
   userMint: undefined,
   userStake: undefined,
   feeData: undefined,

@@ -4,15 +4,15 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { clsx } from "clsx";
-import { addDays, differenceInDays,isSameMonth } from "date-fns";
+import { addDays } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useCallback,useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite,useWaitForTransaction } from "wagmi";
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import * as yup from "yup";
 
 import XENCryptoABI from "~/abi/XENCryptoABI";
@@ -28,10 +28,6 @@ import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { t } = useTranslation("common");
-  const today = new Date();
-  const tomorrow = addDays(today, 1);
-  const [month, setMonth] = useState<Date>(today);
-  const [isLockMonth, setIsLockMonth] = useState<boolean>(true);
 
   const { address } = useAccount();
   const { chain } = useNetwork();
@@ -42,11 +38,8 @@ const Mint = () => {
   const [maturity, setMaturity] = useState<number>(UTC_TIME);
 
   const { userMint, currentMaxTerm, globalRank, feeData } = useContext(XENContext);
-  const maxStakeLengthDay = addDays(today, currentMaxTerm);
 
   /*** FORM SETUP ***/
-
-  const numberOfDays = 100;
 
   const schema = yup
     .object()
@@ -74,7 +67,7 @@ const Mint = () => {
 
   /*** CONTRACT WRITE SETUP ***/
 
-  const { config, error } = usePrepareContractWrite({
+  const { config } = usePrepareContractWrite({
     addressOrName: xenContract(chain).addressOrName,
     contractInterface: XENCryptoABI,
     functionName: "claimRank",
@@ -83,14 +76,14 @@ const Mint = () => {
   });
   const { data: claimRankData, write } = useContractWrite({
     ...config,
-    onSuccess(data) {
+    onSuccess(_data) {
       setProcessing(true);
       setDisabled(true);
     },
   });
   const {} = useWaitForTransaction({
     hash: claimRankData?.hash,
-    onSuccess(data) {
+    onSuccess(_data) {
       toast(t("toast.claim-successful"));
       router.push("/mint/2");
     },
@@ -101,34 +94,9 @@ const Mint = () => {
 
   /*** USE EFFECT ****/
 
-  const footer = (
-    <div className="grid grid-flow-col gap-8 items-center">
-      <button
-        disabled={isSameMonth(today, month)}
-        onClick={() => setMonth(addDays(today, 1))}
-        className="btn btn-xs glass text-neutral ml-2"
-      >
-        {t("form-field.go-to-today")}
-      </button>
-      <label className="label cursor-pointer">
-        <span className="label-text text-neutral">{t("form-field.lock-month")}</span>
-        <input
-          onChange={(event) => setIsLockMonth(event.currentTarget.checked)}
-          type="checkbox"
-          className="checkbox ml-2"
-          checked={isLockMonth}
-        />
-      </label>
-    </div>
-  );
-
   const selectedFromDay = useCallback(() => {
     return addDays(new Date(), startMintDays ?? 0);
   }, [startMintDays]);
-
-  const selectedToDay = (date: any) => {
-    setValue("startMintDays", differenceInDays(date, today) + 1);
-  };
 
   useEffect(() => {
     if (startMintDays) {
@@ -140,22 +108,7 @@ const Mint = () => {
     }
 
     setMaxFreeMint(Number(currentMaxTerm ?? 8640000) / 86400);
-
-    // if (isLockMonth && !isSameMonth(selectedFromDay(), month)) {
-    //   setMonth(selectedFromDay());
-    // }
-  }, [
-    address,
-    config,
-    currentMaxTerm,
-    isValid,
-    processing,
-    userMint,
-    startMintDays,
-    isLockMonth,
-    selectedFromDay,
-    month,
-  ]);
+  }, [address, config, currentMaxTerm, isValid, processing, userMint, startMintDays, selectedFromDay]);
 
   return (
     <Container className="max-w-2xl">
@@ -189,29 +142,6 @@ const Mint = () => {
                 register={register("startMintDays")}
                 setValue={setValue}
               />
-
-              {/* <div className="stats stats-vertical glass w-full text-neutral">
-                <div className="flex justify-center">
-                  <DayPicker
-                    locale={dayPickerLocale(router.locale ?? "en")}
-                    mode="single"
-                    modifiersClassNames={{
-                      selected: "day-selected",
-                      outside: "day-outside",
-                    }}
-                    disabled={[{ before: tomorrow, after: maxStakeLengthDay }]}
-                    selected={selectedFromDay()}
-                    onSelect={selectedToDay}
-                    month={month}
-                    onMonthChange={setMonth}
-                    footer={footer}
-                    fromYear={currentYear()}
-                    toYear={maxEndYear(currentMaxTerm)}
-                    captionLayout="dropdown"
-                    fixedWeeks
-                  />
-                </div>
-              </div> */}
 
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard title={t("card.claim-rank")} value={globalRank} decimals={0} />

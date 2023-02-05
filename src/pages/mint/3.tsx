@@ -5,16 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useContext,useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import {
-  useAccount,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import * as yup from "yup";
 
 import XENCryptoABI from "~/abi/XENCryptoABI";
@@ -25,12 +19,7 @@ import { MaxValueField, WalletAddressField } from "~/components/FormFields";
 import GasEstimate from "~/components/GasEstimate";
 import { CountDataCard } from "~/components/StatCards";
 import XENContext from "~/contexts/XENContext";
-import {
-  calculateMintReward,
-  mintPenalty,
-  UTC_TIME,
-  WALLET_ADDRESS_REGEX,
-} from "~/lib/helpers";
+import { calculateMintReward, mintPenalty, UTC_TIME, WALLET_ADDRESS_REGEX } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
@@ -61,7 +50,7 @@ const Mint = () => {
   });
   const { data: claimData, write: writeClaim } = useContractWrite({
     ...configClaim,
-    onSuccess(data) {
+    onSuccess(_data) {
       setProcessing(true);
       setDisabled(true);
     },
@@ -71,7 +60,7 @@ const Mint = () => {
   };
   const {} = useWaitForTransaction({
     hash: claimData?.hash,
-    onSuccess(data) {
+    onSuccess(_data) {
       toast(t("toast.claim-successful"));
 
       router.push("/stake/1");
@@ -115,16 +104,13 @@ const Mint = () => {
     addressOrName: xenContract(chain).addressOrName,
     contractInterface: XENCryptoABI,
     functionName: "claimMintRewardAndShare",
-    args: [
-      cShareWatchAllFields.claimShareAddress,
-      cShareWatchAllFields.claimSharePercentage,
-    ],
+    args: [cShareWatchAllFields.claimShareAddress, cShareWatchAllFields.claimSharePercentage],
     enabled: !disabled,
   });
 
   const { data: claimShareData, write: writeClaimShare } = useContractWrite({
     ...configClaimShare,
-    onSuccess(data) {
+    onSuccess(_data) {
       setProcessing(true);
       setDisabled(true);
     },
@@ -134,7 +120,7 @@ const Mint = () => {
   };
   const {} = useWaitForTransaction({
     hash: claimShareData?.hash,
-    onSuccess(data) {
+    onSuccess(_data) {
       toast(t("toast.claim-and-share-successful"));
       router.push("/stake/1");
     },
@@ -176,16 +162,13 @@ const Mint = () => {
     addressOrName: xenContract(chain).addressOrName,
     contractInterface: XENCryptoABI,
     functionName: "claimMintRewardAndStake",
-    args: [
-      cStakeWatchAllFields.claimStakePercentage,
-      cStakeWatchAllFields.claimStakeDays,
-    ],
+    args: [cStakeWatchAllFields.claimStakePercentage, cStakeWatchAllFields.claimStakeDays],
     enabled: !disabled,
   });
 
   const { data: claimStakeData, write: writeClaimStake } = useContractWrite({
     ...configClaimStake,
-    onSuccess(data) {
+    onSuccess(_data) {
       setProcessing(true);
       setDisabled(true);
     },
@@ -196,7 +179,7 @@ const Mint = () => {
   };
   const {} = useWaitForTransaction({
     hash: claimStakeData?.hash,
-    onSuccess(data) {
+    onSuccess(_data) {
       toast(t("toast.claim-and-stake-successful"));
       router.push("/stake/2");
     },
@@ -205,12 +188,7 @@ const Mint = () => {
   /*** USE EFFECT ****/
 
   useEffect(() => {
-    if (
-      address &&
-      userMint &&
-      !userMint.maturityTs.isZero() &&
-      userMint?.maturityTs.toNumber() < UTC_TIME
-    ) {
+    if (address && userMint && !userMint.maturityTs.isZero() && userMint?.maturityTs.toNumber() < UTC_TIME) {
       if (!processing) {
         setDisabled(false);
       }
@@ -266,16 +244,10 @@ const Mint = () => {
           <div className="flex flex-col w-full border-opacity-50">
             <form onSubmit={cHandleSubmit(handleClaimSubmit)}>
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">
-                  {t("mint.claim-mint")}
-                </h2>
+                <h2 className="card-title text-neutral">{t("mint.claim-mint")}</h2>
 
                 <div className="flex stats glass w-full text-neutral">
-                  <CountDataCard
-                    title={t("card.reward")}
-                    value={reward}
-                    description="XEN"
-                  />
+                  <CountDataCard title={t("card.reward")} value={reward} description="XEN" />
                   <CountDataCard
                     title={t("card.penalty")}
                     value={penaltyPercent}
@@ -297,10 +269,7 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate
-                  feeData={feeData}
-                  gasLimit={configClaim?.request?.gasLimit}
-                />
+                <GasEstimate feeData={feeData} gasLimit={configClaim?.request?.gasLimit} />
               </div>
             </form>
           </div>
@@ -313,16 +282,10 @@ const Mint = () => {
           <div className="flex flex-col w-full border-opacity-50">
             <form onSubmit={cShareHandleSubmit(handleClaimShareSubmit)}>
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">
-                  {t("mint.claim-mint-share")}
-                </h2>
+                <h2 className="card-title text-neutral">{t("mint.claim-mint-share")}</h2>
 
                 <div className="flex stats glass w-full text-neutral">
-                  <CountDataCard
-                    title={t("card.reward")}
-                    value={reward}
-                    description="XEN"
-                  />
+                  <CountDataCard title={t("card.reward")} value={reward} description="XEN" />
                   <CountDataCard
                     title={t("card.penalty")}
                     value={penaltyPercent}
@@ -338,24 +301,14 @@ const Mint = () => {
                   decimals={0}
                   value={100}
                   disabled={disabled}
-                  errorMessage={
-                    <ErrorMessage
-                      errors={cShareErrors}
-                      name="claimSharePercentage"
-                    />
-                  }
+                  errorMessage={<ErrorMessage errors={cShareErrors} name="claimSharePercentage" />}
                   register={cShareRegister("claimSharePercentage")}
                   setValue={cShareSetValue}
                 />
 
                 <WalletAddressField
                   disabled={disabled}
-                  errorMessage={
-                    <ErrorMessage
-                      errors={cShareErrors}
-                      name="claimShareAddress"
-                    />
-                  }
+                  errorMessage={<ErrorMessage errors={cShareErrors} name="claimShareAddress" />}
                   register={cShareRegister("claimShareAddress")}
                 />
 
@@ -371,10 +324,7 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate
-                  feeData={feeData}
-                  gasLimit={configClaimShare?.request?.gasLimit}
-                />
+                <GasEstimate feeData={feeData} gasLimit={configClaimShare?.request?.gasLimit} />
               </div>
             </form>
           </div>
@@ -387,16 +337,10 @@ const Mint = () => {
           <div className="flex flex-col w-full border-opacity-50">
             <form onSubmit={cStakeHandleSubmit(handleClaimStakeSubmit)}>
               <div className="flex flex-col space-y-4">
-                <h2 className="card-title text-neutral">
-                  {t("mint.claim-mint-stake")}
-                </h2>
+                <h2 className="card-title text-neutral">{t("mint.claim-mint-stake")}</h2>
 
                 <div className="flex stats glass w-full text-neutral">
-                  <CountDataCard
-                    title={t("card.reward")}
-                    value={reward}
-                    description="XEN"
-                  />
+                  <CountDataCard title={t("card.reward")} value={reward} description="XEN" />
                   <CountDataCard
                     title={t("card.penalty")}
                     value={penaltyPercent}
@@ -412,12 +356,7 @@ const Mint = () => {
                   decimals={0}
                   value={100}
                   disabled={disabled || activeStakeDisabled}
-                  errorMessage={
-                    <ErrorMessage
-                      errors={cStakeErrors}
-                      name="claimStakePercentage"
-                    />
-                  }
+                  errorMessage={<ErrorMessage errors={cStakeErrors} name="claimStakePercentage" />}
                   register={cStakeRegister("claimStakePercentage")}
                   setValue={cStakeSetValue}
                 />
@@ -428,9 +367,7 @@ const Mint = () => {
                   decimals={0}
                   value={1000}
                   disabled={disabled || activeStakeDisabled}
-                  errorMessage={
-                    <ErrorMessage errors={cStakeErrors} name="claimStakeDays" />
-                  }
+                  errorMessage={<ErrorMessage errors={cStakeErrors} name="claimStakeDays" />}
                   register={cStakeRegister("claimStakeDays")}
                   setValue={cStakeSetValue}
                 />
@@ -447,10 +384,7 @@ const Mint = () => {
                   </button>
                 </div>
 
-                <GasEstimate
-                  feeData={feeData}
-                  gasLimit={configClaimStake?.request?.gasLimit}
-                />
+                <GasEstimate feeData={feeData} gasLimit={configClaimStake?.request?.gasLimit} />
               </div>
             </form>
           </div>

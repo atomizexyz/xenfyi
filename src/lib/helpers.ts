@@ -1,8 +1,6 @@
 import { enUS, it, pl, zhCN } from "date-fns/locale";
 import { BigNumber, ethers } from "ethers";
 
-import { daysSince } from "~/components/StatCards";
-
 export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;
 const MAX_PENALTY_PCT = 99;
@@ -59,9 +57,7 @@ interface StakeData {
 
 export const stakeYield = (data?: StakeData) => {
   if (data) {
-    const ds = daysSince(data.genesisTs * 1000);
-    const y = (data.xenBalance * data.apy * data.term) / (100 * 365);
-    return y;
+    return (data.xenBalance * data.apy * data.term) / (100 * 365);
   } else {
     return 0;
   }

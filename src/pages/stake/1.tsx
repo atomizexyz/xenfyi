@@ -4,16 +4,15 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { clsx } from "clsx";
-import { addDays, differenceInDays } from "date-fns";
 import { BigNumber, ethers } from "ethers";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useCallback,useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite,useWaitForTransaction } from "wagmi";
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 import * as yup from "yup";
 
 import XENCryptoABI from "~/abi/XENCryptoABI";
@@ -24,15 +23,11 @@ import { MaxValueField } from "~/components/FormFields";
 import GasEstimate from "~/components/GasEstimate";
 import { DateStatCard, NumberStatCard } from "~/components/StatCards";
 import XENContext from "~/contexts/XENContext";
-import { stakeYield,UTC_TIME } from "~/lib/helpers";
+import { stakeYield, UTC_TIME } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
 
 const Stake = () => {
   const { t } = useTranslation("common");
-  const today = new Date();
-  const tomorrow = addDays(today, 1);
-  const [month, setMonth] = useState<Date>(today);
-  const [isLockMonth, setIsLockMonth] = useState<boolean>(true);
 
   const { address } = useAccount();
   const { chain } = useNetwork();
@@ -93,31 +88,23 @@ const Stake = () => {
   });
   const { data: stakeData, write: writeStake } = useContractWrite({
     ...config,
-    onSuccess(data) {
+    onSuccess(_data) {
       setProcessing(true);
       setDisabled(true);
     },
   });
   const {} = useWaitForTransaction({
     hash: stakeData?.hash,
-    onSuccess(data) {
+    onSuccess(_data) {
       toast(t("toast.stake-successful"));
       router.push("/stake/2");
     },
   });
-  const handleStakeSubmit = (data: any) => {
+  const handleStakeSubmit = (_data: any) => {
     writeStake?.();
   };
 
   /*** USE EFFECT ****/
-
-  const selectedFromDay = useCallback(() => {
-    return addDays(new Date(), startStakeDays ?? 0);
-  }, [startStakeDays]);
-
-  const selectedToDay = (date: any) => {
-    setValue("startMintDays", differenceInDays(date, today) + 1);
-  };
 
   useEffect(() => {
     if (startStakeDays) {
@@ -175,29 +162,6 @@ const Stake = () => {
                 register={register("startStakeDays")}
                 setValue={setValue}
               />
-
-              {/* <div className="stats stats-vertical glass w-full text-neutral">
-                <div className="flex justify-center">
-                  <DayPicker
-                    locale={dayPickerLocale(router.locale ?? "en")}
-                    mode="single"
-                    modifiersClassNames={{
-                      selected: "day-selected",
-                      outside: "day-outside",
-                    }}
-                    disabled={[{ before: tomorrow, after: maxStakeLengthDay }]}
-                    selected={selectedFromDay()}
-                    onSelect={selectedToDay}
-                    month={month}
-                    onMonthChange={setMonth}
-                    footer={footer}
-                    fromYear={currentYear()}
-                    toYear={maxEndYear(currentMaxTerm)}
-                    captionLayout="dropdown"
-                    fixedWeeks
-                  />
-                </div>
-              </div> */}
 
               <div className="flex stats glass w-full text-neutral">
                 <NumberStatCard

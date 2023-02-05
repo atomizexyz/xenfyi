@@ -12,20 +12,15 @@ const Breadcrumbs = () => {
       <ul>
         <li>
           <Link href="/" className="text-neutral">
-
             <HomeIcon className="h-4 w-4" />
-
           </Link>
         </li>
         {path.map((item, index) => {
-          const isLast = index === path.length - 1;
           const href = `/${path.slice(0, index + 1).join("/")}`;
 
           return (
             <li key={index}>
-              <Link href={href}>
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </Link>
+              <Link href={href}>{item.charAt(0).toUpperCase() + item.slice(1)}</Link>
             </li>
           );
         })}

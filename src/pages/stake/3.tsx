@@ -4,16 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useContext,useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import {
-  useAccount,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
 
 import XENCryptoABI from "~/abi/XENCryptoABI";
 import Breadcrumbs from "~/components/Breadcrumbs";
@@ -47,14 +41,14 @@ const Stake = () => {
   });
   const { data: withdrawData, write: writeStake } = useContractWrite({
     ...config,
-    onSuccess(data) {
+    onSuccess(_data) {
       setProcessing(true);
       setDisabled(true);
     },
   });
   const {} = useWaitForTransaction({
     hash: withdrawData?.hash,
-    onSuccess(data) {
+    onSuccess(_data) {
       toast(t("toast.end-stake-successful"));
       router.push("/stake/1");
     },
@@ -64,12 +58,7 @@ const Stake = () => {
   };
 
   useEffect(() => {
-    if (
-      !processing &&
-      address &&
-      userStake &&
-      !userStake.maturityTs?.isZero()
-    ) {
+    if (!processing && address && userStake && !userStake.maturityTs?.isZero()) {
       setDisabled(false);
       if (UTC_TIME < userStake.maturityTs.toNumber() ?? 0) {
         setEarlyEndStake(true);
@@ -121,9 +110,7 @@ const Stake = () => {
                     </div>
                     <div>
                       <h3 className="font-bold">{t("stake.note")}</h3>
-                      <div className="text-xs">
-                        {t("stake.note-description")}
-                      </div>
+                      <div className="text-xs">{t("stake.note-description")}</div>
                     </div>
                   </div>
                 </div>
@@ -141,10 +128,7 @@ const Stake = () => {
                 </button>
               </div>
 
-              <GasEstimate
-                feeData={feeData}
-                gasLimit={config?.request?.gasLimit}
-              />
+              <GasEstimate feeData={feeData} gasLimit={config?.request?.gasLimit} />
             </div>
           </form>
         </CardContainer>
