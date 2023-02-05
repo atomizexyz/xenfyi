@@ -5,7 +5,7 @@ export const useEnvironmentChains = () => {
   const chainNetwork = process.env.NEXT_PUBLIC_CHAIN_NETWORK as string;
 
   const environmentChains = () => {
-    const local = [chain.foundry, chain.localhost];
+    const local = [chain.foundry];
     switch (chainNetwork) {
       case "mainnet":
         return chainList.filter((c: Chain) => !c?.testnet).filter((x) => !local.includes(x));

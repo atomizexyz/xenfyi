@@ -43,43 +43,44 @@ export const Navbar: NextPage = () => {
   });
 
   const NavigationItems = (props: any) => {
-    return <>
-      {navigationItems.map((item, index) => (
-        <li key={index}>
-          <Link
-            href={(() => {
-              switch (index) {
-                case 1:
-                  return `/mint/${mintPageOverride}`;
-                case 2:
-                  return `/stake/${stakePageOverride}`;
-                default:
-                  return item.href;
-              }
-            })()}
-            className={clsx("btn-sm", {
-              "btn-disabled text-neutral-content": router.pathname.startsWith(item.href),
-              "glass text-neutral": !router.pathname.startsWith(item.href),
-            })}
-            onClick={() => {
-              (document.activeElement as HTMLElement).blur();
-            }}>
-
-            {item.icon}
-            {t(item.t)}
-            <StatusBadge
-              status={{
-                id: item.id,
-                mintPageOverride: mintPageOverride,
-                stakePageOverride: stakePageOverride,
-                offset: "right-2 lg:-top-2 lg:-right-3",
+    return (
+      <>
+        {navigationItems.map((item, index) => (
+          <li key={index}>
+            <Link
+              href={(() => {
+                switch (index) {
+                  case 1:
+                    return `/mint/${mintPageOverride}`;
+                  case 2:
+                    return `/stake/${stakePageOverride}`;
+                  default:
+                    return item.href;
+                }
+              })()}
+              className={clsx("btn", {
+                "btn-disabled text-neutral-content": router.pathname.startsWith(item.href),
+                "glass text-neutral": !router.pathname.startsWith(item.href),
+              })}
+              onClick={() => {
+                (document.activeElement as HTMLElement).blur();
               }}
-            />
-
-          </Link>
-        </li>
-      ))}
-    </>;
+            >
+              {item.icon}
+              {t(item.t)}
+              <StatusBadge
+                status={{
+                  id: item.id,
+                  mintPageOverride: mintPageOverride,
+                  stakePageOverride: stakePageOverride,
+                  offset: "right-2 lg:-top-2 lg:-right-3",
+                }}
+              />
+            </Link>
+          </li>
+        ))}
+      </>
+    );
   };
 
   useEffect(() => {
@@ -148,7 +149,7 @@ export const Navbar: NextPage = () => {
                     <div className="dropdown" ref={chainDropdown}>
                       <div
                         tabIndex={0}
-                        className="btn lg:btn-sm glass btn-square text-neutral"
+                        className="btn glass btn-square text-neutral"
                         onClick={() => {
                           chainDropdown?.current?.classList.toggle("dropdown-open");
                           (document.activeElement as HTMLElement).blur();
@@ -164,7 +165,7 @@ export const Navbar: NextPage = () => {
                       </ul>
                     </div>
 
-                    <button onClick={show} className="btn lg:btn-sm glass text-neutral">
+                    <button onClick={show} className="btn glass text-neutral">
                       <div className="flex space-x-2 items-center">
                         <div className="hidden lg:inline-flex">
                           <Avatar address={address} size={16} />
@@ -174,7 +175,7 @@ export const Navbar: NextPage = () => {
                     </button>
                   </>
                 ) : (
-                  <button onClick={show} className="btn lg:btn-sm glass text-neutral">
+                  <button onClick={show} className="btn glass text-neutral">
                     {t("connect-wallet")}
                   </button>
                 )}
@@ -185,7 +186,7 @@ export const Navbar: NextPage = () => {
         <div className="dropdown dropdown-end" ref={menuDropdown}>
           <div
             tabIndex={0}
-            className="btn lg:btn-sm glass btn-square text-neutral"
+            className="btn glass btn-square text-neutral"
             onClick={() => {
               menuDropdown?.current?.classList.toggle("dropdown-open");
               (document.activeElement as HTMLElement).blur();
@@ -239,11 +240,10 @@ export const Navbar: NextPage = () => {
                   className="justify-between text-neutral glass"
                   onClick={() => {
                     (document.activeElement as HTMLElement).blur();
-                  }}>
-
+                  }}
+                >
                   {t(item.t)}
                   {item.icon}
-
                 </Link>
               </li>
             ))}

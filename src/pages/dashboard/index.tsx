@@ -19,9 +19,7 @@ import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
   const { envChains } = useEnvironmentChains();
-  const [mintAddresses, setMintAddresses] = useState<{ [key: number]: number }>(
-    {}
-  );
+  const [mintAddresses, setMintAddresses] = useState<{ [key: number]: number }>({});
   const [totalMintCount, setTotalMintCount] = useState(0);
   const [totalChainCount, setTotalChainCount] = useState(0);
 
@@ -30,9 +28,7 @@ const Chains: NextPage = () => {
 
     return (
       <div className="flex flex-row-reverse lg:flex-row space-x-8 lg:space-x-2 lg:justify-end">
-        <pre className="pl-8 lg:pl-0">
-          {truncatedAddress(xenContract(chain).addressOrName)}
-        </pre>
+        <pre className="pl-8 lg:pl-0">{truncatedAddress(xenContract(chain).addressOrName)}</pre>
         <button
           className="btn btn-square btn-xs glass text-neutral"
           onClick={() => {
@@ -48,14 +44,11 @@ const Chains: NextPage = () => {
           <DuplicateIcon className="w-5 h-5" />
         </button>
         <Link
-          href={`${chain?.blockExplorers?.default.url}/address/${
-            xenContract(chain).addressOrName
-          }`}
+          href={`${chain?.blockExplorers?.default.url}/address/${xenContract(chain).addressOrName}`}
           target="_blank"
-          className="btn btn-square btn-xs glass text-neutral">
-
+          className="btn btn-square btn-xs glass text-neutral"
+        >
           <ExternalLinkIcon className="w-5 h-5" />
-
         </Link>
       </div>
     );
@@ -70,7 +63,7 @@ const Chains: NextPage = () => {
     const { data: globalRank } = useContractRead({
       ...xenContract(chain),
       functionName: "globalRank",
-      // watch: true,
+      watch: true,
     });
 
     const tempMintAddresses = mintAddresses;
@@ -103,12 +96,7 @@ const Chains: NextPage = () => {
           </Link>
           <div className="pt-4 lg:hidden flex flex-col space-y-4">
             <pre className="text-right">
-              <CountUp
-                end={Number(globalRank)}
-                preserveValue={true}
-                separator=","
-                suffix=" gRank"
-              />
+              <CountUp end={Number(globalRank)} preserveValue={true} separator="," suffix=" gRank" />
             </pre>
             {tokenData && <AddressLinks chain={chain} />}
           </div>
@@ -116,16 +104,10 @@ const Chains: NextPage = () => {
 
         <td className="hidden lg:table-cell text-right">
           <pre>
-            <CountUp
-              end={Number(globalRank)}
-              preserveValue={true}
-              separator=","
-            />
+            <CountUp end={Number(globalRank)} preserveValue={true} separator="," />
           </pre>
         </td>
-        <td className="hidden lg:table-cell">
-          {tokenData && <AddressLinks chain={chain} />}
-        </td>
+        <td className="hidden lg:table-cell">{tokenData && <AddressLinks chain={chain} />}</td>
       </tr>
     );
   };
@@ -139,22 +121,13 @@ const Chains: NextPage = () => {
           </div>
           <div className="pt-4 lg:hidden flex flex-col space-y-4">
             <pre className="text-right">
-              <CountUp
-                end={Number(totalMintCount)}
-                preserveValue={true}
-                separator=","
-                suffix=" gRank"
-              />
+              <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," suffix=" gRank" />
             </pre>
           </div>
         </td>
         <td className="hidden lg:table-cell text-right">
           <pre>
-            <CountUp
-              end={Number(totalMintCount)}
-              preserveValue={true}
-              separator=","
-            />
+            <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," />
           </pre>
         </td>
         <td className="hidden lg:table-cell"></td>
