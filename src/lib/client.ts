@@ -43,6 +43,7 @@ export const chainList = [
   pulseChain,
   polygonTestnet,
   chain.foundry,
+  chain.localhost,
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(chainList, [
