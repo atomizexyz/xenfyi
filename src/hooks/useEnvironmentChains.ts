@@ -12,7 +12,7 @@ export const useEnvironmentChains = () => {
       case "testnet":
         return chainList.filter((c: Chain) => c?.testnet);
       default:
-        return local[0];
+        return local.slice(0, 1);
     }
   };
 
