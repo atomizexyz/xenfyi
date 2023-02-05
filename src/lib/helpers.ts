@@ -1,6 +1,7 @@
-import { daysSince } from "~/components/StatCards";
+import { enUS, it, pl, zhCN } from "date-fns/locale";
 import { BigNumber, ethers } from "ethers";
-import { enUS, pl, it, zhCN } from "date-fns/locale";
+
+import { daysSince } from "~/components/StatCards";
 
 export const UTC_TIME = new Date().getTime() / 1000;
 const WITHDRAWAL_WINDOW_DAYS = 7;

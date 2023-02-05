@@ -1,24 +1,25 @@
-import type { NextPage } from "next";
-import { ConnectKitButton, Avatar } from "connectkit";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import Link from "next/link";
-import { MoonIcon, SunIcon, DotsVerticalIcon } from "@heroicons/react/outline";
-import { WalletIcon } from "../Icons";
-import { useTheme } from "next-themes";
-import { useRouter } from "next/router";
+import { DotsVerticalIcon,MoonIcon, SunIcon } from "@heroicons/react/outline";
 import { clsx } from "clsx";
-import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-
-import { useState, useEffect, useContext, useRef } from "react";
-import { isMobile } from "react-device-detect";
-import { StatusBadge } from "../StatusBadge";
-import { navigationItems, linkItems, chainIcons } from "~/components/Constants";
-import { UTC_TIME } from "~/lib/helpers";
-import XENContext from "~/contexts/XENContext";
+import { Avatar,ConnectKitButton } from "connectkit";
+import type { NextPage } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { useTheme } from "next-themes";
+import { useContext, useEffect, useRef,useState } from "react";
+import { isMobile } from "react-device-detect";
+import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { useToken } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
+
+import { chainIcons,linkItems, navigationItems } from "~/components/Constants";
+import XENContext from "~/contexts/XENContext";
+import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { UTC_TIME } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
+
+import { WalletIcon } from "../Icons";
+import { StatusBadge } from "../StatusBadge";
 
 export const Navbar: NextPage = () => {
   const { t } = useTranslation("common");

@@ -1,24 +1,25 @@
 import type { NextPage } from "next";
-import Container from "~/components/containers/Container";
-import { useContext, useEffect } from "react";
-import { useRouter } from "next/router";
-import { useToken } from "wagmi";
-import {
-  NumberStatCard,
-  ChainStatCard,
-  DateStatCard,
-  DataCard,
-} from "~/components/StatCards";
-import CardContainer from "~/components/containers/CardContainer";
-import { xenContract } from "~/lib/xen-contract";
-import { chainIcons } from "~/components/Constants";
 import Link from "next/link";
-import XENContext from "~/contexts/XENContext";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { chainList } from "~/lib/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useContext, useEffect } from "react";
+import { useToken } from "wagmi";
+
 import Breadcrumbs from "~/components/Breadcrumbs";
+import { chainIcons } from "~/components/Constants";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
+import {
+  ChainStatCard,
+  DataCard,
+  DateStatCard,
+  NumberStatCard,
+} from "~/components/StatCards";
+import XENContext from "~/contexts/XENContext";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { chainList } from "~/lib/client";
+import { xenContract } from "~/lib/xen-contract";
 
 const Dashboard: NextPage = () => {
   const { t } = useTranslation("common");

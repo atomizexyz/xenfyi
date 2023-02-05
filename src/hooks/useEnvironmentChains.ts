@@ -1,4 +1,5 @@
 import { Chain, chain } from "wagmi";
+
 import { chainList } from "~/lib/client";
 
 export const useEnvironmentChains = () => {

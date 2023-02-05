@@ -1,13 +1,15 @@
 import "~/styles/main.css";
-import type { AppProps } from "next/app";
-import { WagmiConfig } from "wagmi";
+
+import { Analytics } from "@vercel/analytics/react";
 import { ConnectKitProvider } from "connectkit";
+import type { AppProps } from "next/app";
+import { appWithTranslation } from "next-i18next";
 import { ThemeProvider } from "next-themes";
 import { GoogleAnalytics } from "nextjs-google-analytics";
-import { client } from "~/lib/client";
+import { WagmiConfig } from "wagmi";
+
 import Layout from "~/components/Layout";
-import { Analytics } from "@vercel/analytics/react";
-import { appWithTranslation } from "next-i18next";
+import { client } from "~/lib/client";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

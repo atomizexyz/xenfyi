@@ -1,29 +1,30 @@
-import { useNetwork, useAccount, useContractWrite, useWaitForTransaction, usePrepareContractWrite } from "wagmi";
-import Container from "~/components/containers/Container";
-import { MaxValueField } from "~/components/FormFields";
+import "react-day-picker/dist/style.css";
+
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import { DateStatCard, NumberStatCard } from "~/components/StatCards";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState, useContext, useCallback } from "react";
-import { useForm } from "react-hook-form";
-import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UTC_TIME, currentYear, maxEndYear, dayPickerLocale } from "~/lib/helpers";
-import toast from "react-hot-toast";
 import { clsx } from "clsx";
-import * as yup from "yup";
-import GasEstimate from "~/components/GasEstimate";
-import CardContainer from "~/components/containers/CardContainer";
-import XENContext from "~/contexts/XENContext";
-import XENCryptoABI from "~/abi/XENCryptoABI";
+import { addDays, differenceInDays,isSameMonth } from "date-fns";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useCallback,useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite,useWaitForTransaction } from "wagmi";
+import * as yup from "yup";
+
+import XENCryptoABI from "~/abi/XENCryptoABI";
 import Breadcrumbs from "~/components/Breadcrumbs";
-import { DayPicker } from "react-day-picker";
-import { isSameMonth, addDays, differenceInDays } from "date-fns";
-import "react-day-picker/dist/style.css";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
+import { MaxValueField } from "~/components/FormFields";
+import GasEstimate from "~/components/GasEstimate";
+import { DateStatCard, NumberStatCard } from "~/components/StatCards";
+import XENContext from "~/contexts/XENContext";
+import { UTC_TIME } from "~/lib/helpers";
+import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { t } = useTranslation("common");

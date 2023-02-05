@@ -1,10 +1,11 @@
-import { Chain } from "wagmi";
-import Link from "next/link";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { useCopyToClipboard } from "usehooks-ts";
-import { truncatedAddress } from "~/lib/helpers";
-import toast from "react-hot-toast";
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import toast from "react-hot-toast";
+import { useCopyToClipboard } from "usehooks-ts";
+import { Chain } from "wagmi";
+
+import { truncatedAddress } from "~/lib/helpers";
 
 interface AddressLinkProps {
   name: string;

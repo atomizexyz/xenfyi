@@ -1,28 +1,28 @@
-import { BookOpenIcon, ViewGridIcon, LockClosedIcon, DocumentTextIcon, HomeIcon } from "@heroicons/react/outline";
-import {
-  DuneIcon,
-  TwitterIcon,
-  TelegramIcon,
-  GitHubIcon,
-  DiamondIcon,
-  DiscordIcon,
-  CoinmarketCapIcon,
-} from "~/components/Icons";
+import { BookOpenIcon, DocumentTextIcon, HomeIcon,LockClosedIcon, ViewGridIcon } from "@heroicons/react/outline";
 
 import {
-  EthereumIcon,
-  PulseChainIcon,
-  PolygonIcon,
   AvalancheIcon,
   BinanceSmartChainIcon,
+  DogeChainIcon,
+  EthereumIcon,
   EthereumPOWIcon,
   EVMOSIcon,
-  MoonbeamIcon,
   FantomIcon,
-  DogeChainIcon,
-  OKChainIcon,
   FoundryIcon,
+  MoonbeamIcon,
+  OKChainIcon,
+  PolygonIcon,
+  PulseChainIcon,
 } from "~/components/ChainIcons";
+import {
+  CoinmarketCapIcon,
+  DiamondIcon,
+  DiscordIcon,
+  DuneIcon,
+  GitHubIcon,
+  TelegramIcon,
+  TwitterIcon,
+} from "~/components/Icons";
 
 export const chainIcons: Record<number, JSX.Element> = {
   1: <EthereumIcon />,

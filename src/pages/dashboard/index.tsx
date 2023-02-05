@@ -1,20 +1,21 @@
-import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { Chain, useToken, useContractRead } from "wagmi";
-import Container from "~/components/containers/Container";
-import CardContainer from "~/components/containers/CardContainer";
-import { chainIcons } from "~/components/Constants";
-import Link from "next/link";
-import { xenContract } from "~/lib/xen-contract";
-import { truncatedAddress } from "~/lib/helpers";
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { useCopyToClipboard } from "usehooks-ts";
-import toast from "react-hot-toast";
-import CountUp from "react-countup";
+import { NextPage } from "next";
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useEffect, useState } from "react";
+import CountUp from "react-countup";
+import toast from "react-hot-toast";
+import { useCopyToClipboard } from "usehooks-ts";
+import { Chain, useContractRead,useToken } from "wagmi";
+
 import Breadcrumbs from "~/components/Breadcrumbs";
+import { chainIcons } from "~/components/Constants";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { truncatedAddress } from "~/lib/helpers";
+import { xenContract } from "~/lib/xen-contract";
 
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");

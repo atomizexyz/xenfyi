@@ -1,11 +1,12 @@
-import { linkItems, textLinkItems } from "~/components/Constants";
-import { chain, useNetwork, Chain } from "wagmi";
 import Link from "next/link";
-import { xenContract } from "~/lib/xen-contract";
-import { useState } from "react";
-import { DONATION_ADDRESS } from "~/lib/helpers";
-import AddressLink from "~/components/AddressLink";
 import { useTranslation } from "next-i18next";
+import { useState } from "react";
+import { Chain,chain, useNetwork } from "wagmi";
+
+import AddressLink from "~/components/AddressLink";
+import { linkItems, textLinkItems } from "~/components/Constants";
+import { DONATION_ADDRESS } from "~/lib/helpers";
+import { xenContract } from "~/lib/xen-contract";
 
 const Footer = () => {
   const { t } = useTranslation("common");

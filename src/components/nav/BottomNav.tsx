@@ -1,14 +1,16 @@
+import { clsx } from "clsx";
+import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { clsx } from "clsx";
-import React, { useState, useContext, useEffect } from "react";
-import { StatusBadge } from "../StatusBadge";
-import { navigationItems } from "~/components/Constants";
-import { UTC_TIME } from "~/lib/helpers";
-import type { NextPage } from "next";
-import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
+import React, { useContext, useEffect,useState } from "react";
 import { isMobile } from "react-device-detect";
+
+import { navigationItems } from "~/components/Constants";
+import XENContext from "~/contexts/XENContext";
+import { UTC_TIME } from "~/lib/helpers";
+
+import { StatusBadge } from "../StatusBadge";
 
 export const BottomNav: NextPage = () => {
   const { t } = useTranslation("common");

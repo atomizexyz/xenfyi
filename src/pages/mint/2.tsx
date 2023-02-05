@@ -1,14 +1,15 @@
-import Container from "~/components/containers/Container";
-import { NumberStatCard, ProgressStatCard, CountdownCard } from "~/components/StatCards";
-import { progressDays, estimatedXEN } from "~/lib/helpers";
-import { useEffect, useState, useContext } from "react";
 import Link from "next/link";
-import Countdown from "react-countdown";
-import CardContainer from "~/components/containers/CardContainer";
-import XENContext from "~/contexts/XENContext";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useContext,useEffect, useState } from "react";
+import Countdown from "react-countdown";
+
 import Breadcrumbs from "~/components/Breadcrumbs";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
+import { CountdownCard,NumberStatCard, ProgressStatCard } from "~/components/StatCards";
+import XENContext from "~/contexts/XENContext";
+import { estimatedXEN,progressDays } from "~/lib/helpers";
 
 const Mint = () => {
   const { t } = useTranslation("common");

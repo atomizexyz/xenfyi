@@ -1,19 +1,20 @@
+import { BigNumber,ethers } from "ethers";
 import Link from "next/link";
-import Container from "~/components/containers/Container";
-import { progressDays } from "~/lib/helpers";
-import {
-  ProgressStatCard,
-  NumberStatCard,
-  CountdownCard,
-} from "~/components/StatCards";
-import { useEffect, useState, useContext } from "react";
-import Countdown from "react-countdown";
-import CardContainer from "~/components/containers/CardContainer";
-import XENContext from "~/contexts/XENContext";
-import { ethers, BigNumber } from "ethers";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useContext,useEffect, useState } from "react";
+import Countdown from "react-countdown";
+
 import Breadcrumbs from "~/components/Breadcrumbs";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
+import {
+  CountdownCard,
+  NumberStatCard,
+  ProgressStatCard,
+} from "~/components/StatCards";
+import XENContext from "~/contexts/XENContext";
+import { progressDays } from "~/lib/helpers";
 
 const Stake = () => {
   const { t } = useTranslation("common");

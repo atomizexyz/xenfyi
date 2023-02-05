@@ -1,13 +1,14 @@
-import type { NextPage } from "next";
-import {
-  truncatedAddress,
-  estimatedXEN,
-  estimatedStakeRewardXEN,
-} from "~/lib/helpers";
-import { useEffect, useState } from "react";
-import { formatDate, formatTime } from "~/lib/helpers";
 import { XIcon } from "@heroicons/react/outline";
+import type { NextPage } from "next";
+import { useEffect, useState } from "react";
+
 import useXENAddressBalance from "~/hooks/useXENAddressBalance";
+import {
+  estimatedStakeRewardXEN,
+  estimatedXEN,
+  truncatedAddress,
+} from "~/lib/helpers";
+import { formatDate, formatTime } from "~/lib/helpers";
 
 export const PortfolioAddressRow: NextPage<any> = (props) => {
   const [mintReward, setMintReward] = useState(0);

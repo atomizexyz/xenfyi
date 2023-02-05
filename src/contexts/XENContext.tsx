@@ -1,6 +1,7 @@
-import React, { createContext, useState } from "react";
-import { Chain, useFeeData, useBalance, useAccount, useNetwork, useContractRead, useContractReads } from "wagmi";
 import { BigNumber } from "ethers";
+import React, { createContext, useState } from "react";
+import { Chain, useAccount, useBalance, useContractRead, useContractReads,useFeeData, useNetwork } from "wagmi";
+
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
 

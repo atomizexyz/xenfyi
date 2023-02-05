@@ -1,27 +1,27 @@
-import { bscTestnet } from "./bscTestnet";
-import { bscMainnet } from "./bscMainnet";
-import { pulseChain } from "./pulseChainTestnet";
 import { avaxMainnet } from "./avaxMainnet";
+import { bscMainnet } from "./bscMainnet";
+import { bscTestnet } from "./bscTestnet";
+import { dogechainMainnet } from "./dogechainMainnet";
 import { ethwMainnet } from "./ethwMainnet";
-import { moonbeamMainnet } from "./moonbeamMainnet";
 import { evmosMainnet } from "./evmosMainnet";
 import { fantomMainnet } from "./fantomMainnet";
-import { dogechainMainnet } from "./dogechainMainnet";
+import { moonbeamMainnet } from "./moonbeamMainnet";
 import { okxMainnet } from "./okxMainnet";
 import { polygonMainnet } from "./polygonMainnet";
 import { polygonTestnet } from "./polygonTestnet";
+import { pulseChain } from "./pulseChainTestnet";
 
 export {
-  bscTestnet,
-  bscMainnet,
-  pulseChain,
   avaxMainnet,
+  bscMainnet,
+  bscTestnet,
+  dogechainMainnet,
   ethwMainnet,
-  moonbeamMainnet,
   evmosMainnet,
   fantomMainnet,
-  dogechainMainnet,
+  moonbeamMainnet,
   okxMainnet,
   polygonMainnet,
   polygonTestnet,
+  pulseChain,
 };

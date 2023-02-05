@@ -1,12 +1,14 @@
-import { Navbar } from "~/components/nav/Navbar";
+import { CheckIcon } from "@heroicons/react/outline";
+import { useTranslation } from "next-i18next";
+import { useEffect,useState } from "react";
+import { resolveValue,Toaster } from "react-hot-toast";
+
 import Meta from "~/components/Meta";
 import { BottomNav } from "~/components/nav/BottomNav";
-import { Toaster, resolveValue } from "react-hot-toast";
-import { CheckIcon } from "@heroicons/react/outline";
-import Footer from "./nav/Footer";
-import { useState, useEffect } from "react";
+import { Navbar } from "~/components/nav/Navbar";
 import { XENProvider } from "~/contexts/XENContext";
-import { useTranslation } from "next-i18next";
+
+import Footer from "./nav/Footer";
 
 const Layout = ({ children }: any) => {
   const { t } = useTranslation("common");

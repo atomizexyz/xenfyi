@@ -1,5 +1,5 @@
-import { Chain } from "wagmi";
 import { NextPage } from "next";
+import { Chain } from "wagmi";
 
 interface ChainBalanceProps {
   chain?: Chain;

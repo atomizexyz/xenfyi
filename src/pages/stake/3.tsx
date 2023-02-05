@@ -1,28 +1,29 @@
-import Link from "next/link";
-import Container from "~/components/containers/Container";
-import {
-  useNetwork,
-  useAccount,
-  useContractWrite,
-  useWaitForTransaction,
-  usePrepareContractWrite,
-} from "wagmi";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { xenContract } from "~/lib/xen-contract";
-import { calculateStakeReward, UTC_TIME } from "~/lib/helpers";
-import { useState, useEffect, useContext } from "react";
-import { CountDataCard } from "~/components/StatCards";
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import toast from "react-hot-toast";
 import { clsx } from "clsx";
-import GasEstimate from "~/components/GasEstimate";
-import CardContainer from "~/components/containers/CardContainer";
-import XENContext from "~/contexts/XENContext";
-import XENCryptoABI from "~/abi/XENCryptoABI";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useContext,useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import {
+  useAccount,
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+
+import XENCryptoABI from "~/abi/XENCryptoABI";
 import Breadcrumbs from "~/components/Breadcrumbs";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
+import GasEstimate from "~/components/GasEstimate";
+import { CountDataCard } from "~/components/StatCards";
+import XENContext from "~/contexts/XENContext";
+import { calculateStakeReward, UTC_TIME } from "~/lib/helpers";
+import { xenContract } from "~/lib/xen-contract";
 
 const Stake = () => {
   const { t } = useTranslation("common");

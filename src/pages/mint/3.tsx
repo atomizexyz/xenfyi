@@ -1,36 +1,37 @@
-import {
-  useNetwork,
-  useAccount,
-  useContractWrite,
-  useWaitForTransaction,
-  usePrepareContractWrite,
-} from "wagmi";
-import Link from "next/link";
-import Container from "~/components/containers/Container";
-import GasEstimate from "~/components/GasEstimate";
-import { MaxValueField, WalletAddressField } from "~/components/FormFields";
-import { useState, useEffect, useContext } from "react";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { xenContract } from "~/lib/xen-contract";
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { clsx } from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useContext,useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import {
+  useAccount,
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import * as yup from "yup";
+
+import XENCryptoABI from "~/abi/XENCryptoABI";
+import Breadcrumbs from "~/components/Breadcrumbs";
+import CardContainer from "~/components/containers/CardContainer";
+import Container from "~/components/containers/Container";
+import { MaxValueField, WalletAddressField } from "~/components/FormFields";
+import GasEstimate from "~/components/GasEstimate";
 import { CountDataCard } from "~/components/StatCards";
+import XENContext from "~/contexts/XENContext";
 import {
   calculateMintReward,
   mintPenalty,
   UTC_TIME,
   WALLET_ADDRESS_REGEX,
 } from "~/lib/helpers";
-import toast from "react-hot-toast";
-import { clsx } from "clsx";
-import * as yup from "yup";
-import CardContainer from "~/components/containers/CardContainer";
-import XENContext from "~/contexts/XENContext";
-import XENCryptoABI from "~/abi/XENCryptoABI";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Breadcrumbs from "~/components/Breadcrumbs";
+import { xenContract } from "~/lib/xen-contract";
 
 const Mint = () => {
   const { t } = useTranslation("common");

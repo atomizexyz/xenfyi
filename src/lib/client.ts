@@ -1,27 +1,26 @@
-import { createClient, configureChains, chain, Chain } from "wagmi";
-
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { infuraProvider } from "wagmi/providers/infura";
-import { publicProvider } from "wagmi/providers/public";
-
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { Chain,chain, configureChains, createClient } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { infuraProvider } from "wagmi/providers/infura";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { publicProvider } from "wagmi/providers/public";
+
 import {
-  bscTestnet,
-  bscMainnet,
-  pulseChain,
   avaxMainnet,
+  bscMainnet,
+  bscTestnet,
+  dogechainMainnet,
   ethwMainnet,
-  moonbeamMainnet,
   evmosMainnet,
   fantomMainnet,
-  dogechainMainnet,
+  moonbeamMainnet,
   okxMainnet,
   polygonMainnet,
   polygonTestnet,
+  pulseChain,
 } from "~/lib/chains";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;

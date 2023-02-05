@@ -1,7 +1,7 @@
 import { Chain, useContractRead } from "wagmi";
-import { xenContract } from "~/lib/xen-contract";
+
 import XENCryptoABI from "~/abi/XENCryptoABI";
-import { UserMint, UserStake } from "~/contexts/XENContext";
+import { xenContract } from "~/lib/xen-contract";
 
 interface AddressBalanceProps {
   address: string;

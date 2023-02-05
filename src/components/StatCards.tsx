@@ -1,10 +1,9 @@
-import CountUp from "react-countup";
-import { ethers } from "ethers";
-import { UTC_TIME, formatFullDate } from "~/lib/helpers";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
-import { t } from "i18next";
+import CountUp from "react-countup";
+
+import { formatFullDate,UTC_TIME } from "~/lib/helpers";
 
 interface ProgressStat {
   title: string;
