@@ -1,20 +1,7 @@
 import Head from "next/head";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 
 const Meta: NextPage = () => {
-  const { t } = useTranslation("common");
-
-  const router = useRouter();
-  const { asPath } = router;
-  const path = asPath.split("/").filter((item) => item !== "");
-
-  const title = `XEN.fyi - ${path.join(" - ")}`;
-  const description = t("meta.description");
-  const url = "https://xen.fyi";
-  const image = "https://xen.fyi/images/xen-logo-slogan-horizontal.png";
-
   return (
     <Head>
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -23,7 +10,10 @@ const Meta: NextPage = () => {
 
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <meta charSet="utf-8" />
-      <meta name="description" content={description} />
+      <meta
+        name="description"
+        content="XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem."
+      />
       <meta name="author" content="Joe Blau joe@atomize.xyz" />
       <meta
         name="keywords"
@@ -44,19 +34,26 @@ const Meta: NextPage = () => {
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@atomizexyz" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:title" content="XEN.fyi" />
+      <meta
+        name="twitter:description"
+        content="XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem."
+      />
+      <meta name="twitter:image" content="https://xen.fyi/images/xen-logo-slogan-horizontal.png" />
 
       {/* Open Graph */}
-      <meta property="og:url" content={url} key="ogurl" />
-      <meta property="og:image" content={image} key="ogimage" />
+      <meta property="og:url" content="https://xen.fyi" key="ogurl" />
+      <meta property="og:image" content="https://xen.fyi/images/xen-logo-slogan-horizontal.png" key="ogimage" />
       <meta property="og:site_name" content="" key="ogsitename" />
-      <meta property="og:title" content={title} key="ogtitle" />
-      <meta property="og:description" content={description} key="ogdesc" />
+      <meta property="og:title" content="XEN.fyi" key="ogtitle" />
+      <meta
+        property="og:description"
+        content="XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem."
+        key="ogdesc"
+      />
 
       <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <title>{title}</title>
+      <title>XEN.fyi</title>
     </Head>
   );
 };
