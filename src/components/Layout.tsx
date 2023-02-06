@@ -1,7 +1,6 @@
 import { CheckIcon } from "@heroicons/react/outline";
 import { useTranslation } from "next-i18next";
-import { useEffect,useState } from "react";
-import { resolveValue,Toaster } from "react-hot-toast";
+import { resolveValue, Toaster } from "react-hot-toast";
 
 import Meta from "~/components/Meta";
 import { BottomNav } from "~/components/nav/BottomNav";
@@ -12,15 +11,6 @@ import Footer from "./nav/Footer";
 
 const Layout = ({ children }: any) => {
   const { t } = useTranslation("common");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <XENProvider>
@@ -37,9 +27,7 @@ const Layout = ({ children }: any) => {
                 </div>
                 <div>
                   <h3 className="font-bold text-neutral">🎉 {t("success")}</h3>
-                  <div className="text-xs text-neutral">
-                    {resolveValue(toast.message, toast)}
-                  </div>
+                  <div className="text-xs text-neutral">{resolveValue(toast.message, toast)}</div>
                 </div>
               </div>
             </div>
