@@ -11,7 +11,7 @@ import { publicProvider } from "wagmi/providers/public";
 import {
   avaxMainnet,
   bscMainnet,
-  bscTestnet,
+  // bscTestnet,
   dogechainMainnet,
   ethwMainnet,
   evmosMainnet,
@@ -20,7 +20,7 @@ import {
   okxMainnet,
   polygonMainnet,
   polygonTestnet,
-  pulseChain,
+  // pulseChain,
 } from "~/lib/chains";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
@@ -36,10 +36,8 @@ export const chainList = [
   evmosMainnet,
   fantomMainnet,
   dogechainMainnet,
-  bscTestnet,
   okxMainnet,
   chain.goerli,
-  pulseChain,
   polygonTestnet,
   chain.foundry,
   chain.localhost,

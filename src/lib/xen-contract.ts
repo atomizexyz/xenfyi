@@ -3,13 +3,11 @@ import { Chain, chain } from "wagmi";
 import XENCryptoABI from "~/abi/XENCryptoABI";
 import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { bscMainnet } from "~/lib/chains/bscMainnet";
-import { bscTestnet } from "~/lib/chains/bscTestnet";
 import { dogechainMainnet } from "~/lib/chains/dogechainMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { evmosMainnet } from "~/lib/chains/evmosMainnet";
 import { fantomMainnet } from "~/lib/chains/fantomMainnet";
 import { moonbeamMainnet } from "~/lib/chains/moonbeamMainnet";
-import { pulseChain } from "~/lib/chains/pulseChainTestnet";
 
 import { okxMainnet } from "./chains/okxMainnet";
 import { polygonTestnet } from "./chains/polygonTestnet";
@@ -22,17 +20,15 @@ export const xenContract = (contractChain?: Chain) => {
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
-    case pulseChain.id:
     case chain.goerli.id:
-    case bscTestnet.id:
       return {
-        addressOrName: "0xca41f293A32d25c2216bC4B30f5b0Ab61b6ed2CB",
+        addressOrName: "0xDd68332Fe8099c0CF3619cB3Bb0D8159EF1eCc93",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
     case polygonTestnet.id:
       return {
-        addressOrName: "0xdBBb2aa7C1208401382Fd1b611A1D9942B12fa64",
+        addressOrName: "0xF230D614e75aE05dF44075CaB230Fa67F10D8dCD",
         contractInterface: XENCryptoABI,
         chainId: contractChain.id,
       };
