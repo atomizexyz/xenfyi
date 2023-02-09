@@ -24,7 +24,7 @@ const Meta: NextPage = () => {
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       <meta charSet="utf-8" />
       <meta name="description" content={description} />
-      <meta name="author" content="Joe Blau joe@atomize.xyz" />
+      <meta name="author" content="https://atomize.xyz" />
       <meta
         name="keywords"
         content="xen.fyi, xen crypto, xencrypto, xen, crypto, xen.network, token, ethereum, avalanche, polygon, binance, moonbeam, evmos, fantom, dogechain"
