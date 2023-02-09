@@ -1,19 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 
 import { titleCase } from "~/lib/helpers";
 
 const Meta: NextPage = () => {
-  const { t } = useTranslation("common");
-
   const router = useRouter();
   const { asPath } = router;
   const path = asPath.split("/").filter((item) => item !== "");
 
-  const title = `XEN.fyi - ${path.join(" - ")}`;
-  const description = titleCase(t("meta.description"));
+  const title = `XEN.fyi - ${titleCase(path.join(" - "))}`;
+  const description =
+    "XEN.fyi is an open-source project to help users understand the XEN crypto protocol and its ecosystem.";
   const url = "https://xen.fyi";
   const image = "https://xen.fyi/images/xen-logo-slogan-horizontal.png";
 
