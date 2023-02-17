@@ -20,6 +20,7 @@ import {
   okxMainnet,
   polygonMainnet,
   polygonTestnet,
+  x1Testnet,
   // pulseChain,
 } from "~/lib/chains";
 
@@ -41,6 +42,7 @@ export const chainList = [
   polygonTestnet,
   chain.foundry,
   chain.localhost,
+  x1Testnet,
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(chainList, [

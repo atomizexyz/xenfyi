@@ -10,6 +10,7 @@ import { okxMainnet } from "./okxMainnet";
 import { polygonMainnet } from "./polygonMainnet";
 import { polygonTestnet } from "./polygonTestnet";
 import { pulseChain } from "./pulseChainTestnet";
+import { x1Testnet } from "./x1Testnet";
 
 export {
   avaxMainnet,
@@ -24,4 +25,5 @@ export {
   polygonMainnet,
   polygonTestnet,
   pulseChain,
+  x1Testnet,
 };

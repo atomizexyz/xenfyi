@@ -1,4 +1,4 @@
-import { BookOpenIcon, DocumentTextIcon, HomeIcon,LockClosedIcon, ViewGridIcon } from "@heroicons/react/outline";
+import { BookOpenIcon, DocumentTextIcon, HomeIcon, LockClosedIcon, ViewGridIcon } from "@heroicons/react/outline";
 
 import {
   AvalancheIcon,
@@ -13,6 +13,7 @@ import {
   OKChainIcon,
   PolygonIcon,
   PulseChainIcon,
+  X1Icon,
 } from "~/components/ChainIcons";
 import {
   CoinmarketCapIcon,
@@ -41,6 +42,7 @@ export const chainIcons: Record<number, JSX.Element> = {
   43114: <AvalancheIcon />,
   80001: <PolygonIcon />,
   31337: <FoundryIcon />,
+  202212: <X1Icon />,
 };
 
 export const navigationItems = [
