@@ -8,23 +8,40 @@ import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import toast from "react-hot-toast";
 import { useCopyToClipboard } from "usehooks-ts";
-import { Chain, useContractRead, useToken } from "wagmi";
+import { Chain, useContractReads } from "wagmi";
 
 import Breadcrumbs from "~/components/Breadcrumbs";
 import { chainIcons } from "~/components/Constants";
 import CardContainer from "~/components/containers/CardContainer";
 import Container from "~/components/containers/Container";
-import { Token } from "~/contexts/XENContext";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 import { truncatedAddress } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
 
+interface ChainRow {
+  chain: Chain;
+  globalRank: number;
+  isConnected: boolean;
+}
+
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
   const { envChains } = useEnvironmentChains();
-  const [mintAddresses, setMintAddresses] = useState<{ [key: number]: BigNumber }>({});
-  const [totalMintCount, setTotalMintCount] = useState(0);
   const [totalChainCount, setTotalChainCount] = useState(0);
+  const [totalMintCount, setTotalMintCount] = useState(BigNumber.from(0));
+  const [chainRows, setChainRows] = useState<ChainRow[]>([]);
+
+  const contracts = envChains.map((chain) => {
+    return {
+      ...xenContract(chain),
+      functionName: "globalRank",
+    };
+  });
+
+  const { data: globalRanksData } = useContractReads({
+    contracts,
+    // watch: true,
+  }) as unknown as { data: BigNumber[] };
 
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
@@ -57,101 +74,6 @@ const Chains: NextPage = () => {
     );
   };
 
-  const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
-    const [token, setToken] = useState<Token | null>(null);
-    const [globalRank, setGlobalRank] = useState<BigNumber>(BigNumber.from(0));
-
-    const [,] = useState(0);
-
-    const { data: tokenData } = useToken({
-      address: xenContract(chain).address,
-      chainId: chain?.id,
-    });
-
-    useContractRead({
-      ...xenContract(chain),
-      functionName: "globalRank",
-      onSuccess(data) {
-        setGlobalRank(data);
-
-        const tempMintAddresses = mintAddresses;
-        tempMintAddresses[chain.id] = data;
-        setMintAddresses(tempMintAddresses);
-      },
-      watch: true,
-    });
-
-    useEffect(() => {
-      if (tokenData) {
-        setToken(tokenData);
-      }
-    }, [tokenData]);
-
-    return (
-      <tr>
-        <td>
-          <Link href={`/dashboard/${chain.id}`} legacyBehavior>
-            <div className="p-2 flex">
-              <div className="relative w-full lg:w-max">
-                <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
-                  {chainIcons[chain?.id ?? 1]}
-                  {chain.name}
-                </div>
-                {token ? (
-                  <>
-                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
-                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
-                  </>
-                ) : (
-                  <>
-                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning animate-ping"></div>
-                    <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning"></div>
-                  </>
-                )}
-              </div>
-            </div>
-          </Link>
-          <div className="pt-4 lg:hidden flex flex-col space-y-4">
-            <pre className="text-right">
-              <CountUp end={Number(globalRank)} preserveValue={true} separator="," suffix=" gRank" />
-            </pre>
-            {token && <AddressLinks chain={chain} />}
-          </div>
-        </td>
-
-        <td className="hidden lg:table-cell text-right">
-          <pre>
-            <CountUp end={Number(globalRank)} preserveValue={true} separator="," />
-          </pre>
-        </td>
-        <td className="hidden lg:table-cell">{token && <AddressLinks chain={chain} />}</td>
-      </tr>
-    );
-  };
-
-  const TotalMintRow = () => {
-    return (
-      <tr>
-        <td>
-          <div className="p-2 flex text-xl font-bold">
-            {totalChainCount} {t("dashboard.chains")}
-          </div>
-          <div className="pt-4 lg:hidden flex flex-col space-y-4">
-            <pre className="text-right">
-              <CountUp end={totalMintCount} preserveValue={true} separator="," suffix=" gRank" />
-            </pre>
-          </div>
-        </td>
-        <td className="hidden lg:table-cell text-right">
-          <pre>
-            <CountUp end={totalMintCount} preserveValue={true} separator="," />
-          </pre>
-        </td>
-        <td className="hidden lg:table-cell"></td>
-      </tr>
-    );
-  };
-
   const TableHeaderFooter = () => {
     return (
       <tr>
@@ -163,11 +85,23 @@ const Chains: NextPage = () => {
   };
 
   useEffect(() => {
-    const chains = Object.keys(mintAddresses).length;
-    setTotalChainCount(chains);
-    const gRanks = Object.values(mintAddresses).reduce((a, b) => a.add(b), BigNumber.from(0));
-    setTotalMintCount(gRanks.toNumber());
-  }, [mintAddresses]);
+    if (globalRanksData) {
+      setTotalChainCount(globalRanksData.length);
+      const total = globalRanksData.reduce((acc, cur) => {
+        return acc.add(cur ?? BigNumber.from(0));
+      }, BigNumber.from(0));
+      setTotalMintCount(total);
+
+      const rows = envChains.map((chain, index) => {
+        return {
+          chain,
+          globalRank: globalRanksData[index]?.toNumber() ?? 0,
+          isConnected: globalRanksData[index]?.toNumber() !== 0,
+        };
+      });
+      setChainRows(rows);
+    }
+  }, [envChains, globalRanksData]);
 
   return (
     <Container className="max-w-5xl">
@@ -183,10 +117,64 @@ const Chains: NextPage = () => {
                 <TableHeaderFooter />
               </thead>
               <tbody>
-                {envChains.map((item, index) => (
-                  <ChainRow chain={item} key={index} />
+                {chainRows.map((row, index) => (
+                  <tr key={index}>
+                    <td>
+                      <Link href={`/dashboard/${row.chain.id}`} legacyBehavior>
+                        <div className="p-2 flex">
+                          <div className="relative w-full lg:w-max">
+                            <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
+                              {chainIcons[row.chain?.id ?? 1]}
+                              {row.chain.name}
+                            </div>
+                            {row.isConnected ? (
+                              <>
+                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
+                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning animate-ping"></div>
+                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning"></div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                      <div className="pt-4 lg:hidden flex flex-col space-y-4">
+                        <pre className="text-right">
+                          <CountUp end={row.globalRank} preserveValue={true} separator="," suffix=" gRank" />
+                        </pre>
+                        {row.isConnected && <AddressLinks chain={row.chain} />}
+                      </div>
+                    </td>
+
+                    <td className="hidden lg:table-cell text-right">
+                      <pre>
+                        <CountUp end={row.globalRank} preserveValue={true} separator="," />
+                      </pre>
+                    </td>
+                    <td className="hidden lg:table-cell">{row.isConnected && <AddressLinks chain={row.chain} />}</td>
+                  </tr>
                 ))}
-                <TotalMintRow />
+                <tr>
+                  <td>
+                    <div className="p-2 flex text-xl font-bold">
+                      {totalChainCount} {t("dashboard.chains")}
+                    </div>
+                    <div className="pt-4 lg:hidden flex flex-col space-y-4">
+                      <pre className="text-right">
+                        <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," suffix=" gRank" />
+                      </pre>
+                    </div>
+                  </td>
+                  <td className="hidden lg:table-cell text-right">
+                    <pre>
+                      <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," />
+                    </pre>
+                  </td>
+                  <td className="hidden lg:table-cell"></td>
+                </tr>
               </tbody>
               <tfoot>
                 <TableHeaderFooter />
