@@ -74,17 +74,17 @@ const Mint = () => {
     .shape({
       claimShareAddress: yup
         .string()
-        .required(t("form-field.wallet-address-required"))
+        .required(`${t("form-field.wallet-address-required")}`)
         .matches(WALLET_ADDRESS_REGEX, {
-          message: t("form-field.wallet-address-invalid"),
+          message: `${t("form-field.wallet-address-invalid")}`,
           excludeEmptyString: true,
         }),
       claimSharePercentage: yup
         .number()
-        .required(t("form-field.percentage-required"))
-        .positive(t("form-field.percentage-positive"))
-        .max(100, t("form-field.percentage-maximum"))
-        .typeError(t("form-field.percentage-required")),
+        .required(`${t("form-field.percentage-required")}`)
+        .positive(`${t("form-field.percentage-positive")}`)
+        .max(100, `${t("form-field.percentage-maximum")}`)
+        .typeError(`${t("form-field.percentage-required")}`),
     })
     .required();
 
@@ -121,7 +121,7 @@ const Mint = () => {
   const {} = useWaitForTransaction({
     hash: claimShareData?.hash,
     onSuccess(_data) {
-      toast(t("toast.claim-and-share-successful"));
+      toast(`${t("toast.claim-and-share-successful")}`);
       router.push("/stake/1");
     },
   });
@@ -133,16 +133,16 @@ const Mint = () => {
     .shape({
       claimStakePercentage: yup
         .number()
-        .required(t("form-field.percentage-required"))
-        .positive(t("form-field.percentage-positive"))
-        .max(100, t("form-field.percentage-maximum"))
-        .typeError(t("form-field.percentage-required")),
+        .required(`${t("form-field.percentage-required")}`)
+        .positive(`${t("form-field.percentage-positive")}`)
+        .max(100, `${t("form-field.percentage-maximum")}`)
+        .typeError(`${t("form-field.percentage-required")}`),
       claimStakeDays: yup
         .number()
-        .required(t("form-field.days-required"))
-        .max(1000, t("form-field.days-maximum", { numberOfDays: 1000 }))
-        .positive(t("form-field.days-positive"))
-        .typeError(t("form-field.days-required")),
+        .required(`${t("form-field.days-required")}`)
+        .max(1000, `${t("form-field.days-maximum", { numberOfDays: 1000 })}`)
+        .positive(`${t("form-field.days-positive")}`)
+        .typeError(`${t("form-field.days-required")}`),
     })
     .required();
 

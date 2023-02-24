@@ -46,10 +46,10 @@ const Mint = () => {
     .shape({
       startMintDays: yup
         .number()
-        .required(t("form-field.days-required"))
-        .max(maxFreeMint, t("form-field.days-maximum", { numberOfDays: maxFreeMint }))
-        .positive(t("form-field.days-positive"))
-        .typeError(t("form-field.days-required")),
+        .required(`${t("form-field.days-required")}`)
+        .max(maxFreeMint, `${t("form-field.days-maximum", { numberOfDays: maxFreeMint })}`)
+        .positive(`${t("form-field.days-positive")}`)
+        .typeError(`${t("form-field.days-required")}`),
     })
     .required();
 

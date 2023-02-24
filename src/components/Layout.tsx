@@ -18,7 +18,7 @@ const Layout = ({ children }: any) => {
         <Meta />
         <Navbar />
         {children}
-        {/* <Toaster position="top-right">
+        <Toaster position="top-right">
           {(toast) => (
             <div className="alert shadow-lg glass max-w-fit text-neutral">
               <div>
@@ -34,7 +34,7 @@ const Layout = ({ children }: any) => {
           )}
         </Toaster>
         <Footer />
-        <BottomNav /> */}
+        <BottomNav />
       </div>
     </XENProvider>
   );

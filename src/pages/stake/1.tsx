@@ -45,21 +45,21 @@ const Stake = () => {
     .shape({
       startStakeAmount: yup
         .number()
-        .required(t("form-field.amount-required"))
+        .required(`${t("form-field.amount-required")}`)
         .max(
           Number(ethers.utils.formatUnits(xenBalance?.value ?? BigNumber.from(0))),
-          t("form-field.amount-maximum", {
+          `${t("form-field.amount-maximum", {
             maximumAmount: xenBalance?.formatted,
-          })
+          })}`
         )
-        .positive(t("form-field.amount-positive"))
-        .typeError(t("form-field.amount-required")),
+        .positive(`${t("form-field.amount-positive")}`)
+        .typeError(`${t("form-field.amount-required")}`),
       startStakeDays: yup
         .number()
-        .required(t("form-field.days-required"))
-        .max(1000, t("form-field.days-maximum", { numberOfDays: 1000 }))
-        .positive(t("form-field.days-positive"))
-        .typeError(t("form-field.days-required")),
+        .required(`${t("form-field.days-required")}`)
+        .max(1000, `${t("form-field.days-maximum", { numberOfDays: 1000 })}`)
+        .positive(`${t("form-field.days-positive")}`)
+        .typeError(`${t("form-field.days-required")}`),
     })
     .required();
 

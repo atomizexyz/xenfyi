@@ -1,5 +1,5 @@
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
