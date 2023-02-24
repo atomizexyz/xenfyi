@@ -39,7 +39,7 @@ export const Navbar: NextPage = () => {
   const menuDropdown = useRef<HTMLDivElement>(null);
 
   const { data: token } = useToken({
-    address: xenContract(chain).addressOrName,
+    address: xenContract(chain).address,
     chainId: chain?.id,
   });
 

@@ -43,8 +43,8 @@ const Mint = () => {
   const { handleSubmit: cHandleSubmit } = useForm();
 
   const { config: configClaim } = usePrepareContractWrite({
-    addressOrName: xenContract(chain).addressOrName,
-    contractInterface: XENCryptoABI,
+    address: xenContract(chain).address,
+    abi: XENCryptoABI,
     functionName: "claimMintReward",
     enabled: !disabled,
   });
@@ -101,8 +101,8 @@ const Mint = () => {
   const cShareWatchAllFields = cShareWatch();
 
   const { config: configClaimShare } = usePrepareContractWrite({
-    addressOrName: xenContract(chain).addressOrName,
-    contractInterface: XENCryptoABI,
+    address: xenContract(chain).address,
+    abi: XENCryptoABI,
     functionName: "claimMintRewardAndShare",
     args: [cShareWatchAllFields.claimShareAddress, cShareWatchAllFields.claimSharePercentage],
     enabled: !disabled,
@@ -159,8 +159,8 @@ const Mint = () => {
   const cStakeWatchAllFields = cStakeWatch();
 
   const { config: configClaimStake } = usePrepareContractWrite({
-    addressOrName: xenContract(chain).addressOrName,
-    contractInterface: XENCryptoABI,
+    address: xenContract(chain).address,
+    abi: XENCryptoABI,
     functionName: "claimMintRewardAndStake",
     args: [cStakeWatchAllFields.claimStakePercentage, cStakeWatchAllFields.claimStakeDays],
     enabled: !disabled,

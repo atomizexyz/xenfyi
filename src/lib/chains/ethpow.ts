@@ -1,6 +1,6 @@
 import { Chain } from "wagmi";
 
-export const ethwMainnet: Chain = {
+export const ethpow: Chain = {
   id: 10001,
   name: "EthereumPoW",
   network: "ethw mainnet",
@@ -10,7 +10,12 @@ export const ethwMainnet: Chain = {
     symbol: "ETHW",
   },
   rpcUrls: {
-    default: "https://mainnet.ethereumpow.org",
+    default: {
+      http: ["https://mainnet.ethereumpow.org"],
+    },
+    public: {
+      http: ["https://mainnet.ethereumpow.org"],
+    },
   },
   blockExplorers: {
     default: { name: "ethwscan", url: "https://mainnet.ethwscan.com" },

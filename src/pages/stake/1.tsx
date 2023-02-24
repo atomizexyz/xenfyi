@@ -77,8 +77,8 @@ const Stake = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
-    addressOrName: xenContract(chain).addressOrName,
-    contractInterface: XENCryptoABI,
+    address: xenContract(chain).address,
+    abi: XENCryptoABI,
     functionName: "stake",
     args: [
       ethers.utils.parseUnits((Number(startStakeAmount) || 0).toString(), xenBalance?.decimals ?? 0),

@@ -1,6 +1,17 @@
+import { Address } from "@wagmi/core";
 import { BigNumber } from "ethers";
-import React, { createContext, useState } from "react";
-import { Chain, useAccount, useBalance, useContractRead, useContractReads, useFeeData, useNetwork } from "wagmi";
+import React, { createContext, useEffect, useState } from "react";
+import {
+  Chain,
+  useAccount,
+  useBalance,
+  useContractRead,
+  useContractReads,
+  useFeeData,
+  useNetwork,
+  useToken,
+} from "wagmi";
+import { mainnet } from "wagmi/chains";
 
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
@@ -35,6 +46,19 @@ export interface FeeData {
   maxPriorityFeePerGas: BigNumber;
 }
 
+export interface TotalSupply {
+  formatted: string;
+  value: BigNumber;
+}
+
+export interface Token {
+  address: Address;
+  decimals: number;
+  name: string;
+  symbol: string;
+  totalSupply: TotalSupply;
+}
+
 export interface Balance {
   decimals: number;
   formatted: string;
@@ -44,6 +68,7 @@ export interface Balance {
 
 interface IXENContext {
   setChainOverride: (_chain: Chain) => void;
+  currentChain: Chain;
   userMint?: UserMint;
   userStake?: UserStake;
   feeData?: FeeData;
@@ -59,10 +84,12 @@ interface IXENContext {
   currentEAAR: number;
   currentAPY: number;
   grossReward: number;
+  token?: Token;
 }
 
 const XENContext = createContext<IXENContext>({
   setChainOverride: (_chain: Chain) => {},
+  currentChain: mainnet,
   userMint: undefined,
   userStake: undefined,
   feeData: undefined,
@@ -78,10 +105,12 @@ const XENContext = createContext<IXENContext>({
   currentEAAR: 0,
   currentAPY: 0,
   grossReward: 0,
+  token: undefined,
 });
 
 export const XENProvider = ({ children }: any) => {
   const [chainOverride, setChainOverride] = useState<Chain | undefined>();
+  const [currentChain, setCurrentChain] = useState<Chain>(mainnet);
   const [userMint, setUserMint] = useState<UserMint | undefined>();
   const [userStake, setUserStake] = useState<UserStake | undefined>();
   const [feeData, setFeeData] = useState<FeeData | undefined>();
@@ -97,15 +126,21 @@ export const XENProvider = ({ children }: any) => {
   const [currentEAAR, setCurrentEAAR] = useState(0);
   const [currentAPY, setCurrentAPY] = useState(0);
   const [grossReward, setGrossReward] = useState(0);
+  const [token, setToken] = useState<Token | undefined>();
 
   const { address } = useAccount();
   const { chain: networkChain } = useNetwork();
 
   const chain = chainOverride ?? networkChain ?? chainList[0];
 
+  const { data: tokenData } = useToken({
+    address: xenContract(chain).address,
+    chainId: chain?.id,
+  });
+
   useBalance({
-    addressOrName: address,
-    token: xenContract(chain).addressOrName,
+    address: address,
+    token: xenContract(chain).address,
     onSuccess(data) {
       setXenBalance({
         decimals: data.decimals,
@@ -199,10 +234,10 @@ export const XENProvider = ({ children }: any) => {
         ...xenContract(chain),
         functionName: "getGrossReward",
         args: [
-          Number(globalRank) - (userMint?.rank.toNumber() ?? 0),
-          Number(userMint?.amplifier ?? 0),
-          Number(userMint?.term ?? 0),
-          1000 + Number(userMint?.eaaRate ?? 0),
+          BigNumber.from(Number(globalRank) - (userMint?.rank.toNumber() ?? 0)),
+          BigNumber.from(Number(userMint?.amplifier ?? 0)),
+          BigNumber.from(Number(userMint?.term ?? 0)),
+          BigNumber.from(1000 + Number(userMint?.eaaRate ?? 0)),
         ],
       },
     ],
@@ -241,10 +276,18 @@ export const XENProvider = ({ children }: any) => {
     // watch: true,
   });
 
+  useEffect(() => {
+    if (tokenData) {
+      setToken(tokenData);
+      setCurrentChain(chain);
+    }
+  }, [chain, tokenData]);
+
   return (
     <XENContext.Provider
       value={{
         setChainOverride,
+        currentChain,
         userMint,
         userStake,
         feeData,
@@ -260,6 +303,7 @@ export const XENProvider = ({ children }: any) => {
         currentEAAR,
         currentAPY,
         grossReward,
+        token,
       }}
     >
       {children}

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import toast from "react-hot-toast";
 import { useCopyToClipboard } from "usehooks-ts";
-import { Chain, useContractRead,useToken } from "wagmi";
+import { Chain, useContractRead, useToken } from "wagmi";
 
 import Breadcrumbs from "~/components/Breadcrumbs";
 import { chainIcons } from "~/components/Constants";
@@ -29,14 +29,14 @@ const Chains: NextPage = () => {
 
     return (
       <div className="flex flex-row-reverse lg:flex-row space-x-8 lg:space-x-2 lg:justify-end">
-        <pre className="pl-8 lg:pl-0">{truncatedAddress(xenContract(chain).addressOrName)}</pre>
+        <pre className="pl-8 lg:pl-0">{truncatedAddress(xenContract(chain).address)}</pre>
         <button
           className="btn btn-square btn-xs glass text-neutral"
           onClick={() => {
-            copy(xenContract(chain).addressOrName);
+            copy(xenContract(chain).address);
             toast.success(
               <div>
-                <pre>{truncatedAddress(xenContract(chain).addressOrName)}</pre>
+                <pre>{truncatedAddress(xenContract(chain).address)}</pre>
                 {t("toast.copied-to-clipboard")}
               </div>
             );
@@ -45,7 +45,7 @@ const Chains: NextPage = () => {
           <DuplicateIcon className="w-5 h-5" />
         </button>
         <Link
-          href={`${chain?.blockExplorers?.default.url}/address/${xenContract(chain).addressOrName}`}
+          href={`${chain?.blockExplorers?.default.url}/address/${xenContract(chain).address}`}
           target="_blank"
           className="btn btn-square btn-xs glass text-neutral"
         >
@@ -57,7 +57,7 @@ const Chains: NextPage = () => {
 
   const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
     const { data: tokenData } = useToken({
-      address: xenContract(chain).addressOrName,
+      address: xenContract(chain).address,
       chainId: chain?.id,
     });
 

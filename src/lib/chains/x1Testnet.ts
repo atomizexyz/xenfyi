@@ -10,7 +10,12 @@ export const x1Testnet: Chain = {
     decimals: 18,
   },
   rpcUrls: {
-    default: "https://x1-devnet.xen.network",
+    default: {
+      http: ["https://x1-devnet.xen.network"],
+    },
+    public: {
+      http: ["https://x1-devnet.xen.network"],
+    },
   },
   blockExplorers: {
     default: { name: "1x Explorer", url: "https://explorer.x1-devnet.xen.network" },

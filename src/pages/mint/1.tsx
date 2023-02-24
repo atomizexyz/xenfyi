@@ -68,8 +68,8 @@ const Mint = () => {
   /*** CONTRACT WRITE SETUP ***/
 
   const { config } = usePrepareContractWrite({
-    addressOrName: xenContract(chain).addressOrName,
-    contractInterface: XENCryptoABI,
+    address: xenContract(chain).address,
+    abi: XENCryptoABI,
     functionName: "claimRank",
     args: [startMintDays ?? 0],
     enabled: !disabled,

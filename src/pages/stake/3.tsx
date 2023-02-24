@@ -34,8 +34,8 @@ const Stake = () => {
   const { userStake, feeData } = useContext(XENContext);
 
   const { config } = usePrepareContractWrite({
-    addressOrName: xenContract(chain).addressOrName,
-    contractInterface: XENCryptoABI,
+    address: xenContract(chain).address,
+    abi: XENCryptoABI,
     functionName: "withdraw",
     enabled: (userStake && !userStake.term.isZero()) ?? false,
   });

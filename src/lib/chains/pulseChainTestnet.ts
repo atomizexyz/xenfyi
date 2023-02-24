@@ -10,7 +10,12 @@ export const pulseChain: Chain = {
     symbol: "tPLS",
   },
   rpcUrls: {
-    default: "https://rpc.v2b.testnet.pulsechain.com",
+    default: {
+      http: ["https://rpc.v2b.testnet.pulsechain.com"],
+    },
+    public: {
+      http: ["https://rpc.v2b.testnet.pulsechain.com"],
+    },
   },
   blockExplorers: {
     default: {
