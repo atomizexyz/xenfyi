@@ -23,7 +23,7 @@ const Chains: NextPage = () => {
   const { t } = useTranslation("common");
   const { envChains } = useEnvironmentChains();
   const [mintAddresses, setMintAddresses] = useState<{ [key: number]: BigNumber }>({});
-  const [totalMintCount, setTotalMintCount] = useState(BigNumber.from(0));
+  const [totalMintCount, setTotalMintCount] = useState(0);
   const [totalChainCount, setTotalChainCount] = useState(0);
 
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
@@ -74,8 +74,6 @@ const Chains: NextPage = () => {
       onSuccess(data) {
         setGlobalRank(data);
 
-        console.log("here", data);
-
         const tempMintAddresses = mintAddresses;
         tempMintAddresses[chain.id] = data;
         setMintAddresses(tempMintAddresses);
@@ -87,7 +85,7 @@ const Chains: NextPage = () => {
       if (tokenData) {
         setToken(tokenData);
       }
-    }, [chain.id, globalRank, tokenData]);
+    }, [tokenData]);
 
     return (
       <tr>
@@ -140,13 +138,13 @@ const Chains: NextPage = () => {
           </div>
           <div className="pt-4 lg:hidden flex flex-col space-y-4">
             <pre className="text-right">
-              <CountUp end={totalMintCount.toNumber()} preserveValue={true} separator="," suffix=" gRank" />
+              <CountUp end={totalMintCount} preserveValue={true} separator="," suffix=" gRank" />
             </pre>
           </div>
         </td>
         <td className="hidden lg:table-cell text-right">
           <pre>
-            <CountUp end={totalMintCount.toNumber()} preserveValue={true} separator="," />
+            <CountUp end={totalMintCount} preserveValue={true} separator="," />
           </pre>
         </td>
         <td className="hidden lg:table-cell"></td>
@@ -168,7 +166,7 @@ const Chains: NextPage = () => {
     const chains = Object.keys(mintAddresses).length;
     setTotalChainCount(chains);
     const gRanks = Object.values(mintAddresses).reduce((a, b) => a.add(b), BigNumber.from(0));
-    setTotalMintCount(gRanks);
+    setTotalMintCount(gRanks.toNumber());
   }, [mintAddresses]);
 
   return (
