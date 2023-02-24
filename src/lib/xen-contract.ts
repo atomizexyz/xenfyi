@@ -2,7 +2,6 @@ import { Address, Chain } from "wagmi";
 import {
   avalanche,
   bsc,
-  evmos,
   fantom,
   foundry,
   goerli,
@@ -15,7 +14,7 @@ import {
 } from "wagmi/chains";
 
 import XENCryptoABI from "~/abi/XENCryptoABI";
-import { dogechain, ethpow, x1Testnet } from "~/lib/chains";
+import { dogechain, ethpow, evmos, x1Testnet } from "~/lib/chains";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {

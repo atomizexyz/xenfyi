@@ -2,7 +2,6 @@ import { configureChains, createClient } from "wagmi";
 import {
   avalanche,
   bsc,
-  evmos,
   fantom,
   foundry,
   goerli,
@@ -21,7 +20,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 
-import { dogechain, ethpow, x1Testnet } from "~/lib/chains";
+import { dogechain, ethpow, evmos, x1Testnet } from "~/lib/chains";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID as string;

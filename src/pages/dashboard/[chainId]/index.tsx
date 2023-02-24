@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useContext, useEffect } from "react";
-import { useToken } from "wagmi";
 
 import Breadcrumbs from "~/components/Breadcrumbs";
 import { chainIcons } from "~/components/Constants";
@@ -26,6 +25,7 @@ const Dashboard: NextPage = () => {
 
   const {
     setChainOverride,
+    token,
     globalRank,
     activeMinters,
     activeStakes,
@@ -37,11 +37,6 @@ const Dashboard: NextPage = () => {
     currentEAAR,
     currentAPY,
   } = useContext(XENContext);
-
-  const { data: token } = useToken({
-    address: xenContract(chainFromId).address,
-    chainId: chainFromId?.id,
-  });
 
   const generalStats = [
     {

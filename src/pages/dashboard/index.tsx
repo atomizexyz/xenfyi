@@ -1,5 +1,4 @@
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
@@ -27,8 +26,8 @@ interface ChainRow {
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
   const { envChains } = useEnvironmentChains();
-  const [totalChainCount, setTotalChainCount] = useState(0);
-  const [totalMintCount, setTotalMintCount] = useState(BigNumber.from(0));
+  const [totalChainCount, setTotalChainCount] = useState<number>(0);
+  const [totalMintCount, setTotalMintCount] = useState<number>(0);
   const [chainRows, setChainRows] = useState<ChainRow[]>([]);
 
   const contracts = envChains.map((chain) => {
@@ -40,8 +39,7 @@ const Chains: NextPage = () => {
 
   const { data: globalRanksData } = useContractReads({
     contracts,
-    // watch: true,
-  }) as unknown as { data: BigNumber[] };
+  });
 
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
@@ -88,20 +86,23 @@ const Chains: NextPage = () => {
     if (globalRanksData) {
       setTotalChainCount(globalRanksData.length);
       const total = globalRanksData.reduce((acc, cur) => {
-        return acc.add(cur ?? BigNumber.from(0));
-      }, BigNumber.from(0));
-      setTotalMintCount(total);
-
+        const accBig = Number(acc ?? 0);
+        const currBig = Number(cur ?? 0);
+        return accBig + currBig;
+      }, 0);
+      setTotalMintCount(Number(total));
       const rows = envChains.map((chain, index) => {
         return {
           chain,
-          globalRank: globalRanksData[index]?.toNumber() ?? 0,
-          isConnected: globalRanksData[index]?.toNumber() !== 0,
+          globalRank: Number(globalRanksData[index] ?? 0),
+          isConnected: true,
         };
       });
-      setChainRows(rows);
+      if (chainRows.length == 0) {
+        setChainRows(rows);
+      }
     }
-  }, [envChains, globalRanksData]);
+  }, [chainRows.length, envChains, globalRanksData]);
 
   return (
     <Container className="max-w-5xl">
@@ -117,46 +118,47 @@ const Chains: NextPage = () => {
                 <TableHeaderFooter />
               </thead>
               <tbody>
-                {chainRows.map((row, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Link href={`/dashboard/${row.chain.id}`} legacyBehavior>
-                        <div className="p-2 flex">
-                          <div className="relative w-full lg:w-max">
-                            <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
-                              {chainIcons[row.chain?.id ?? 1]}
-                              {row.chain.name}
+                {chainRows &&
+                  chainRows.map((row, index) => (
+                    <tr key={index}>
+                      <td>
+                        <Link href={`/dashboard/${row.chain.id}`} legacyBehavior>
+                          <div className="p-2 flex">
+                            <div className="relative w-full lg:w-max">
+                              <div className="btn btn-md glass gap-2 text-neutral w-full lg:w-max">
+                                {chainIcons[row.chain?.id ?? 1]}
+                                {row.chain.name}
+                              </div>
+                              {row.isConnected ? (
+                                <>
+                                  <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
+                                  <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning animate-ping"></div>
+                                  <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning"></div>
+                                </>
+                              )}
                             </div>
-                            {row.isConnected ? (
-                              <>
-                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
-                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
-                              </>
-                            ) : (
-                              <>
-                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning animate-ping"></div>
-                                <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-warning"></div>
-                              </>
-                            )}
                           </div>
+                        </Link>
+                        <div className="pt-4 lg:hidden flex flex-col space-y-4">
+                          <pre className="text-right">
+                            <CountUp end={row.globalRank} preserveValue={true} separator="," suffix=" gRank" />
+                          </pre>
+                          {row.isConnected && <AddressLinks chain={row.chain} />}
                         </div>
-                      </Link>
-                      <div className="pt-4 lg:hidden flex flex-col space-y-4">
-                        <pre className="text-right">
-                          <CountUp end={row.globalRank} preserveValue={true} separator="," suffix=" gRank" />
-                        </pre>
-                        {row.isConnected && <AddressLinks chain={row.chain} />}
-                      </div>
-                    </td>
+                      </td>
 
-                    <td className="hidden lg:table-cell text-right">
-                      <pre>
-                        <CountUp end={row.globalRank} preserveValue={true} separator="," />
-                      </pre>
-                    </td>
-                    <td className="hidden lg:table-cell">{row.isConnected && <AddressLinks chain={row.chain} />}</td>
-                  </tr>
-                ))}
+                      <td className="hidden lg:table-cell text-right">
+                        <pre>
+                          <CountUp end={row.globalRank} preserveValue={true} separator="," />
+                        </pre>
+                      </td>
+                      <td className="hidden lg:table-cell">{row.isConnected && <AddressLinks chain={row.chain} />}</td>
+                    </tr>
+                  ))}
                 <tr>
                   <td>
                     <div className="p-2 flex text-xl font-bold">
@@ -164,13 +166,13 @@ const Chains: NextPage = () => {
                     </div>
                     <div className="pt-4 lg:hidden flex flex-col space-y-4">
                       <pre className="text-right">
-                        <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," suffix=" gRank" />
+                        <CountUp end={totalMintCount} preserveValue={true} separator="," suffix=" gRank" />
                       </pre>
                     </div>
                   </td>
                   <td className="hidden lg:table-cell text-right">
                     <pre>
-                      <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," />
+                      <CountUp end={totalMintCount} preserveValue={true} separator="," />
                     </pre>
                   </td>
                   <td className="hidden lg:table-cell"></td>
