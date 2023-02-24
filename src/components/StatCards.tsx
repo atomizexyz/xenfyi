@@ -1,9 +1,10 @@
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
+import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 
-import { formatFullDate,UTC_TIME } from "~/lib/helpers";
+import { formatFullDate, UTC_TIME } from "~/lib/helpers";
 
 interface ProgressStat {
   title: string;
@@ -45,20 +46,26 @@ export const daysUntil = (date: number) => {
 };
 
 export const DateStatCard: NextPage<DateStat> = (props) => {
+  const [end, setEnd] = useState(0);
+  const [fullDate, setFullDate] = useState("");
   const { t } = useTranslation("common");
+
+  useEffect(() => {
+    if (props.isPast) {
+      setEnd(daysSince(props.dateTs));
+    } else {
+      setEnd(daysUntil(props.dateTs));
+    }
+    setFullDate(formatFullDate(props.dateTs));
+  }, [props.dateTs, props.isPast]);
 
   return (
     <div className="stat">
       <div className="stat-title">{props.title}</div>
       <code className="stat-value text-lg md:text-2xl text-right">
-        <CountUp
-          end={props.isPast ? daysSince(props.dateTs) : daysUntil(props.dateTs)}
-          preserveValue={true}
-          separator={","}
-          suffix={` ${t("card.days")}`}
-        />
+        <CountUp end={end} preserveValue={true} separator={","} suffix={` ${t("card.days")}`} />
       </code>
-      <div className="stat-desc text-right">{formatFullDate(props.dateTs)}</div>
+      <div className="stat-desc text-right">{fullDate}</div>
     </div>
   );
 };

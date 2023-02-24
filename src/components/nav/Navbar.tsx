@@ -9,14 +9,12 @@ import { useTheme } from "next-themes";
 import { useContext, useEffect, useRef, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { Chain, useAccount, useNetwork, useSwitchNetwork } from "wagmi";
-import { useToken } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 
 import { chainIcons, linkItems, navigationItems } from "~/components/Constants";
 import XENContext from "~/contexts/XENContext";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 import { UTC_TIME } from "~/lib/helpers";
-import { xenContract } from "~/lib/xen-contract";
 
 import { WalletIcon } from "../Icons";
 import { StatusBadge } from "../StatusBadge";
@@ -25,25 +23,47 @@ export const Navbar: NextPage = () => {
   const { t } = useTranslation("common");
 
   const router = useRouter();
+
   const { chain } = useNetwork();
   const { envChains } = useEnvironmentChains();
   const { switchNetwork } = useSwitchNetwork();
-  const [mintPageOverride, setMintPageOverride] = useState(1);
-  const [stakePageOverride, setStakePageOverride] = useState(1);
+
   const { connector, isConnected } = useAccount();
   const { resolvedTheme, setTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const { userMint, userStake } = useContext(XENContext);
   const chainDropdown = useRef<HTMLDivElement>(null);
   const menuDropdown = useRef<HTMLDivElement>(null);
 
-  const { data: token } = useToken({
-    address: xenContract(chain).address,
-    chainId: chain?.id,
-  });
+  const { token } = useContext(XENContext);
 
-  const NavigationItems = () => {
+  const NavigationItems: NextPage = () => {
+    const [mintPageOverride, setMintPageOverride] = useState(1);
+    const [stakePageOverride, setStakePageOverride] = useState(1);
+
+    const { userMint, userStake } = useContext(XENContext);
+
+    useEffect(() => {
+      if (userMint && !userMint.term.isZero()) {
+        if (userMint.maturityTs.toNumber() > UTC_TIME) {
+          setMintPageOverride(2);
+        } else {
+          setMintPageOverride(3);
+        }
+      } else {
+        setMintPageOverride(1);
+      }
+      if (userStake && !userStake.term.isZero()) {
+        if (userStake.maturityTs.toNumber() > UTC_TIME) {
+          setStakePageOverride(2);
+        } else {
+          setStakePageOverride(3);
+        }
+      } else {
+        setStakePageOverride(1);
+      }
+    }, [userMint, userStake]);
+
     return (
       <>
         {navigationItems.map((item, index) => (
@@ -83,27 +103,6 @@ export const Navbar: NextPage = () => {
       </>
     );
   };
-
-  useEffect(() => {
-    if (userMint && !userMint.term.isZero()) {
-      if (userMint.maturityTs.toNumber() > UTC_TIME) {
-        setMintPageOverride(2);
-      } else {
-        setMintPageOverride(3);
-      }
-    } else {
-      setMintPageOverride(1);
-    }
-    if (userStake && !userStake.term.isZero()) {
-      if (userStake.maturityTs.toNumber() > UTC_TIME) {
-        setStakePageOverride(2);
-      } else {
-        setStakePageOverride(3);
-      }
-    } else {
-      setStakePageOverride(1);
-    }
-  }, [userMint, userStake]);
 
   const ChainList: NextPage<{ chains: Chain[] }> = ({ chains }) => {
     return (

@@ -1,4 +1,5 @@
 import { DuplicateIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { BigNumber, ethers } from "ethers";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
@@ -13,6 +14,7 @@ import Breadcrumbs from "~/components/Breadcrumbs";
 import { chainIcons } from "~/components/Constants";
 import CardContainer from "~/components/containers/CardContainer";
 import Container from "~/components/containers/Container";
+import { Token } from "~/contexts/XENContext";
 import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
 import { truncatedAddress } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
@@ -20,8 +22,8 @@ import { xenContract } from "~/lib/xen-contract";
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
   const { envChains } = useEnvironmentChains();
-  const [mintAddresses, setMintAddresses] = useState<{ [key: number]: number }>({});
-  const [totalMintCount, setTotalMintCount] = useState(0);
+  const [mintAddresses, setMintAddresses] = useState<{ [key: number]: BigNumber }>({});
+  const [totalMintCount, setTotalMintCount] = useState(BigNumber.from(0));
   const [totalChainCount, setTotalChainCount] = useState(0);
 
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
@@ -56,20 +58,36 @@ const Chains: NextPage = () => {
   };
 
   const ChainRow: NextPage<{ chain: Chain }> = ({ chain }) => {
+    const [token, setToken] = useState<Token | null>(null);
+    const [globalRank, setGlobalRank] = useState<BigNumber>(BigNumber.from(0));
+
+    const [,] = useState(0);
+
     const { data: tokenData } = useToken({
       address: xenContract(chain).address,
       chainId: chain?.id,
     });
 
-    const { data: globalRank } = useContractRead({
+    useContractRead({
       ...xenContract(chain),
       functionName: "globalRank",
+      onSuccess(data) {
+        setGlobalRank(data);
+
+        console.log("here", data);
+
+        const tempMintAddresses = mintAddresses;
+        tempMintAddresses[chain.id] = data;
+        setMintAddresses(tempMintAddresses);
+      },
       watch: true,
     });
 
-    const tempMintAddresses = mintAddresses;
-    tempMintAddresses[chain.id] = Number(globalRank);
-    setMintAddresses(tempMintAddresses);
+    useEffect(() => {
+      if (tokenData) {
+        setToken(tokenData);
+      }
+    }, [chain.id, globalRank, tokenData]);
 
     return (
       <tr>
@@ -81,7 +99,7 @@ const Chains: NextPage = () => {
                   {chainIcons[chain?.id ?? 1]}
                   {chain.name}
                 </div>
-                {tokenData ? (
+                {token ? (
                   <>
                     <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success animate-ping"></div>
                     <div className="absolute top-0 right-0 -mr-2 -mt-2 w-4 h-4 rounded-full badge-success"></div>
@@ -99,7 +117,7 @@ const Chains: NextPage = () => {
             <pre className="text-right">
               <CountUp end={Number(globalRank)} preserveValue={true} separator="," suffix=" gRank" />
             </pre>
-            {tokenData && <AddressLinks chain={chain} />}
+            {token && <AddressLinks chain={chain} />}
           </div>
         </td>
 
@@ -108,7 +126,7 @@ const Chains: NextPage = () => {
             <CountUp end={Number(globalRank)} preserveValue={true} separator="," />
           </pre>
         </td>
-        <td className="hidden lg:table-cell">{tokenData && <AddressLinks chain={chain} />}</td>
+        <td className="hidden lg:table-cell">{token && <AddressLinks chain={chain} />}</td>
       </tr>
     );
   };
@@ -122,13 +140,13 @@ const Chains: NextPage = () => {
           </div>
           <div className="pt-4 lg:hidden flex flex-col space-y-4">
             <pre className="text-right">
-              <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," suffix=" gRank" />
+              <CountUp end={totalMintCount.toNumber()} preserveValue={true} separator="," suffix=" gRank" />
             </pre>
           </div>
         </td>
         <td className="hidden lg:table-cell text-right">
           <pre>
-            <CountUp end={Number(totalMintCount)} preserveValue={true} separator="," />
+            <CountUp end={totalMintCount.toNumber()} preserveValue={true} separator="," />
           </pre>
         </td>
         <td className="hidden lg:table-cell"></td>
@@ -149,7 +167,7 @@ const Chains: NextPage = () => {
   useEffect(() => {
     const chains = Object.keys(mintAddresses).length;
     setTotalChainCount(chains);
-    const gRanks = Object.values(mintAddresses).reduce((a, b) => a + b, 0);
+    const gRanks = Object.values(mintAddresses).reduce((a, b) => a.add(b), BigNumber.from(0));
     setTotalMintCount(gRanks);
   }, [mintAddresses]);
 
