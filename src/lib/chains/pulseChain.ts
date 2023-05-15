@@ -1,27 +1,27 @@
 import { Chain } from "wagmi";
 
 export const pulseChain: Chain = {
-  id: 942,
-  name: "PLS Testnet",
-  network: "pulse",
+  id: 369,
+  name: "PulseChain",
+  network: "pulse chain",
   nativeCurrency: {
     decimals: 18,
-    name: "PLS Testnet",
-    symbol: "tPLS",
+    name: "PLS",
+    symbol: "PLS",
   },
   rpcUrls: {
     default: {
-      http: ["https://rpc.v3.testnet.pulsechain.com"],
+      http: ["https://rpc.pulsechain.com"],
     },
     public: {
-      http: ["https://rpc.v3.testnet.pulsechain.com"],
+      http: ["https://rpc.pulsechain.com"],
     },
   },
   blockExplorers: {
     default: {
       name: "Pulse Scan",
-      url: "https://scan.v3.testnet.pulsechain.com",
+      url: "https://scan.pulsechain.com",
     },
   },
-  testnet: true,
+  testnet: false,
 };

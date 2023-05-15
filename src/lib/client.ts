@@ -20,7 +20,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 
-import { dogechain, ethpow, evmos, pulseChain, x1Testnet } from "~/lib/chains";
+import { dogechain, ethpow, evmos, pulseChain, pulseChainTestnet, x1Testnet } from "~/lib/chains";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID as string;
@@ -42,11 +42,12 @@ export const chainList = [
   localhost,
   x1Testnet,
   pulseChain,
+  pulseChainTestnet,
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(chainList, [
   alchemyProvider({ apiKey: alchemyId, priority: 0 }),
-  infuraProvider({ apiKey: infuraId, priority: 1 }),
+  infuraProvider({ apiKey: infuraId, priority: 0 }),
   publicProvider({ priority: 1 }),
 ]);
 
