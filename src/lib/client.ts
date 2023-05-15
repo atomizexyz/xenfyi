@@ -11,6 +11,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { bscTestnet } from "~/lib/chains/bscTestnet";
 import { bscMainnet } from "~/lib/chains/bscMainnet";
+import { cantoMainnet } from "~/lib/chains/cantoMainnet";
 import { pulseChain } from "~/lib/chains/pulseChainTestnet";
 import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
@@ -26,6 +27,7 @@ const infuraId = process.env.NEXT_PUBLIC_INFURA_ID;
 export const chainList = [
   chain.mainnet,
   bscMainnet,
+  cantoMainnet,
   chain.polygon,
   avaxMainnet,
   ethwMainnet,

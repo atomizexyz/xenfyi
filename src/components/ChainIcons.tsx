@@ -64,6 +64,17 @@ export const EthereumPOWIcon = () => (
   </svg>
 );
 
+export const CANTOIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 37 39" fill="none">
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M6.2931 0V6.72414H0V32.2759H6.2931V39H36.5V0H6.2931ZM29.7407 6.72443H13.5185V13.4467H6.75924V25.5502H13.5185V32.2742H29.7407V25.55H13.5185V13.4486H29.7407V6.72443Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 export const EVMOSIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path

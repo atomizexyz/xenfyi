@@ -3,6 +3,7 @@ import XENCryptoABI from "~/abi/XENCryptoABI";
 import { pulseChain } from "~/lib/chains/pulseChainTestnet";
 import { bscTestnet } from "~/lib/chains/bscTestnet";
 import { bscMainnet } from "~/lib/chains/bscMainnet";
+import { cantoMainnet } from "~/lib/chains/cantoMainnet";
 import { avaxMainnet } from "~/lib/chains/avaxMainnet";
 import { ethwMainnet } from "~/lib/chains/ethwMainnet";
 import { moonbeamMainnet } from "~/lib/chains/moonbeamMainnet";
@@ -42,6 +43,12 @@ export const xenContract = (contractChain?: Chain) => {
       };
     case ethwMainnet.id:
     case bscMainnet.id:
+    case cantoMainnet.id:
+      return {
+        addressOrName: "0xcC1d475eDc349C9ca520f0b95E9f21645C0dBB27",
+        contractInterface: XENCryptoABI,
+        chainId: contractChain.id,
+      };
     case chain.polygon.id:
     case evmosMainnet.id:
       return {

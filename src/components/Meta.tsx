@@ -30,7 +30,7 @@ const Meta: NextPage = () => {
       <meta name="author" content="Joe Blau joe@atomize.xyz" />
       <meta
         name="keywords"
-        content="xen.fyi, xen crypto, xencrypto, xen, crypto, xen.network, token, ethereum, avalanche, polygon, binance, moonbeam, evmos, fantom, dogechain"
+        content="xen.fyi, xen crypto, xencrypto, xen, crypto, xen.network, token, ethereum, avalanche, polygon, binance, moonbeam, evmos, canto, fantom, dogechain"
       />
 
       {/* Apple */}

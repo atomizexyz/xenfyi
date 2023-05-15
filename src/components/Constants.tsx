@@ -21,6 +21,7 @@ import {
   AvalancheIcon,
   BinanceSmartChainIcon,
   EthereumPOWIcon,
+  CANTOIcon,
   EVMOSIcon,
   MoonbeamIcon,
   FantomIcon,
@@ -39,6 +40,7 @@ export const chainIcons: Record<number, JSX.Element> = {
   941: <PulseChainIcon />,
   1284: <MoonbeamIcon />,
   2000: <DogeChainIcon />,
+  7700: <CANTOIcon />,
   9001: <EVMOSIcon />,
   10001: <EthereumPOWIcon />,
   43114: <AvalancheIcon />,
@@ -49,7 +51,7 @@ export const navigationItems = [
   {
     id: 0,
     t: "dashboard.title",
-    icon: <ViewGridIcon className="h-5 w-5" />,
+    icon: <ViewGridIcon className="w-5 h-5" />,
     href: "/dashboard",
     canDisable: false,
   },
@@ -63,7 +65,7 @@ export const navigationItems = [
   {
     id: 2,
     t: "stake.title",
-    icon: <LockClosedIcon className="h-5 w-5" />,
+    icon: <LockClosedIcon className="w-5 h-5" />,
     href: "/stake",
     canDisable: true,
   },
@@ -87,13 +89,13 @@ export const linkItems = [
   {
     name: "Whitepaper",
     t: "link.whitepaper",
-    icon: <DocumentTextIcon className="h-5 w-5" />,
+    icon: <DocumentTextIcon className="w-5 h-5" />,
     href: "https://faircrypto.org/xencryptolp.pdf",
   },
   {
     name: "Docs",
     t: "link.docs",
-    icon: <BookOpenIcon className="h-5 w-5" />,
+    icon: <BookOpenIcon className="w-5 h-5" />,
     href: "https://xensource.gitbook.io/www.xenpedia.io/",
   },
   {
