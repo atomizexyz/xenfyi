@@ -122,6 +122,33 @@ export const dexes: Record<number, DexNetwork> = {
       },
     }),
   },
+  7700: {
+    stableAddress: "0x4e71A2E537B7f9D9413D3991D37958c0b5e1e503", // NOTE
+    uniswapPairSettings: new UniswapPairSettings({
+      cloneUniswapContractDetails: {
+        v2Override: {
+          routerAddress: "0x8e2e2f70B4bD86F82539187A634FB832398cc771",
+          factoryAddress: "0xF80909DF0A01ff18e4D37BF682E40519B21Def46",
+          pairAddress: "0x45ce280cc4a96605fcc4490d847ab49c7e69cc85",
+        },
+      },
+      customNetwork: {
+        nameNetwork: "CANTO",
+        multicallContractAddress: "0xcA11bde05977b3631167028862bE2a173976CA11",
+        nativeCurrency: {
+          name: "CANTO",
+          symbol: "CANTO",
+        },
+        nativeWrappedTokenInfo: {
+          chainId: 7700,
+          contractAddress: "0x826551890Dc65655a0Aceca109aB11AbDbD7a07B",
+          decimals: 18,
+          symbol: "WCANTO",
+          name: "Wrapped CANTO",
+        },
+      },
+    }),
+  },
   9001: {
     stableAddress: "0x7FF4a56B32ee13D7D4D405887E0eA37d61Ed919e", // USDT
     uniswapPairSettings: new UniswapPairSettings({
