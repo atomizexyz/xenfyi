@@ -1,3 +1,4 @@
+import { mainnet } from "@wagmi/chains";
 import { Address } from "@wagmi/core";
 import { BigNumber } from "ethers";
 import React, { createContext, useEffect, useState } from "react";
@@ -11,7 +12,6 @@ import {
   useNetwork,
   useToken,
 } from "wagmi";
-import { mainnet } from "wagmi/chains";
 
 import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";

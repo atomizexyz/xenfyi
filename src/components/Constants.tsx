@@ -2,6 +2,7 @@ import { BookOpenIcon, DocumentTextIcon, HomeIcon, LockClosedIcon, ViewGridIcon 
 
 import {
   AvalancheIcon,
+  BaseIcon,
   BinanceSmartChainIcon,
   DogeChainIcon,
   EthereumIcon,
@@ -14,7 +15,6 @@ import {
   PolygonIcon,
   PulseChainIcon,
   X1Icon,
-  BaseIcon,
 } from "~/components/ChainIcons";
 import {
   CoinmarketCapIcon,

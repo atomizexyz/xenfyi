@@ -17,6 +17,7 @@ import {
   pulsechainV4,
 } from "@wagmi/chains";
 import { Address, Chain } from "wagmi";
+
 import XENCryptoABI from "~/abi/XENCryptoABI";
 import { ethpow, x1Testnet } from "~/lib/chains";
 
@@ -99,6 +100,7 @@ export const xenContract = (contractChain?: Chain) => {
         abi: XENCryptoABI,
         chainId: mainnet.id,
       };
+    case base.id:
     default:
       return {
         address: "" as Address,

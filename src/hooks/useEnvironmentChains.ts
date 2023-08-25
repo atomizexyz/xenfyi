@@ -1,5 +1,5 @@
+import { foundry, localhost } from "@wagmi/chains";
 import { Chain } from "wagmi";
-import { foundry, localhost } from "wagmi/chains";
 
 import { chainList } from "~/lib/client";
 
