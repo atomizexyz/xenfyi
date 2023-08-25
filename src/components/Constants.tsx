@@ -35,7 +35,7 @@ export const chainIcons: Record<number, JSX.Element> = {
   137: <PolygonIcon />,
   250: <FantomIcon />,
   369: <PulseChainIcon />,
-  942: <PulseChainIcon />,
+  943: <PulseChainIcon />,
   1284: <MoonbeamIcon />,
   1337: <HomeIcon className="h-5 w-5" />,
   2000: <DogeChainIcon />,
