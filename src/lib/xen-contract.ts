@@ -1,7 +1,9 @@
-import { Address, Chain } from "wagmi";
 import {
   avalanche,
+  base,
   bsc,
+  dogechain,
+  evmos,
   fantom,
   foundry,
   goerli,
@@ -11,10 +13,12 @@ import {
   okc,
   polygon,
   polygonMumbai,
-} from "wagmi/chains";
-
+  pulsechain,
+  pulsechainV4,
+} from "@wagmi/chains";
+import { Address, Chain } from "wagmi";
 import XENCryptoABI from "~/abi/XENCryptoABI";
-import { dogechain, ethpow, evmos, pulseChain, pulseChainTestnet, x1Testnet } from "~/lib/chains";
+import { ethpow, x1Testnet } from "~/lib/chains";
 
 export const xenContract = (contractChain?: Chain) => {
   switch (contractChain?.id) {
@@ -82,19 +86,23 @@ export const xenContract = (contractChain?: Chain) => {
         abi: XENCryptoABI,
         chainId: contractChain.id,
       };
-    case pulseChain.id:
+    case pulsechain.id:
       return {
         address: "0x8a7FDcA264e87b6da72D000f22186B4403081A2a" as Address,
         abi: XENCryptoABI,
         chainId: contractChain.id,
       };
     case mainnet.id:
-    case pulseChainTestnet.id:
-    default:
+    case pulsechainV4.id:
       return {
         address: "0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8" as Address,
         abi: XENCryptoABI,
         chainId: mainnet.id,
+      };
+    default:
+      return {
+        address: "" as Address,
+        abi: XENCryptoABI,
       };
   }
 };

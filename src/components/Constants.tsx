@@ -14,6 +14,7 @@ import {
   PolygonIcon,
   PulseChainIcon,
   X1Icon,
+  BaseIcon,
 } from "~/components/ChainIcons";
 import {
   CoinmarketCapIcon,
@@ -38,6 +39,7 @@ export const chainIcons: Record<number, JSX.Element> = {
   1284: <MoonbeamIcon />,
   1337: <HomeIcon className="h-5 w-5" />,
   2000: <DogeChainIcon />,
+  8453: <BaseIcon />,
   9001: <EVMOSIcon />,
   10001: <EthereumPOWIcon />,
   43114: <AvalancheIcon />,

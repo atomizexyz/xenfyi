@@ -1,7 +1,9 @@
-import { configureChains, createClient } from "wagmi";
 import {
   avalanche,
+  base,
   bsc,
+  dogechain,
+  evmos,
   fantom,
   foundry,
   goerli,
@@ -11,7 +13,10 @@ import {
   okc,
   polygon,
   polygonMumbai,
-} from "wagmi/chains";
+  pulsechain,
+  pulsechainV4,
+} from "@wagmi/chains";
+import { configureChains, createClient } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -20,7 +25,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 
-import { dogechain, ethpow, evmos, pulseChain, pulseChainTestnet, x1Testnet } from "~/lib/chains";
+import { ethpow, x1Testnet } from "~/lib/chains";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 const infuraId = process.env.NEXT_PUBLIC_INFURA_ID as string;
@@ -41,8 +46,9 @@ export const chainList = [
   foundry,
   localhost,
   x1Testnet,
-  pulseChain,
-  pulseChainTestnet,
+  pulsechain,
+  pulsechainV4,
+  base,
 ];
 
 export const { chains, provider, webSocketProvider } = configureChains(chainList, [
