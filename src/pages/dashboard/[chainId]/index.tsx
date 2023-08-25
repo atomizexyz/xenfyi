@@ -11,17 +11,15 @@ import CardContainer from "~/components/containers/CardContainer";
 import Container from "~/components/containers/Container";
 import { ChainStatCard, DataCard, DateStatCard, NumberStatCard } from "~/components/StatCards";
 import XENContext from "~/contexts/XENContext";
-import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
-import { chainList } from "~/lib/client";
+import { allChains } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
 
 const Dashboard: NextPage = () => {
   const { t } = useTranslation("common");
-  const { envChains } = useEnvironmentChains();
 
   const router = useRouter();
   const { chainId } = router.query as unknown as { chainId: number };
-  const chainFromId = envChains.find((c) => c && c.id == chainId);
+  const chainFromId = allChains.find((c) => c && c.id == chainId);
 
   const {
     setChainOverride,
@@ -113,7 +111,7 @@ const Dashboard: NextPage = () => {
               {t("dashboard.select-chain")}
             </label>
             <ul tabIndex={0} className="dropdown-content menu p-2 shadow rounded-box glass w-64 flex space-y-2">
-              {envChains.map((c) => (
+              {allChains.map((c) => (
                 <li key={c.id}>
                   <Link href={`/dashboard/${c.id}`} className="text-neutral justify-between glass">
                     {c.name}
@@ -183,7 +181,7 @@ export async function getStaticProps({ locale }: any) {
 
 export const getStaticPaths = async ({ locales }: any) => {
   // generate locales paths for all chains and all locales
-  const allPaths = chainList.flatMap((chain) =>
+  const allPaths = allChains.flatMap((chain) =>
     locales.map((locale: string) => ({
       params: { chainId: chain.id.toString() },
       locale,

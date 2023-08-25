@@ -101,6 +101,11 @@ export const xenContract = (contractChain?: Chain) => {
         chainId: mainnet.id,
       };
     case base.id:
+      return {
+        address: "0x" as Address,
+        abi: XENCryptoABI,
+        chainId: contractChain.id,
+      };
     default:
       return {
         address: "" as Address,

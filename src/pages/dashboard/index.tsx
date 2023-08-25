@@ -13,7 +13,7 @@ import Breadcrumbs from "~/components/Breadcrumbs";
 import { chainIcons } from "~/components/Constants";
 import CardContainer from "~/components/containers/CardContainer";
 import Container from "~/components/containers/Container";
-import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { allChains } from "~/lib/client";
 import { truncatedAddress } from "~/lib/helpers";
 import { xenContract } from "~/lib/xen-contract";
 
@@ -25,12 +25,11 @@ interface ChainRow {
 
 const Chains: NextPage = () => {
   const { t } = useTranslation("common");
-  const { envChains } = useEnvironmentChains();
   const [totalChainCount, setTotalChainCount] = useState<number>(0);
   const [totalMintCount, setTotalMintCount] = useState<number>(0);
   const [chainRows, setChainRows] = useState<ChainRow[]>([]);
 
-  const contracts = envChains.map((chain) => {
+  const contracts = allChains.map((chain) => {
     return {
       ...xenContract(chain),
       functionName: "globalRank",
@@ -44,16 +43,20 @@ const Chains: NextPage = () => {
   const AddressLinks: NextPage<{ chain: Chain }> = ({ chain }) => {
     const [_, copy] = useCopyToClipboard();
 
+    const contractAddress = xenContract(chain).address;
+
+    if (!contractAddress) return null;
+
     return (
       <div className="flex flex-row-reverse lg:flex-row space-x-8 lg:space-x-2 lg:justify-end">
-        <pre className="pl-8 lg:pl-0">{truncatedAddress(xenContract(chain).address)}</pre>
+        <pre className="pl-8 lg:pl-0">{truncatedAddress(contractAddress)}</pre>
         <button
           className="btn btn-square btn-xs glass text-neutral"
           onClick={() => {
-            copy(xenContract(chain).address);
+            copy(contractAddress);
             toast.success(
               <div>
-                <pre>{truncatedAddress(xenContract(chain).address)}</pre>
+                <pre>{truncatedAddress(contractAddress)}</pre>
                 {t("toast.copied-to-clipboard")}
               </div>
             );
@@ -62,7 +65,7 @@ const Chains: NextPage = () => {
           <DuplicateIcon className="w-5 h-5" />
         </button>
         <Link
-          href={`${chain?.blockExplorers?.default.url}/address/${xenContract(chain).address}`}
+          href={`${chain?.blockExplorers?.default.url}/address/${contractAddress}`}
           target="_blank"
           className="btn btn-square btn-xs glass text-neutral"
         >
@@ -91,7 +94,7 @@ const Chains: NextPage = () => {
         return accBig + currBig;
       }, 0);
       setTotalMintCount(Number(total));
-      const rows = envChains.map((chain, index) => {
+      const rows = allChains.map((chain, index) => {
         return {
           chain,
           globalRank: Number(globalRanksData[index] ?? 0),
@@ -102,7 +105,7 @@ const Chains: NextPage = () => {
         setChainRows(rows);
       }
     }
-  }, [chainRows.length, envChains, globalRanksData]);
+  }, [chainRows.length, globalRanksData]);
 
   return (
     <Container className="max-w-5xl">

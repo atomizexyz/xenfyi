@@ -13,7 +13,6 @@ import {
   useToken,
 } from "wagmi";
 
-import { chainList } from "~/lib/client";
 import { xenContract } from "~/lib/xen-contract";
 
 export interface UserMint {
@@ -131,7 +130,7 @@ export const XENProvider = ({ children }: any) => {
   const { address } = useAccount();
   const { chain: networkChain } = useNetwork();
 
-  const chain = chainOverride ?? networkChain ?? chainList[0];
+  const chain = chainOverride ?? networkChain ?? mainnet;
 
   const { data: tokenData } = useToken({
     address: xenContract(chain).address,

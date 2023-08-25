@@ -13,7 +13,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 
 import { chainIcons, linkItems, navigationItems } from "~/components/Constants";
 import XENContext from "~/contexts/XENContext";
-import { useEnvironmentChains } from "~/hooks/useEnvironmentChains";
+import { allChains } from "~/lib/client";
 import { UTC_TIME } from "~/lib/helpers";
 
 import { WalletIcon } from "../Icons";
@@ -25,7 +25,6 @@ export const Navbar: NextPage = () => {
   const router = useRouter();
 
   const { chain } = useNetwork();
-  const { envChains } = useEnvironmentChains();
   const { switchNetwork } = useSwitchNetwork();
 
   const { connector, isConnected } = useAccount();
@@ -161,7 +160,7 @@ export const Navbar: NextPage = () => {
                         tabIndex={0}
                         className="menu menu-compact dropdown-content mt-3 p-2 shadow glass rounded-box w-64 space-y-2"
                       >
-                        <ChainList chains={envChains} />
+                        <ChainList chains={allChains} />
                       </ul>
                     </div>
 
