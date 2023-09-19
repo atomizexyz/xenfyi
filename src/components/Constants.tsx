@@ -12,6 +12,7 @@ import {
   FoundryIcon,
   MoonbeamIcon,
   OKChainIcon,
+  OptimismIcon,
   PolygonIcon,
   PulseChainIcon,
   X1Icon,
@@ -29,6 +30,7 @@ import {
 export const chainIcons: Record<number, JSX.Element> = {
   1: <EthereumIcon />,
   5: <EthereumIcon />,
+  10: <OptimismIcon />,
   56: <BinanceSmartChainIcon />,
   66: <OKChainIcon />,
   97: <BinanceSmartChainIcon />,

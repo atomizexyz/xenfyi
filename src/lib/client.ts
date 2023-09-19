@@ -15,6 +15,7 @@ import {
   polygonMumbai,
   pulsechain,
   pulsechainV4,
+  optimism,
 } from "@wagmi/chains";
 import { Chain, configureChains, createClient } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
@@ -42,7 +43,21 @@ export let allChains: Chain[];
 
 switch (chainNetwork) {
   case "mainnet":
-    allChains = [mainnet, polygon, bsc, avalanche, moonbeam, evmos, fantom, dogechain, okc, ethpow, pulsechain, base];
+    allChains = [
+      mainnet,
+      polygon,
+      bsc,
+      avalanche,
+      moonbeam,
+      evmos,
+      fantom,
+      dogechain,
+      okc,
+      ethpow,
+      pulsechain,
+      base,
+      optimism,
+    ];
     break;
   case "testnet":
     allChains = [goerli, polygonMumbai, pulsechainV4, x1Testnet];

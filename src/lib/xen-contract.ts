@@ -15,6 +15,7 @@ import {
   polygonMumbai,
   pulsechain,
   pulsechainV4,
+  optimism,
 } from "@wagmi/chains";
 import { Address, Chain } from "wagmi";
 
@@ -103,6 +104,12 @@ export const xenContract = (contractChain?: Chain) => {
     case base.id:
       return {
         address: "0xffcbF84650cE02DaFE96926B37a0ac5E34932fa5" as Address,
+        abi: XENCryptoABI,
+        chainId: contractChain.id,
+      };
+    case optimism.id:
+      return {
+        address: "0xeB585163DEbB1E637c6D617de3bEF99347cd75c8" as Address,
         abi: XENCryptoABI,
         chainId: contractChain.id,
       };
