@@ -11,11 +11,11 @@ import {
   mainnet,
   moonbeam,
   okc,
+  optimism,
   polygon,
   polygonMumbai,
   pulsechain,
   pulsechainV4,
-  optimism,
 } from "@wagmi/chains";
 import { Chain, configureChains, createClient } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";

@@ -11,11 +11,11 @@ import {
   mainnet,
   moonbeam,
   okc,
+  optimism,
   polygon,
   polygonMumbai,
   pulsechain,
   pulsechainV4,
-  optimism,
 } from "@wagmi/chains";
 import { Address, Chain } from "wagmi";
 
