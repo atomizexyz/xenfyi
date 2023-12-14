@@ -139,6 +139,10 @@ export const Navbar: NextPage = () => {
         </ul>
       </div>
       <div className="navbar-end space-x-4">
+        <div className="primary-text">Maintenance</div>
+      </div>
+
+      {/* <div className="navbar-end space-x-4">
         <ConnectKitButton.Custom>
           {({ show, address, truncatedAddress }) => {
             return (
@@ -248,7 +252,7 @@ export const Navbar: NextPage = () => {
             ))}
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
