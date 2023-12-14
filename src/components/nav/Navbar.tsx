@@ -140,10 +140,7 @@ export const Navbar: NextPage = () => {
       </div>
       <div className="navbar-end space-x-4">
         <div className="primary-text">Maintenance</div>
-      </div>
-
-      {/* <div className="navbar-end space-x-4">
-        <ConnectKitButton.Custom>
+        {/* <ConnectKitButton.Custom>
           {({ show, address, truncatedAddress }) => {
             return (
               <>
@@ -185,7 +182,7 @@ export const Navbar: NextPage = () => {
               </>
             );
           }}
-        </ConnectKitButton.Custom>
+        </ConnectKitButton.Custom> */}
         <div className="dropdown dropdown-end" ref={menuDropdown}>
           <div
             tabIndex={0}
@@ -252,7 +249,7 @@ export const Navbar: NextPage = () => {
             ))}
           </ul>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
