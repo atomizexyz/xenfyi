@@ -83,6 +83,9 @@ export interface ChainConfig {
   wsUrls: string[];
 }
 
+// RPC endpoints sourced from https://chainlist.org
+// Master = primary high-reliability endpoint, Slaves = fallback pool
+// Order matters: first URL is master, rest are slaves (ranked by viem)
 export const chainConfigs: ChainConfig[] = [
   {
     chain: mainnet,
@@ -91,13 +94,26 @@ export const chainConfigs: ChainConfig[] = [
     color: "#627EEA",
     icon: "/images/chains/ethereum.svg",
     rpcUrls: [
+      // Master
       "https://eth.llamarpc.com",
-      "https://rpc.ankr.com/eth",
+      // Slaves
       "https://ethereum-rpc.publicnode.com",
       "https://1rpc.io/eth",
+      "https://eth.drpc.org",
+      "https://eth.meowrpc.com",
+      "https://rpc.mevblocker.io",
+      "https://rpc.flashbots.net",
+      "https://eth.merkle.io",
+      "https://endpoints.omniatech.io/v1/eth/mainnet/public",
+      "https://0xrpc.io/eth",
     ],
     wsUrls: [
+      // Master
       "wss://ethereum-rpc.publicnode.com",
+      // Slaves
+      "wss://eth.drpc.org",
+      "wss://ethereum.callstaticrpc.com",
+      "wss://0xrpc.io/eth",
     ],
   },
   {
@@ -107,13 +123,16 @@ export const chainConfigs: ChainConfig[] = [
     color: "#8247E5",
     icon: "/images/chains/polygon.svg",
     rpcUrls: [
-      "https://polygon.llamarpc.com",
-      "https://rpc.ankr.com/polygon",
       "https://polygon-bor-rpc.publicnode.com",
       "https://1rpc.io/matic",
+      "https://polygon.drpc.org",
+      "https://polygon.meowrpc.com",
+      "https://polygon.rpc.subquery.network/public",
+      "https://endpoints.omniatech.io/v1/matic/mainnet/public",
     ],
     wsUrls: [
       "wss://polygon-bor-rpc.publicnode.com",
+      "wss://polygon.drpc.org",
     ],
   },
   {
@@ -124,12 +143,17 @@ export const chainConfigs: ChainConfig[] = [
     icon: "/images/chains/bsc.svg",
     rpcUrls: [
       "https://binance.llamarpc.com",
-      "https://rpc.ankr.com/bsc",
       "https://bsc-rpc.publicnode.com",
       "https://1rpc.io/bnb",
+      "https://bsc.drpc.org",
+      "https://bsc.meowrpc.com",
+      "https://endpoints.omniatech.io/v1/bsc/mainnet/public",
+      "https://bsc.blockrazor.xyz",
     ],
     wsUrls: [
       "wss://bsc-rpc.publicnode.com",
+      "wss://bsc.drpc.org",
+      "wss://bsc.callstaticrpc.com",
     ],
   },
   {
@@ -139,13 +163,15 @@ export const chainConfigs: ChainConfig[] = [
     color: "#E84142",
     icon: "/images/chains/avalanche.svg",
     rpcUrls: [
-      "https://avalanche.drpc.org",
-      "https://rpc.ankr.com/avalanche",
       "https://avalanche-c-chain-rpc.publicnode.com",
       "https://1rpc.io/avax/c",
+      "https://avalanche.drpc.org",
+      "https://avax.meowrpc.com",
+      "https://endpoints.omniatech.io/v1/avax/mainnet/public",
     ],
     wsUrls: [
       "wss://avalanche-c-chain-rpc.publicnode.com",
+      "wss://avalanche.drpc.org",
     ],
   },
   {
@@ -156,12 +182,20 @@ export const chainConfigs: ChainConfig[] = [
     icon: "/images/chains/moonbeam.svg",
     rpcUrls: [
       "https://rpc.api.moonbeam.network",
-      "https://rpc.ankr.com/moonbeam",
       "https://moonbeam-rpc.publicnode.com",
       "https://1rpc.io/glmr",
+      "https://moonbeam.drpc.org",
+      "https://moonbeam.unitedbloc.com",
+      "https://moonbeam-rpc.dwellir.com",
+      "https://endpoints.omniatech.io/v1/moonbeam/mainnet/public",
+      "https://moonbeam.public.blastapi.io",
     ],
     wsUrls: [
       "wss://moonbeam-rpc.publicnode.com",
+      "wss://wss.api.moonbeam.network",
+      "wss://moonbeam.drpc.org",
+      "wss://moonbeam-rpc.dwellir.com",
+      "wss://moonbeam.unitedbloc.com",
     ],
   },
   {
@@ -173,9 +207,17 @@ export const chainConfigs: ChainConfig[] = [
     rpcUrls: [
       "https://evmos.lava.build",
       "https://evmos-evm-rpc.publicnode.com",
+      "https://evmos-mainnet.public.blastapi.io",
+      "https://evmos.drpc.org",
+      "https://jsonrpc-evmos.goldenratiostaking.net",
+      "https://evmos-jsonrpc.cyphercore.io",
+      "https://eth.bd.evmos.org:8545",
+      "https://evmos-json-rpc.stakely.io",
     ],
     wsUrls: [
       "wss://evmos-evm-rpc.publicnode.com",
+      "wss://evmos.drpc.org",
+      "wss://evmos.lava.build/websocket",
     ],
   },
   {
@@ -186,12 +228,19 @@ export const chainConfigs: ChainConfig[] = [
     icon: "/images/chains/fantom.svg",
     rpcUrls: [
       "https://rpc.ftm.tools",
-      "https://rpc.ankr.com/fantom",
       "https://fantom-rpc.publicnode.com",
       "https://1rpc.io/ftm",
+      "https://fantom.drpc.org",
+      "https://rpcapi.fantom.network",
+      "https://rpc.fantom.network",
+      "https://rpc2.fantom.network",
+      "https://fantom-mainnet.public.blastapi.io",
+      "https://endpoints.omniatech.io/v1/fantom/mainnet/public",
     ],
     wsUrls: [
       "wss://fantom-rpc.publicnode.com",
+      "wss://fantom.drpc.org",
+      "wss://fantom.callstaticrpc.com",
     ],
   },
   {
@@ -202,7 +251,12 @@ export const chainConfigs: ChainConfig[] = [
     icon: "/images/chains/dogechain.svg",
     rpcUrls: [
       "https://rpc.dogechain.dog",
+      "https://rpc-us.dogechain.dog",
+      "https://rpc-sg.dogechain.dog",
       "https://rpc01-sg.dogechain.dog",
+      "https://rpc02-sg.dogechain.dog",
+      "https://rpc03-sg.dogechain.dog",
+      "https://rpc.ankr.com/dogechain",
     ],
     wsUrls: [],
   },
@@ -214,8 +268,13 @@ export const chainConfigs: ChainConfig[] = [
     icon: "/images/chains/okc.svg",
     rpcUrls: [
       "https://exchainrpc.okex.org",
+      "https://oktc-mainnet.public.blastapi.io",
+      "https://1rpc.io/oktc",
+      "https://oktc.drpc.org",
     ],
-    wsUrls: [],
+    wsUrls: [
+      "wss://oktc.drpc.org",
+    ],
   },
   {
     chain: ethpow,
@@ -236,12 +295,16 @@ export const chainConfigs: ChainConfig[] = [
     icon: "/images/chains/base.svg",
     rpcUrls: [
       "https://base.llamarpc.com",
-      "https://rpc.ankr.com/base",
       "https://base-rpc.publicnode.com",
       "https://1rpc.io/base",
+      "https://base.drpc.org",
+      "https://base.meowrpc.com",
+      "https://endpoints.omniatech.io/v1/base/mainnet/public",
     ],
     wsUrls: [
       "wss://base-rpc.publicnode.com",
+      "wss://base.drpc.org",
+      "wss://base.callstaticrpc.com",
     ],
   },
   {
@@ -253,9 +316,11 @@ export const chainConfigs: ChainConfig[] = [
     rpcUrls: [
       "https://rpc.pulsechain.com",
       "https://pulsechain-rpc.publicnode.com",
+      "https://rpc.pulsechainrpc.com",
     ],
     wsUrls: [
       "wss://pulsechain-rpc.publicnode.com",
+      "wss://ws.pulsechainrpc.com",
     ],
   },
   {
@@ -265,13 +330,16 @@ export const chainConfigs: ChainConfig[] = [
     color: "#FF0420",
     icon: "/images/chains/optimism.svg",
     rpcUrls: [
-      "https://optimism.llamarpc.com",
-      "https://rpc.ankr.com/optimism",
       "https://optimism-rpc.publicnode.com",
       "https://1rpc.io/op",
+      "https://optimism.drpc.org",
+      "https://optimism.meowrpc.com",
+      "https://optimism.rpc.subquery.network/public",
+      "https://endpoints.omniatech.io/v1/op/mainnet/public",
     ],
     wsUrls: [
       "wss://optimism-rpc.publicnode.com",
+      "wss://optimism.drpc.org",
     ],
   },
 ];
