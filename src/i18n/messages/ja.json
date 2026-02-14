@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - 大衆のための暗号通貨",
+    "description": "XEN Cryptoは、分散化、透明性、信頼の原則に基づいて構築されたコミュニティ主導の自己管理型暗号通貨です。"
+  },
+  "nav": {
+    "home": "ホーム",
+    "dashboard": "ダッシュボード",
+    "mint": "ミント",
+    "stake": "ステーク",
+    "connect": "ウォレット接続"
+  },
+  "hero": {
+    "title": "大衆のための暗号通貨",
+    "subtitle": "XEN Cryptoは世界初のコミュニティ主導フェアローンチプロトコル。無料でミント。クロスチェーン。完全分散型。",
+    "cta": "アプリを起動",
+    "learnMore": "詳細を見る"
+  },
+  "stats": {
+    "globalRank": "グローバルランク",
+    "activeMinters": "アクティブミンター",
+    "activeStakes": "アクティブステーク",
+    "totalSupply": "総供給量",
+    "totalStaked": "総ステーク量",
+    "currentAMP": "現在のAMP",
+    "currentAPY": "現在のAPY",
+    "chains": "チェーン"
+  },
+  "crossChain": {
+    "title": "クロスチェーン概要",
+    "subtitle": "すべてのサポートネットワークのリアルタイムオンチェーンデータ",
+    "chain": "チェーン",
+    "rank": "グローバルランク",
+    "minters": "アクティブミンター",
+    "stakes": "アクティブステーク",
+    "supply": "総供給量",
+    "staked": "総ステーク量",
+    "viewDashboard": "ダッシュボードを見る"
+  },
+  "features": {
+    "title": "なぜXEN Crypto？",
+    "fairLaunch": "フェアローンチ",
+    "fairLaunchDesc": "プレマインなし、管理者キーなし、犠牲なし。全員が平等にスタート。",
+    "multiChain": "マルチチェーン",
+    "multiChainDesc": "最大のアクセシビリティのために13以上のブロックチェーンに展開。",
+    "selfCustodial": "セルフカストディ",
+    "selfCustodialDesc": "あなたの鍵、あなたの暗号通貨。XENは完全にトラストレスで透明。",
+    "proofOfParticipation": "参加証明",
+    "proofOfParticipationDesc": "時間のコミットメントとグローバルランクに基づくミント報酬。",
+    "communityDriven": "コミュニティ主導",
+    "communityDrivenDesc": "コミュニティによって、コミュニティのために構築。永遠にオープンソース。",
+    "immutable": "不変",
+    "immutableDesc": "管理者キーなし。誰もルールを変更できない。真のハイパーストラクチャー。"
+  },
+  "dashboard": {
+    "title": "{chain} ダッシュボード",
+    "globalData": "グローバルデータ",
+    "yourPosition": "あなたのポジション",
+    "noPosition": "アクティブなポジションが見つかりません",
+    "mintTermDays": "ミント期間（日）",
+    "claimRank": "ランクを請求",
+    "claimMint": "ミント報酬を請求",
+    "stakeAmount": "ステーク量（XEN）",
+    "stakeTerm": "ステーク期間（日）",
+    "stakeAction": "ステーク",
+    "withdraw": "引き出し",
+    "maturityDate": "満期日",
+    "rank": "あなたのランク",
+    "term": "期間",
+    "balance": "XEN残高"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "リソース",
+    "community": "コミュニティ",
+    "legal": "法的情報",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "データの読み込みエラー",
+    "retry": "再試行",
+    "days": "日",
+    "address": "アドレス"
+  }
+}

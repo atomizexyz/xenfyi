@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - العملة المشفرة للجماهير",
+    "description": "XEN Crypto هو عملة مشفرة مجتمعية ذاتية الحفظ مبنية على مبادئ اللامركزية والشفافية والثقة."
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "mint": "سك",
+    "stake": "تخزين",
+    "connect": "ربط المحفظة"
+  },
+  "hero": {
+    "title": "العملة المشفرة للجماهير",
+    "subtitle": "XEN Crypto هو أول بروتوكول إطلاق عادل في العالم مدفوع من المجتمع. مجاني للسك. متعدد السلاسل. لامركزي بالكامل.",
+    "cta": "ابدأ التطبيق",
+    "learnMore": "اعرف المزيد"
+  },
+  "stats": {
+    "globalRank": "الرتبة العالمية",
+    "activeMinters": "السكّاكون النشطون",
+    "activeStakes": "المخزنون النشطون",
+    "totalSupply": "إجمالي العرض",
+    "totalStaked": "إجمالي المخزن",
+    "currentAMP": "المضخم الحالي",
+    "currentAPY": "العائد السنوي",
+    "chains": "السلاسل"
+  },
+  "crossChain": {
+    "title": "نظرة عامة عبر السلاسل",
+    "subtitle": "بيانات فورية من السلسلة عبر جميع الشبكات المدعومة",
+    "chain": "السلسلة",
+    "rank": "الرتبة العالمية",
+    "minters": "السكّاكون النشطون",
+    "stakes": "المخزنون النشطون",
+    "supply": "إجمالي العرض",
+    "staked": "إجمالي المخزن",
+    "viewDashboard": "عرض لوحة التحكم"
+  },
+  "features": {
+    "title": "لماذا XEN Crypto؟",
+    "fairLaunch": "إطلاق عادل",
+    "fairLaunchDesc": "لا سك مسبق، لا مفاتيح إدارية، لا تضحية. الجميع يبدأ بالتساوي.",
+    "multiChain": "متعدد السلاسل",
+    "multiChainDesc": "منشور على أكثر من 13 بلوكتشين لأقصى إمكانية وصول.",
+    "selfCustodial": "حفظ ذاتي",
+    "selfCustodialDesc": "مفاتيحك، عملتك المشفرة. XEN بلا ثقة وشفاف بالكامل.",
+    "proofOfParticipation": "إثبات المشاركة",
+    "proofOfParticipationDesc": "مكافآت السك بناءً على التزام الوقت والرتبة العالمية.",
+    "communityDriven": "مدفوع من المجتمع",
+    "communityDrivenDesc": "بُني من المجتمع وللمجتمع. مفتوح المصدر إلى الأبد.",
+    "immutable": "غير قابل للتغيير",
+    "immutableDesc": "لا مفاتيح إدارية. لا أحد يمكنه تغيير القواعد. بنية فوقية حقيقية."
+  },
+  "dashboard": {
+    "title": "لوحة تحكم {chain}",
+    "globalData": "البيانات العالمية",
+    "yourPosition": "مركزك",
+    "noPosition": "لم يتم العثور على مركز نشط",
+    "mintTermDays": "مدة السك (أيام)",
+    "claimRank": "طلب الرتبة",
+    "claimMint": "طلب مكافأة السك",
+    "stakeAmount": "مبلغ التخزين (XEN)",
+    "stakeTerm": "مدة التخزين (أيام)",
+    "stakeAction": "تخزين",
+    "withdraw": "سحب",
+    "maturityDate": "تاريخ الاستحقاق",
+    "rank": "رتبتك",
+    "term": "المدة",
+    "balance": "رصيد XEN"
+  },
+  "footer": {
+    "builtBy": "مؤسسة Fair Crypto",
+    "resources": "الموارد",
+    "community": "المجتمع",
+    "legal": "القانوني",
+    "terms": "شروط الاستخدام",
+    "privacy": "سياسة الخصوصية"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ في تحميل البيانات",
+    "retry": "إعادة المحاولة",
+    "days": "أيام",
+    "address": "العنوان"
+  }
+}

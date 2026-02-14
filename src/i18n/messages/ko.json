@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - 대중을 위한 암호화폐",
+    "description": "XEN Crypto는 탈중앙화, 투명성, 신뢰의 원칙 위에 구축된 커뮤니티 주도의 자기 관리형 암호화폐입니다."
+  },
+  "nav": {
+    "home": "홈",
+    "dashboard": "대시보드",
+    "mint": "Mint",
+    "stake": "Stake",
+    "connect": "지갑 연결"
+  },
+  "hero": {
+    "title": "대중을 위한 암호화폐",
+    "subtitle": "XEN Crypto는 세계 최초의 공정 출시, 커뮤니티 주도 프로토콜입니다. 무료 민팅. 크로스체인. 완전한 탈중앙화.",
+    "cta": "앱 실행",
+    "learnMore": "자세히 보기"
+  },
+  "stats": {
+    "globalRank": "글로벌 랭크",
+    "activeMinters": "활성 민터",
+    "activeStakes": "활성 스테이크",
+    "totalSupply": "총 공급량",
+    "totalStaked": "총 스테이킹량",
+    "currentAMP": "현재 AMP",
+    "currentAPY": "현재 APY",
+    "chains": "체인"
+  },
+  "crossChain": {
+    "title": "크로스체인 개요",
+    "subtitle": "지원되는 모든 네트워크의 실시간 온체인 데이터",
+    "chain": "체인",
+    "rank": "글로벌 랭크",
+    "minters": "활성 민터",
+    "stakes": "활성 스테이크",
+    "supply": "총 공급량",
+    "staked": "총 스테이킹량",
+    "viewDashboard": "대시보드 보기"
+  },
+  "features": {
+    "title": "왜 XEN Crypto인가?",
+    "fairLaunch": "공정 출시",
+    "fairLaunchDesc": "사전 채굴 없음, 관리자 키 없음, 희생 없음. 모두가 동등하게 시작합니다.",
+    "multiChain": "멀티체인",
+    "multiChainDesc": "최대 접근성을 위해 13개 이상의 블록체인에 배포되었습니다.",
+    "selfCustodial": "자기 관리형",
+    "selfCustodialDesc": "당신의 키, 당신의 크립토. XEN은 완전한 트러스트리스이며 투명합니다.",
+    "proofOfParticipation": "참여 증명",
+    "proofOfParticipationDesc": "시간 투자와 글로벌 랭크에 기반한 채굴 보상.",
+    "communityDriven": "커뮤니티 주도",
+    "communityDrivenDesc": "커뮤니티에 의해, 커뮤니티를 위해 구축되었습니다. 영원한 오픈 소스.",
+    "immutable": "불변",
+    "immutableDesc": "관리자 키 없음. 누구도 규칙을 변경할 수 없습니다. 진정한 하이퍼스트럭처."
+  },
+  "dashboard": {
+    "title": "{chain} 대시보드",
+    "globalData": "글로벌 데이터",
+    "yourPosition": "내 포지션",
+    "noPosition": "활성 포지션이 없습니다",
+    "mintTermDays": "Mint 기간 (일)",
+    "claimRank": "랭크 클레임",
+    "claimMint": "Mint 보상 클레임",
+    "stakeAmount": "Stake 수량 (XEN)",
+    "stakeTerm": "Stake 기간 (일)",
+    "stakeAction": "Stake",
+    "withdraw": "출금",
+    "maturityDate": "만기일",
+    "rank": "내 랭크",
+    "term": "기간",
+    "balance": "XEN 잔액"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "리소스",
+    "community": "커뮤니티",
+    "legal": "법적 고지",
+    "terms": "이용약관",
+    "privacy": "개인정보 처리방침"
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "데이터 로딩 오류",
+    "retry": "재시도",
+    "days": "일",
+    "address": "주소"
+  }
+}

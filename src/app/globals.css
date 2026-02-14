@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@theme {
+  /* XEN Brand Colors */
+  --color-xen-blue: #3898FF;
+  --color-xen-dark: #121212;
+  --color-xen-card: #1A1B1F;
+  --color-xen-border: #2A2B30;
+  --color-xen-muted: #6B7280;
+  --color-xen-accent: #3898FF;
+
+  /* Gradient colors */
+  --color-gradient-start: #3898FF;
+  --color-gradient-mid: #7B61FF;
+  --color-gradient-end: #00D4AA;
+
+  /* Status colors */
+  --color-success: #4ADE80;
+  --color-error: #FB7185;
+  --color-warning: #FBBF24;
+
+  /* Spacing */
+  --radius-card: 1.25rem;
+  --radius-button: 9999px;
+}
+
+@layer base {
+  :root {
+    --background: #f5f5f5;
+    --foreground: #0a0a0a;
+    --card: #ffffff;
+    --card-foreground: #0a0a0a;
+    --border: #e5e7eb;
+    --muted: #9ca3af;
+    --muted-foreground: #6b7280;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #fafafa;
+    --card: #141419;
+    --card-foreground: #fafafa;
+    --border: #1e1f25;
+    --muted: #6b7280;
+    --muted-foreground: #9ca3af;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Noto Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .glass {
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 0 0 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-mid), var(--color-gradient-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-mid), var(--color-gradient-end));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+  }
+
+  .glow {
+    box-shadow:
+      0 0 20px rgba(56, 152, 255, 0.15),
+      0 0 40px rgba(56, 152, 255, 0.08),
+      0 0 80px rgba(56, 152, 255, 0.04);
+  }
+
+  .glow-strong {
+    box-shadow:
+      0 0 20px rgba(56, 152, 255, 0.3),
+      0 0 40px rgba(56, 152, 255, 0.15),
+      0 0 80px rgba(56, 152, 255, 0.08);
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow:
+        0 0 20px rgba(56, 152, 255, 0.15),
+        0 0 40px rgba(56, 152, 255, 0.08);
+    }
+    50% {
+      box-shadow:
+        0 0 30px rgba(56, 152, 255, 0.3),
+        0 0 60px rgba(56, 152, 255, 0.15),
+        0 0 100px rgba(56, 152, 255, 0.08);
+    }
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, rgba(56, 152, 255, 0.08), rgba(123, 97, 255, 0.05), rgba(0, 212, 170, 0.03));
+  }
+
+  .gradient-bg-strong {
+    background: linear-gradient(135deg, rgba(56, 152, 255, 0.15), rgba(123, 97, 255, 0.1), rgba(0, 212, 170, 0.05));
+  }
+
+  /* RTL support */
+  [dir="rtl"] .rtl\:space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+  }
+}
+
+/* Number flow transitions */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(number-flow),
+  ::view-transition-new(number-flow) {
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

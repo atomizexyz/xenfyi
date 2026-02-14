@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - Kryptowährung für alle",
+    "description": "XEN Crypto ist eine gemeinschaftsgetriebene, selbstverwaltete Kryptowährung, die auf den Prinzipien der Dezentralisierung, Transparenz und des Vertrauens basiert."
+  },
+  "nav": {
+    "home": "Startseite",
+    "dashboard": "Dashboard",
+    "mint": "Mint",
+    "stake": "Stake",
+    "connect": "Wallet verbinden"
+  },
+  "hero": {
+    "title": "Kryptowährung für alle",
+    "subtitle": "XEN Crypto ist das weltweit erste Fair-Launch, gemeinschaftsgetriebene Protokoll. Kostenlos zu minten. Cross-Chain. Vollständig dezentralisiert.",
+    "cta": "App starten",
+    "learnMore": "Mehr erfahren"
+  },
+  "stats": {
+    "globalRank": "Globaler Rang",
+    "activeMinters": "Aktive Minter",
+    "activeStakes": "Aktive Stakes",
+    "totalSupply": "Gesamtangebot",
+    "totalStaked": "Gesamt gestaket",
+    "currentAMP": "Aktueller AMP",
+    "currentAPY": "Aktueller APY",
+    "chains": "Chains"
+  },
+  "crossChain": {
+    "title": "Cross-Chain-Übersicht",
+    "subtitle": "Echtzeit-On-Chain-Daten über alle unterstützten Netzwerke",
+    "chain": "Chain",
+    "rank": "Globaler Rang",
+    "minters": "Aktive Minter",
+    "stakes": "Aktive Stakes",
+    "supply": "Gesamtangebot",
+    "staked": "Gesamt gestaket",
+    "viewDashboard": "Dashboard anzeigen"
+  },
+  "features": {
+    "title": "Warum XEN Crypto?",
+    "fairLaunch": "Fairer Start",
+    "fairLaunchDesc": "Kein Pre-Mining, keine Admin-Schlüssel, kein Sacrifice. Alle starten gleichberechtigt.",
+    "multiChain": "Multi-Chain",
+    "multiChainDesc": "Auf über 13 Blockchains bereitgestellt für maximale Zugänglichkeit.",
+    "selfCustodial": "Selbstverwaltet",
+    "selfCustodialDesc": "Deine Schlüssel, deine Krypto. XEN ist vollständig trustless und transparent.",
+    "proofOfParticipation": "Teilnahmenachweis",
+    "proofOfParticipationDesc": "Mining-Belohnungen basierend auf zeitlichem Engagement und globalem Rang.",
+    "communityDriven": "Gemeinschaftsgetrieben",
+    "communityDrivenDesc": "Von der Community für die Community gebaut. Für immer Open Source.",
+    "immutable": "Unveränderlich",
+    "immutableDesc": "Keine Admin-Schlüssel. Niemand kann die Regeln ändern. Eine echte Hyperstruktur."
+  },
+  "dashboard": {
+    "title": "{chain} Dashboard",
+    "globalData": "Globale Daten",
+    "yourPosition": "Deine Position",
+    "noPosition": "Keine aktive Position gefunden",
+    "mintTermDays": "Mint-Laufzeit (Tage)",
+    "claimRank": "Rang beanspruchen",
+    "claimMint": "Mint-Belohnung beanspruchen",
+    "stakeAmount": "Stake-Betrag (XEN)",
+    "stakeTerm": "Stake-Laufzeit (Tage)",
+    "stakeAction": "Stake",
+    "withdraw": "Abheben",
+    "maturityDate": "Fälligkeitsdatum",
+    "rank": "Dein Rang",
+    "term": "Laufzeit",
+    "balance": "XEN-Guthaben"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "Ressourcen",
+    "community": "Community",
+    "legal": "Rechtliches",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzrichtlinie"
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "error": "Fehler beim Laden der Daten",
+    "retry": "Erneut versuchen",
+    "days": "Tage",
+    "address": "Adresse"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - जनता के लिए क्रिप्टोकरेंसी",
+    "description": "XEN Crypto एक समुदाय-संचालित, स्व-संरक्षित क्रिप्टोकरेंसी है जो विकेंद्रीकरण, पारदर्शिता और विश्वास के सिद्धांतों पर बनी है।"
+  },
+  "nav": {
+    "home": "होम",
+    "dashboard": "डैशबोर्ड",
+    "mint": "Mint",
+    "stake": "Stake",
+    "connect": "वॉलेट कनेक्ट करें"
+  },
+  "hero": {
+    "title": "जनता के लिए क्रिप्टोकरेंसी",
+    "subtitle": "XEN Crypto दुनिया का पहला निष्पक्ष-लॉन्च, समुदाय-संचालित प्रोटोकॉल है। मुफ्त में मिंट करें। क्रॉस-चेन। पूर्ण रूप से विकेंद्रीकृत।",
+    "cta": "ऐप लॉन्च करें",
+    "learnMore": "और जानें"
+  },
+  "stats": {
+    "globalRank": "वैश्विक रैंक",
+    "activeMinters": "सक्रिय मिंटर",
+    "activeStakes": "सक्रिय स्टेक",
+    "totalSupply": "कुल आपूर्ति",
+    "totalStaked": "कुल स्टेक किया गया",
+    "currentAMP": "वर्तमान AMP",
+    "currentAPY": "वर्तमान APY",
+    "chains": "चेन"
+  },
+  "crossChain": {
+    "title": "क्रॉस-चेन अवलोकन",
+    "subtitle": "सभी समर्थित नेटवर्क पर रीयल-टाइम ऑन-चेन डेटा",
+    "chain": "चेन",
+    "rank": "वैश्विक रैंक",
+    "minters": "सक्रिय मिंटर",
+    "stakes": "सक्रिय स्टेक",
+    "supply": "कुल आपूर्ति",
+    "staked": "कुल स्टेक किया गया",
+    "viewDashboard": "डैशबोर्ड देखें"
+  },
+  "features": {
+    "title": "XEN Crypto क्यों?",
+    "fairLaunch": "निष्पक्ष लॉन्च",
+    "fairLaunchDesc": "कोई प्री-माइन नहीं, कोई एडमिन कुंजी नहीं, कोई बलिदान नहीं। सभी समान रूप से शुरू करते हैं।",
+    "multiChain": "मल्टी-चेन",
+    "multiChainDesc": "अधिकतम पहुँच के लिए 13+ ब्लॉकचेन पर तैनात।",
+    "selfCustodial": "स्व-संरक्षित",
+    "selfCustodialDesc": "आपकी कुंजी, आपकी क्रिप्टो। XEN पूर्ण रूप से ट्रस्टलेस और पारदर्शी है।",
+    "proofOfParticipation": "भागीदारी का प्रमाण",
+    "proofOfParticipationDesc": "समय प्रतिबद्धता और वैश्विक रैंक पर आधारित माइनिंग पुरस्कार।",
+    "communityDriven": "समुदाय-संचालित",
+    "communityDrivenDesc": "समुदाय द्वारा, समुदाय के लिए निर्मित। हमेशा के लिए ओपन सोर्स।",
+    "immutable": "अपरिवर्तनीय",
+    "immutableDesc": "कोई एडमिन कुंजी नहीं। कोई भी नियम नहीं बदल सकता। सच्ची हाइपरस्ट्रक्चर।"
+  },
+  "dashboard": {
+    "title": "{chain} डैशबोर्ड",
+    "globalData": "वैश्विक डेटा",
+    "yourPosition": "आपकी स्थिति",
+    "noPosition": "कोई सक्रिय स्थिति नहीं मिली",
+    "mintTermDays": "Mint अवधि (दिन)",
+    "claimRank": "रैंक क्लेम करें",
+    "claimMint": "Mint इनाम क्लेम करें",
+    "stakeAmount": "Stake राशि (XEN)",
+    "stakeTerm": "Stake अवधि (दिन)",
+    "stakeAction": "Stake",
+    "withdraw": "निकासी",
+    "maturityDate": "परिपक्वता तिथि",
+    "rank": "आपकी रैंक",
+    "term": "अवधि",
+    "balance": "XEN शेष"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "संसाधन",
+    "community": "समुदाय",
+    "legal": "कानूनी",
+    "terms": "उपयोग की शर्तें",
+    "privacy": "गोपनीयता नीति"
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "डेटा लोड करने में त्रुटि",
+    "retry": "पुनः प्रयास करें",
+    "days": "दिन",
+    "address": "पता"
+  }
+}

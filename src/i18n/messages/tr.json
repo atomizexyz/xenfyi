@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - Herkes İçin Kripto Para",
+    "description": "XEN Crypto, merkeziyetsizlik, şeffaflık ve güven ilkeleri üzerine inşa edilmiş, topluluk odaklı, kendi kendine saklanan bir kripto paradır."
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "dashboard": "Kontrol Paneli",
+    "mint": "Mint",
+    "stake": "Stake",
+    "connect": "Cüzdan Bağla"
+  },
+  "hero": {
+    "title": "Herkes İçin Kripto Para",
+    "subtitle": "XEN Crypto, dünyanın ilk adil lansmanlı, topluluk odaklı protokolüdür. Ücretsiz mint. Cross-chain. Tamamen merkeziyetsiz.",
+    "cta": "Uygulamayı Başlat",
+    "learnMore": "Daha Fazla Bilgi"
+  },
+  "stats": {
+    "globalRank": "Küresel Sıralama",
+    "activeMinters": "Aktif Minter'lar",
+    "activeStakes": "Aktif Stake'ler",
+    "totalSupply": "Toplam Arz",
+    "totalStaked": "Toplam Stake Edilen",
+    "currentAMP": "Mevcut AMP",
+    "currentAPY": "Mevcut APY",
+    "chains": "Zincirler"
+  },
+  "crossChain": {
+    "title": "Cross-Chain Genel Bakış",
+    "subtitle": "Desteklenen tüm ağlarda gerçek zamanlı on-chain veriler",
+    "chain": "Zincir",
+    "rank": "Küresel Sıralama",
+    "minters": "Aktif Minter'lar",
+    "stakes": "Aktif Stake'ler",
+    "supply": "Toplam Arz",
+    "staked": "Toplam Stake Edilen",
+    "viewDashboard": "Kontrol Panelini Görüntüle"
+  },
+  "features": {
+    "title": "Neden XEN Crypto?",
+    "fairLaunch": "Adil Lansman",
+    "fairLaunchDesc": "Ön madencilik yok, yönetici anahtarı yok, fedakarlık yok. Herkes eşit başlar.",
+    "multiChain": "Çoklu Zincir",
+    "multiChainDesc": "Maksimum erişilebilirlik için 13'ten fazla blok zincirinde dağıtıldı.",
+    "selfCustodial": "Kendi Kendine Saklama",
+    "selfCustodialDesc": "Anahtarlarınız, kriptonuz. XEN tamamen güven gerektirmez ve şeffaftır.",
+    "proofOfParticipation": "Katılım Kanıtı",
+    "proofOfParticipationDesc": "Zaman taahhüdüne ve küresel sıralamaya dayalı madencilik ödülleri.",
+    "communityDriven": "Topluluk Odaklı",
+    "communityDrivenDesc": "Topluluk tarafından, topluluk için inşa edildi. Sonsuza kadar açık kaynak.",
+    "immutable": "Değiştirilemez",
+    "immutableDesc": "Yönetici anahtarı yok. Kimse kuralları değiştiremez. Gerçek bir hiper yapı."
+  },
+  "dashboard": {
+    "title": "{chain} Kontrol Paneli",
+    "globalData": "Küresel Veriler",
+    "yourPosition": "Pozisyonunuz",
+    "noPosition": "Aktif pozisyon bulunamadı",
+    "mintTermDays": "Mint Süresi (Gün)",
+    "claimRank": "Sıralama Talep Et",
+    "claimMint": "Mint Ödülünü Talep Et",
+    "stakeAmount": "Stake Miktarı (XEN)",
+    "stakeTerm": "Stake Süresi (Gün)",
+    "stakeAction": "Stake",
+    "withdraw": "Çek",
+    "maturityDate": "Vade Tarihi",
+    "rank": "Sıralamanız",
+    "term": "Süre",
+    "balance": "XEN Bakiyesi"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "Kaynaklar",
+    "community": "Topluluk",
+    "legal": "Yasal",
+    "terms": "Kullanım Koşulları",
+    "privacy": "Gizlilik Politikası"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Veri yüklenirken hata oluştu",
+    "retry": "Tekrar Dene",
+    "days": "gün",
+    "address": "Adres"
+  }
+}

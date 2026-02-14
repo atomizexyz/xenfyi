@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - Cryptocurrency For The Masses",
+    "description": "XEN Crypto is a community-driven, self-custodial cryptocurrency built on the principles of decentralization, transparency, and trust."
+  },
+  "nav": {
+    "home": "Αρχική",
+    "dashboard": "Πίνακας",
+    "mint": "Κοπή",
+    "stake": "Staking",
+    "connect": "Σύνδεση πορτοφολιού"
+  },
+  "hero": {
+    "title": "Cryptocurrency For The Masses",
+    "subtitle": "XEN Crypto is the world's first fair-launch, community-driven protocol. Free to mint. Cross-chain. Fully decentralized.",
+    "cta": "Launch App",
+    "learnMore": "Learn More"
+  },
+  "stats": {
+    "globalRank": "Global Rank",
+    "activeMinters": "Active Minters",
+    "activeStakes": "Active Stakes",
+    "totalSupply": "Total Supply",
+    "totalStaked": "Total Staked",
+    "currentAMP": "Current AMP",
+    "currentAPY": "Current APY",
+    "chains": "Chains"
+  },
+  "crossChain": {
+    "title": "Cross-Chain Overview",
+    "subtitle": "Real-time on-chain data across all supported networks",
+    "chain": "Chain",
+    "rank": "Global Rank",
+    "minters": "Active Minters",
+    "stakes": "Active Stakes",
+    "supply": "Total Supply",
+    "staked": "Total Staked",
+    "viewDashboard": "View Dashboard"
+  },
+  "features": {
+    "title": "Why XEN Crypto?",
+    "fairLaunch": "Fair Launch",
+    "fairLaunchDesc": "No pre-mine, no admin keys, no sacrifice. Everyone starts equal.",
+    "multiChain": "Multi-Chain",
+    "multiChainDesc": "Deployed on 13+ blockchains for maximum accessibility.",
+    "selfCustodial": "Self-Custodial",
+    "selfCustodialDesc": "Your keys, your crypto. XEN is fully trustless and transparent.",
+    "proofOfParticipation": "Proof of Participation",
+    "proofOfParticipationDesc": "Mining rewards based on time commitment and global rank.",
+    "communityDriven": "Community Driven",
+    "communityDrivenDesc": "Built by the community, for the community. Open source forever.",
+    "immutable": "Immutable",
+    "immutableDesc": "No admin keys. No one can change the rules. True hyperstructure."
+  },
+  "dashboard": {
+    "title": "{chain} Dashboard",
+    "globalData": "Global Data",
+    "yourPosition": "Your Position",
+    "noPosition": "No active position found",
+    "mintTermDays": "Mint Term (Days)",
+    "claimRank": "Claim Rank",
+    "claimMint": "Claim Mint Reward",
+    "stakeAmount": "Stake Amount (XEN)",
+    "stakeTerm": "Stake Term (Days)",
+    "stakeAction": "Stake",
+    "withdraw": "Withdraw",
+    "maturityDate": "Maturity Date",
+    "rank": "Your Rank",
+    "term": "Term",
+    "balance": "XEN Balance"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "Resources",
+    "community": "Community",
+    "legal": "Legal",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error loading data",
+    "retry": "Retry",
+    "days": "days",
+    "address": "Address"
+  }
+}

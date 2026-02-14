@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - 大众的加密货币",
+    "description": "XEN Crypto 是一种社区驱动的自托管加密货币，建立在去中心化、透明和信任的原则之上。"
+  },
+  "nav": {
+    "home": "首页",
+    "dashboard": "仪表盘",
+    "mint": "铸造",
+    "stake": "质押",
+    "connect": "连接钱包"
+  },
+  "hero": {
+    "title": "大众的加密货币",
+    "subtitle": "XEN Crypto 是世界上第一个社区驱动的公平发行协议。免费铸造。跨链。完全去中心化。",
+    "cta": "启动应用",
+    "learnMore": "了解更多"
+  },
+  "stats": {
+    "globalRank": "全球排名",
+    "activeMinters": "活跃铸造者",
+    "activeStakes": "活跃质押",
+    "totalSupply": "总供应量",
+    "totalStaked": "总质押量",
+    "currentAMP": "当前AMP",
+    "currentAPY": "当前APY",
+    "chains": "链"
+  },
+  "crossChain": {
+    "title": "跨链概览",
+    "subtitle": "跨所有支持网络的实时链上数据",
+    "chain": "链",
+    "rank": "全球排名",
+    "minters": "活跃铸造者",
+    "stakes": "活跃质押",
+    "supply": "总供应量",
+    "staked": "总质押量",
+    "viewDashboard": "查看仪表盘"
+  },
+  "features": {
+    "title": "为什么选择 XEN Crypto？",
+    "fairLaunch": "公平发行",
+    "fairLaunchDesc": "无预挖，无管理员密钥，无牺牲。人人平等起步。",
+    "multiChain": "多链",
+    "multiChainDesc": "部署在13+条区块链上，实现最大可及性。",
+    "selfCustodial": "自托管",
+    "selfCustodialDesc": "你的密钥，你的加密货币。XEN完全无信任且透明。",
+    "proofOfParticipation": "参与证明",
+    "proofOfParticipationDesc": "基于时间承诺和全球排名的铸造奖励。",
+    "communityDriven": "社区驱动",
+    "communityDrivenDesc": "由社区构建，为社区服务。永远开源。",
+    "immutable": "不可变",
+    "immutableDesc": "无管理员密钥。没有人能改变规则。真正的超级结构。"
+  },
+  "dashboard": {
+    "title": "{chain} 仪表盘",
+    "globalData": "全球数据",
+    "yourPosition": "你的持仓",
+    "noPosition": "未找到活跃持仓",
+    "mintTermDays": "铸造期限（天）",
+    "claimRank": "领取排名",
+    "claimMint": "领取铸造奖励",
+    "stakeAmount": "质押数量（XEN）",
+    "stakeTerm": "质押期限（天）",
+    "stakeAction": "质押",
+    "withdraw": "取回",
+    "maturityDate": "到期日",
+    "rank": "你的排名",
+    "term": "期限",
+    "balance": "XEN余额"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto 基金会",
+    "resources": "资源",
+    "community": "社区",
+    "legal": "法律",
+    "terms": "使用条款",
+    "privacy": "隐私政策"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "数据加载错误",
+    "retry": "重试",
+    "days": "天",
+    "address": "地址"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "title": "XEN Crypto - Criptomoeda para todos",
+    "description": "XEN Crypto é uma criptomoeda de autocustódia, impulsionada pela comunidade, construída sobre os princípios de descentralização, transparência e confiança."
+  },
+  "nav": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "mint": "Mint",
+    "stake": "Stake",
+    "connect": "Conectar carteira"
+  },
+  "hero": {
+    "title": "Criptomoeda para todos",
+    "subtitle": "XEN Crypto é o primeiro protocolo do mundo com lançamento justo e impulsionado pela comunidade. Gratuito para mintar. Cross-chain. Totalmente descentralizado.",
+    "cta": "Abrir aplicativo",
+    "learnMore": "Saiba mais"
+  },
+  "stats": {
+    "globalRank": "Classificação global",
+    "activeMinters": "Minters ativos",
+    "activeStakes": "Stakes ativos",
+    "totalSupply": "Oferta total",
+    "totalStaked": "Total em stake",
+    "currentAMP": "AMP atual",
+    "currentAPY": "APY atual",
+    "chains": "Redes"
+  },
+  "crossChain": {
+    "title": "Visão geral cross-chain",
+    "subtitle": "Dados on-chain em tempo real em todas as redes suportadas",
+    "chain": "Rede",
+    "rank": "Classificação global",
+    "minters": "Minters ativos",
+    "stakes": "Stakes ativos",
+    "supply": "Oferta total",
+    "staked": "Total em stake",
+    "viewDashboard": "Ver painel"
+  },
+  "features": {
+    "title": "Por que XEN Crypto?",
+    "fairLaunch": "Lançamento justo",
+    "fairLaunchDesc": "Sem pré-mineração, sem chaves de administrador, sem sacrifício. Todos começam iguais.",
+    "multiChain": "Multi-chain",
+    "multiChainDesc": "Implantado em mais de 13 blockchains para máxima acessibilidade.",
+    "selfCustodial": "Autocustódia",
+    "selfCustodialDesc": "Suas chaves, sua cripto. XEN é totalmente trustless e transparente.",
+    "proofOfParticipation": "Prova de participação",
+    "proofOfParticipationDesc": "Recompensas de mineração baseadas no comprometimento de tempo e classificação global.",
+    "communityDriven": "Impulsionado pela comunidade",
+    "communityDrivenDesc": "Construído pela comunidade, para a comunidade. Código aberto para sempre.",
+    "immutable": "Imutável",
+    "immutableDesc": "Sem chaves de administrador. Ninguém pode mudar as regras. Verdadeira hiperestrutura."
+  },
+  "dashboard": {
+    "title": "Painel {chain}",
+    "globalData": "Dados globais",
+    "yourPosition": "Sua posição",
+    "noPosition": "Nenhuma posição ativa encontrada",
+    "mintTermDays": "Prazo de mint (dias)",
+    "claimRank": "Reivindicar classificação",
+    "claimMint": "Reivindicar recompensa de mint",
+    "stakeAmount": "Quantia de stake (XEN)",
+    "stakeTerm": "Prazo de stake (dias)",
+    "stakeAction": "Stake",
+    "withdraw": "Retirar",
+    "maturityDate": "Data de vencimento",
+    "rank": "Sua classificação",
+    "term": "Prazo",
+    "balance": "Saldo XEN"
+  },
+  "footer": {
+    "builtBy": "Fair Crypto Foundation",
+    "resources": "Recursos",
+    "community": "Comunidade",
+    "legal": "Jurídico",
+    "terms": "Termos de uso",
+    "privacy": "Política de privacidade"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro ao carregar dados",
+    "retry": "Tentar novamente",
+    "days": "dias",
+    "address": "Endereço"
+  }
+}
